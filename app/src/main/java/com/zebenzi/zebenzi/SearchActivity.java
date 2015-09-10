@@ -8,6 +8,7 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -16,9 +17,14 @@ import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -54,7 +60,7 @@ import java.util.List;
 /**
  * A login screen that offers login via email/password.
  */
-public class SearchActivity extends Activity{
+public class SearchActivity extends ActionBarActivity {
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -77,6 +83,14 @@ public class SearchActivity extends Activity{
     private EditText mSearchView;
     private View mProgressView;
     private SearchResultsAdapter searchResultsAdapter = null;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,8 +119,39 @@ public class SearchActivity extends Activity{
         });
 
         mProgressView = findViewById(R.id.login_progress);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        setSupportActionBar(toolbar);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_search:
+//                composeMessage();
+                return true;
+            case R.id.action_account:
+//                composeMessage();
+                return true;
+            case R.id.action_register:
+                Intent intent = new Intent(this, RegisterCustomerActivity.class);
+//                EditText editText = (EditText) findViewById(R.id.edit_message);
+//                String message = editText.getText().toString();
+//                intent.putExtra(EXTRA_MESSAGE, message);
+                startActivity(intent);
+                return true;
+            case R.id.action_login:
+                intent = new Intent(this, LoginActivity.class);
+//                EditText editText = (EditText) findViewById(R.id.edit_message);
+//                String message = editText.getText().toString();
+//                intent.putExtra(EXTRA_MESSAGE, message);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     /**
      * Attempts to connect to zebenzi server and obtain search results
      */

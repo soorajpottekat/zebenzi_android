@@ -7,19 +7,25 @@
     tools:context="com.zebenzi.zebenzi.Search"
     android:clickable="false">
 
-
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_awesome_toolbar"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:minHeight="?attr/actionBarSize"
+    android:background="?attr/colorPrimary" />
+    
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_weight="0.09"
-            android:src="@drawable/zebenzi_banner" />
+        <!--<ImageView-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/imageView"-->
+            <!--android:layout_gravity="center_horizontal|top"-->
+            <!--android:layout_weight="0.09"-->
+            <!--android:src="@drawable/zebenzi_banner" />-->
 
         <TextView
             android:layout_width="match_parent"
@@ -32,7 +38,7 @@
             android:layout_alignBottom="@+id/searchButton" />
 
         <EditText
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/searchText"
             android:hint="I&apos;m looking for" />
