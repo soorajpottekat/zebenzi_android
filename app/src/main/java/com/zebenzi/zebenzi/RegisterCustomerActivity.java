@@ -3,7 +3,6 @@ package com.zebenzi.zebenzi;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
@@ -17,15 +16,11 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -57,9 +52,11 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
      * TODO: remove after connecting to a real authentication system.
      */
 
-    public final static String apiURL = "http://www.zebenzi.com/oauth/token";
+    public final static String customerRegistrationAPIUrl = "http://www.zebenzi.com/api/accounts/create";
     public final static String user = "0846676467";
     public final static String password = "dolphin";
+
+    List<NameValuePair> customer_register_params;
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -67,13 +64,23 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private RegisterCustomerTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private EditText mMobileNumberView;
+    private EditText mFirstnameView;
+    private EditText mLastnameView;
+    private EditText mEmailView;
     private EditText mPasswordView;
+    private EditText mConfirmPasswordView;
+    private EditText mAddressLine1View;
+    private EditText mAddressLine2View;
+    private EditText mSuburbView;
+    private EditText mSuburbCodeView;
+
+
     private View mProgressView;
-    private View mLoginFormView;
+    private View mRegisterCustomerFormView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,32 +88,38 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
         setContentView(R.layout.activity_register_customer);
 
 
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
+        mMobileNumberView = (EditText) findViewById(R.id.register_mobile);
+        mFirstnameView = (EditText) findViewById(R.id.register_firstname);
+        mLastnameView = (EditText) findViewById(R.id.register_lastname);
+        mEmailView = (EditText) findViewById(R.id.register_email);
+        mPasswordView = (EditText) findViewById(R.id.register_password);
+        mConfirmPasswordView = (EditText) findViewById(R.id.register_confirmPassword);
+        mAddressLine1View = (EditText) findViewById(R.id.register_address_line1);
+        mAddressLine2View = (EditText) findViewById(R.id.register_address_line2);
+        mSuburbView = (EditText) findViewById(R.id.register_suburb);
+        mSuburbCodeView = (EditText) findViewById(R.id.register_suburb_code);
 
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
+//        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+//                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+//                    attemptRegisterCustomer();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.register_customer_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                attemptRegisterCustomer();
             }
         });
 
 
-        mLoginFormView = findViewById(R.id.login_form);
+        mRegisterCustomerFormView = findViewById(R.id.register_customer_form);
         mProgressView = findViewById(R.id.login_progress);
     }
 
@@ -126,7 +139,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    public void attemptLogin() {
+    public void attemptRegisterCustomer() {
         if (mAuthTask != null) {
             return;
         }
@@ -136,15 +149,48 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
+        String mobileNumber = mMobileNumberView.getText().toString();
+        String firstName = mFirstnameView.getText().toString();
+        String lastName = mLastnameView.getText().toString();
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String confirmPassword = mConfirmPasswordView.getText().toString();
+        String addressLine1 = mAddressLine1View.getText().toString();
+        String addressLine2 = mAddressLine2View.getText().toString();
+        String suburb = mSuburbView.getText().toString();
+        String code = mSuburbCodeView.getText().toString();
+
+
+
+        List<NameValuePair> customer_address = new ArrayList<NameValuePair>();
+        customer_address.add(new BasicNameValuePair("AddressLine1", addressLine1));
+        customer_address.add(new BasicNameValuePair("AddressLine2", addressLine2));
+        customer_address.add(new BasicNameValuePair("Suburb", suburb));
+        customer_address.add(new BasicNameValuePair("code", code));
+
+        customer_register_params = new ArrayList<NameValuePair>();
+        customer_register_params.add(new BasicNameValuePair("Firstname", firstName));
+        customer_register_params.add(new BasicNameValuePair("Lastname", lastName));
+        customer_register_params.add(new BasicNameValuePair("Email", email));
+        customer_register_params.add(new BasicNameValuePair("Telephone", mobileNumber));
+        customer_register_params.add(new BasicNameValuePair("Password", password));
+        customer_register_params.add(new BasicNameValuePair("ConfirmPassword", confirmPassword));
+        customer_register_params.add(new BasicNameValuePair("RoleName", "User"));
+        customer_register_params.add(new BasicNameValuePair("Address", "customer_address"));
+
 
         boolean cancel = false;
         View focusView = null;
 
-
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
+        // Check passwords match.
+        if (!TextUtils.equals(password, confirmPassword)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -169,7 +215,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new RegisterCustomerTask(email, password);
             mAuthTask.execute((String) null);
         }
     }
@@ -197,12 +243,12 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
         if (VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
+            mRegisterCustomerFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mRegisterCustomerFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    mRegisterCustomerFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
@@ -218,7 +264,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            mRegisterCustomerFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -302,20 +348,20 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
                 new ArrayAdapter<String>(RegisterCustomerActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+//        mEmailView.setAdapter(adapter);
     }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<String, String, String> {
+    public class RegisterCustomerTask extends AsyncTask<String, ArrayList<String>, String> {
 
         private final String mEmail;
         private final String mPassword;
         String resultToDisplay = null;
 
-        UserLoginTask(String email, String password) {
+        RegisterCustomerTask(String email, String password) {
             mEmail = email;
             mPassword = password;
         }
@@ -337,7 +383,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
             try {
 //                System.out.println(urlString);
                 /*-------------------*/
-                URL url = new URL(apiURL);
+                URL url = new URL(customerRegistrationAPIUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
@@ -345,10 +391,10 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
 
-                List<NameValuePair> local_params = new ArrayList<NameValuePair>();
-                local_params.add(new BasicNameValuePair("username", user));
-                local_params.add(new BasicNameValuePair("password", password));
-                local_params.add(new BasicNameValuePair("grant_type", "password"));
+//                List<NameValuePair> local_params = new ArrayList<NameValuePair>();
+//                local_params.add(new BasicNameValuePair("username", user));
+//                local_params.add(new BasicNameValuePair("password", password));
+//                local_params.add(new BasicNameValuePair("grant_type", "password"));
 
                 //for hiring or profile changes etc. use token:
 //                local_params.add(new BasicNameValuePair("Authorization", "bearer ey........"));
@@ -358,7 +404,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getQuery(local_params));
+                writer.write(getQuery(customer_register_params));
                 writer.flush();
                 writer.close();
                 os.close();
