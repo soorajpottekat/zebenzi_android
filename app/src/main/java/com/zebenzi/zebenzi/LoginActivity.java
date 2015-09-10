@@ -74,29 +74,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
-    private SearchTask mSearchTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
-    private EditText mSearchView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private SearchResultsAdapter searchResultsAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-        // Construct the data source
-        ArrayList<Worker> arrayOfUsers = new ArrayList<Worker>();
-        // Create the adapter to convert the array to views
-        searchResultsAdapter = new SearchResultsAdapter(this, arrayOfUsers);
-        // Attach the adapter to a ListView
-        ListView listView = (ListView) findViewById(R.id.searchResultsList);
-        listView.setAdapter(searchResultsAdapter);
 
 
         // Set up the login form.
@@ -120,16 +108,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             @Override
             public void onClick(View view) {
                 attemptLogin();
-            }
-        });
-
-        mSearchView = (EditText) findViewById(R.id.searchText);
-
-        Button mSearchButton = (Button) findViewById(R.id.searchButton);
-        mSearchButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doSearch();
             }
         });
 
@@ -202,60 +180,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    public void doSearch() {
-        if (mSearchTask != null) {
-            return;
-        }
-
-        // Reset errors.
-//        mEmailView.setError(null);
-//        mPasswordView.setError(null);
-        mSearchView.setError(null);
-
-        // Store values at the time of the login attempt.
-//        String email = mEmailView.getText().toString();
-//        String password = mPasswordView.getText().toString();
-        String searchText = mSearchView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-
-        // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(searchText)) {
-            mSearchView.setError(getString(R.string.empty_search_string));
-            focusView = mSearchView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-//        if (TextUtils.isEmpty(email)) {
-//            mEmailView.setError(getString(R.string.error_field_required));
-//            focusView = mEmailView;
-//            cancel = true;
-//        } else if (!isEmailValid(email)) {
-//            mEmailView.setError(getString(R.string.error_invalid_email));
-//            focusView = mEmailView;
-//            cancel = true;
-//        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            mSearchTask = new SearchTask(searchText);
-            mSearchTask.execute((String) null);
-        }
-    }
 
 
     private boolean isEmailValid(String email) {
@@ -519,117 +443,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class SearchTask extends AsyncTask<String, String, JSONArray> {
-
-        private final String mSearchString;
-        String resultToDisplay = null;
-
-        SearchTask(String searchString) {
-            mSearchString = searchString;
-        }
-
-        @Override
-        protected JSONArray doInBackground(String... params) {
-            // TODO: attempt authentication against a network service.
-            JSONArray jsonResult=null;
-            String searchURL = "http://zebenzi.com/api/search/services/";
-            String urlString = searchURL + mSearchString;
-
-            URL url = null;
-            try {
-                System.out.println(urlString);
-                url = new URL(urlString);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                BufferedInputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-                StringBuilder sb = new StringBuilder();
-
-                String line = "";
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-                reader.close();
-                String result = sb.toString();
-
-                jsonResult = new JSONArray(result);
-//            int id = jsonResult.getInt("ID");
-//                    resultToDisplay = jsonResult.getString("name");
-
-//            txtId.setText(id);
-//            txtName.setText(name);
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-//                return e.getMessage();
-
-            }
-
-            return jsonResult;
-        }
-
-        @Override
-        protected void onPostExecute(final JSONArray jsonSearchResults) {
-            mSearchTask = null;
-            showProgress(false);
-
-            if (jsonSearchResults != null) {
-                System.out.println("============= SEARCH RESULTS FOR: "+ mSearchString + " =====================");
-                System.out.println("jsonResult = "+jsonSearchResults.toString());
-                System.out.println("============= SEARCH RESULTS FOR: "+ mSearchString + " =====================");
-
-//                JSONArray jsonArray = ...;
-                searchResultsAdapter.clear();
-                ArrayList<Worker> newWorkers = Worker.fromJson(jsonSearchResults);
-                searchResultsAdapter.addAll(newWorkers);
-
-//                finish();
-            } else {
-//                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mSearchView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mSearchTask = null;
-            showProgress(false);
-        }
-
-    }
-
-    public class SearchResultsAdapter extends ArrayAdapter<Worker> {
-        public SearchResultsAdapter(Context context, ArrayList<Worker> users) {
-            super(context, 0, users);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            // Get the data item for this position
-            Worker worker = getItem(position);
-            // Check if an existing view is being reused, otherwise inflate the view
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.search_results_row, parent, false);
-            }
-            // Lookup view for data population
-            TextView tvName = (TextView) convertView.findViewById(R.id.workerName);
-            TextView tvContact = (TextView) convertView.findViewById(R.id.workerContactNumber);
-            TextView tvAddress = (TextView) convertView.findViewById(R.id.workerAddress);
-            TextView tvID = (TextView) convertView.findViewById(R.id.workerID);
-            // Populate the data into the template view using the data object
-            tvName.setText(worker.name);
-            tvContact.setText(worker.contact);
-            tvAddress.setText(worker.address);
-            tvID.setText(worker.id);
-            // Return the completed view to render on screen
-            return convertView;
-        }
-    }
 
     protected String addLoginParamsToUrl(String url){
         if(!url.endsWith("?"))

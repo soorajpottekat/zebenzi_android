@@ -8,14 +8,46 @@
     android:clickable="false">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textView2"
-        android:layout_weight="0.09"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentTop="true" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_weight="0.09"
+            android:src="@drawable/zebenzi_banner" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/textView2"
+            android:layout_weight="0.09"
+            android:layout_alignParentTop="true"
+            android:layout_alignBottom="@+id/searchButton" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchText"
+            android:hint="I&apos;m looking for" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go"
+            android:id="@+id/searchButton" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="424dp"
+            android:id="@+id/searchResultsList"
+            android:layout_gravity="bottom" />
+    </LinearLayout>
 
 </RelativeLayout>

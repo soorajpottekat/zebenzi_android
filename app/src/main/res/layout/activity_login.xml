@@ -6,6 +6,14 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" tools:context=".LoginActivity">
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_weight="1"
+        android:src="@drawable/zebenzi_banner" />
+
     <!-- Login progress -->
     <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -37,26 +45,12 @@
                 android:layout_marginTop="16dp" android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/searchText"
-                android:hint="I&apos;m looking for" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Go"
-                android:id="@+id/searchButton" />
 
 
         </LinearLayout>
     </ScrollView>
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="276dp"
-        android:id="@+id/searchResultsList"
-        android:layout_weight="0.1" />
+
 
 </LinearLayout>
 
