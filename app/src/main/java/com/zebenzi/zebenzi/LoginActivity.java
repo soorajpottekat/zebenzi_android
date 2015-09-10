@@ -39,10 +39,15 @@ import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -255,7 +260,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return true; //email.contains("@");0846676467
     }
 
     private boolean isPasswordValid(String password) {
@@ -401,22 +406,57 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected String doInBackground(String... params) {
             // TODO: attempt authentication against a network service.
 
-//            String urlString = apiURL +"username="+user+"&password="+password+"&grant_type=password";
-//String urlString = addLoginParamsToUrl(apiURL);
-            String urlString = "http://zebenzi.com/api/search/services/painter";
+//            String paramString = "username="+user+"&password="+password+"&grant_type=password";
+//            String urlString =  URLEncoder.encode(paramString, "UTF-8");
+//
+//            System.out.println(urlString);
 
-            URL url = null;
+
+//String urlString = addLoginParamsToUrl(apiURL);
+//            String urlString = "http://zebenzi.com/api/search/services/painter";
+
+
             try {
-                System.out.println(urlString);
-                url = new URL(urlString);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                BufferedInputStream in = new BufferedInputStream(urlConnection.getInputStream());
+//                System.out.println(urlString);
+                /*-------------------*/
+                URL url = new URL(apiURL);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                List<NameValuePair> local_params = new ArrayList<NameValuePair>();
+                local_params.add(new BasicNameValuePair("username", user));
+                local_params.add(new BasicNameValuePair("password", password));
+                local_params.add(new BasicNameValuePair("grant_type", "password"));
+
+                //for hiring or profile changes etc. use token:
+//                local_params.add(new BasicNameValuePair("Authorization", "bearer ey........"));
+
+
+
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getQuery(local_params));
+                writer.flush();
+                writer.close();
+                os.close();
+
+                conn.connect();
+                /*-------------------*/
+//                url = new URL(urlString);
+//                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+                BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
 
                 StringBuilder sb = new StringBuilder();
 
                 String line = "";
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 while ((line=reader.readLine())!=null){
                     sb.append(line);
                 }
@@ -425,7 +465,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
                 JSONObject jsonResult = new JSONObject(result);
 //            int id = jsonResult.getInt("ID");
-             resultToDisplay = jsonResult.getString("name");
+                resultToDisplay = jsonResult.getString("name");
 
 //            txtId.setText(id);
 //            txtName.setText(name);
@@ -439,6 +479,25 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             return resultToDisplay;
         }
 
+        private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
+        {
+            StringBuilder result = new StringBuilder();
+            boolean first = true;
+
+            for (NameValuePair pair : params)
+            {
+                if (first)
+                    first = false;
+                else
+                    result.append("&");
+
+                result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
+                result.append("=");
+                result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
+            }
+
+            return result.toString();
+        }
 
         @Override
         protected void onPostExecute(final String resultToDisplay) {
@@ -572,15 +631,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         }
     }
 
-        protected String addLoginParamsToUrl(String url){
+    protected String addLoginParamsToUrl(String url){
         if(!url.endsWith("?"))
             url += "?";
 
         List<NameValuePair> params = new LinkedList<NameValuePair>();
 
-            params.add(new BasicNameValuePair("username", "0846676467"));
-            params.add(new BasicNameValuePair("password", "dolphin"));
-            params.add(new BasicNameValuePair("grant_type", "password"));
+        params.add(new BasicNameValuePair("username", "0846676467"));
+        params.add(new BasicNameValuePair("password", "dolphin"));
+        params.add(new BasicNameValuePair("grant_type", "password"));
 
         String paramString = URLEncodedUtils.format(params, "utf-8");
 
