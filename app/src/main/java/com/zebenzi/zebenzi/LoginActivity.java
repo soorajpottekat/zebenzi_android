@@ -79,8 +79,10 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private TextView mLoginTokenView;
     private View mProgressView;
     private View mLoginFormView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,8 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
                 return false;
             }
         });
+
+        mLoginTokenView = (TextView) findViewById(R.id.login_token);
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -389,11 +393,9 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
                 String result = sb.toString();
 
                 JSONObject jsonResult = new JSONObject(result);
-//            int id = jsonResult.getInt("ID");
-                resultToDisplay = jsonResult.getString("name");
 
-//            txtId.setText(id);
-//            txtName.setText(name);
+
+                resultToDisplay = jsonResult.toString();
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -430,7 +432,9 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (resultToDisplay != null) {
-                finish();
+                SaveToken();
+                mLoginTokenView.setText(resultToDisplay);
+//                finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -442,6 +446,10 @@ public class LoginActivity extends ActionBarActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    private void SaveToken() {
+        //TODO: Save the token in shared preferences for future use.
     }
 
 
