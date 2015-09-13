@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -15,21 +16,29 @@ import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -57,6 +66,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
     public final static String password = "dolphin";
 
     List<NameValuePair> customer_register_params;
+    JSONObject jsonCustomerParams;
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -81,6 +91,36 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
 
     private View mProgressView;
     private View mRegisterCustomerFormView;
+    private TextView mTestRegistrationTextView;
+    private TestRegisterCustomerTask mTestRegistrationTask;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_activity_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                Intent intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_account:
+                return true;
+            case R.id.action_register:
+                return true;
+            case R.id.action_login:
+                intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +161,21 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
 
         mRegisterCustomerFormView = findViewById(R.id.register_customer_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
+        mTestRegistrationTextView = (TextView) findViewById(R.id.test_registration_textView);
+        Button mTestRegistrationButton = (Button) findViewById(R.id.test_registration_button);
+        mTestRegistrationButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                testJsonRegistration();
+            }
+        });
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
     }
 
     private void populateAutoComplete() {
@@ -168,7 +223,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
         customer_address.add(new BasicNameValuePair("Suburb", suburb));
         customer_address.add(new BasicNameValuePair("code", code));
 
-        customer_register_params = new ArrayList<NameValuePair>();
+        customer_register_params = new ArrayList<>();
         customer_register_params.add(new BasicNameValuePair("Firstname", firstName));
         customer_register_params.add(new BasicNameValuePair("Lastname", lastName));
         customer_register_params.add(new BasicNameValuePair("Email", email));
@@ -176,9 +231,34 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
         customer_register_params.add(new BasicNameValuePair("Password", password));
         customer_register_params.add(new BasicNameValuePair("ConfirmPassword", confirmPassword));
         customer_register_params.add(new BasicNameValuePair("RoleName", "User"));
-        customer_register_params.add(new BasicNameValuePair("Address", "customer_address"));
+        customer_register_params.add(new BasicNameValuePair("Address", "Dummy Address"));
 
 
+        JSONObject addressObject = new JSONObject();
+        try {
+            addressObject.put("AddressLine1", addressLine1);
+            addressObject.put("AddressLine2", addressLine2);
+            addressObject.put("Suburb", suburb);
+            addressObject.put("code", code);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        jsonCustomerParams = new JSONObject();
+        try {
+            jsonCustomerParams.put("Firstname", firstName);
+            jsonCustomerParams.put("Lastname", lastName);
+            jsonCustomerParams.put("Email", email);
+            jsonCustomerParams.put("Telephone", mobileNumber);
+            jsonCustomerParams.put("Password", password);
+            jsonCustomerParams.put("ConfirmPassword", confirmPassword);
+            jsonCustomerParams.put("RoleName", "User");
+            jsonCustomerParams.put("Address", addressObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("jsonParams="+jsonCustomerParams);
         boolean cancel = false;
         View focusView = null;
 
@@ -498,6 +578,166 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
 
         url += paramString;
         return url;
+    }
+
+    private void testJsonRegistration()
+    {
+        // Store values at the time of the login attempt.
+        String mobileNumber = "0333333333";
+        String firstName = "Dhivanee";
+        String lastName = "Nayagar";
+        String email = "dhivanee.nayagar@gmail.com";
+        String password = "dolphin";
+        String confirmPassword = "dolphin";
+        String addressLine1 = "Unit C1";
+        String addressLine2 = "216 Main Avenue";
+        String suburb = "Randburg";
+        String code = "2194";
+
+        JSONObject addressObject = new JSONObject();
+        try {
+            addressObject.put("AddressLine1", addressLine1);
+            addressObject.put("AddressLine2", addressLine2);
+            addressObject.put("Surburb", suburb);
+            addressObject.put("code", code);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        jsonCustomerParams = new JSONObject();
+        try {
+            jsonCustomerParams.put("FirstName", firstName);
+            jsonCustomerParams.put("LastName", lastName);
+            jsonCustomerParams.put("Email", email);
+            jsonCustomerParams.put("Telephone", mobileNumber);
+            jsonCustomerParams.put("Password", password);
+            jsonCustomerParams.put("ConfirmPassword", confirmPassword);
+            jsonCustomerParams.put("RoleName", "User");
+            jsonCustomerParams.put("Adddress", addressObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Registration jsonParams="+jsonCustomerParams);
+
+        mTestRegistrationTask = new TestRegisterCustomerTask("test", "registration");
+        mTestRegistrationTask.execute((String) null);
+    }
+
+    /**
+     * Represents an asynchronous login/registration task used to authenticate
+     * the user.
+     */
+    public class TestRegisterCustomerTask extends AsyncTask<String, ArrayList<String>, String> {
+
+        private final String mEmail;
+        private final String mPassword;
+        String resultToDisplay = null;
+
+        TestRegisterCustomerTask(String email, String password) {
+            mEmail = email;
+            mPassword = password;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            // TODO: attempt authentication against a network service.
+
+            OutputStream os = null;
+            BufferedInputStream in = null;
+            HttpURLConnection conn = null;
+            try {
+                URL url = new URL(customerRegistrationAPIUrl);
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+//                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setUseCaches (false);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.connect();
+
+
+                os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os));
+                System.out.println("json writer string = "+jsonCustomerParams.toString());
+                writer.write(jsonCustomerParams.toString());
+                writer.flush();
+
+
+//                osWriter.write(URLEncoder.encode(jsonCustomerParams.toString(), "UTF-8"));
+//                osWriter.flush();
+//                osWriter.close();
+//                os.close();
+
+                if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
+                    in = new BufferedInputStream(conn.getInputStream());
+                    StringBuilder sb = new StringBuilder();
+                    String line = "";
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    reader.close();
+                    String result = sb.toString();
+
+                    JSONObject jsonResult = new JSONObject(result);
+                    System.out.println("Registration Result = " + jsonResult.toString());
+                    System.out.println("Registration Result END ");
+                } else {
+
+                    in = new BufferedInputStream(conn.getErrorStream());
+
+                    String result = in.toString();
+                    System.out.println("Error != 2xx" + result);
+                    System.out.println("Error = "+conn.getResponseCode());
+                }
+
+
+
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return e.getMessage();
+
+            } finally {
+
+                try {
+                    os.close();
+                    in.close();
+                    conn.disconnect();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return resultToDisplay;
+        }
+
+    }
+
+    private String testGetQuery(List<NameValuePair> params) throws UnsupportedEncodingException
+    {
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+
+        for (NameValuePair pair : params)
+        {
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
+        }
+
+        return result.toString();
     }
 }
 

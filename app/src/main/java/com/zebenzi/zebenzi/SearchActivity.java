@@ -122,6 +122,7 @@ public class SearchActivity extends ActionBarActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     @Override
@@ -129,23 +130,15 @@ public class SearchActivity extends ActionBarActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_search:
-//                composeMessage();
                 return true;
             case R.id.action_account:
-//                composeMessage();
                 return true;
             case R.id.action_register:
                 Intent intent = new Intent(this, RegisterCustomerActivity.class);
-//                EditText editText = (EditText) findViewById(R.id.edit_message);
-//                String message = editText.getText().toString();
-//                intent.putExtra(EXTRA_MESSAGE, message);
                 startActivity(intent);
                 return true;
             case R.id.action_login:
                 intent = new Intent(this, LoginActivity.class);
-//                EditText editText = (EditText) findViewById(R.id.edit_message);
-//                String message = editText.getText().toString();
-//                intent.putExtra(EXTRA_MESSAGE, message);
                 startActivity(intent);
                 return true;
             default:

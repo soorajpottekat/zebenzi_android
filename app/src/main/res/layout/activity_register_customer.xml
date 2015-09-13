@@ -6,13 +6,15 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" tools:context=".LoginActivity">
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_weight="1"
-        android:src="@drawable/zebenzi_banner" />
+    <!--<ImageView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/imageView"-->
+        <!--android:layout_gravity="center_horizontal|top"-->
+        <!--android:layout_weight="1"-->
+        <!--android:src="@drawable/zebenzi_banner" />-->
+    <include layout="@layout/app_toolbar"/>
+
 
     <!-- Login progress -->
     <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
@@ -20,14 +22,31 @@
         android:layout_marginBottom="8dp" android:visibility="gone"
         android:layout_weight="0" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test Registration API"
+            android:id="@+id/test_registration_button" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Registration response text"
+            android:id="@+id/test_registration_textView"
+            android:layout_weight="1" />
+
+
+
+
     <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_height="324dp"
+        android:visibility="invisible">
 
 
         <LinearLayout android:id="@+id/register_customer_form" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical"
             android:weightSum="1">
+
 
             <EditText android:id="@+id/register_mobile" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_mobile"

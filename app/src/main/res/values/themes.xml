@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Set AppCompat’s actionBarStyle -->
-        <item name="actionBarStyle">@style/MyActionBarStyle</item>
+    <!--<style name="Theme.MyTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+        <!--&lt;!&ndash; Set AppCompat’s actionBarStyle &ndash;&gt;-->
+        <!--<item name="actionBarStyle">@style/MyActionBarStyle</item>-->
 
+        <!--&lt;!&ndash; Set AppCompat’s color theming attrs &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/material_green_A200</item>-->
+        <!--<item name="colorPrimaryDark">@color/material_green_500</item>-->
+
+        <!--&lt;!&ndash; The rest of your attributes &ndash;&gt;-->
+    <!--</style>-->
+
+    <!--&lt;!&ndash; the theme applied to the application or activity &ndash;&gt;-->
+    <!--<style name="MyActionBarStyle"-->
+        <!--parent="@android:style/Theme.Holo.Light.DarkActionBar">-->
+        <!--<item name="android:background">@color/material_deep_orange_700</item>-->
+    <!--</style>-->
+
+    <!--&lt;!&ndash; ActionBar styles &ndash;&gt;-->
+    <!--<style name="MyActionBar"-->
+        <!--parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">-->
+    <!--</style>-->
+
+
+    <style name="DefaultActionBarTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
         <!-- Set AppCompat’s color theming attrs -->
         <item name="colorPrimary">@color/material_green_A200</item>
-        <item name="colorPrimaryDark">@color/material_green_300</item>
+        <item name="colorPrimaryDark">@color/material_green_700</item>
+        <item name="android:textColorPrimary">@color/material_grey_900</item>
+        <item name="android:windowBackground">@color/material_green_100</item>
+    </style>painrew
 
-        <!-- The rest of your attributes -->
-    </style>
-
-    <!-- the theme applied to the application or activity -->
-    <style name="MyActionBarStyle"
-        parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
-    </style>
-
-    <!-- ActionBar styles -->
-    <style name="MyActionBar"
-        parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/material_deep_orange_700</item>
+    <style name="popUpTheme">
+        <item name="android:textColor">@color/material_grey_100</item>
     </style>
 
 </resources>
