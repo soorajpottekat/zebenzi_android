@@ -220,7 +220,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
         List<NameValuePair> customer_address = new ArrayList<NameValuePair>();
         customer_address.add(new BasicNameValuePair("AddressLine1", addressLine1));
         customer_address.add(new BasicNameValuePair("AddressLine2", addressLine2));
-        customer_address.add(new BasicNameValuePair("Suburb", suburb));
+        customer_address.add(new BasicNameValuePair("Surburb", suburb));
         customer_address.add(new BasicNameValuePair("code", code));
 
         customer_register_params = new ArrayList<>();
@@ -231,7 +231,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
         customer_register_params.add(new BasicNameValuePair("Password", password));
         customer_register_params.add(new BasicNameValuePair("ConfirmPassword", confirmPassword));
         customer_register_params.add(new BasicNameValuePair("RoleName", "User"));
-        customer_register_params.add(new BasicNameValuePair("Address", "Dummy Address"));
+        customer_register_params.add(new BasicNameValuePair("Adddress", "Dummy Address"));
 
 
         JSONObject addressObject = new JSONObject();
@@ -583,7 +583,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
     private void testJsonRegistration()
     {
         // Store values at the time of the login attempt.
-        String mobileNumber = "0333333333";
+        String mobileNumber = "0333333334";
         String firstName = "Dhivanee";
         String lastName = "Nayagar";
         String email = "dhivanee.nayagar@gmail.com";
@@ -646,6 +646,8 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
             OutputStream os = null;
             BufferedInputStream in = null;
             HttpURLConnection conn = null;
+            JSONObject jsonResult;
+
             try {
                 URL url = new URL(customerRegistrationAPIUrl);
                 conn = (HttpURLConnection) url.openConnection();
@@ -684,16 +686,28 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
                     reader.close();
                     String result = sb.toString();
 
-                    JSONObject jsonResult = new JSONObject(result);
+                    jsonResult = new JSONObject(result);
                     System.out.println("Registration Result = " + jsonResult.toString());
                     System.out.println("Registration Result END ");
+                    mTestRegistrationTextView.setText(jsonResult.toString());
                 } else {
 
                     in = new BufferedInputStream(conn.getErrorStream());
+                    StringBuilder sb = new StringBuilder();
+                    String line = "";
 
-                    String result = in.toString();
-                    System.out.println("Error != 2xx" + result);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    reader.close();
+                    String result = sb.toString();
+                    jsonResult = new JSONObject(result);
+
                     System.out.println("Error = "+conn.getResponseCode());
+                    System.out.println("Error Stream = " + jsonResult.toString());
+
+                    mTestRegistrationTextView.setText(jsonResult.toString());
                 }
 
 
