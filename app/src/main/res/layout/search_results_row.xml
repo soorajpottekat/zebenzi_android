@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Worker Name"
-        android:id="@+id/workerName" />
+        android:id="@+id/workerName"
+        android:textColor="@color/material_blue_500" />
 
     <TextView
         android:layout_width="wrap_content"

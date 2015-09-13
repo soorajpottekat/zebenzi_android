@@ -1,41 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- the theme applied to the application or activity -->
+    <style name="ZebenziDefaultTheme"
+        parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:actionBarTabTextStyle">@style/MyActionBarTabText</item>
+        <item name="android:actionMenuTextColor">@color/material_grey_900</item>
 
-    <!--<style name="Theme.MyTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-        <!--&lt;!&ndash; Set AppCompat’s actionBarStyle &ndash;&gt;-->
-        <!--<item name="actionBarStyle">@style/MyActionBarStyle</item>-->
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/material_blue_500</item>
 
-        <!--&lt;!&ndash; Set AppCompat’s color theming attrs &ndash;&gt;-->
-        <!--<item name="colorPrimary">@color/material_green_A200</item>-->
-        <!--<item name="colorPrimaryDark">@color/material_green_500</item>-->
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/material_blue_700</item>
 
-        <!--&lt;!&ndash; The rest of your attributes &ndash;&gt;-->
-    <!--</style>-->
-
-    <!--&lt;!&ndash; the theme applied to the application or activity &ndash;&gt;-->
-    <!--<style name="MyActionBarStyle"-->
-        <!--parent="@android:style/Theme.Holo.Light.DarkActionBar">-->
-        <!--<item name="android:background">@color/material_deep_orange_700</item>-->
-    <!--</style>-->
-
-    <!--&lt;!&ndash; ActionBar styles &ndash;&gt;-->
-    <!--<style name="MyActionBar"-->
-        <!--parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">-->
-    <!--</style>-->
+        <!-- colorAccent is used as the default value for colorControlActivated,
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/material_yellow_500</item>
 
 
-    <style name="DefaultActionBarTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <!-- Set AppCompat’s color theming attrs -->
-        <item name="colorPrimary">@color/material_green_A200</item>
-        <item name="colorPrimaryDark">@color/material_green_700</item>
-        <item name="android:textColorPrimary">@color/material_grey_900</item>
-        <item name="android:windowBackground">@color/material_green_100</item>
-    </style>painrew
-
-    <style name="popUpTheme">
-        <item name="android:textColor">@color/material_grey_100</item>
+        <!-- Support library compatibility -->
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
+        <item name="actionMenuTextColor">@color/material_grey_900</item>
     </style>
 
+    <!-- ActionBar styles -->
+    <style name="MyActionBar"
+        parent="@style/Theme.AppCompat.NoActionBar">
+
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+
+        <!-- Support library compatibility -->
+        <item name="titleTextStyle">@style/MyActionBarTitleText</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="MyActionBarTitleText"
+        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/material_blue_grey_700</item>
+        <!-- The textColor property is backward compatible with the Support Library -->
+    </style>
+
+    <!-- ActionBar tabs text -->
+    <style name="MyActionBarTabText"
+        parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">@color/material_blue_grey_700</item>
+        <!-- The textColor property is backward compatible with the Support Library -->
+    </style>
+
+<!--Popup Menu Style-->
+
+    <style name="popUpTheme"
+        parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">@color/material_blue_500</item>
+        <!-- The textColor property is backward compatible with the Support Library -->
+    </style>
 </resources>
