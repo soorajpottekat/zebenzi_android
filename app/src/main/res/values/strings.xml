@@ -11,5 +11,10 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="empty_search_string">Please enter search text</string>
+    <string name="api_username">username</string>
+    <string name="api_password">password</string>
+    <string name="api_grant_type">grant_type</string>
+    <string name="api_post">POST</string>
+    <string name="api_utf8">UTF-8</string>
 
 </resources>

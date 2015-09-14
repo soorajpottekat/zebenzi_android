@@ -3,17 +3,10 @@ package com.zebenzi.zebenzi;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -24,13 +17,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
@@ -45,23 +36,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
 /**
- * A login screen that offers login via email/password.
+ * A login screen that offers login via mobile number and password.
  */
 public class LoginActivity extends ActionBarActivity {
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
 
     public final static String apiURL = "http://www.zebenzi.com/oauth/token";
-    public final static String user = "0846676467";
-    public final static String password = "dolphin";
+//    public final static String user = "0846676467";
+//    public final static String password = "dolphin";
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -69,7 +55,7 @@ public class LoginActivity extends ActionBarActivity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+    private UserLoginTask mLoginTask = null;
 
     // UI references.
     private EditText mMobileNumberView;
@@ -154,7 +140,7 @@ public class LoginActivity extends ActionBarActivity {
      * errors are presented and no actual login attempt is made.
      */
     public void attemptLogin() {
-        if (mAuthTask != null) {
+        if (mLoginTask != null) {
             return;
         }
 
@@ -192,8 +178,8 @@ public class LoginActivity extends ActionBarActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((String) null);
+            mLoginTask = new UserLoginTask(email, password);
+            mLoginTask.execute((String) null);
         }
     }
 
@@ -240,90 +226,65 @@ public class LoginActivity extends ActionBarActivity {
      */
     public class UserLoginTask extends AsyncTask<String, String, String> {
 
-        private final String mEmail;
+        private final String mMobileNumber;
         private final String mPassword;
         String resultToDisplay = null;
 
         UserLoginTask(String email, String password) {
-            mEmail = email;
+            mMobileNumber = email;
             mPassword = password;
         }
 
         @Override
         protected String doInBackground(String... params) {
-            // TODO: attempt authentication against a network service.
-
-//            String paramString = "username="+user+"&password="+password+"&grant_type=password";
-//            String urlString =  URLEncoder.encode(paramString, "UTF-8");
-//
-//            System.out.println(urlString);
-
-
-//String urlString = addLoginParamsToUrl(apiURL);
-//            String urlString = "http://zebenzi.com/api/search/services/painter";
-
 
             try {
-//                System.out.println(urlString);
-                /*-------------------*/
                 URL url = new URL(apiURL);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
+                conn.setRequestMethod(getString(R.string.api_post));
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
 
                 List<NameValuePair> local_params = new ArrayList<NameValuePair>();
-                local_params.add(new BasicNameValuePair("username", user));
-                local_params.add(new BasicNameValuePair("password", password));
-                local_params.add(new BasicNameValuePair("grant_type", "password"));
-
-                //for hiring or profile changes etc. use token:
-//                local_params.add(new BasicNameValuePair("Authorization", "bearer ey........"));
+                local_params.add(new BasicNameValuePair(getString(R.string.api_username), mMobileNumber));
+                local_params.add(new BasicNameValuePair(getString(R.string.api_password), mPassword));
+                local_params.add(new BasicNameValuePair(getString(R.string.api_grant_type), getString(R.string.api_password)));
 
 
-
+                //Send params via output stream
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
+                        new OutputStreamWriter(os, getString(R.string.api_utf8)));
                 writer.write(getQuery(local_params));
                 writer.flush();
                 writer.close();
                 os.close();
 
                 conn.connect();
-                /*-------------------*/
-//                url = new URL(urlString);
-//                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
-                BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
-
+                //Read data from input stream
                 StringBuilder sb = new StringBuilder();
-
                 String line = "";
-
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 while ((line=reader.readLine())!=null){
                     sb.append(line);
                 }
                 reader.close();
-                String result = sb.toString();
 
-                JSONObject jsonResult = new JSONObject(result);
-
-
+                JSONObject jsonResult = new JSONObject(sb.toString());
                 resultToDisplay = jsonResult.toString();
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-//                return e.getMessage();
-
+                return e.getMessage();
             }
 
             return resultToDisplay;
         }
 
+        //Encode the login params in UTF-8
         private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
         {
             StringBuilder result = new StringBuilder();
@@ -336,9 +297,9 @@ public class LoginActivity extends ActionBarActivity {
                 else
                     result.append("&");
 
-                result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
+                result.append(URLEncoder.encode(pair.getName(), getString(R.string.api_utf8)));
                 result.append("=");
-                result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
+                result.append(URLEncoder.encode(pair.getValue(), getString(R.string.api_utf8)));
             }
 
             return result.toString();
@@ -346,12 +307,13 @@ public class LoginActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(final String resultToDisplay) {
-            mAuthTask = null;
+            mLoginTask = null;
             showProgress(false);
 
             if (resultToDisplay != null) {
                 SaveToken();
                 mLoginTokenView.setText(resultToDisplay);
+//                Eventually, we should save the token and display the logged-in user's name in the app.
 //                finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
@@ -361,7 +323,7 @@ public class LoginActivity extends ActionBarActivity {
 
         @Override
         protected void onCancelled() {
-            mAuthTask = null;
+            mLoginTask = null;
             showProgress(false);
         }
     }
@@ -370,22 +332,6 @@ public class LoginActivity extends ActionBarActivity {
         //TODO: Save the token in shared preferences for future use.
     }
 
-
-    protected String addLoginParamsToUrl(String url){
-        if(!url.endsWith("?"))
-            url += "?";
-
-        List<NameValuePair> params = new LinkedList<NameValuePair>();
-
-        params.add(new BasicNameValuePair("username", "0846676467"));
-        params.add(new BasicNameValuePair("password", "dolphin"));
-        params.add(new BasicNameValuePair("grant_type", "password"));
-
-        String paramString = URLEncodedUtils.format(params, "utf-8");
-
-        url += paramString;
-        return url;
-    }
 }
 
 
