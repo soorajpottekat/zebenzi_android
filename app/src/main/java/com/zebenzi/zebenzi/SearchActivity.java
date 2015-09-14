@@ -66,7 +66,7 @@ public class SearchActivity extends ActionBarActivity {
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-
+    static final int LOGIN_REQUEST = 1;
     public final static String apiURL = "http://www.zebenzi.com/oauth/token";
     public final static String user = "0846676467";
     public final static String password = "dolphin";
@@ -139,12 +139,26 @@ public class SearchActivity extends ActionBarActivity {
                 return true;
             case R.id.action_login:
                 intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, LOGIN_REQUEST);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == LOGIN_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                String user=data.getStringExtra("Username");
+                getSupportActionBar().setTitle(user);
+            }
+        }
+    }
+
     /**
      * Attempts to connect to zebenzi server and obtain search results
      */

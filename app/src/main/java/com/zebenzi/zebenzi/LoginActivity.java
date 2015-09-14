@@ -362,6 +362,8 @@ public class LoginActivity extends ActionBarActivity {
                 System.out.println("Error occurred with login: " + jsonResult.toString());
                 mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
                 mMobileNumberView.requestFocus();
+                mLoginTokenView.setText(jsonResult.toString());
+
             }
         }
 
@@ -475,9 +477,12 @@ public class LoginActivity extends ActionBarActivity {
             if (UserName != null) {
                 mLoginTokenView.setText(UserName);
 
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("Username", UserName);
+                setResult(RESULT_OK, resultIntent);
 
 //                Eventually, we should save the token and display the logged-in user's name in the app.
-//                finish();
+                finish();
             } else {
                 System.out.println("Error occurred with login: " + jsonResult.toString());
                 mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
