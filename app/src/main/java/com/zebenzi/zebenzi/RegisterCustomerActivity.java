@@ -174,7 +174,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setTitle(R.string.app_name);
 
     }
 

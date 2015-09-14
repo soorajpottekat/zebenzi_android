@@ -122,7 +122,7 @@ public class SearchActivity extends ActionBarActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setTitle(R.string.app_name);
     }
 
     @Override
