@@ -15,6 +15,8 @@
     <string name="api_password">password</string>
     <string name="api_grant_type">grant_type</string>
     <string name="api_post">POST</string>
+    <string name="api_get">GET</string>
     <string name="api_utf8">UTF-8</string>
+    <string name="api_access_token">access_token</string>
 
 </resources>

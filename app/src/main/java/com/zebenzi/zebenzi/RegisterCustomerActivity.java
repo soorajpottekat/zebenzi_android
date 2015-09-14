@@ -448,16 +448,6 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
 
         @Override
         protected String doInBackground(String... params) {
-            // TODO: attempt authentication against a network service.
-
-//            String paramString = "username="+user+"&password="+password+"&grant_type=password";
-//            String urlString =  URLEncoder.encode(paramString, "UTF-8");
-//
-//            System.out.println(urlString);
-
-
-//String urlString = addLoginParamsToUrl(apiURL);
-//            String urlString = "http://zebenzi.com/api/search/services/painter";
 
 
             try {

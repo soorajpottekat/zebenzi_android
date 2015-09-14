@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,9 +24,9 @@ import android.widget.TextView;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -44,8 +45,11 @@ import java.util.List;
  */
 public class LoginActivity extends ActionBarActivity {
 
+    public static final String PREFS_NAME = "ZebenziPrefsFile";
 
-    public final static String apiURL = "http://www.zebenzi.com/oauth/token";
+    public final static String userLoginURL = "http://www.zebenzi.com/oauth/token";
+    public final static String userDetailsURL = "http://www.zebenzi.com/api/accounts/user/current";
+
 //    public final static String user = "0846676467";
 //    public final static String password = "dolphin";
 
@@ -56,6 +60,7 @@ public class LoginActivity extends ActionBarActivity {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mLoginTask = null;
+    private UserDetailsTask mUserDetailsTask = null;
 
     // UI references.
     private EditText mMobileNumberView;
@@ -237,9 +242,8 @@ public class LoginActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... params) {
-
             try {
-                URL url = new URL(apiURL);
+                URL url = new URL(userLoginURL);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
@@ -264,21 +268,35 @@ public class LoginActivity extends ActionBarActivity {
 
                 conn.connect();
 
-                //Read data from input stream
-                StringBuilder sb = new StringBuilder();
-                String line = "";
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                while ((line=reader.readLine())!=null){
-                    sb.append(line);
-                }
-                reader.close();
+                if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
+                        //Read data from input stream
+                        StringBuilder sb = new StringBuilder();
+                        String line = "";
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line);
+                        }
+                        reader.close();
 
-                JSONObject jsonResult = new JSONObject(sb.toString());
-                resultToDisplay = jsonResult.toString();
+                        resultToDisplay = sb.toString();
+                    }
+                    else
+                    {
+
+                        StringBuilder sb = new StringBuilder();
+                        String line = "";
+
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                        while ((line = reader.readLine()) != null) {
+                            sb.append(line);
+                        }
+                        reader.close();
+                        resultToDisplay = sb.toString();
+                    }
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                return e.getMessage();
+                return null;
             }
 
             return resultToDisplay;
@@ -306,18 +324,44 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(final String resultToDisplay) {
+        protected void onPostExecute(final String result) {
             mLoginTask = null;
             showProgress(false);
+            String oAuthToken = null;
 
-            if (resultToDisplay != null) {
-                SaveToken();
-                mLoginTokenView.setText(resultToDisplay);
+
+            JSONObject jsonResult = null;
+            try {
+                jsonResult = new JSONObject(result);
+                oAuthToken = (String) jsonResult.get(getString(R.string.api_access_token));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+            if (oAuthToken != null) {
+                saveToken(oAuthToken);
+                mLoginTokenView.setText(oAuthToken);
+
+
+                //Get the User details and display
+
+                if (mUserDetailsTask == null){
+                    showProgress(true);
+                mUserDetailsTask = new UserDetailsTask("Dummy String");
+                    mUserDetailsTask.execute((String) null);
+            }
+
 //                Eventually, we should save the token and display the logged-in user's name in the app.
 //                finish();
+
+
+
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                System.out.println("Error occurred with login: " + jsonResult.toString());
+                mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
+                mMobileNumberView.requestFocus();
             }
         }
 
@@ -328,8 +372,124 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
-    private void SaveToken() {
-        //TODO: Save the token in shared preferences for future use.
+
+    private void saveToken(String token) {
+        // We need an Editor object to make preference changes.
+        // All objects are from android.context.Context
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(getString(R.string.api_access_token), token);
+
+        // Commit the edits!
+        editor.commit();
+    }
+
+    public String getToken() {
+        // We need an Editor object to make preference changes.
+        // All objects are from android.context.Context
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        return settings.getString(getString(R.string.api_access_token), "no_token");
+
+    }
+
+    /**
+     * Represents an asynchronous login/registration task used to authenticate
+     * the user.
+     */
+    public class UserDetailsTask extends AsyncTask<String, String, String> {
+        String mToken;
+
+        UserDetailsTask(String token) {
+            mToken = getToken();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String resultToDisplay;
+            try {
+                URL url = new URL(userDetailsURL);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000);
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod(getString(R.string.api_get));
+//                conn.setDoInput(true);
+//                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty("Authorization", "bearer " + mToken);
+
+
+                conn.connect();
+
+                if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
+                    //Read data from input stream
+                    StringBuilder sb = new StringBuilder();
+                    String line = "";
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    reader.close();
+
+                    resultToDisplay = sb.toString();
+                }
+                else
+                {
+
+                    StringBuilder sb = new StringBuilder();
+                    String line = "";
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    reader.close();
+                    resultToDisplay = sb.toString();
+                }
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return null;
+            }
+
+            return resultToDisplay;
+        }
+
+
+        @Override
+        protected void onPostExecute(final String result) {
+            mUserDetailsTask = null;
+            showProgress(false);
+            String UserName = null;
+
+
+            JSONObject jsonResult = null;
+            try {
+                jsonResult = new JSONObject(result);
+                UserName = (String) jsonResult.get("fullName");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+            if (UserName != null) {
+                mLoginTokenView.setText(UserName);
+
+
+//                Eventually, we should save the token and display the logged-in user's name in the app.
+//                finish();
+            } else {
+                System.out.println("Error occurred with login: " + jsonResult.toString());
+                mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
+                mMobileNumberView.requestFocus();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mUserDetailsTask = null;
+            showProgress(false);
+        }
     }
 
 }
