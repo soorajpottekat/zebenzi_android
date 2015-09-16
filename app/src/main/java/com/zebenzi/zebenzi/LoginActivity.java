@@ -22,6 +22,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.zebenzi.users.Customer;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -468,6 +470,7 @@ public class LoginActivity extends ActionBarActivity {
             try {
                 jsonResult = new JSONObject(result);
                 UserName = (String) jsonResult.get("fullName");
+                Customer.getInstance().setCustomerDetails(jsonResult);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

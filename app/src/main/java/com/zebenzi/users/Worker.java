@@ -1,4 +1,4 @@
-package com.zebenzi.zebenzi;
+package com.zebenzi.users;
 
 import org.json.JSONArray;
 import org.json.JSONException;
