@@ -51,6 +51,8 @@ public class SearchActivity extends ActionBarActivity {
     public final static String user = "0846676467";
     public final static String password = "dolphin";
 
+    public static Context appContext;
+
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
     };
@@ -103,6 +105,9 @@ public class SearchActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
+
+        appContext = getApplicationContext();
+
     }
 
     @Override
@@ -318,6 +323,11 @@ public class SearchActivity extends ActionBarActivity {
         url += paramString;
         return url;
     }
+
+    public static Context getAppContext(){
+        return appContext;
+    }
+
 }
 
 

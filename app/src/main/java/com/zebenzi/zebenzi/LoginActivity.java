@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,10 +46,11 @@ import java.util.List;
  */
 public class LoginActivity extends ActionBarActivity {
 
-    public static final String PREFS_NAME = "ZebenziPrefsFile";
 
     public final static String userLoginURL = "http://www.zebenzi.com/oauth/token";
     public final static String userDetailsURL = "http://www.zebenzi.com/api/accounts/user/current";
+
+    private Customer customer = null;
 
 //    public final static String user = "0846676467";
 //    public final static String password = "dolphin";
@@ -70,6 +70,7 @@ public class LoginActivity extends ActionBarActivity {
     private TextView mLoginTokenView;
     private View mProgressView;
     private View mLoginFormView;
+    private String oAuthToken;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -113,7 +114,7 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                    loginWithUsernamePassword();
                     return true;
                 }
                 return false;
@@ -126,7 +127,7 @@ public class LoginActivity extends ActionBarActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                loginWithUsernamePassword();
             }
         });
 
@@ -138,6 +139,7 @@ public class LoginActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
 
+        loginWithToken(Customer.getInstance().getToken());
     }
 
 
@@ -146,7 +148,7 @@ public class LoginActivity extends ActionBarActivity {
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    public void attemptLogin() {
+    public void loginWithUsernamePassword() {
         if (mLoginTask != null) {
             return;
         }
@@ -190,7 +192,28 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * Attempts to sign in using stored oAuth token
+     */
+    public void loginWithToken(String token) {
 
+        if (token != null) {
+            oAuthToken = token;
+            mLoginTokenView.setText(oAuthToken);
+
+            //Get the User details and display
+            if (mUserDetailsTask == null) {
+                showProgress(true);
+                mUserDetailsTask = new UserDetailsTask();
+                mUserDetailsTask.execute((String) null);
+            }
+        }
+        else
+        {
+            //Do nothing, but wait for login
+            System.out.println("The oAuth token is null!");
+        }
+    }
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -329,7 +352,6 @@ public class LoginActivity extends ActionBarActivity {
         protected void onPostExecute(final String result) {
             mLoginTask = null;
             showProgress(false);
-            String oAuthToken = null;
 
 
             JSONObject jsonResult = null;
@@ -343,24 +365,10 @@ public class LoginActivity extends ActionBarActivity {
 
 
             if (oAuthToken != null) {
-                saveToken(oAuthToken);
                 mLoginTokenView.setText(oAuthToken);
-
-
-                //Get the User details and display
-
-                if (mUserDetailsTask == null){
-                    showProgress(true);
-                mUserDetailsTask = new UserDetailsTask("Dummy String");
-                    mUserDetailsTask.execute((String) null);
+                loginWithToken(oAuthToken);
             }
-
-//                Eventually, we should save the token and display the logged-in user's name in the app.
-//                finish();
-
-
-
-            } else {
+            else {
                 System.out.println("Error occurred with login: " + jsonResult.toString());
                 mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
                 mMobileNumberView.requestFocus();
@@ -377,34 +385,16 @@ public class LoginActivity extends ActionBarActivity {
     }
 
 
-    private void saveToken(String token) {
-        // We need an Editor object to make preference changes.
-        // All objects are from android.context.Context
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(getString(R.string.api_access_token), token);
 
-        // Commit the edits!
-        editor.commit();
-    }
-
-    public String getToken() {
-        // We need an Editor object to make preference changes.
-        // All objects are from android.context.Context
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        return settings.getString(getString(R.string.api_access_token), "no_token");
-
-    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
     public class UserDetailsTask extends AsyncTask<String, String, String> {
-        String mToken;
 
-        UserDetailsTask(String token) {
-            mToken = getToken();
+        UserDetailsTask() {
+
         }
 
         @Override
@@ -419,7 +409,7 @@ public class LoginActivity extends ActionBarActivity {
 //                conn.setDoInput(true);
 //                conn.setDoOutput(true);
                 conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("Authorization", "bearer " + mToken);
+                conn.setRequestProperty("Authorization", "bearer " + oAuthToken);
 
 
                 conn.connect();
@@ -470,27 +460,30 @@ public class LoginActivity extends ActionBarActivity {
             try {
                 jsonResult = new JSONObject(result);
                 UserName = (String) jsonResult.get("fullName");
-                Customer.getInstance().setCustomerDetails(jsonResult);
+                Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
+//                customer.setCustomerDetails(jsonResult, oAuthToken);
+
+                if (UserName != null) {
+                    mLoginTokenView.setText(UserName);
+
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("Username", UserName);
+                    setResult(RESULT_OK, resultIntent);
+
+//                Eventually, we should save the token and display the logged-in user's name in the app.
+                    finish();
+                } else {
+                    System.out.println("Error occurred with login: " + jsonResult.toString());
+                    mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
+                    mMobileNumberView.requestFocus();
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
 
 
-            if (UserName != null) {
-                mLoginTokenView.setText(UserName);
-
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("Username", UserName);
-                setResult(RESULT_OK, resultIntent);
-
-//                Eventually, we should save the token and display the logged-in user's name in the app.
-                finish();
-            } else {
-                System.out.println("Error occurred with login: " + jsonResult.toString());
-                mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
-                mMobileNumberView.requestFocus();
-            }
         }
 
         @Override
