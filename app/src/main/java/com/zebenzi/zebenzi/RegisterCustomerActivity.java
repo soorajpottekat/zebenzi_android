@@ -31,7 +31,6 @@ import android.widget.TextView;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,7 +60,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
      * TODO: remove after connecting to a real authentication system.
      */
 
-    public final static String customerRegistrationAPIUrl = "http://www.zebenzi.com/api/accounts/create";
+    String customerRegistrationAPIUrl = this.getString(R.string.api_url_registration);
     public final static String user = "0846676467";
     public final static String password = "dolphin";
 
@@ -460,6 +459,8 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
                 conn.setRequestMethod("POST");
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+
 
 //                List<NameValuePair> local_params = new ArrayList<NameValuePair>();
 //                local_params.add(new BasicNameValuePair("username", user));

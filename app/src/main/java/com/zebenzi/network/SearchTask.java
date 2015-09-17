@@ -6,6 +6,9 @@ package com.zebenzi.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
+
+import com.zebenzi.zebenzi.R;
+
 import org.json.JSONArray;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -29,7 +32,7 @@ public class SearchTask extends AsyncTask<String, String, JSONArray> {
     @Override
     protected JSONArray doInBackground(String... params) {
         JSONArray jsonResult=null;
-        String searchURL = "http://zebenzi.com/api/search/services/";
+        String searchURL = ctx.getString(R.string.api_url_search_services);
         String urlString = searchURL + params[0];
         System.out.println("params = " + params[0]);
         URL url = null;

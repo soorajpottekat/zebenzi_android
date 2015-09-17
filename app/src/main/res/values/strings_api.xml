@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="api_username">username</string>
+    <string name="api_password">password</string>
+    <string name="api_grant_type">grant_type</string>
+    <string name="api_post">POST</string>
+    <string name="api_get">GET</string>
+    <string name="api_utf8">UTF-8</string>
+    <string name="api_access_token">access_token</string>
+    <string name="api_url_search_services">http://zebenzi.com/api/search/services/</string>
+    <string name="api_url_user_details">http://www.zebenzi.com/api/accounts/user/current</string>
+    <string name="api_url_login_token">http://www.zebenzi.com/oauth/token</string>
+    <string name="api_url_registration">http://www.zebenzi.com/api/accounts/create</string>
+</resources>

@@ -47,8 +47,8 @@ import java.util.List;
 public class LoginActivity extends ActionBarActivity {
 
 
-    public final static String userLoginURL = "http://www.zebenzi.com/oauth/token";
-    public final static String userDetailsURL = "http://www.zebenzi.com/api/accounts/user/current";
+    String userLoginURL = getString(R.string.api_url_login_token);
+    String userDetailsURL = this.getString(R.string.api_url_user_details);
 
     private Customer customer = null;
 
