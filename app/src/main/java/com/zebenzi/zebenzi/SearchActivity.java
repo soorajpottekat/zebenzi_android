@@ -39,21 +39,14 @@ import java.util.List;
  */
 public class SearchActivity extends ActionBarActivity {
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    static final int LOGIN_REQUEST = 1;
-    public final static String apiURL = "http://www.zebenzi.com/oauth/token";
-    public final static String user = "0846676467";
-    public final static String password = "dolphin";
-
+    public static final int LOGIN_REQUEST = 1;
+    public static final String apiURL = "http://www.zebenzi.com/oauth/token";
+    public static final String user = "0846676467";
+    public static final String password = "dolphin";
     public static Context appContext;
+
     private String mSearchString;
 
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the search task to ensure we can cancel it if requested.
      */
@@ -77,7 +70,6 @@ public class SearchActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-
         // Construct the data source
         ArrayList<Worker> arrayOfUsers = new ArrayList<Worker>();
         // Create the adapter to convert the array to views
@@ -85,8 +77,6 @@ public class SearchActivity extends ActionBarActivity {
         // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.searchResultsList);
         listView.setAdapter(searchResultsAdapter);
-
-
 
         mSearchView = (EditText) findViewById(R.id.searchText);
 
@@ -151,13 +141,9 @@ public class SearchActivity extends ActionBarActivity {
         }
 
         // Reset errors.
-//        mEmailView.setError(null);
-//        mPasswordView.setError(null);
         mSearchView.setError(null);
 
         // Store values at the time of the login attempt.
-//        String email = mEmailView.getText().toString();
-//        String password = mPasswordView.getText().toString();
         mSearchString = mSearchView.getText().toString();
 
         boolean cancel = false;
@@ -170,17 +156,6 @@ public class SearchActivity extends ActionBarActivity {
             focusView = mSearchView;
             cancel = true;
         }
-
-        // Check for a valid email address.
-//        if (TextUtils.isEmpty(email)) {
-//            mEmailView.setError(getString(R.string.error_field_required));
-//            focusView = mEmailView;
-//            cancel = true;
-//        } else if (!isEmailValid(email)) {
-//            mEmailView.setError(getString(R.string.error_invalid_email));
-//            focusView = mEmailView;
-//            cancel = true;
-//        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -201,21 +176,12 @@ public class SearchActivity extends ActionBarActivity {
 //            showProgress(false);
 
             if (jsonSearchResults != null) {
-                System.out.println("============= SEARCH RESULTS FOR: "+ mSearchString + " =====================");
-                System.out.println("jsonResult = "+jsonSearchResults.toString());
-                System.out.println("============= SEARCH RESULTS FOR: "+ mSearchString + " =====================");
-
-//                JSONArray jsonArray = ...;
                 searchResultsAdapter.clear();
                 ArrayList<Worker> newWorkers = Worker.fromJson(jsonSearchResults);
                 searchResultsAdapter.addAll(newWorkers);
-
-//                finish();
             } else {
-//                mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mSearchView.requestFocus();
             }
-
         }
 
         @Override
@@ -223,90 +189,6 @@ public class SearchActivity extends ActionBarActivity {
             mSearchTask = null;
         }
     }
-
-
-//    /**
-//     * Represents an asynchronous search request to zebenzi.com
-//     */
-//    public class SearchTask extends AsyncTask<String, String, JSONArray> {
-//
-//        private final String mSearchString;
-//        String resultToDisplay = null;
-//
-//        SearchTask(String searchString) {
-//            mSearchString = searchString;
-//        }
-//
-//        @Override
-//        protected JSONArray doInBackground(String... params) {
-//            // TODO: attempt authentication against a network service.
-//            JSONArray jsonResult=null;
-//            String searchURL = "http://zebenzi.com/api/search/services/";
-//            String urlString = searchURL + mSearchString;
-//
-//            URL url = null;
-//            try {
-//                System.out.println(urlString);
-//                url = new URL(urlString);
-//                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-//                BufferedInputStream in = new BufferedInputStream(urlConnection.getInputStream());
-//
-//                StringBuilder sb = new StringBuilder();
-//
-//                String line = "";
-//
-//                BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-//                while ((line = reader.readLine()) != null) {
-//                    sb.append(line);
-//                }
-//                reader.close();
-//                String result = sb.toString();
-//
-//                jsonResult = new JSONArray(result);
-////            int id = jsonResult.getInt("ID");
-////                    resultToDisplay = jsonResult.getString("name");
-//
-////            txtId.setText(id);
-////            txtName.setText(name);
-//
-//            } catch (Exception e) {
-//                System.out.println(e.getMessage());
-////                return e.getMessage();
-//
-//            }
-//
-//            return jsonResult;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(final JSONArray jsonSearchResults) {
-//            mSearchTask = null;
-////            showProgress(false);
-//
-//            if (jsonSearchResults != null) {
-//                System.out.println("============= SEARCH RESULTS FOR: "+ mSearchString + " =====================");
-//                System.out.println("jsonResult = "+jsonSearchResults.toString());
-//                System.out.println("============= SEARCH RESULTS FOR: "+ mSearchString + " =====================");
-//
-////                JSONArray jsonArray = ...;
-//                searchResultsAdapter.clear();
-//                ArrayList<Worker> newWorkers = Worker.fromJson(jsonSearchResults);
-//                searchResultsAdapter.addAll(newWorkers);
-//
-////                finish();
-//            } else {
-////                mPasswordView.setError(getString(R.string.error_incorrect_password));
-//                mSearchView.requestFocus();
-//            }
-//        }
-//
-//        @Override
-//        protected void onCancelled() {
-//            mSearchTask = null;
-////            showProgress(false);
-//        }
-//
-//    }
 
     public class SearchResultsAdapter extends ArrayAdapter<Worker> {
         public SearchResultsAdapter(Context context, ArrayList<Worker> users) {
@@ -336,21 +218,6 @@ public class SearchActivity extends ActionBarActivity {
         }
     }
 
-    protected String addLoginParamsToUrl(String url){
-        if(!url.endsWith("?"))
-            url += "?";
-
-        List<NameValuePair> params = new LinkedList<NameValuePair>();
-
-        params.add(new BasicNameValuePair("username", "0846676467"));
-        params.add(new BasicNameValuePair("password", "dolphin"));
-        params.add(new BasicNameValuePair("grant_type", "password"));
-
-        String paramString = URLEncodedUtils.format(params, "utf-8");
-
-        url += paramString;
-        return url;
-    }
 
     public static Context getAppContext(){
         return appContext;
