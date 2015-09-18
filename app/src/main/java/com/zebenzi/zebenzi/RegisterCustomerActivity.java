@@ -28,6 +28,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.zebenzi.network.IAsyncTaskListener;
+import com.zebenzi.network.LoginTask;
+import com.zebenzi.network.RegisterTask;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
@@ -53,14 +57,14 @@ import java.util.List;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterCustomerActivity extends ActionBarActivity implements LoaderCallbacks<Cursor> {
+public class RegisterCustomerActivity extends ActionBarActivity {
 
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
 
-    String customerRegistrationAPIUrl = this.getString(R.string.api_url_registration);
+//    String customerRegistrationAPIUrl = this.getString(R.string.api_url_registration);
     public final static String user = "0846676467";
     public final static String password = "dolphin";
 
@@ -73,7 +77,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private RegisterCustomerTask mAuthTask = null;
+//    private RegisterCustomerTask mAuthTask = null;
 
     // UI references.
     private EditText mMobileNumberView;
@@ -91,7 +95,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
     private View mProgressView;
     private View mRegisterCustomerFormView;
     private TextView mTestRegistrationTextView;
-    private TestRegisterCustomerTask mTestRegistrationTask;
+    private AsyncTask<JSONObject, String, String> mTestRegistrationTask;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,17 +178,6 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
-
-    }
-
-    private void populateAutoComplete() {
-        if (VERSION.SDK_INT >= 14) {
-            // Use ContactsContract.Profile (API 14+)
-            getLoaderManager().initLoader(0, null, this);
-        } else if (VERSION.SDK_INT >= 8) {
-            // Use AccountManager (API 8+)
-            new SetupEmailAutoCompleteTask().execute(null, null);
-        }
     }
 
 
@@ -194,7 +187,7 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
      * errors are presented and no actual login attempt is made.
      */
     public void attemptRegisterCustomer() {
-        if (mAuthTask != null) {
+        if (mTestRegistrationTask != null) {
             return;
         }
 
@@ -214,30 +207,11 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
         String suburb = mSuburbView.getText().toString();
         String code = mSuburbCodeView.getText().toString();
 
-
-
-        List<NameValuePair> customer_address = new ArrayList<NameValuePair>();
-        customer_address.add(new BasicNameValuePair("AddressLine1", addressLine1));
-        customer_address.add(new BasicNameValuePair("AddressLine2", addressLine2));
-        customer_address.add(new BasicNameValuePair("Surburb", suburb));
-        customer_address.add(new BasicNameValuePair("code", code));
-
-        customer_register_params = new ArrayList<>();
-        customer_register_params.add(new BasicNameValuePair("Firstname", firstName));
-        customer_register_params.add(new BasicNameValuePair("Lastname", lastName));
-        customer_register_params.add(new BasicNameValuePair("Email", email));
-        customer_register_params.add(new BasicNameValuePair("Telephone", mobileNumber));
-        customer_register_params.add(new BasicNameValuePair("Password", password));
-        customer_register_params.add(new BasicNameValuePair("ConfirmPassword", confirmPassword));
-        customer_register_params.add(new BasicNameValuePair("RoleName", "User"));
-        customer_register_params.add(new BasicNameValuePair("Adddress", "Dummy Address"));
-
-
         JSONObject addressObject = new JSONObject();
         try {
             addressObject.put("AddressLine1", addressLine1);
             addressObject.put("AddressLine2", addressLine2);
-            addressObject.put("Suburb", suburb);
+            addressObject.put("Surburb", suburb);
             addressObject.put("code", code);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -245,19 +219,19 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
 
         jsonCustomerParams = new JSONObject();
         try {
-            jsonCustomerParams.put("Firstname", firstName);
-            jsonCustomerParams.put("Lastname", lastName);
+            jsonCustomerParams.put("FirstName", firstName);
+            jsonCustomerParams.put("LastName", lastName);
             jsonCustomerParams.put("Email", email);
             jsonCustomerParams.put("Telephone", mobileNumber);
             jsonCustomerParams.put("Password", password);
             jsonCustomerParams.put("ConfirmPassword", confirmPassword);
             jsonCustomerParams.put("RoleName", "User");
-            jsonCustomerParams.put("Address", addressObject);
+            jsonCustomerParams.put("Adddress", addressObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        System.out.println("jsonParams="+jsonCustomerParams);
+        System.out.println("Registration jsonParams="+jsonCustomerParams);
         boolean cancel = false;
         View focusView = null;
 
@@ -294,21 +268,20 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new RegisterCustomerTask(email, password);
-            mAuthTask.execute((String) null);
+//            mAuthTask = new RegisterCustomerTask(email, password);
+//            mAuthTask.execute((String) null);
         }
     }
 
 
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return true; //email.contains("@");0846676467
+        return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        //TODO: Replace this zebenzi server logic for password strength
+        return true;
     }
 
     /**
@@ -347,230 +320,6 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
         }
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<String>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
-            cursor.moveToNext();
-        }
-
-        addEmailsToAutoComplete(emails);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
-    }
-
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
-        };
-
-        int ADDRESS = 0;
-        int IS_PRIMARY = 1;
-    }
-
-    /**
-     * Use an AsyncTask to fetch the user's email addresses on a background thread, and update
-     * the email text field with results on the main UI thread.
-     */
-    class SetupEmailAutoCompleteTask extends AsyncTask<Void, Void, List<String>> {
-
-        @Override
-        protected List<String> doInBackground(Void... voids) {
-            ArrayList<String> emailAddressCollection = new ArrayList<String>();
-
-            // Get all emails from the user's contacts and copy them to a list.
-            ContentResolver cr = getContentResolver();
-            Cursor emailCur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null,
-                    null, null, null);
-            while (emailCur.moveToNext()) {
-                String email = emailCur.getString(emailCur.getColumnIndex(ContactsContract
-                        .CommonDataKinds.Email.DATA));
-                emailAddressCollection.add(email);
-            }
-            emailCur.close();
-
-            return emailAddressCollection;
-        }
-
-        @Override
-        protected void onPostExecute(List<String> emailAddressCollection) {
-            addEmailsToAutoComplete(emailAddressCollection);
-        }
-    }
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(RegisterCustomerActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-//        mEmailView.setAdapter(adapter);
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class RegisterCustomerTask extends AsyncTask<String, ArrayList<String>, String> {
-
-        private final String mEmail;
-        private final String mPassword;
-        String resultToDisplay = null;
-
-        RegisterCustomerTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-
-            try {
-//                System.out.println(urlString);
-                /*-------------------*/
-                URL url = new URL(customerRegistrationAPIUrl);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.setRequestProperty("Content-Type", "application/json");
-
-
-//                List<NameValuePair> local_params = new ArrayList<NameValuePair>();
-//                local_params.add(new BasicNameValuePair("username", user));
-//                local_params.add(new BasicNameValuePair("password", password));
-//                local_params.add(new BasicNameValuePair("grant_type", "password"));
-
-                //for hiring or profile changes etc. use token:
-//                local_params.add(new BasicNameValuePair("Authorization", "bearer ey........"));
-
-
-
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getQuery(customer_register_params));
-                writer.flush();
-                writer.close();
-                os.close();
-
-                conn.connect();
-                /*-------------------*/
-//                url = new URL(urlString);
-//                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-
-                BufferedInputStream in = new BufferedInputStream(conn.getInputStream());
-
-                StringBuilder sb = new StringBuilder();
-
-                String line = "";
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                while ((line=reader.readLine())!=null){
-                    sb.append(line);
-                }
-                reader.close();
-                String result = sb.toString();
-
-                JSONObject jsonResult = new JSONObject(result);
-//            int id = jsonResult.getInt("ID");
-                resultToDisplay = jsonResult.getString("name");
-
-//            txtId.setText(id);
-//            txtName.setText(name);
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-//                return e.getMessage();
-
-            }
-
-            return resultToDisplay;
-        }
-
-        private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
-        {
-            StringBuilder result = new StringBuilder();
-            boolean first = true;
-
-            for (NameValuePair pair : params)
-            {
-                if (first)
-                    first = false;
-                else
-                    result.append("&");
-
-                result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
-                result.append("=");
-                result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
-            }
-
-            return result.toString();
-        }
-
-        @Override
-        protected void onPostExecute(final String resultToDisplay) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (resultToDisplay != null) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
-
-
-    protected String addLoginParamsToUrl(String url){
-        if(!url.endsWith("?"))
-            url += "?";
-
-        List<NameValuePair> params = new LinkedList<NameValuePair>();
-
-        params.add(new BasicNameValuePair("username", "0846676467"));
-        params.add(new BasicNameValuePair("password", "dolphin"));
-        params.add(new BasicNameValuePair("grant_type", "password"));
-
-        String paramString = URLEncodedUtils.format(params, "utf-8");
-
-        url += paramString;
-        return url;
-    }
-
     private void testJsonRegistration()
     {
         // Store values at the time of the login attempt.
@@ -584,6 +333,8 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
         String addressLine2 = "216 Main Avenue";
         String suburb = "Randburg";
         String code = "2194";
+
+
 
         JSONObject addressObject = new JSONObject();
         try {
@@ -611,138 +362,24 @@ public class RegisterCustomerActivity extends ActionBarActivity implements Loade
 
         System.out.println("Registration jsonParams="+jsonCustomerParams);
 
-        mTestRegistrationTask = new TestRegisterCustomerTask("test", "registration");
-        mTestRegistrationTask.execute((String) null);
+//        mTestRegistrationTask = new TestRegisterCustomerTask("test", "registration");
+//        mTestRegistrationTask.execute((String) null);
+//
+
+        mTestRegistrationTask = new RegisterTask(this, new RegisterTaskCompleteListener()).execute(jsonCustomerParams);
+
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class TestRegisterCustomerTask extends AsyncTask<String, ArrayList<String>, String> {
-
-        private final String mEmail;
-        private final String mPassword;
-        String resultToDisplay = null;
-
-        TestRegisterCustomerTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+    public class RegisterTaskCompleteListener implements IAsyncTaskListener{
+        @Override
+        public void onAsyncTaskComplete(Object result) {
+            System.out.println("Register Result: " + result.toString());
         }
 
         @Override
-        protected String doInBackground(String... params) {
-            // TODO: attempt authentication against a network service.
+        public void onAsyncTaskCancelled() {
 
-            OutputStream os = null;
-            BufferedInputStream in = null;
-            HttpURLConnection conn = null;
-            JSONObject jsonResult;
-
-            try {
-                URL url = new URL(customerRegistrationAPIUrl);
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-//                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.setUseCaches (false);
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.connect();
-
-
-                os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os));
-                System.out.println("json writer string = "+jsonCustomerParams.toString());
-                writer.write(jsonCustomerParams.toString());
-                writer.flush();
-
-
-//                osWriter.write(URLEncoder.encode(jsonCustomerParams.toString(), "UTF-8"));
-//                osWriter.flush();
-//                osWriter.close();
-//                os.close();
-
-                if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
-                    in = new BufferedInputStream(conn.getInputStream());
-                    StringBuilder sb = new StringBuilder();
-                    String line = "";
-
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    reader.close();
-                    String result = sb.toString();
-
-                    jsonResult = new JSONObject(result);
-                    System.out.println("Registration Result = " + jsonResult.toString());
-                    System.out.println("Registration Result END ");
-                    mTestRegistrationTextView.setText(jsonResult.toString());
-                } else {
-
-                    in = new BufferedInputStream(conn.getErrorStream());
-                    StringBuilder sb = new StringBuilder();
-                    String line = "";
-
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    reader.close();
-                    String result = sb.toString();
-                    jsonResult = new JSONObject(result);
-
-                    System.out.println("Error = "+conn.getResponseCode());
-                    System.out.println("Error Stream = " + jsonResult.toString());
-
-                    mTestRegistrationTextView.setText(jsonResult.toString());
-                }
-
-
-
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return e.getMessage();
-
-            } finally {
-
-                try {
-                    os.close();
-                    in.close();
-                    conn.disconnect();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            return resultToDisplay;
         }
-
-    }
-
-    private String testGetQuery(List<NameValuePair> params) throws UnsupportedEncodingException
-    {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-
-        for (NameValuePair pair : params)
-        {
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(pair.getName(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
-        }
-
-        return result.toString();
     }
 }
 
