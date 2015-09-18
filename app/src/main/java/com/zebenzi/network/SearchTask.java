@@ -21,10 +21,10 @@ import java.net.URL;
  */
 public class SearchTask extends AsyncTask<String, String, JSONArray> {
 
-    private ISearchTaskListener<JSONArray> listener;
+    private IAsyncTaskListener<JSONArray> listener;
     private Context ctx;
 
-    public SearchTask(Context ctx, ISearchTaskListener<JSONArray> listener) {
+    public SearchTask(Context ctx, IAsyncTaskListener<JSONArray> listener) {
         this.ctx = ctx;
         this.listener = listener;
     }
@@ -63,12 +63,12 @@ public class SearchTask extends AsyncTask<String, String, JSONArray> {
     @Override
     protected void onPostExecute(final JSONArray jsonSearchResults) {
 
-        listener.onSearchTaskComplete(jsonSearchResults);
+        listener.onAsyncTaskComplete(jsonSearchResults);
     }
 
     @Override
     protected void onCancelled() {
-        listener.onSearchTaskCancelled();
+        listener.onAsyncTaskCancelled();
     }
 
 }

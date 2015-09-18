@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.zebenzi.network.ISearchTaskListener;
+import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.network.SearchTask;
 import com.zebenzi.users.Worker;
 
@@ -169,9 +169,9 @@ public class SearchActivity extends ActionBarActivity {
         }
     }
 
-    public class SearchTaskCompleteListener implements ISearchTaskListener<JSONArray>{
+    public class SearchTaskCompleteListener implements IAsyncTaskListener<JSONArray>{
         @Override
-        public void onSearchTaskComplete(JSONArray jsonSearchResults) {
+        public void onAsyncTaskComplete(JSONArray jsonSearchResults) {
             mSearchTask = null;
 //            showProgress(false);
 
@@ -185,7 +185,7 @@ public class SearchActivity extends ActionBarActivity {
         }
 
         @Override
-        public void onSearchTaskCancelled() {
+        public void onAsyncTaskCancelled() {
             mSearchTask = null;
         }
     }

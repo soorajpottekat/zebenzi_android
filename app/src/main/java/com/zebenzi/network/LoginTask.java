@@ -11,8 +11,6 @@ import com.zebenzi.zebenzi.R;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -36,9 +34,9 @@ public class LoginTask extends AsyncTask<String, String, String> {
     private String mPassword;
     private String resultToDisplay = null;
     private Context ctx;
-    private ILoginTaskListener listener;
+    private IAsyncTaskListener listener;
 
-    public LoginTask(Context ctx, ILoginTaskListener<String> listener) {
+    public LoginTask(Context ctx, IAsyncTaskListener<String> listener) {
         this.ctx = ctx;
         this.listener = listener;
     }
@@ -128,11 +126,11 @@ public class LoginTask extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(final String result) {
-        listener.onLoginTaskComplete(result);
+        listener.onAsyncTaskComplete(result);
     }
 
     @Override
     protected void onCancelled() {
-        listener.onLoginTaskCancelled();
+        listener.onAsyncTaskCancelled();
     }
 }

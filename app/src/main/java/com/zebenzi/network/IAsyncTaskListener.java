@@ -5,16 +5,17 @@ package com.zebenzi.network;
  */
 
 
-public interface ISearchTaskListener<T>
+public interface IAsyncTaskListener<T>
 {
     /**
      * Invoked when the AsyncTask has completed its execution.
      * @param result The resulting object from the AsyncTask.
      */
-    public void onSearchTaskComplete(T result);
+    public void onAsyncTaskComplete(T result);
 
     /**
      * Invoked when the AsyncTask has its execution cancelled.
      */
-    public void onSearchTaskCancelled();
+    public void onAsyncTaskCancelled();
+
 }

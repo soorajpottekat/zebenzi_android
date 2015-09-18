@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.zebenzi.network.ILoginTaskListener;
+import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.network.LoginTask;
 import com.zebenzi.users.Customer;
 
@@ -252,9 +252,9 @@ public class LoginActivity extends ActionBarActivity {
     }
 
 
-    public class LoginTaskCompleteListener implements ILoginTaskListener<String> {
+    public class LoginTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
-        public void onLoginTaskComplete(String result) {
+        public void onAsyncTaskComplete(String result) {
             mLoginTask = null;
             showProgress(false);
 
@@ -283,7 +283,7 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         @Override
-        public void onLoginTaskCancelled() {
+        public void onAsyncTaskCancelled() {
             mLoginTask = null;
             showProgress(false);
         }
