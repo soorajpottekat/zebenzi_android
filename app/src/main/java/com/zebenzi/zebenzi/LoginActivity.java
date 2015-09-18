@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.network.LoginTask;
+import com.zebenzi.network.UserDetailsTask;
 import com.zebenzi.users.Customer;
 
 import org.apache.http.NameValuePair;
@@ -64,7 +65,9 @@ public class LoginActivity extends ActionBarActivity {
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private AsyncTask<String, String, String>  mLoginTask = null;
-    private UserDetailsTask mUserDetailsTask = null;
+    private AsyncTask<String, String, String>  mUserDetailsTask = null;
+
+//    private UserDetailsTask mUserDetailsTask = null;
 
     // UI references.
     private EditText mMobileNumberView;
@@ -205,8 +208,11 @@ public class LoginActivity extends ActionBarActivity {
             //Get the User details and display
             if (mUserDetailsTask == null) {
                 showProgress(true);
-                mUserDetailsTask = new UserDetailsTask();
-                mUserDetailsTask.execute((String) null);
+
+                mUserDetailsTask = new UserDetailsTask(this, new UserDetailsTaskCompleteListener()).execute(oAuthToken);
+
+//                mUserDetailsTask = new UserDetailsTask();
+//                mUserDetailsTask.execute((String) null);
             }
         }
         else
@@ -289,248 +295,158 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<String, String, String> {
+public class UserDetailsTaskCompleteListener implements  IAsyncTaskListener<String>
+{
 
-        private final String mMobileNumber;
-        private final String mPassword;
-        String resultToDisplay = null;
-
-        UserLoginTask(String email, String password) {
-            mMobileNumber = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                URL url = new URL(userLoginURL);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod(getString(R.string.api_post));
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                List<NameValuePair> local_params = new ArrayList<NameValuePair>();
-                local_params.add(new BasicNameValuePair(getString(R.string.api_username), mMobileNumber));
-                local_params.add(new BasicNameValuePair(getString(R.string.api_password), mPassword));
-                local_params.add(new BasicNameValuePair(getString(R.string.api_grant_type), getString(R.string.api_password)));
+    @Override
+    public void onAsyncTaskComplete(String result) {
+        mUserDetailsTask = null;
+        showProgress(false);
+        String UserName = null;
 
 
-                //Send params via output stream
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, getString(R.string.api_utf8)));
-                writer.write(getQuery(local_params));
-                writer.flush();
-                writer.close();
-                os.close();
+        JSONObject jsonResult = null;
+        try {
+            jsonResult = new JSONObject(result);
+            UserName = (String) jsonResult.get("fullName");
+            Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
+//                customer.setCustomerDetails(jsonResult, oAuthToken);
 
-                conn.connect();
+            if (UserName != null) {
+                mLoginTokenView.setText(UserName);
 
-                if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
-                        //Read data from input stream
-                        StringBuilder sb = new StringBuilder();
-                        String line = "";
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                        while ((line = reader.readLine()) != null) {
-                            sb.append(line);
-                        }
-                        reader.close();
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("Username", UserName);
+                setResult(RESULT_OK, resultIntent);
 
-                        resultToDisplay = sb.toString();
-                    }
-                    else
-                    {
-
-                        StringBuilder sb = new StringBuilder();
-                        String line = "";
-
-                        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-                        while ((line = reader.readLine()) != null) {
-                            sb.append(line);
-                        }
-                        reader.close();
-                        resultToDisplay = sb.toString();
-                    }
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return null;
-            }
-
-            return resultToDisplay;
-        }
-
-        //Encode the login params in UTF-8
-        private String getQuery(List<NameValuePair> params) throws UnsupportedEncodingException
-        {
-            StringBuilder result = new StringBuilder();
-            boolean first = true;
-
-            for (NameValuePair pair : params)
-            {
-                if (first)
-                    first = false;
-                else
-                    result.append("&");
-
-                result.append(URLEncoder.encode(pair.getName(), getString(R.string.api_utf8)));
-                result.append("=");
-                result.append(URLEncoder.encode(pair.getValue(), getString(R.string.api_utf8)));
-            }
-
-            return result.toString();
-        }
-
-        @Override
-        protected void onPostExecute(final String result) {
-            mLoginTask = null;
-            showProgress(false);
-
-
-            JSONObject jsonResult = null;
-            try {
-                jsonResult = new JSONObject(result);
-                oAuthToken = (String) jsonResult.get(getString(R.string.api_access_token));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-
-            if (oAuthToken != null) {
-                mLoginTokenView.setText(oAuthToken);
-                loginWithToken(oAuthToken);
-            }
-            else {
+//                Eventually, we should save the token and display the logged-in user's name in the app.
+                finish();
+            } else {
                 System.out.println("Error occurred with login: " + jsonResult.toString());
                 mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
                 mMobileNumberView.requestFocus();
-                mLoginTokenView.setText(jsonResult.toString());
-
             }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        @Override
-        protected void onCancelled() {
-            mLoginTask = null;
-            showProgress(false);
-        }
+
+
     }
 
-
-
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserDetailsTask extends AsyncTask<String, String, String> {
-
-        UserDetailsTask() {
-
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            String resultToDisplay;
-            try {
-                URL url = new URL(userDetailsURL);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod(getString(R.string.api_get));
-//                conn.setDoInput(true);
-//                conn.setDoOutput(true);
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("Authorization", "bearer " + oAuthToken);
-
-
-                conn.connect();
-
-                if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
-                    //Read data from input stream
-                    StringBuilder sb = new StringBuilder();
-                    String line = "";
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    reader.close();
-
-                    resultToDisplay = sb.toString();
-                }
-                else
-                {
-
-                    StringBuilder sb = new StringBuilder();
-                    String line = "";
-
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    reader.close();
-                    resultToDisplay = sb.toString();
-                }
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return null;
-            }
-
-            return resultToDisplay;
-        }
-
-
-        @Override
-        protected void onPostExecute(final String result) {
-            mUserDetailsTask = null;
-            showProgress(false);
-            String UserName = null;
-
-
-            JSONObject jsonResult = null;
-            try {
-                jsonResult = new JSONObject(result);
-                UserName = (String) jsonResult.get("fullName");
-                Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
-//                customer.setCustomerDetails(jsonResult, oAuthToken);
-
-                if (UserName != null) {
-                    mLoginTokenView.setText(UserName);
-
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("Username", UserName);
-                    setResult(RESULT_OK, resultIntent);
-
-//                Eventually, we should save the token and display the logged-in user's name in the app.
-                    finish();
-                } else {
-                    System.out.println("Error occurred with login: " + jsonResult.toString());
-                    mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
-                    mMobileNumberView.requestFocus();
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-
-
-        }
-
-        @Override
-        protected void onCancelled() {
-            mUserDetailsTask = null;
-            showProgress(false);
-        }
+    @Override
+    public void onAsyncTaskCancelled() {
+        mUserDetailsTask = null;
+        showProgress(false);
     }
+}
+
+//    /**
+//     * Represents an asynchronous login/registration task used to authenticate
+//     * the user.
+//     */
+//    public class UserDetailsTask extends AsyncTask<String, String, String> {
+//
+//        UserDetailsTask() {
+//
+//        }
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//            String resultToDisplay;
+//            try {
+//                URL url = new URL(userDetailsURL);
+//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                conn.setReadTimeout(10000);
+//                conn.setConnectTimeout(15000);
+//                conn.setRequestMethod(getString(R.string.api_get));
+////                conn.setDoInput(true);
+////                conn.setDoOutput(true);
+//                conn.setRequestProperty("Content-Type", "application/json");
+//                conn.setRequestProperty("Authorization", "bearer " + oAuthToken);
+//
+//
+//                conn.connect();
+//
+//                if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
+//                    //Read data from input stream
+//                    StringBuilder sb = new StringBuilder();
+//                    String line = "";
+//                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//                    while ((line = reader.readLine()) != null) {
+//                        sb.append(line);
+//                    }
+//                    reader.close();
+//
+//                    resultToDisplay = sb.toString();
+//                }
+//                else
+//                {
+//
+//                    StringBuilder sb = new StringBuilder();
+//                    String line = "";
+//
+//                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+//                    while ((line = reader.readLine()) != null) {
+//                        sb.append(line);
+//                    }
+//                    reader.close();
+//                    resultToDisplay = sb.toString();
+//                }
+//
+//            } catch (Exception e) {
+//                System.out.println(e.getMessage());
+//                return null;
+//            }
+//
+//            return resultToDisplay;
+//        }
+//
+//
+//        @Override
+//        protected void onPostExecute(final String result) {
+//            mUserDetailsTask = null;
+//            showProgress(false);
+//            String UserName = null;
+//
+//
+//            JSONObject jsonResult = null;
+//            try {
+//                jsonResult = new JSONObject(result);
+//                UserName = (String) jsonResult.get("fullName");
+//                Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
+////                customer.setCustomerDetails(jsonResult, oAuthToken);
+//
+//                if (UserName != null) {
+//                    mLoginTokenView.setText(UserName);
+//
+//                    Intent resultIntent = new Intent();
+//                    resultIntent.putExtra("Username", UserName);
+//                    setResult(RESULT_OK, resultIntent);
+//
+////                Eventually, we should save the token and display the logged-in user's name in the app.
+//                    finish();
+//                } else {
+//                    System.out.println("Error occurred with login: " + jsonResult.toString());
+//                    mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
+//                    mMobileNumberView.requestFocus();
+//                }
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//
+//
+//        }
+//
+//        @Override
+//        protected void onCancelled() {
+//            mUserDetailsTask = null;
+//            showProgress(false);
+//        }
+//    }
 
 }
 
