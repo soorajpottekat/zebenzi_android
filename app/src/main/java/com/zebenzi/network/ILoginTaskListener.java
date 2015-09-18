@@ -15,8 +15,7 @@ public interface ILoginTaskListener <T>
 
     /**
      * Invoked when the AsyncTask has its execution cancelled.
-     * @param result The resulting object from the AsyncTask.
      */
-    public void onLoginTaskCancelled(T result);
+    public void onLoginTaskCancelled();
 
 }

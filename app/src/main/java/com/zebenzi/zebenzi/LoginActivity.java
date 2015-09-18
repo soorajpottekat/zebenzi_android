@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.zebenzi.network.ILoginTaskListener;
+import com.zebenzi.network.LoginTask;
 import com.zebenzi.users.Customer;
 
 import org.apache.http.NameValuePair;
@@ -47,8 +49,8 @@ import java.util.List;
 public class LoginActivity extends ActionBarActivity {
 
 
-    String userLoginURL = getString(R.string.api_url_login_token);
-    String userDetailsURL = this.getString(R.string.api_url_user_details);
+    String userLoginURL = "http://www.zebenzi.com/oauth/token";
+    String userDetailsURL = "http://www.zebenzi.com/api/accounts/user/current";
 
     private Customer customer = null;
 
@@ -61,7 +63,7 @@ public class LoginActivity extends ActionBarActivity {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mLoginTask = null;
+    private AsyncTask<String, String, String>  mLoginTask = null;
     private UserDetailsTask mUserDetailsTask = null;
 
     // UI references.
@@ -139,7 +141,7 @@ public class LoginActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
 
-        loginWithToken(Customer.getInstance().getToken());
+//        loginWithToken(Customer.getInstance().getToken());
     }
 
 
@@ -187,8 +189,7 @@ public class LoginActivity extends ActionBarActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mLoginTask = new UserLoginTask(email, password);
-            mLoginTask.execute((String) null);
+            mLoginTask = new LoginTask(this, new LoginTaskCompleteListener()).execute(email, password);
         }
     }
 
@@ -247,6 +248,44 @@ public class LoginActivity extends ActionBarActivity {
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
+
+
+    public class LoginTaskCompleteListener implements ILoginTaskListener<String> {
+        @Override
+        public void onLoginTaskComplete(String result) {
+            mLoginTask = null;
+            showProgress(false);
+
+
+            JSONObject jsonResult = null;
+            try {
+                jsonResult = new JSONObject(result);
+                oAuthToken = (String) jsonResult.get(getString(R.string.api_access_token));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+            if (oAuthToken != null) {
+                mLoginTokenView.setText(oAuthToken);
+                loginWithToken(oAuthToken);
+            }
+            else {
+                System.out.println("Error occurred with login: " + jsonResult.toString());
+                mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
+                mMobileNumberView.requestFocus();
+                mLoginTokenView.setText(jsonResult.toString());
+
+            }
+        }
+
+        @Override
+        public void onLoginTaskCancelled() {
+            mLoginTask = null;
+            showProgress(false);
         }
     }
 
