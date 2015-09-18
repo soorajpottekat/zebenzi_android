@@ -49,25 +49,9 @@ import java.util.List;
  */
 public class LoginActivity extends ActionBarActivity {
 
-
-    String userLoginURL = "http://www.zebenzi.com/oauth/token";
-    String userDetailsURL = "http://www.zebenzi.com/api/accounts/user/current";
-
-    private Customer customer = null;
-
-//    public final static String user = "0846676467";
-//    public final static String password = "dolphin";
-
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
+    // Keep track of the async tasks to ensure we can cancel it if requested.
     private AsyncTask<String, String, String>  mLoginTask = null;
     private AsyncTask<String, String, String>  mUserDetailsTask = null;
-
-//    private UserDetailsTask mUserDetailsTask = null;
 
     // UI references.
     private EditText mMobileNumberView;
@@ -144,7 +128,7 @@ public class LoginActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
 
-//        loginWithToken(Customer.getInstance().getToken());
+        loginWithToken(Customer.getInstance().getToken());
     }
 
 
@@ -163,7 +147,7 @@ public class LoginActivity extends ActionBarActivity {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mMobileNumberView.getText().toString();
+        String mobileNumber = mMobileNumberView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -177,8 +161,8 @@ public class LoginActivity extends ActionBarActivity {
             cancel = true;
         }
 
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        // Check for a valid mobile number.
+        if (TextUtils.isEmpty(mobileNumber)) {
             mMobileNumberView.setError(getString(R.string.error_field_required));
             focusView = mMobileNumberView;
             cancel = true;
@@ -192,7 +176,7 @@ public class LoginActivity extends ActionBarActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mLoginTask = new LoginTask(this, new LoginTaskCompleteListener()).execute(email, password);
+            mLoginTask = new LoginTask(this, new LoginTaskCompleteListener()).execute(mobileNumber, password);
         }
     }
 
@@ -208,11 +192,7 @@ public class LoginActivity extends ActionBarActivity {
             //Get the User details and display
             if (mUserDetailsTask == null) {
                 showProgress(true);
-
                 mUserDetailsTask = new UserDetailsTask(this, new UserDetailsTaskCompleteListener()).execute(oAuthToken);
-
-//                mUserDetailsTask = new UserDetailsTask();
-//                mUserDetailsTask.execute((String) null);
             }
         }
         else
@@ -221,6 +201,7 @@ public class LoginActivity extends ActionBarActivity {
             System.out.println("The oAuth token is null!");
         }
     }
+
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -257,35 +238,38 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
-
+    /**
+     * Once the login task completes successfully, we should have a valid token and can
+     * obtain the user details.
+     * If unsuccessful, place focus on input text field.
+     */
     public class LoginTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
         public void onAsyncTaskComplete(String result) {
+
             mLoginTask = null;
+            JSONObject jsonResult = null;
+
             showProgress(false);
 
-
-            JSONObject jsonResult = null;
             try {
                 jsonResult = new JSONObject(result);
                 oAuthToken = (String) jsonResult.get(getString(R.string.api_access_token));
+
+                if (oAuthToken != null) {
+                    mLoginTokenView.setText(oAuthToken);
+                    loginWithToken(oAuthToken);
+                }
+                else {
+                    System.out.println("Error occurred with login: " + jsonResult.toString());
+                    mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
+                    mMobileNumberView.requestFocus();
+                    mLoginTokenView.setText(jsonResult.toString());
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-
-
-            if (oAuthToken != null) {
-                mLoginTokenView.setText(oAuthToken);
-                loginWithToken(oAuthToken);
-            }
-            else {
-                System.out.println("Error occurred with login: " + jsonResult.toString());
-                mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
-                mMobileNumberView.requestFocus();
-                mLoginTokenView.setText(jsonResult.toString());
-
-            }
         }
 
         @Override
@@ -295,158 +279,50 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
-public class UserDetailsTaskCompleteListener implements  IAsyncTaskListener<String>
-{
+    /**
+     * Once user details task completes successfully, we should have a JSONObject with all the user
+     * data from the server.
+     * If unsuccessful, place focus on input field.
+     */
+    public class UserDetailsTaskCompleteListener implements  IAsyncTaskListener<String>
+    {
+        @Override
+        public void onAsyncTaskComplete(String result) {
+            mUserDetailsTask = null;
+            JSONObject jsonResult;
+            String UserName;
 
-    @Override
-    public void onAsyncTaskComplete(String result) {
-        mUserDetailsTask = null;
-        showProgress(false);
-        String UserName = null;
+            showProgress(false);
 
+            try {
+                jsonResult = new JSONObject(result);
+                UserName = (String) jsonResult.get("fullName");
+                Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
 
-        JSONObject jsonResult = null;
-        try {
-            jsonResult = new JSONObject(result);
-            UserName = (String) jsonResult.get("fullName");
-            Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
-//                customer.setCustomerDetails(jsonResult, oAuthToken);
+                if (UserName != null) {
+                    mLoginTokenView.setText(UserName);
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("Username", UserName);
+                    setResult(RESULT_OK, resultIntent);
+                    // Eventually, we should save the token and display the logged-in user's name in the app.
+                    finish();
+                } else {
+                    System.out.println("Error occurred with login: " + jsonResult.toString());
+                    mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
+                    mMobileNumberView.requestFocus();
+                }
 
-            if (UserName != null) {
-                mLoginTokenView.setText(UserName);
-
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("Username", UserName);
-                setResult(RESULT_OK, resultIntent);
-
-//                Eventually, we should save the token and display the logged-in user's name in the app.
-                finish();
-            } else {
-                System.out.println("Error occurred with login: " + jsonResult.toString());
-                mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
-                mMobileNumberView.requestFocus();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
 
-
-
+        @Override
+        public void onAsyncTaskCancelled() {
+            mUserDetailsTask = null;
+            showProgress(false);
+        }
     }
-
-    @Override
-    public void onAsyncTaskCancelled() {
-        mUserDetailsTask = null;
-        showProgress(false);
-    }
-}
-
-//    /**
-//     * Represents an asynchronous login/registration task used to authenticate
-//     * the user.
-//     */
-//    public class UserDetailsTask extends AsyncTask<String, String, String> {
-//
-//        UserDetailsTask() {
-//
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            String resultToDisplay;
-//            try {
-//                URL url = new URL(userDetailsURL);
-//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//                conn.setReadTimeout(10000);
-//                conn.setConnectTimeout(15000);
-//                conn.setRequestMethod(getString(R.string.api_get));
-////                conn.setDoInput(true);
-////                conn.setDoOutput(true);
-//                conn.setRequestProperty("Content-Type", "application/json");
-//                conn.setRequestProperty("Authorization", "bearer " + oAuthToken);
-//
-//
-//                conn.connect();
-//
-//                if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
-//                    //Read data from input stream
-//                    StringBuilder sb = new StringBuilder();
-//                    String line = "";
-//                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//                    while ((line = reader.readLine()) != null) {
-//                        sb.append(line);
-//                    }
-//                    reader.close();
-//
-//                    resultToDisplay = sb.toString();
-//                }
-//                else
-//                {
-//
-//                    StringBuilder sb = new StringBuilder();
-//                    String line = "";
-//
-//                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-//                    while ((line = reader.readLine()) != null) {
-//                        sb.append(line);
-//                    }
-//                    reader.close();
-//                    resultToDisplay = sb.toString();
-//                }
-//
-//            } catch (Exception e) {
-//                System.out.println(e.getMessage());
-//                return null;
-//            }
-//
-//            return resultToDisplay;
-//        }
-//
-//
-//        @Override
-//        protected void onPostExecute(final String result) {
-//            mUserDetailsTask = null;
-//            showProgress(false);
-//            String UserName = null;
-//
-//
-//            JSONObject jsonResult = null;
-//            try {
-//                jsonResult = new JSONObject(result);
-//                UserName = (String) jsonResult.get("fullName");
-//                Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
-////                customer.setCustomerDetails(jsonResult, oAuthToken);
-//
-//                if (UserName != null) {
-//                    mLoginTokenView.setText(UserName);
-//
-//                    Intent resultIntent = new Intent();
-//                    resultIntent.putExtra("Username", UserName);
-//                    setResult(RESULT_OK, resultIntent);
-//
-////                Eventually, we should save the token and display the logged-in user's name in the app.
-//                    finish();
-//                } else {
-//                    System.out.println("Error occurred with login: " + jsonResult.toString());
-//                    mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
-//                    mMobileNumberView.requestFocus();
-//                }
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//
-//
-//        }
-//
-//        @Override
-//        protected void onCancelled() {
-//            mUserDetailsTask = null;
-//            showProgress(false);
-//        }
-//    }
 
 }
 
