@@ -20,25 +20,10 @@
         android:layout_marginBottom="8dp" android:visibility="gone"
         android:layout_weight="0" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test Registration API"
-            android:id="@+id/test_registration_button" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Registration response text"
-            android:id="@+id/test_registration_textView"
-            android:layout_weight="1" />
-
-
-
 
     <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
-        android:layout_height="324dp"
-        android:visibility="invisible">
+        android:layout_height="fill_parent"
+        android:visibility="visible">
 
 
         <LinearLayout android:id="@+id/register_customer_form" android:layout_width="match_parent"

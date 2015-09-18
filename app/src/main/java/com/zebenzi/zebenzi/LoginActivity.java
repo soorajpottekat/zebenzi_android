@@ -296,7 +296,7 @@ public class LoginActivity extends ActionBarActivity {
 
             try {
                 jsonResult = new JSONObject(result);
-                UserName = (String) jsonResult.get("fullName");
+                UserName = jsonResult.get("fullName").toString();
                 Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
 
                 if (UserName != null) {

@@ -40,6 +40,7 @@ import java.util.List;
 public class SearchActivity extends ActionBarActivity {
 
     public static final int LOGIN_REQUEST = 1;
+    public static final int REGISTER_REQUEST = 2;
     public static final String apiURL = "http://www.zebenzi.com/oauth/token";
     public static final String user = "0846676467";
     public static final String password = "dolphin";
@@ -108,7 +109,7 @@ public class SearchActivity extends ActionBarActivity {
                 return true;
             case R.id.action_register:
                 Intent intent = new Intent(this, RegisterCustomerActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REGISTER_REQUEST);
                 return true;
             case R.id.action_login:
                 intent = new Intent(this, LoginActivity.class);
@@ -122,14 +123,25 @@ public class SearchActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == LOGIN_REQUEST) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                String user=data.getStringExtra("Username");
-                getSupportActionBar().setTitle(user);
-            }
+
+        // Check which request we're responding to and perform necessary action
+        switch (requestCode) {
+            case LOGIN_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    String user=data.getStringExtra("Username");
+                    getSupportActionBar().setTitle(user);
+                }
+                break;
+            case REGISTER_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    String user=data.getStringExtra("Username");
+                    getSupportActionBar().setTitle(user);
+                }
+                break;
+            default:
+                break;
         }
+
     }
 
     /**

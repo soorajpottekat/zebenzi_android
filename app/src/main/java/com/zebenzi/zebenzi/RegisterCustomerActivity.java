@@ -166,14 +166,14 @@ public class RegisterCustomerActivity extends ActionBarActivity {
         mProgressView = findViewById(R.id.login_progress);
 
 
-        mTestRegistrationTextView = (TextView) findViewById(R.id.test_registration_textView);
-        Button mTestRegistrationButton = (Button) findViewById(R.id.test_registration_button);
-        mTestRegistrationButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                testJsonRegistration();
-            }
-        });
+//        mTestRegistrationTextView = (TextView) findViewById(R.id.test_registration_textView);
+//        Button mTestRegistrationButton = (Button) findViewById(R.id.test_registration_button);
+//        mTestRegistrationButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                testJsonRegistration();
+//            }
+//        });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
@@ -268,8 +268,7 @@ public class RegisterCustomerActivity extends ActionBarActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-//            mAuthTask = new RegisterCustomerTask(email, password);
-//            mAuthTask.execute((String) null);
+            mTestRegistrationTask = new RegisterTask(this, new RegisterTaskCompleteListener()).execute(jsonCustomerParams);
         }
     }
 
@@ -361,11 +360,6 @@ public class RegisterCustomerActivity extends ActionBarActivity {
         }
 
         System.out.println("Registration jsonParams="+jsonCustomerParams);
-
-//        mTestRegistrationTask = new TestRegisterCustomerTask("test", "registration");
-//        mTestRegistrationTask.execute((String) null);
-//
-
         mTestRegistrationTask = new RegisterTask(this, new RegisterTaskCompleteListener()).execute(jsonCustomerParams);
 
     }
@@ -373,12 +367,32 @@ public class RegisterCustomerActivity extends ActionBarActivity {
     public class RegisterTaskCompleteListener implements IAsyncTaskListener{
         @Override
         public void onAsyncTaskComplete(Object result) {
+            String userName = "";
+            mTestRegistrationTask = null;
+            showProgress(false);
             System.out.println("Register Result: " + result.toString());
+
+            try {
+                JSONObject jsonResult = new JSONObject((String)result);
+                userName = jsonResult.get("fullName").toString();
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("Username", userName);
+                setResult(RESULT_OK, resultIntent);
+                // Eventually, we should save the token and display the logged-in user's name in the app.
+                finish();
+            }
+            catch (JSONException e)
+            {
+                //Print error and keep user on this screen.
+                System.out.println("Registration failed: "+result.toString());
+            }
+
         }
 
         @Override
         public void onAsyncTaskCancelled() {
-
+            mTestRegistrationTask = null;
+            showProgress(false);
         }
     }
 }
