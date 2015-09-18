@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,6 +74,17 @@ public class SearchActivity extends ActionBarActivity {
         listView.setAdapter(searchResultsAdapter);
 
         mSearchView = (EditText) findViewById(R.id.searchText);
+        mSearchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+                if (id == R.id.login || id == EditorInfo.IME_NULL) {
+                    doSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         Button mSearchButton = (Button) findViewById(R.id.searchButton);
         mSearchButton.setOnClickListener(new OnClickListener() {
@@ -217,6 +230,17 @@ public class SearchActivity extends ActionBarActivity {
             tvContact.setText(worker.contact);
             tvAddress.setText(worker.address);
             tvID.setText(worker.id);
+
+            Button hireButton = (Button)  convertView.findViewById(R.id.hireButton);
+            hireButton.setTag(position);
+            hireButton.setOnClickListener(new OnClickListener() {
+                public void onClick(View arg0) {
+                    int position=(Integer)arg0.getTag();
+                    Worker worker = getItem(position);
+                    System.out.println("Trying to hire: " + worker.name);
+                }
+                });
+
             // Return the completed view to render on screen
             return convertView;
         }
