@@ -21,8 +21,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.network.SearchTask;
+import com.zebenzi.network.HireWorkerTask;
+import com.zebenzi.users.Customer;
 import com.zebenzi.users.Worker;
 import org.json.JSONArray;
 import java.util.ArrayList;
@@ -46,6 +50,7 @@ public class SearchActivity extends ActionBarActivity {
      * Keep track of the search task to ensure we can cancel it if requested.
      */
     private AsyncTask<String, String, JSONArray> mSearchTask = null;
+    private AsyncTask<String, String, String> mHireWorkerTask = null;
 
     // UI references.
     private EditText mSearchView;
@@ -207,6 +212,22 @@ public class SearchActivity extends ActionBarActivity {
         }
     }
 
+    public class HireWorkerTaskCompleteListener implements IAsyncTaskListener<String>{
+        @Override
+        public void onAsyncTaskComplete(String hireResult) {
+            mHireWorkerTask = null;
+//            showProgress(false);
+            System.out.println("Hire Response = " + hireResult);
+
+            Toast.makeText(appContext, "Worker Hired!!!", Toast.LENGTH_SHORT);
+        }
+
+        @Override
+        public void onAsyncTaskCancelled() {
+            mHireWorkerTask = null;
+        }
+    }
+
     public class SearchResultsAdapter extends ArrayAdapter<Worker> {
         public SearchResultsAdapter(Context context, ArrayList<Worker> users) {
             super(context, 0, users);
@@ -237,13 +258,19 @@ public class SearchActivity extends ActionBarActivity {
                 public void onClick(View arg0) {
                     int position=(Integer)arg0.getTag();
                     Worker worker = getItem(position);
-                    System.out.println("Trying to hire: " + worker.name);
+                    System.out.println("Trying to hire: " + worker.name + " ID=" + worker.id);
+                    hireWorker(worker.id);
                 }
                 });
 
             // Return the completed view to render on screen
             return convertView;
         }
+    }
+
+    public void hireWorker(String id) {
+
+        mHireWorkerTask = new HireWorkerTask(this, new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), id);
     }
 
 
