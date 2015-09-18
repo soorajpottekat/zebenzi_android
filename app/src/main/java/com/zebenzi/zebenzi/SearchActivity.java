@@ -19,19 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.network.SearchTask;
 import com.zebenzi.users.Worker;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 
 /**

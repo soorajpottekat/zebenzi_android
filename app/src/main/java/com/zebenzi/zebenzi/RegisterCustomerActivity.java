@@ -3,18 +3,11 @@ package com.zebenzi.zebenzi;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -23,61 +16,25 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-
 import com.zebenzi.network.IAsyncTaskListener;
-import com.zebenzi.network.LoginTask;
 import com.zebenzi.network.RegisterTask;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+//TODO: Make this activity handle both Customer and worker registration since only diff is optional email
 
-
+//TODO: Once registered, we must login the customer and save token.
 /**
  * A login screen that offers login via email/password.
  */
 public class RegisterCustomerActivity extends ActionBarActivity {
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-
-//    String customerRegistrationAPIUrl = this.getString(R.string.api_url_registration);
-    public final static String user = "0846676467";
-    public final static String password = "dolphin";
-
-    List<NameValuePair> customer_register_params;
-    JSONObject jsonCustomerParams;
-
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-//    private RegisterCustomerTask mAuthTask = null;
+    private AsyncTask<JSONObject, String, String> mRegistrationTask;
 
     // UI references.
     private EditText mMobileNumberView;
@@ -91,11 +48,8 @@ public class RegisterCustomerActivity extends ActionBarActivity {
     private EditText mSuburbView;
     private EditText mSuburbCodeView;
 
-
     private View mProgressView;
     private View mRegisterCustomerFormView;
-    private TextView mTestRegistrationTextView;
-    private AsyncTask<JSONObject, String, String> mTestRegistrationTask;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -165,16 +119,6 @@ public class RegisterCustomerActivity extends ActionBarActivity {
         mRegisterCustomerFormView = findViewById(R.id.register_customer_form);
         mProgressView = findViewById(R.id.login_progress);
 
-
-//        mTestRegistrationTextView = (TextView) findViewById(R.id.test_registration_textView);
-//        Button mTestRegistrationButton = (Button) findViewById(R.id.test_registration_button);
-//        mTestRegistrationButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                testJsonRegistration();
-//            }
-//        });
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.app_name);
@@ -187,7 +131,7 @@ public class RegisterCustomerActivity extends ActionBarActivity {
      * errors are presented and no actual login attempt is made.
      */
     public void attemptRegisterCustomer() {
-        if (mTestRegistrationTask != null) {
+        if (mRegistrationTask != null) {
             return;
         }
 
@@ -217,7 +161,7 @@ public class RegisterCustomerActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        jsonCustomerParams = new JSONObject();
+        JSONObject jsonCustomerParams = new JSONObject();
         try {
             jsonCustomerParams.put("FirstName", firstName);
             jsonCustomerParams.put("LastName", lastName);
@@ -268,7 +212,7 @@ public class RegisterCustomerActivity extends ActionBarActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mTestRegistrationTask = new RegisterTask(this, new RegisterTaskCompleteListener()).execute(jsonCustomerParams);
+            mRegistrationTask = new RegisterTask(this, new RegisterTaskCompleteListener()).execute(jsonCustomerParams);
         }
     }
 
@@ -319,56 +263,11 @@ public class RegisterCustomerActivity extends ActionBarActivity {
         }
     }
 
-    private void testJsonRegistration()
-    {
-        // Store values at the time of the login attempt.
-        String mobileNumber = "0333333334";
-        String firstName = "Dhivanee";
-        String lastName = "Nayagar";
-        String email = "dhivanee.nayagar@gmail.com";
-        String password = "dolphin";
-        String confirmPassword = "dolphin";
-        String addressLine1 = "Unit C1";
-        String addressLine2 = "216 Main Avenue";
-        String suburb = "Randburg";
-        String code = "2194";
-
-
-
-        JSONObject addressObject = new JSONObject();
-        try {
-            addressObject.put("AddressLine1", addressLine1);
-            addressObject.put("AddressLine2", addressLine2);
-            addressObject.put("Surburb", suburb);
-            addressObject.put("code", code);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        jsonCustomerParams = new JSONObject();
-        try {
-            jsonCustomerParams.put("FirstName", firstName);
-            jsonCustomerParams.put("LastName", lastName);
-            jsonCustomerParams.put("Email", email);
-            jsonCustomerParams.put("Telephone", mobileNumber);
-            jsonCustomerParams.put("Password", password);
-            jsonCustomerParams.put("ConfirmPassword", confirmPassword);
-            jsonCustomerParams.put("RoleName", "User");
-            jsonCustomerParams.put("Adddress", addressObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Registration jsonParams="+jsonCustomerParams);
-        mTestRegistrationTask = new RegisterTask(this, new RegisterTaskCompleteListener()).execute(jsonCustomerParams);
-
-    }
-
     public class RegisterTaskCompleteListener implements IAsyncTaskListener{
         @Override
         public void onAsyncTaskComplete(Object result) {
             String userName = "";
-            mTestRegistrationTask = null;
+            mRegistrationTask = null;
             showProgress(false);
             System.out.println("Register Result: " + result.toString());
 
@@ -391,7 +290,7 @@ public class RegisterCustomerActivity extends ActionBarActivity {
 
         @Override
         public void onAsyncTaskCancelled() {
-            mTestRegistrationTask = null;
+            mRegistrationTask = null;
             showProgress(false);
         }
     }
