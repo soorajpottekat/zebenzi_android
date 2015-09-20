@@ -121,7 +121,7 @@ public class RegisterCustomerActivity extends ActionBarActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.app_name);
+//        getSupportActionBar().setTitle(R.string.app_name);
     }
 
 

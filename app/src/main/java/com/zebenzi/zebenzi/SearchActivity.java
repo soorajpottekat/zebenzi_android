@@ -1,10 +1,13 @@
 package com.zebenzi.zebenzi;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -62,6 +65,21 @@ public class SearchActivity extends ActionBarActivity {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_activity_actions, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+
+        searchView.setIconifiedByDefault(false);
+
+
+
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -103,10 +121,13 @@ public class SearchActivity extends ActionBarActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.app_name);
+//        getSupportActionBar().setTitle(R.string.app_name);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.ic_menu_zebenzi_toolbar_icon);
 
         appContext = getApplicationContext();
 
+        handleIntent(getIntent());
     }
 
     @Override
@@ -278,6 +299,19 @@ public class SearchActivity extends ActionBarActivity {
         return appContext;
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            System.out.println("Search Query = " + query);
+            //use the query to search your data somehow
+        }
+    }
 }
 
 

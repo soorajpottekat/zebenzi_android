@@ -113,7 +113,7 @@ public class LoginActivity extends ActionBarActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.app_name);
+//        getSupportActionBar().setTitle(R.string.app_name);
 
         loginWithToken(Customer.getInstance().getToken());
     }
@@ -289,6 +289,7 @@ public class LoginActivity extends ActionBarActivity {
                 if (UserName != null) {
                     mLoginTokenView.setText(UserName);
                     Intent resultIntent = new Intent();
+                    //TODO: Fix this once user data fields are fixed to be consistent in core.
                     resultIntent.putExtra("Username", UserName);
                     setResult(RESULT_OK, resultIntent);
                     // Eventually, we should save the token and display the logged-in user's name in the app.
