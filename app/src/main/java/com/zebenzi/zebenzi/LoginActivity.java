@@ -284,7 +284,7 @@ public class LoginActivity extends ActionBarActivity {
             try {
                 jsonResult = new JSONObject(result);
                 UserName = jsonResult.get("fullName").toString();
-                Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
+                Customer.getInstance().setDetails(jsonResult, oAuthToken);
 
                 if (UserName != null) {
                     mLoginTokenView.setText(UserName);

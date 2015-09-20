@@ -9,19 +9,15 @@ import java.util.ArrayList;
 /**
  * Created by vaugan.nayagar on 2015/09/06.
  */
-public class Worker {
-    public String name;
-    public String contact;
-    public String address;
-    public String id;
+public class Worker extends User{
+
 
     // Constructor to convert JSON object into a Java class instance
     public Worker(JSONObject object){
+        super();
+
         try {
-            this.name = object.getString("name");
-            this.contact = object.getString("contactNumber");
-            this.address = object.getString("address");
-            this.id = object.getString("userId");
+            setDetails(object, null);
         } catch (JSONException e) {
             e.printStackTrace();
         }

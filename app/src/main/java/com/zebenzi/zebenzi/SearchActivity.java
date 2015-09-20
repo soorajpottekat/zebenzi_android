@@ -247,10 +247,10 @@ public class SearchActivity extends ActionBarActivity {
             TextView tvAddress = (TextView) convertView.findViewById(R.id.workerAddress);
             TextView tvID = (TextView) convertView.findViewById(R.id.workerID);
             // Populate the data into the template view using the data object
-            tvName.setText(worker.name);
-            tvContact.setText(worker.contact);
-            tvAddress.setText(worker.address);
-            tvID.setText(worker.id);
+            tvName.setText(worker.getFirstName());
+            tvContact.setText(worker.getMobileNumber());
+            tvAddress.setText(worker.getAddress());
+            tvID.setText(worker.getId());
 
             Button hireButton = (Button)  convertView.findViewById(R.id.hireButton);
             hireButton.setTag(position);
@@ -258,8 +258,8 @@ public class SearchActivity extends ActionBarActivity {
                 public void onClick(View arg0) {
                     int position=(Integer)arg0.getTag();
                     Worker worker = getItem(position);
-                    System.out.println("Trying to hire: " + worker.name + " ID=" + worker.id);
-                    hireWorker(worker.id);
+                    System.out.println("Trying to hire: " + worker.getFirstName() + " ID=" + worker.getId());
+                    hireWorker(worker.getId());
                 }
                 });
 
