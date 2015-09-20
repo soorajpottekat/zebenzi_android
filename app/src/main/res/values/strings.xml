@@ -8,10 +8,11 @@
     <string name="title_activity_search">Search</string>
     <string name="search">Search</string>
     <string name="account">My Account</string>
-    <string name="login">Login</string>
+    <string name="login">Sign in</string>
     <string name="register">Register</string>
     <string name="empty_search_string">Please enter search text</string>
     <string name="hire_me">Hire Me!</string>
+    <string name="search_title">Im looking for</string>
 
 
 </resources>
