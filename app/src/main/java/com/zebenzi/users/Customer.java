@@ -3,8 +3,8 @@ package com.zebenzi.users;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.zebenzi.zebenzi.MainActivity;
 import com.zebenzi.zebenzi.R;
-import com.zebenzi.zebenzi.SearchActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +26,7 @@ public class Customer {
     // Constructor to convert JSON object into a Java class instance
     private Customer(){
 
-            ctx = SearchActivity.getAppContext();
+            ctx = MainActivity.getAppContext();
             settings = ctx.getSharedPreferences(PREFS_NAME, 0);
 
             name = "name";

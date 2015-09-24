@@ -11,7 +11,6 @@
         <!--android:layout_gravity="center_horizontal|top"-->
         <!--android:layout_weight="1"-->
         <!--android:src="@drawable/zebenzi_banner" />-->
-    <include layout="@layout/app_toolbar"/>
 
 
     <!-- Login progress -->

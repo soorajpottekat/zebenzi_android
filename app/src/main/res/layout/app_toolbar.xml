@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:minHeight="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
+    android:title="@string/app_name"
     app:theme="@style/ZebenziDefaultTheme"
     app:popupTheme="@style/popUpTheme"
     app:contentInsetEnd="0dp"

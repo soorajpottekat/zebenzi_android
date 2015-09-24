@@ -10,29 +10,19 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <!--<ImageView-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/imageView"-->
-            <!--android:layout_gravity="center_horizontal|top"-->
-            <!--android:layout_weight="0.09"-->
-            <!--android:src="@drawable/zebenzi_banner" />-->
-        <include layout="@layout/app_toolbar"/>
-
-
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/searchText"
             android:hint="I&apos;m looking for"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Go"
             android:id="@+id/searchButton"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <ListView
             android:layout_width="match_parent"

@@ -1,24 +1,14 @@
 package com.zebenzi.zebenzi;
 
-import android.app.SearchManager;
+import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +28,7 @@ import java.util.ArrayList;
 /**
  * A login screen that offers login via email/password.
  */
-public class SearchActivity extends ActionBarActivity {
+public class SearchResultsFragment extends Fragment {
 
     public static final int LOGIN_REQUEST = 1;
     public static final int REGISTER_REQUEST = 2;
@@ -60,114 +50,26 @@ public class SearchActivity extends ActionBarActivity {
     private View mProgressView;
     private SearchResultsAdapter searchResultsAdapter = null;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity_actions, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false);
-
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Construct the data source
         ArrayList<Worker> arrayOfUsers = new ArrayList<Worker>();
         // Create the adapter to convert the array to views
-        searchResultsAdapter = new SearchResultsAdapter(this, arrayOfUsers);
+        searchResultsAdapter = new SearchResultsAdapter(MainActivity.getAppContext(), arrayOfUsers);
+
+        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
         // Attach the adapter to a ListView
-        ListView listView = (ListView) findViewById(R.id.searchResultsList);
+        ListView listView = (ListView) rootView.findViewById(R.id.searchResultsList);
         listView.setAdapter(searchResultsAdapter);
 
-        mSearchView = (EditText) findViewById(R.id.searchText);
-        mSearchView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    doSearch();
-                    return true;
-                }
-                return false;
-            }
-        });
-
-
-        Button mSearchButton = (Button) findViewById(R.id.searchButton);
-        mSearchButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doSearch();
-            }
-        });
-
-        mProgressView = findViewById(R.id.login_progress);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle(R.string.app_name);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_menu_zebenzi);
-        appContext = getApplicationContext();
-
-        handleIntent(getIntent());
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                return true;
-            case R.id.action_account:
-                return true;
-            case R.id.action_register:
-                Intent intent = new Intent(this, RegisterCustomerActivity.class);
-                startActivityForResult(intent, REGISTER_REQUEST);
-                return true;
-            case R.id.action_login:
-                intent = new Intent(this, LoginActivity.class);
-                startActivityForResult(intent, LOGIN_REQUEST);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        // Check which request we're responding to and perform necessary action
-        switch (requestCode) {
-            case LOGIN_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    String user=data.getStringExtra("Username");
-                    getSupportActionBar().setTitle(user);
-                }
-                break;
-            case REGISTER_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    String user=data.getStringExtra("Username");
-                    getSupportActionBar().setTitle(user);
-                }
-                break;
-            default:
-                break;
-        }
+        return rootView;
 
     }
+
+
+
 
     /**
      * Attempts to connect to zebenzi server and obtain search results
@@ -202,7 +104,7 @@ public class SearchActivity extends ActionBarActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
 //            showProgress(true);
-            mSearchTask = new SearchTask(this, new SearchTaskCompleteListener()).execute(mSearchString);
+            mSearchTask = new SearchTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(mSearchString);
         }
     }
 
@@ -285,7 +187,7 @@ public class SearchActivity extends ActionBarActivity {
 
     public void hireWorker(String id) {
 
-        mHireWorkerTask = new HireWorkerTask(this, new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), id);
+        mHireWorkerTask = new HireWorkerTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), id);
     }
 
 
@@ -293,21 +195,6 @@ public class SearchActivity extends ActionBarActivity {
         return appContext;
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            System.out.println("Search Query = " + query);
-            //use the query to search your data somehow
-            mSearchTask = new SearchTask(this, new SearchTaskCompleteListener()).execute(query);
-
-        }
-    }
 }
 
 

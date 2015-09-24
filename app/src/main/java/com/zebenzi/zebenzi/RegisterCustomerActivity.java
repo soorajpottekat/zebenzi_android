@@ -77,7 +77,7 @@ public class RegisterCustomerActivity extends ActionBarActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_search:
-                Intent intent = new Intent(this, SearchActivity.class);
+                Intent intent = new Intent(this, SearchResultsFragment.class);
                 startActivity(intent);
                 return true;
             case R.id.action_account:
