@@ -24,21 +24,24 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Worker Contact Number"
-            android:id="@+id/workerContactNumber" />
+            android:id="@+id/workerContactNumber"
+            android:textColor="@color/material_grey_700" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Worker Address"
-            android:id="@+id/workerAddress" />
+            android:id="@+id/workerAddress"
+            android:textColor="@color/material_grey_700" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Worker ID"
-            android:id="@+id/workerID" />
+            android:id="@+id/workerID"
+            android:textColor="@color/material_grey_700" />
 
     </LinearLayout>
 
