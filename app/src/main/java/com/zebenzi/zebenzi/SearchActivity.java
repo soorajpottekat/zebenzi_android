@@ -123,7 +123,7 @@ public class SearchActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setTitle(R.string.app_name);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_menu_zebenzi_toolbar_icon);
+        getSupportActionBar().setIcon(R.drawable.ic_launcher_zebenzi);
 
         appContext = getApplicationContext();
 
@@ -310,6 +310,8 @@ public class SearchActivity extends ActionBarActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             System.out.println("Search Query = " + query);
             //use the query to search your data somehow
+            mSearchTask = new SearchTask(this, new SearchTaskCompleteListener()).execute(query);
+
         }
     }
 }
