@@ -1,9 +1,11 @@
 package com.zebenzi.zebenzi;
 
+import android.support.v4.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
@@ -22,7 +24,7 @@ public class MainActivity extends ActionBarActivity {
     public static final int LOGIN_REQUEST = 1;
     public static final int REGISTER_REQUEST = 2;
     public static Context appContext;
-
+    private FragmentManager fm = getSupportFragmentManager();
     private String mSearchString;
 
     /**
@@ -65,14 +67,13 @@ public class MainActivity extends ActionBarActivity {
 
             // Create a new Fragment to be placed in the activity layout
             SearchResultsFragment searchResultsFragment = new SearchResultsFragment();
-
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
             searchResultsFragment.setArguments(getIntent().getExtras());
-
             // Add the fragment to the 'fragment_container' FrameLayout
-            getFragmentManager().beginTransaction().add(R.id.fragment_container, searchResultsFragment).commit();
+            fm.beginTransaction().add(R.id.fragment_container, searchResultsFragment).commit();
         }
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
@@ -150,6 +151,32 @@ public class MainActivity extends ActionBarActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             System.out.println("Search Query = " + query);
 
+            doSearch(query);
+
+        }
+    }
+
+
+    private void doSearch(String searchString) {
+
+        SearchResultsFragment searchFrag = (SearchResultsFragment)  fm.findFragmentById(R.id.fragment_container);
+
+        if (searchFrag != null) {
+            searchFrag.doSearch(searchString);
+        } else {
+            // Create fragment and give it an argument for the selected article
+            SearchResultsFragment newFragment = new SearchResultsFragment();
+            Bundle args = new Bundle();
+            args.putString(SearchResultsFragment.SEARCH_STRING, searchString);
+            newFragment.setArguments(args);
+
+            FragmentTransaction transaction = fm.beginTransaction();
+
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack so the user can navigate back
+            transaction.replace(R.id.fragment_container, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 }

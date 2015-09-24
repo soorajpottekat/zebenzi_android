@@ -10,19 +10,19 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/searchText"
-            android:hint="I&apos;m looking for"
-            android:visibility="visible" />
+        <!--<EditText-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/searchText"-->
+            <!--android:hint="I&apos;m looking for"-->
+            <!--android:visibility="visible" />-->
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Go"
-            android:id="@+id/searchButton"
-            android:visibility="visible" />
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Go"-->
+            <!--android:id="@+id/searchButton"-->
+            <!--android:visibility="visible" />-->
 
         <ListView
             android:layout_width="match_parent"

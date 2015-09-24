@@ -1,6 +1,6 @@
 package com.zebenzi.zebenzi;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -35,6 +35,7 @@ public class SearchResultsFragment extends Fragment {
     public static final String apiURL = "http://www.zebenzi.com/oauth/token";
     public static final String user = "0846676467";
     public static final String password = "dolphin";
+    public static final String SEARCH_STRING = "Search";
     public static Context appContext;
 
     private String mSearchString;
@@ -59,10 +60,16 @@ public class SearchResultsFragment extends Fragment {
         // Create the adapter to convert the array to views
         searchResultsAdapter = new SearchResultsAdapter(MainActivity.getAppContext(), arrayOfUsers);
 
+
+
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
         // Attach the adapter to a ListView
         ListView listView = (ListView) rootView.findViewById(R.id.searchResultsList);
         listView.setAdapter(searchResultsAdapter);
+
+        if (getArguments() != null){
+        String searchString = getArguments().getString(SearchResultsFragment.SEARCH_STRING);
+        doSearch(searchString);}
 
         return rootView;
 
@@ -74,38 +81,13 @@ public class SearchResultsFragment extends Fragment {
     /**
      * Attempts to connect to zebenzi server and obtain search results
      */
-    public void doSearch() {
+    public void doSearch(String searchString) {
         if (mSearchTask != null) {
             return;
         }
 
-        // Reset errors.
-        mSearchView.setError(null);
-
-        // Store values at the time of the login attempt.
-        mSearchString = mSearchView.getText().toString();
-
-        boolean cancel = false;
-        View focusView = null;
-
-
-        // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(mSearchString)) {
-            mSearchView.setError(getString(R.string.empty_search_string));
-            focusView = mSearchView;
-            cancel = true;
-        }
-
-        if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
-        } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
 //            showProgress(true);
-            mSearchTask = new SearchTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(mSearchString);
-        }
+            mSearchTask = new SearchTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(searchString);
     }
 
     public class SearchTaskCompleteListener implements IAsyncTaskListener<JSONArray>{
@@ -194,6 +176,8 @@ public class SearchResultsFragment extends Fragment {
     public static Context getAppContext(){
         return appContext;
     }
+
+
 
 }
 
