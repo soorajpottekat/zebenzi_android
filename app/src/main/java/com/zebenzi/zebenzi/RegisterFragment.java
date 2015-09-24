@@ -3,23 +3,17 @@ package com.zebenzi.zebenzi;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Build.VERSION;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import com.zebenzi.network.IAsyncTaskListener;
@@ -33,7 +27,7 @@ import org.json.JSONObject;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterCustomerActivity extends ActionBarActivity {
+public class RegisterFragment extends Fragment {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -55,73 +49,26 @@ public class RegisterCustomerActivity extends ActionBarActivity {
     private View mProgressView;
     private View mRegisterCustomerFormView;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity_actions, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                Intent intent = new Intent(this, SearchResultsFragment.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_account:
-                return true;
-            case R.id.action_register:
-                return true;
-            case R.id.action_login:
-                intent = new Intent(this, LoginFragment.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_customer);
+
+        View rootView = inflater.inflate(R.layout.fragment_register, container, false);
 
 
-        mMobileNumberView = (EditText) findViewById(R.id.register_mobile);
-        mFirstnameView = (EditText) findViewById(R.id.register_firstname);
-        mLastnameView = (EditText) findViewById(R.id.register_lastname);
-        mEmailView = (EditText) findViewById(R.id.register_email);
-        mPasswordView = (EditText) findViewById(R.id.register_password);
-        mConfirmPasswordView = (EditText) findViewById(R.id.register_confirmPassword);
-        mAddressLine1View = (EditText) findViewById(R.id.register_address_line1);
-        mAddressLine2View = (EditText) findViewById(R.id.register_address_line2);
-        mSuburbView = (EditText) findViewById(R.id.register_suburb);
-        mSuburbCodeView = (EditText) findViewById(R.id.register_suburb_code);
+        mMobileNumberView = (EditText) rootView.findViewById(R.id.register_mobile);
+        mFirstnameView = (EditText) rootView.findViewById(R.id.register_firstname);
+        mLastnameView = (EditText) rootView.findViewById(R.id.register_lastname);
+        mEmailView = (EditText) rootView.findViewById(R.id.register_email);
+        mPasswordView = (EditText) rootView.findViewById(R.id.register_password);
+        mConfirmPasswordView = (EditText) rootView.findViewById(R.id.register_confirmPassword);
+        mAddressLine1View = (EditText) rootView.findViewById(R.id.register_address_line1);
+        mAddressLine2View = (EditText) rootView.findViewById(R.id.register_address_line2);
+        mSuburbView = (EditText) rootView.findViewById(R.id.register_suburb);
+        mSuburbCodeView = (EditText) rootView.findViewById(R.id.register_suburb_code);
 
-//        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-//                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-//                    attemptRegisterCustomer();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
-
-        Button mEmailSignInButton = (Button) findViewById(R.id.register_customer_button);
+        Button mEmailSignInButton = (Button) rootView.findViewById(R.id.register_customer_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,15 +76,10 @@ public class RegisterCustomerActivity extends ActionBarActivity {
             }
         });
 
+        mRegisterCustomerFormView = rootView.findViewById(R.id.register_customer_form);
+        mProgressView = rootView.findViewById(R.id.login_progress);
 
-        mRegisterCustomerFormView = findViewById(R.id.register_customer_form);
-        mProgressView = findViewById(R.id.login_progress);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle(R.string.app_name);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_menu_zebenzi);
+        return rootView;
     }
 
 
@@ -228,7 +170,7 @@ public class RegisterCustomerActivity extends ActionBarActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mRegistrationTask = new RegisterTask(this, new RegisterTaskCompleteListener()).execute(jsonCustomerParams);
+            mRegistrationTask = new RegisterTask(MainActivity.getAppContext(), new RegisterTaskCompleteListener()).execute(jsonCustomerParams);
         }
     }
 
@@ -292,9 +234,11 @@ public class RegisterCustomerActivity extends ActionBarActivity {
                 userName = jsonResult.get("fullName").toString();
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("Username", userName);
-                setResult(RESULT_OK, resultIntent);
-                // Eventually, we should save the token and display the logged-in user's name in the app.
-                finish();
+
+                //TODO: Implement communication from Fragment to activity.
+//                setResult(RESULT_OK, resultIntent);
+//                // Eventually, we should save the token and display the logged-in user's name in the app.
+//                finish();
             }
             catch (JSONException e)
             {

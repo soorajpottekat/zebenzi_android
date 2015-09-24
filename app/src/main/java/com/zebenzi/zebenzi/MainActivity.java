@@ -92,12 +92,10 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         FragmentTransaction transaction = fm.beginTransaction();
 
-        // Handle presses on the action bar items
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
         switch (item.getItemId()) {
             case R.id.action_search:
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
                 SearchResultsFragment searchFragment = new SearchResultsFragment();
                 transaction.replace(R.id.fragment_container, searchFragment);
                 transaction.addToBackStack(null);
@@ -106,12 +104,12 @@ public class MainActivity extends ActionBarActivity {
             case R.id.action_account:
                 return true;
             case R.id.action_register:
-                Intent intent = new Intent(this, RegisterCustomerActivity.class);
-                startActivityForResult(intent, REGISTER_REQUEST);
+                RegisterFragment registerFragment = new RegisterFragment();
+                transaction.replace(R.id.fragment_container, registerFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
                 return true;
             case R.id.action_login:
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
                 LoginFragment loginFragment = new LoginFragment();
                 transaction.replace(R.id.fragment_container, loginFragment);
                 transaction.addToBackStack(null);
