@@ -3,23 +3,18 @@ package com.zebenzi.zebenzi;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.SearchView;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +33,7 @@ import org.json.JSONObject;
 /**
  * A login screen that offers login via mobile number and password.
  */
-public class LoginActivity extends ActionBarActivity {
+public class LoginFragment extends Fragment {
 
     // Keep track of the async tasks to ensure we can cancel it if requested.
     private AsyncTask<String, String, String>  mLoginTask = null;
@@ -52,54 +47,17 @@ public class LoginActivity extends ActionBarActivity {
     private View mLoginFormView;
     private String oAuthToken;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity_actions, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle presses on the action bar items
-        switch (item.getItemId()) {
-            case R.id.action_search:
-                Intent intent = new Intent(this, SearchResultsFragment.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_account:
-                return true;
-            case R.id.action_register:
-                intent = new Intent(this, RegisterCustomerActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.action_login:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
+        View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
         // Set up the login form.
-        mMobileNumberView = (EditText) findViewById(R.id.mobile_number);
-        mPasswordView = (EditText) findViewById(R.id.password);
+        mMobileNumberView = (EditText) rootView.findViewById(R.id.mobile_number);
+        mPasswordView = (EditText) rootView.findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -111,9 +69,9 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
 
-        mLoginTokenView = (TextView) findViewById(R.id.login_token);
+        mLoginTokenView = (TextView) rootView.findViewById(R.id.login_token);
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.customer_sign_in_button);
+        Button mEmailSignInButton = (Button) rootView.findViewById(R.id.customer_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,16 +80,13 @@ public class LoginActivity extends ActionBarActivity {
         });
 
 
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        mLoginFormView = rootView.findViewById(R.id.login_form);
+        mProgressView = rootView.findViewById(R.id.login_progress);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
-        setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle(R.string.app_name);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_menu_zebenzi);
-
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.my_awesome_toolbar);
         login(Customer.getInstance().getToken());
+
+        return rootView;
     }
 
 
@@ -179,7 +134,7 @@ public class LoginActivity extends ActionBarActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mLoginTask = new LoginTask(this, new LoginTaskCompleteListener()).execute(mobileNumber, password);
+            mLoginTask = new LoginTask(MainActivity.getAppContext(), new LoginTaskCompleteListener()).execute(mobileNumber, password);
         }
     }
 
@@ -195,7 +150,7 @@ public class LoginActivity extends ActionBarActivity {
             //Get the User details and display
             if (mUserDetailsTask == null) {
                 showProgress(true);
-                mUserDetailsTask = new UserDetailsTask(this, new UserDetailsTaskCompleteListener()).execute(oAuthToken);
+                mUserDetailsTask = new UserDetailsTask(MainActivity.getAppContext(), new UserDetailsTaskCompleteListener()).execute(oAuthToken);
             }
         }
         else
@@ -307,9 +262,11 @@ public class LoginActivity extends ActionBarActivity {
                     Intent resultIntent = new Intent();
                     //TODO: Fix this once user data fields are fixed to be consistent in core.
                     resultIntent.putExtra("Username", UserName);
-                    setResult(RESULT_OK, resultIntent);
-                    // Eventually, we should save the token and display the logged-in user's name in the app.
-                    finish();
+
+                    //TODO: Fix return values for Fragment
+//                    setResult(RESULT_OK, resultIntent);
+//                    // Eventually, we should save the token and display the logged-in user's name in the app.
+//                    finish();
                 } else {
                     System.out.println("Error occurred with login: " + jsonResult.toString());
                     mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));

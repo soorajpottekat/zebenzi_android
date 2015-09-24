@@ -33,7 +33,7 @@
             android:label="@string/app_name" >
         </fragment>
         <activity
-            android:name=".LoginActivity"
+            android:name=".LoginFragment"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>

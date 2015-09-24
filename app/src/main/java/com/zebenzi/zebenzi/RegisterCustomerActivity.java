@@ -85,7 +85,7 @@ public class RegisterCustomerActivity extends ActionBarActivity {
             case R.id.action_register:
                 return true;
             case R.id.action_login:
-                intent = new Intent(this, LoginActivity.class);
+                intent = new Intent(this, LoginFragment.class);
                 startActivity(intent);
                 return true;
             default:

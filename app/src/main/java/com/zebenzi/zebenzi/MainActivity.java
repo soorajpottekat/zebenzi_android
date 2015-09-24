@@ -90,9 +90,18 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        FragmentTransaction transaction = fm.beginTransaction();
+
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_search:
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                SearchResultsFragment searchFragment = new SearchResultsFragment();
+                transaction.replace(R.id.fragment_container, searchFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
                 return true;
             case R.id.action_account:
                 return true;
@@ -101,36 +110,16 @@ public class MainActivity extends ActionBarActivity {
                 startActivityForResult(intent, REGISTER_REQUEST);
                 return true;
             case R.id.action_login:
-                intent = new Intent(this, LoginActivity.class);
-                startActivityForResult(intent, LOGIN_REQUEST);
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                LoginFragment loginFragment = new LoginFragment();
+                transaction.replace(R.id.fragment_container, loginFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        // Check which request we're responding to and perform necessary action
-        switch (requestCode) {
-            case LOGIN_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    String user=data.getStringExtra("Username");
-                    getSupportActionBar().setTitle(user);
-                }
-                break;
-            case REGISTER_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    String user=data.getStringExtra("Username");
-                    getSupportActionBar().setTitle(user);
-                }
-                break;
-            default:
-                break;
-        }
-
     }
 
     public static Context getAppContext(){
@@ -159,11 +148,12 @@ public class MainActivity extends ActionBarActivity {
 
     private void doSearch(String searchString) {
 
-        SearchResultsFragment searchFrag = (SearchResultsFragment)  fm.findFragmentById(R.id.fragment_container);
-
-        if (searchFrag != null) {
-            searchFrag.doSearch(searchString);
-        } else {
+        //Have to recreate the searchFrag, as we have only one fragment_container currently, and it could be any one of login, search or registration.
+//        SearchResultsFragment searchFrag = (SearchResultsFragment)  fm.findFragmentById(R.id.fragment_container);
+//        if (searchFrag != null) {
+//            searchFrag.doSearch(searchString);
+//        } else
+        {
             // Create fragment and give it an argument for the selected article
             SearchResultsFragment newFragment = new SearchResultsFragment();
             Bundle args = new Bundle();
