@@ -1,5 +1,6 @@
 package com.zebenzi.zebenzi;
 
+import android.media.Image;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +52,8 @@ public class SearchResultsFragment extends Fragment {
     private EditText mSearchView;
     private View mProgressView;
     private SearchResultsAdapter searchResultsAdapter = null;
+    private ListView listView;
+    private ImageView imageView;
 
 
     @Override
@@ -64,8 +68,10 @@ public class SearchResultsFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
         // Attach the adapter to a ListView
-        ListView listView = (ListView) rootView.findViewById(R.id.searchResultsList);
+        listView = (ListView) rootView.findViewById(R.id.searchResultsList);
         listView.setAdapter(searchResultsAdapter);
+        imageView = (ImageView) rootView.findViewById(R.id.imageView);
+        refreshScreen();
 
         if (getArguments() != null){
         String searchString = getArguments().getString(SearchResultsFragment.SEARCH_STRING);
@@ -103,11 +109,25 @@ public class SearchResultsFragment extends Fragment {
             } else {
                 mSearchView.requestFocus();
             }
+            refreshScreen();
         }
 
         @Override
         public void onAsyncTaskCancelled() {
             mSearchTask = null;
+        }
+    }
+
+    private void refreshScreen() {
+        if (searchResultsAdapter.isEmpty()){
+            listView.setVisibility(View.GONE);
+            imageView.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            imageView.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+            searchResultsAdapter.notifyDataSetChanged();
         }
     }
 
