@@ -73,12 +73,7 @@ public class SearchActivity extends ActionBarActivity {
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
-
-
         searchView.setIconifiedByDefault(false);
-
-
-
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -123,8 +118,7 @@ public class SearchActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setTitle(R.string.app_name);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_launcher_zebenzi);
-
+        getSupportActionBar().setIcon(R.drawable.ic_menu_zebenzi);
         appContext = getApplicationContext();
 
         handleIntent(getIntent());

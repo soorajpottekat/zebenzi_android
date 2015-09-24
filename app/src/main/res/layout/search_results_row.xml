@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
+    android:background="@color/material_light_green_100"
     android:layout_height="wrap_content">
 
 
@@ -16,7 +17,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Worker Name"
             android:id="@+id/workerName"
-            android:textColor="@color/material_blue_500" />
+            android:textColor="@color/material_light_green_700" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,10 +59,8 @@
         android:id="@+id/hireButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true"
-        android:background="@color/material_green_500"
         android:text="@string/hire_me"
-        android:layout_gravity="center_vertical" />
+        android:layout_gravity="center_vertical"
+        style="@style/materialButton" />
 
 </LinearLayout>

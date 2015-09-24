@@ -66,12 +66,17 @@
     <!-- Primary & accent colors -->
     <eat-comment />
 
+    <color name="material_amber_A700">#FFAB00</color>
+
+
     <color name="material_red_100">#fff4c7c3</color>
     <color name="material_red_300">#ffe67c73</color>
     <color name="material_red_500">#ffdb4437</color>
     <color name="material_red_700">#ffc53929</color>
     <color name="material_red_A200">#ffff5252</color>
     <color name="material_red_A400">#ffff1744</color>
+    <color name="material_red_A700">#D50000</color>
+
 
     <color name="material_blue_100">#ffc6dafc</color>
     <color name="material_blue_300">#ff7baaf7</color>
@@ -98,6 +103,13 @@
     <color name="material_green_700">#ff0b8043</color>
     <color name="material_green_A200">#ff69f0ae</color>
     <color name="material_green_A400">#ff00e676</color>
+
+    <color name="material_light_green_100">#DCEDC8</color>
+    <color name="material_light_green_300">#AED581</color>
+    <color name="material_light_green_500">#8BC34A</color>
+    <color name="material_light_green_700">#689F38</color>
+    <color name="material_light_green_A200">#B2FF59</color>
+    <color name="material_light_green_A400">#76FF03</color>
 
     <color name="material_lime_100">#fff0f4c3</color>
     <color name="material_lime_300">#ffdce775</color>

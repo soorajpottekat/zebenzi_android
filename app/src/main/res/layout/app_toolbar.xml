@@ -9,5 +9,6 @@
     app:theme="@style/ZebenziDefaultTheme"
     app:popupTheme="@style/popUpTheme"
     app:contentInsetEnd="0dp"
-    app:contentInsetStart="0dp">
+    app:contentInsetStart="0dp"
+    style="@style/MyActionBar">
     </android.support.v7.widget.Toolbar>

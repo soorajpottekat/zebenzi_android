@@ -23,6 +23,7 @@
 
     <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        android:background="@color/material_light_green_100"
         android:visibility="visible">
 
 
@@ -86,10 +87,10 @@
                 android:inputType="textPersonName" android:maxLines="1"
                 android:singleLine="true" />
 
-            <Button android:id="@+id/register_customer_button" style="?android:textAppearanceSmall"
-                android:layout_width="match_parent" android:layout_height="wrap_content"
+            <Button android:id="@+id/register_customer_button" style="@style/materialButton"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" android:text="@string/action_register_customer"
-                android:textStyle="bold" />
+                android:singleLine="true" />
 
 
 
