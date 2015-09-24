@@ -104,7 +104,7 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    loginWithUsernamePassword();
+                    login();
                     return true;
                 }
                 return false;
@@ -117,7 +117,7 @@ public class LoginActivity extends ActionBarActivity {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginWithUsernamePassword();
+                login();
             }
         });
 
@@ -131,7 +131,7 @@ public class LoginActivity extends ActionBarActivity {
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.ic_menu_zebenzi);
 
-        loginWithToken(Customer.getInstance().getToken());
+        login(Customer.getInstance().getToken());
     }
 
 
@@ -140,7 +140,7 @@ public class LoginActivity extends ActionBarActivity {
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    public void loginWithUsernamePassword() {
+    private void login() {
         if (mLoginTask != null) {
             return;
         }
@@ -186,7 +186,7 @@ public class LoginActivity extends ActionBarActivity {
     /**
      * Attempts to sign in using stored oAuth token
      */
-    public void loginWithToken(String token) {
+    private void login(String token) {
 
         if (token != null) {
             oAuthToken = token;
@@ -261,7 +261,7 @@ public class LoginActivity extends ActionBarActivity {
 
                 if (oAuthToken != null) {
                     mLoginTokenView.setText(oAuthToken);
-                    loginWithToken(oAuthToken);
+                    login(oAuthToken);
                 }
                 else {
                     System.out.println("Error occurred with login: " + jsonResult.toString());
