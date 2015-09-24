@@ -117,8 +117,6 @@ public class SearchResultsFragment extends Fragment {
             mHireWorkerTask = null;
 //            showProgress(false);
             System.out.println("Hire Response = " + hireResult);
-
-            Toast.makeText(appContext, "Worker Hired!!!", Toast.LENGTH_SHORT);
         }
 
         @Override
