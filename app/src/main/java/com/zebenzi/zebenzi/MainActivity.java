@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_activity_actions, menu);
+        inflater.inflate(R.menu.menu_options, menu);
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
@@ -98,6 +98,12 @@ public class MainActivity extends ActionBarActivity {
             case R.id.action_search:
                 SearchResultsFragment searchFragment = new SearchResultsFragment();
                 transaction.replace(R.id.fragment_container, searchFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                return true;
+            case R.id.action_history:
+                JobHistoryFragment historyFragment = new JobHistoryFragment();
+                transaction.replace(R.id.fragment_container, historyFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 return true;

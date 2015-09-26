@@ -16,8 +16,10 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.zebenzi.network.HttpPostRegisterTask;
 import com.zebenzi.network.IAsyncTaskListener;
-import com.zebenzi.network.RegisterTask;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -170,7 +172,7 @@ public class RegisterFragment extends Fragment {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mRegistrationTask = new RegisterTask(MainActivity.getAppContext(), new RegisterTaskCompleteListener()).execute(jsonCustomerParams);
+            mRegistrationTask = new HttpPostRegisterTask(MainActivity.getAppContext(), new RegisterTaskCompleteListener()).execute(jsonCustomerParams);
         }
     }
 

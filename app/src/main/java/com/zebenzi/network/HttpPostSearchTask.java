@@ -19,12 +19,12 @@ import java.net.URL;
 /**
  * Represents an asynchronous search request to zebenzi.com
  */
-public class SearchTask extends AsyncTask<String, String, JSONArray> {
+public class HttpPostSearchTask extends AsyncTask<String, String, JSONArray> {
 
     private IAsyncTaskListener<JSONArray> listener;
     private Context ctx;
 
-    public SearchTask(Context ctx, IAsyncTaskListener<JSONArray> listener) {
+    public HttpPostSearchTask(Context ctx, IAsyncTaskListener<JSONArray> listener) {
         this.ctx = ctx;
         this.listener = listener;
     }

@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 
 import com.zebenzi.zebenzi.R;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -26,51 +25,41 @@ import java.net.URL;
  * Represents an asynchronous login/registration task used to authenticate
  * the user.
  */
-public class HireWorkerTask extends AsyncTask<String, String, String> {
+public class HttpPostRegisterTask extends AsyncTask<JSONObject, String, String> {
 
     private Context ctx;
     private IAsyncTaskListener listener;
+    String customerRegistrationAPIUrl = "http://www.zebenzi.com/api/accounts/create";
 
-
-    public HireWorkerTask(Context ctx, IAsyncTaskListener<String> listener) {
+    public HttpPostRegisterTask(Context ctx, IAsyncTaskListener<String> listener) {
         this.ctx = ctx;
         this.listener = listener;
     }
 
     @Override
-    protected String doInBackground(String... params) {
+    protected String doInBackground(JSONObject... params) {
         OutputStream os = null;
         BufferedInputStream in = null;
         HttpURLConnection conn = null;
-        JSONObject jsonHireParams = new JSONObject();
         String resultToDisplay;
-        String token = params[0];
-        int serviceId = Integer.parseInt(params[1]);
-        String workerId = params[2];
+        JSONObject jsonResult;
+        JSONObject jsonCustomerParams = params[0];
 
         try {
-            jsonHireParams.put(ctx.getString(R.string.api_json_field_service_id), serviceId);
-            jsonHireParams.put(ctx.getString(R.string.api_json_field_worker_id), workerId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            URL url = new URL(ctx.getString(R.string.api_url_hire_worker));
+            URL url = new URL(customerRegistrationAPIUrl);
             conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000);
             conn.setConnectTimeout(15000);
-            conn.setRequestMethod(ctx.getString(R.string.api_rest_post));
+            conn.setRequestMethod("POST");
             conn.setDoOutput(true);
             conn.setUseCaches(false);
             conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Authorization", "bearer " + token);
             conn.connect();
 
             //Write params to output string
             os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
-            writer.write(jsonHireParams.toString());
+            writer.write(jsonCustomerParams.toString());
             writer.flush();
 
             //If successful connection, read input stream, else read error stream
@@ -84,8 +73,12 @@ public class HireWorkerTask extends AsyncTask<String, String, String> {
                     sb.append(line);
                 }
                 reader.close();
-                resultToDisplay = sb.toString();
+                String result = sb.toString();
 
+                jsonResult = new JSONObject(result);
+                System.out.println("Registration Result = " + jsonResult.toString());
+                System.out.println("Registration Result END ");
+                resultToDisplay=jsonResult.toString();
             } else {
 
                 in = new BufferedInputStream(conn.getErrorStream());
@@ -97,10 +90,13 @@ public class HireWorkerTask extends AsyncTask<String, String, String> {
                     sb.append(line);
                 }
                 reader.close();
-                resultToDisplay = sb.toString();
+                String result = sb.toString();
+                jsonResult = new JSONObject(result);
 
                 System.out.println("Error = "+conn.getResponseCode());
-                System.out.println("Error Stream = " + resultToDisplay);
+                System.out.println("Error Stream = " + jsonResult.toString());
+
+                resultToDisplay=jsonResult.toString();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

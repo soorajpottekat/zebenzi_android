@@ -28,7 +28,7 @@ import java.util.List;
  * Represents an asynchronous login/registration task used to authenticate
  * the user.
  */
-public class LoginTask extends AsyncTask<String, String, String> {
+public class HttpPostLoginTask extends AsyncTask<String, String, String> {
 
     private String mMobileNumber;
     private String mPassword;
@@ -36,7 +36,7 @@ public class LoginTask extends AsyncTask<String, String, String> {
     private Context ctx;
     private IAsyncTaskListener listener;
 
-    public LoginTask(Context ctx, IAsyncTaskListener<String> listener) {
+    public HttpPostLoginTask(Context ctx, IAsyncTaskListener<String> listener) {
         this.ctx = ctx;
         this.listener = listener;
     }

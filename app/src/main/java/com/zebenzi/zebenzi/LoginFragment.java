@@ -19,9 +19,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.zebenzi.network.HttpGetUserDetailsTask;
+import com.zebenzi.network.HttpPostLoginTask;
 import com.zebenzi.network.IAsyncTaskListener;
-import com.zebenzi.network.LoginTask;
-import com.zebenzi.network.UserDetailsTask;
 import com.zebenzi.users.Customer;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -134,7 +135,7 @@ public class LoginFragment extends Fragment {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mLoginTask = new LoginTask(MainActivity.getAppContext(), new LoginTaskCompleteListener()).execute(mobileNumber, password);
+            mLoginTask = new HttpPostLoginTask(MainActivity.getAppContext(), new LoginTaskCompleteListener()).execute(mobileNumber, password);
         }
     }
 
@@ -150,7 +151,7 @@ public class LoginFragment extends Fragment {
             //Get the User details and display
             if (mUserDetailsTask == null) {
                 showProgress(true);
-                mUserDetailsTask = new UserDetailsTask(MainActivity.getAppContext(), new UserDetailsTaskCompleteListener()).execute(oAuthToken);
+                mUserDetailsTask = new HttpGetUserDetailsTask(MainActivity.getAppContext(), new UserDetailsTaskCompleteListener()).execute(oAuthToken);
             }
         }
         else

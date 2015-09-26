@@ -18,7 +18,7 @@ import java.net.URL;
  * Represents an asynchronous login/registration task used to authenticate
  * the user.
  */
-public class UserDetailsTask extends AsyncTask<String, String, String> {
+public class HttpGetUserDetailsTask extends AsyncTask<String, String, String> {
 
     private String mToken;
     private String resultToDisplay = null;
@@ -27,7 +27,7 @@ public class UserDetailsTask extends AsyncTask<String, String, String> {
     String userDetailsURL = "http://www.zebenzi.com/api/accounts/user/current";
 
 
-    public UserDetailsTask(Context ctx, IAsyncTaskListener<String> listener) {
+    public HttpGetUserDetailsTask(Context ctx, IAsyncTaskListener<String> listener) {
         this.ctx = ctx;
         this.listener = listener;
     }

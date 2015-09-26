@@ -1,11 +1,9 @@
 package com.zebenzi.zebenzi;
 
-import android.media.Image;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,11 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.zebenzi.network.HttpPostHireWorkerTask;
+import com.zebenzi.network.HttpPostSearchTask;
 import com.zebenzi.network.IAsyncTaskListener;
-import com.zebenzi.network.SearchTask;
-import com.zebenzi.network.HireWorkerTask;
 import com.zebenzi.users.Customer;
 import com.zebenzi.users.Worker;
 import org.json.JSONArray;
@@ -94,7 +91,7 @@ public class SearchResultsFragment extends Fragment {
 
 //            showProgress(true);
         mSearchString = searchString;
-        mSearchTask = new SearchTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(mSearchString);
+        mSearchTask = new HttpPostSearchTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(mSearchString);
     }
 
     public class SearchTaskCompleteListener implements IAsyncTaskListener<JSONArray>{
@@ -158,7 +155,7 @@ public class SearchResultsFragment extends Fragment {
             Worker worker = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.search_results_row, parent, false);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_search_results, parent, false);
             }
             // Lookup view for data population
             TextView tvName = (TextView) convertView.findViewById(R.id.workerName);
@@ -189,7 +186,7 @@ public class SearchResultsFragment extends Fragment {
 
     public void hireWorker(String workerId, String serviceId) {
 
-        mHireWorkerTask = new HireWorkerTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), serviceId, workerId);
+        mHireWorkerTask = new HttpPostHireWorkerTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), serviceId, workerId);
     }
 
 
