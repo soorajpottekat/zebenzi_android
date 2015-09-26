@@ -89,7 +89,7 @@ public class Customer {
         // We need an Editor object to make preference changes.
         // All objects are from android.context.Context
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(ctx.getString(R.string.api_access_token), token);
+        editor.putString(ctx.getString(R.string.api_rest_access_token), token);
 
         // Commit the edits!
         editor.commit();
@@ -98,7 +98,7 @@ public class Customer {
     public static String getToken() {
         // We need an Editor object to make preference changes.
         // All objects are from android.context.Context
-        return settings.getString(ctx.getString(R.string.api_access_token), null);
+        return settings.getString(ctx.getString(R.string.api_rest_access_token), null);
 
     }
 }

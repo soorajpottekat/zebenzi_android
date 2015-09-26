@@ -93,7 +93,8 @@ public class SearchResultsFragment extends Fragment {
         }
 
 //            showProgress(true);
-            mSearchTask = new SearchTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(searchString);
+        mSearchString = searchString;
+        mSearchTask = new SearchTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(mSearchString);
     }
 
     public class SearchTaskCompleteListener implements IAsyncTaskListener<JSONArray>{
@@ -137,6 +138,7 @@ public class SearchResultsFragment extends Fragment {
             mHireWorkerTask = null;
 //            showProgress(false);
             System.out.println("Hire Response = " + hireResult);
+            //TODO: Clear search results and take the user to Job history screen.
         }
 
         @Override
@@ -164,10 +166,10 @@ public class SearchResultsFragment extends Fragment {
             TextView tvAddress = (TextView) convertView.findViewById(R.id.workerAddress);
             TextView tvID = (TextView) convertView.findViewById(R.id.workerID);
             // Populate the data into the template view using the data object
-            tvName.setText(worker.name);
-            tvContact.setText(worker.contact);
-            tvAddress.setText(worker.address);
-            tvID.setText(worker.id);
+            tvName.setText(worker.getName());
+            tvContact.setText(worker.getMobileNumber());
+            tvAddress.setText(worker.getAddress());
+            tvID.setText(worker.getId());
 
             Button hireButton = (Button)  convertView.findViewById(R.id.hireButton);
             hireButton.setTag(position);
@@ -175,8 +177,8 @@ public class SearchResultsFragment extends Fragment {
                 public void onClick(View arg0) {
                     int position=(Integer)arg0.getTag();
                     Worker worker = getItem(position);
-                    System.out.println("Trying to hire: " + worker.name + " ID=" + worker.id);
-                    hireWorker(worker.id);
+                    System.out.println("Trying to hire: " + worker.getName() + " ID=" + worker.getId());
+                    hireWorker(worker.getId(), worker.getServiceIdFromName(mSearchString));
                 }
                 });
 
@@ -185,9 +187,9 @@ public class SearchResultsFragment extends Fragment {
         }
     }
 
-    public void hireWorker(String id) {
+    public void hireWorker(String workerId, String serviceId) {
 
-        mHireWorkerTask = new HireWorkerTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), id);
+        mHireWorkerTask = new HireWorkerTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), serviceId, workerId);
     }
 
 

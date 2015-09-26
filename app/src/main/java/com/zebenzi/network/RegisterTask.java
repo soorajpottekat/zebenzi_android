@@ -43,7 +43,7 @@ public class RegisterTask extends AsyncTask<JSONObject, String, String> {
         HttpURLConnection conn = null;
         String resultToDisplay;
         JSONObject jsonResult;
-        JSONObject jsonCustomerParams = params[0];;
+        JSONObject jsonCustomerParams = params[0];
 
         try {
             URL url = new URL(customerRegistrationAPIUrl);

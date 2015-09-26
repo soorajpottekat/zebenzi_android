@@ -212,7 +212,7 @@ public class LoginFragment extends Fragment {
 
             try {
                 jsonResult = new JSONObject(result);
-                oAuthToken = (String) jsonResult.get(getString(R.string.api_access_token));
+                oAuthToken = (String) jsonResult.get(getString(R.string.api_rest_access_token));
 
                 if (oAuthToken != null) {
                     mLoginTokenView.setText(oAuthToken);

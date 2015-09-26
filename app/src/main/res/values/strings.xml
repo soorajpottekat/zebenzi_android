@@ -13,6 +13,8 @@
     <string name="empty_search_string">Please enter search text</string>
     <string name="hire_me">Hire Me</string>
     <string name="search_title">I\&apos;m looking for</string>
+    <string name="api_json_field_service_id">ServiceId</string>
+    <string name="api_json_field_worker_id">WorkerId</string>
 
 
 </resources>

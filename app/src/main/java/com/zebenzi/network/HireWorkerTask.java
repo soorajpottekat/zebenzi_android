@@ -9,8 +9,16 @@ import android.os.AsyncTask;
 
 import com.zebenzi.zebenzi.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -20,11 +28,8 @@ import java.net.URL;
  */
 public class HireWorkerTask extends AsyncTask<String, String, String> {
 
-    private String mToken;
-    private String resultToDisplay = null;
     private Context ctx;
     private IAsyncTaskListener listener;
-    String HireWorkerURL = "http://www.zebenzi.com/api/job/hire/";
 
 
     public HireWorkerTask(Context ctx, IAsyncTaskListener<String> listener) {
@@ -34,55 +39,87 @@ public class HireWorkerTask extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... params) {
-            mToken = params[0];
-        String mWorkerID = params[1];
+        OutputStream os = null;
+        BufferedInputStream in = null;
+        HttpURLConnection conn = null;
+        JSONObject jsonHireParams = new JSONObject();
+        String resultToDisplay;
+        String token = params[0];
+        int serviceId = Integer.parseInt(params[1]);
+        String workerId = params[2];
+
+        try {
+            jsonHireParams.put(ctx.getString(R.string.api_json_field_service_id), serviceId);
+            jsonHireParams.put(ctx.getString(R.string.api_json_field_worker_id), workerId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            URL url = new URL(ctx.getString(R.string.api_url_hire_worker));
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod(ctx.getString(R.string.api_rest_post));
+            conn.setDoOutput(true);
+            conn.setUseCaches(false);
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Authorization", "bearer " + token);
+            conn.connect();
+
+            //Write params to output string
+            os = conn.getOutputStream();
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
+            writer.write(jsonHireParams.toString());
+            writer.flush();
+
+            //If successful connection, read input stream, else read error stream
+            if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
+                in = new BufferedInputStream(conn.getInputStream());
+                StringBuilder sb = new StringBuilder();
+                String line = "";
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                reader.close();
+                resultToDisplay = sb.toString();
+
+            } else {
+
+                in = new BufferedInputStream(conn.getErrorStream());
+                StringBuilder sb = new StringBuilder();
+                String line = "";
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+                reader.close();
+                resultToDisplay = sb.toString();
+
+                System.out.println("Error = "+conn.getResponseCode());
+                System.out.println("Error Stream = " + resultToDisplay);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return e.getMessage();
+
+        } finally {
+
             try {
-                System.out.println("Worker ID=" + mWorkerID);
-                URL url = new URL(HireWorkerURL+mWorkerID);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod(ctx.getString(R.string.api_get));
-//                conn.setDoInput(true);
-//                conn.setDoOutput(true);
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("Authorization", "bearer " + mToken);
-
-
-                conn.connect();
-
-                if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
-                    //Read data from input stream
-                    StringBuilder sb = new StringBuilder();
-                    String line = "";
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    reader.close();
-
-                    resultToDisplay = sb.toString();
-                }
-                else
-                {
-
-                    StringBuilder sb = new StringBuilder();
-                    String line = "";
-
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-                    while ((line = reader.readLine()) != null) {
-                        sb.append(line);
-                    }
-                    reader.close();
-                    resultToDisplay = sb.toString();
-                }
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return null;
+                os.close();
+                in.close();
+                conn.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            return resultToDisplay;
+        }
+
+        //This will be either input stream or error stream
+        return resultToDisplay;
     }
 
 

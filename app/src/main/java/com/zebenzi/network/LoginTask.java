@@ -52,20 +52,20 @@ public class LoginTask extends AsyncTask<String, String, String> {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000);
             conn.setConnectTimeout(15000);
-            conn.setRequestMethod(ctx.getString(R.string.api_post));
+            conn.setRequestMethod(ctx.getString(R.string.api_rest_post));
             conn.setDoInput(true);
             conn.setDoOutput(true);
 
             List<NameValuePair> local_params = new ArrayList<NameValuePair>();
-            local_params.add(new BasicNameValuePair(ctx.getString(R.string.api_username), mMobileNumber));
-            local_params.add(new BasicNameValuePair(ctx.getString(R.string.api_password), mPassword));
-            local_params.add(new BasicNameValuePair(ctx.getString(R.string.api_grant_type), ctx.getString(R.string.api_password)));
+            local_params.add(new BasicNameValuePair(ctx.getString(R.string.api_json_field_username), mMobileNumber));
+            local_params.add(new BasicNameValuePair(ctx.getString(R.string.api_json_field_password), mPassword));
+            local_params.add(new BasicNameValuePair(ctx.getString(R.string.api_json_field_grant_type), ctx.getString(R.string.api_json_field_password)));
 
 
             //Send params via output stream
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(os, ctx.getString(R.string.api_utf8)));
+                    new OutputStreamWriter(os, ctx.getString(R.string.api_rest_utf8)));
             writer.write(getQuery(local_params));
             writer.flush();
             writer.close();
@@ -116,9 +116,9 @@ public class LoginTask extends AsyncTask<String, String, String> {
             else
                 result.append("&");
 
-            result.append(URLEncoder.encode(pair.getName(), ctx.getString(R.string.api_utf8)));
+            result.append(URLEncoder.encode(pair.getName(), ctx.getString(R.string.api_rest_utf8)));
             result.append("=");
-            result.append(URLEncoder.encode(pair.getValue(), ctx.getString(R.string.api_utf8)));
+            result.append(URLEncoder.encode(pair.getValue(), ctx.getString(R.string.api_rest_utf8)));
         }
 
         return result.toString();

@@ -9,20 +9,10 @@ import android.os.AsyncTask;
 
 import com.zebenzi.zebenzi.R;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents an asynchronous login/registration task used to authenticate
@@ -50,7 +40,7 @@ public class UserDetailsTask extends AsyncTask<String, String, String> {
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
-                conn.setRequestMethod(ctx.getString(R.string.api_get));
+                conn.setRequestMethod(ctx.getString(R.string.api_rest_get));
 //                conn.setDoInput(true);
 //                conn.setDoOutput(true);
                 conn.setRequestProperty("Content-Type", "application/json");
