@@ -24,7 +24,7 @@ public class Job {
     public static ArrayList<Job> fromJson(JSONArray jsonObjects) {
         ArrayList<Job> jobs = new ArrayList<Job>();
         //Display in reverse order.
-        //TODO: Should ordering be moved to server?
+        //TODO: Should ordering be moved to server? + Handle empty joblist
         for (int i = jsonObjects.length(); i > 0 ; i--) {
             try {
                 jobs.add(new Job(jsonObjects.getJSONObject(i)));

@@ -15,7 +15,8 @@ import org.json.JSONObject;
 public class Customer {
     public static final String PREFS_NAME = "ZebenziPrefsFile";
 
-    private static String name;
+    private static String name="name";
+    private static String email="email";
     private static String mobileNumber;
     private static String address;
     private static String id;
@@ -29,7 +30,8 @@ public class Customer {
             ctx = MainActivity.getAppContext();
             settings = ctx.getSharedPreferences(PREFS_NAME, 0);
 
-            name = "name";
+            name = settings.getString("customer_name","no name");
+            email = settings.getString("customer_email","no email");
             mobileNumber = "contactNumber";
             address = "address";
             id = "userId";
@@ -49,12 +51,20 @@ public class Customer {
     public static void setCustomerDetails(JSONObject customerDetails, String token) throws JSONException {
 
         name = customerDetails.getString("fullName");
+        email = customerDetails.getString("email");
         mobileNumber = customerDetails.getString("userName");
         address = customerDetails.getString("email");
         id = customerDetails.getString("id");
 
         //TODO: Save token here
         saveToken(token);
+
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("customer_name", name);
+        editor.putString("customer_email", email);
+
+        // Commit the edits!
+        editor.commit();
 
     }
 
@@ -72,16 +82,23 @@ public class Customer {
 //        return workers;
 //    }
 
-    public static String getCustomerName(){
+    public static String getCustomerName() {
         return name;
     }
-    public static String getCustomerMobileNumber(){
+
+    public static String getCustomerEmail() {
+        return email;
+    }
+
+    public static String getCustomerMobileNumber() {
         return mobileNumber;
     }
-    public static String getCustomerAddress(){
+
+    public static String getCustomerAddress() {
         return address;
     }
-    public static String getCustomerID(){
+
+    public static String getCustomerID() {
         return id;
     }
 

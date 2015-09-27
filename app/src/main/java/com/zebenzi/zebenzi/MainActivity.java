@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +23,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.zebenzi.users.Customer;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -35,7 +39,9 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
     public static Context appContext;
     private FragmentManager fm = getSupportFragmentManager();
     private String mSearchString;
-    private String[] mPlanetTitles = {"Search", "Account", "History", "Login", "Register"};
+
+    //TODO: Get this title text dynamically from the fragments
+    private String[] mNavigationOptions = {"Header", "Search", "Account", "History", "Login", "Register"};
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -100,6 +106,22 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
         getSupportActionBar().setIcon(R.drawable.ic_menu_zebenzi);
         appContext = getApplicationContext();
 
+        List<ListItem> drawerItems = new ArrayList<ListItem>();
+        drawerItems.add(new NavigationDrawerHeader(R.drawable.profile,
+                Customer.getInstance().getCustomerName(), Customer.getInstance().getCustomerEmail()));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_search, "Search"));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_account, "Account"));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, "Job History"));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_sign_in, "Login"));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_register, "Register"));
+
+//        NavigationDrawerItem[] drawerItem = new NavigationDrawerItem[5];
+//
+//        drawerItem[0] = new NavigationDrawerItem(R.drawable.ic_search, "Search");
+//        drawerItem[1] = new NavigationDrawerItem(R.drawable.ic_account, "Account");
+//        drawerItem[2] = new NavigationDrawerItem(R.drawable.ic_history, "History");
+//        drawerItem[3] = new NavigationDrawerItem(R.drawable.ic_sign_in, "Login");
+//        drawerItem[4] = new NavigationDrawerItem(R.drawable.ic_register, "Register");
 
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -107,8 +129,8 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
         // set a custom shadow that overlays the main content when the drawer opens
 //        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.list_row_navigation_drawer, mPlanetTitles));
+        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(this, drawerItems);
+        mDrawerList.setAdapter(adapter);
 
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -318,19 +340,19 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
 
         int id = R.id.action_search;
         switch (position) {
-            case 0:
+            case 1:
                 id = R.id.action_search;
                 break;
-            case 1:
+            case 2:
                 id = R.id.action_account;
                 break;
-            case 2:
+            case 3:
                 id = R.id.action_history;
                 break;
-            case 3:
+            case 4:
                 id = R.id.action_login;
                 break;
-            case 4:
+            case 5:
                 id = R.id.action_register;
                 break;
         }
@@ -339,13 +361,13 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
-        setTitle(mPlanetTitles[position]);
+        setTitle(mNavigationOptions[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     @Override
     public void setTitle(CharSequence title) {
-//        mTitle = title;
+        mTitle = title;
         getSupportActionBar().setTitle(mTitle);
     }
 
