@@ -35,6 +35,23 @@ public class Job {
         return jobs;
     }
 
+    public boolean isJobInProgress()
+    {
+        try {
+            String jobStatus = getJobStatus();
+
+            if ((jobStatus.equalsIgnoreCase("Accepted")) ||
+                    (jobStatus.equalsIgnoreCase("Pending Acceptence")) ||
+                    (jobStatus.equalsIgnoreCase("No reply from worker")) ||
+                    (jobStatus.equalsIgnoreCase("Waiting acceptence from other workers"))) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public String getWorkerName() {
         String workerName = "";
         try {

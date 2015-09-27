@@ -180,8 +180,17 @@ public class JobHistoryFragment extends Fragment {
                 e.printStackTrace();
             }
 
+
+            //Set up Hire button, but don't allow hiring if a job is in progress
+            //TODO: Rework this logic to actually check if a Worker is currently available or not, instead of checking job status
             Button hireButton = (Button)  convertView.findViewById(R.id.hireButton);
             hireButton.setTag(position);
+
+            if (job.isJobInProgress()) {
+                hireButton.setVisibility(View.GONE);
+            } else {
+                hireButton.setVisibility(View.VISIBLE);
+            }
             hireButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View arg0) {
                     int position=(Integer)arg0.getTag();
@@ -195,6 +204,7 @@ public class JobHistoryFragment extends Fragment {
                 }
                 });
 
+
             // Return the completed view to render on screen
             return convertView;
         }
@@ -204,14 +214,6 @@ public class JobHistoryFragment extends Fragment {
 
         mHireWorkerTask = new HttpPostHireWorkerTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), serviceId, workerId);
     }
-
-
-    public static Context getAppContext(){
-        return appContext;
-    }
-
-
-
 }
 
 
