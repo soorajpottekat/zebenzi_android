@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="com.zebenzi.zebenzi.Search">
+    <item android:id="@+id/toolbar_search"
+          android:title="@string/search_title"
+          android:hint="@string/search_title"
+          android:icon="@drawable/ic_search_black_24dp"
+          app:showAsAction="collapseActionView"
+          app:actionViewClass="android.support.v7.widget.SearchView" />
+</menu>

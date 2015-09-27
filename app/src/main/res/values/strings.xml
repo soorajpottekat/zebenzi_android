@@ -16,6 +16,8 @@
     <string name="api_json_field_service_id">ServiceId</string>
     <string name="api_json_field_worker_id">WorkerId</string>
     <string name="history">My Jobs</string>
+    <string name="drawer_open">Open Drawe</string>
+    <string name="drawer_close">Close Drawer</string>
 
 
 </resources>
