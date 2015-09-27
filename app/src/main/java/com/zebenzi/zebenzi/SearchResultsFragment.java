@@ -1,5 +1,6 @@
 package com.zebenzi.zebenzi;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -38,7 +39,7 @@ public class SearchResultsFragment extends Fragment {
     public static Context appContext;
 
     private String mSearchString;
-
+    private FragmentListener fragmentListener;
     /**
      * Keep track of the search task to ensure we can cancel it if requested.
      */
@@ -78,7 +79,19 @@ public class SearchResultsFragment extends Fragment {
 
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            fragmentListener = (FragmentListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement FragmentListener");
+        }
+    }
 
 
     /**
@@ -136,6 +149,9 @@ public class SearchResultsFragment extends Fragment {
 //            showProgress(false);
             System.out.println("Hire Response = " + hireResult);
             //TODO: Clear search results and take the user to Job history screen.
+            fragmentListener.changeFragment(R.id.action_history);
+
+
         }
 
         @Override
@@ -188,13 +204,6 @@ public class SearchResultsFragment extends Fragment {
 
         mHireWorkerTask = new HttpPostHireWorkerTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), serviceId, workerId);
     }
-
-
-    public static Context getAppContext(){
-        return appContext;
-    }
-
-
 
 }
 

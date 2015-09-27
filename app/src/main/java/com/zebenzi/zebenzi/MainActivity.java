@@ -19,7 +19,7 @@ import android.view.MenuItem;
 /**
  * A login screen that offers login via email/password.
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements FragmentListener{
 
     public static final int LOGIN_REQUEST = 1;
     public static final int REGISTER_REQUEST = 2;
@@ -171,6 +171,46 @@ public class MainActivity extends ActionBarActivity {
             transaction.replace(R.id.fragment_container, newFragment);
             transaction.addToBackStack(null);
             transaction.commit();
+        }
+    }
+
+    @Override
+    public void changeFragment(int fragmentId) {
+
+        FragmentTransaction transaction = fm.beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        switch (fragmentId) {
+            case R.id.action_search:
+                SearchResultsFragment searchFragment = new SearchResultsFragment();
+                transaction.replace(R.id.fragment_container, searchFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            case R.id.action_history:
+                JobHistoryFragment historyFragment = new JobHistoryFragment();
+                transaction.replace(R.id.fragment_container, historyFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            case R.id.action_account:
+                break;
+            case R.id.action_register:
+                RegisterFragment registerFragment = new RegisterFragment();
+                transaction.replace(R.id.fragment_container, registerFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            case R.id.action_login:
+                LoginFragment loginFragment = new LoginFragment();
+                transaction.replace(R.id.fragment_container, loginFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            default:
+                System.out.println("Fragment not found. Id = " + fragmentId);
+                break;
         }
     }
 }
