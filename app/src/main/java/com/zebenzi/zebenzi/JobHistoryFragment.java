@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.zebenzi.network.HttpGetJobHistoryTask;
@@ -160,6 +161,9 @@ public class JobHistoryFragment extends Fragment {
             TextView tvJobStartDate = (TextView) convertView.findViewById(R.id.jobStartDate);
             TextView tvJobCompletedDate = (TextView) convertView.findViewById(R.id.jobCompleteDate);
             TextView tvRating = (TextView) convertView.findViewById(R.id.jobRating);
+            TextView tvWorkerMobileNumber = (TextView) convertView.findViewById(R.id.jobWorkerMobileNumber);
+            TextView tvJobServiceName = (TextView) convertView.findViewById(R.id.jobServiceName);
+            RatingBar rbJobRatingBar = (RatingBar) convertView.findViewById(R.id.jobRatingBar);
             // Populate the data into the template view using the data object
 
             try {
@@ -169,6 +173,9 @@ public class JobHistoryFragment extends Fragment {
                 tvJobStartDate.setText(job.getJobStartDate());
                 tvJobCompletedDate.setText(job.getJobCompletedDate());
                 tvRating.setText(job.getJobRating());
+                tvWorkerMobileNumber.setText(job.getWorkerMobileNumber());
+                tvJobServiceName.setText(job.getJobServiceName());
+                rbJobRatingBar.setRating(Float.valueOf(job.getJobRating()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

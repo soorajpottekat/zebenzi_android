@@ -9,14 +9,28 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Job Service Name"
+            android:id="@+id/jobServiceName"
+            android:textColor="@color/material_light_green_700" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Worker Name"
             android:id="@+id/jobWorkerName"
-            android:textColor="@color/material_light_green_700" />
+            android:textColor="@color/material_grey_700" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Worker Mobile Number"
+            android:id="@+id/jobWorkerMobileNumber"
+            android:textColor="@color/material_grey_700" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -64,6 +78,12 @@
             android:text="Job Rating"
             android:id="@+id/jobRating"
             android:textColor="@color/material_grey_700" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="true"
+            android:id="@+id/jobRatingBar"/>
 
     </LinearLayout>
 

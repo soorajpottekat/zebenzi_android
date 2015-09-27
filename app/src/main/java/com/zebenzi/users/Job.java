@@ -23,7 +23,9 @@ public class Job {
     // User.fromJson(jsonArray);
     public static ArrayList<Job> fromJson(JSONArray jsonObjects) {
         ArrayList<Job> jobs = new ArrayList<Job>();
-        for (int i = 0; i < jsonObjects.length(); i++) {
+        //Display in reverse order.
+        //TODO: Should ordering be moved to server?
+        for (int i = jsonObjects.length(); i > 0 ; i--) {
             try {
                 jobs.add(new Job(jsonObjects.getJSONObject(i)));
             } catch (JSONException e) {
@@ -36,11 +38,20 @@ public class Job {
     public String getWorkerName() {
         String workerName = "";
         try {
-            workerName = job.getJSONObject("worker").getString("userName");
+            workerName = job.getJSONObject("worker").getString("fullName");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return workerName;
+    }
+    public String getWorkerMobileNumber() {
+        String mobileNumber = "";
+        try {
+            mobileNumber = job.getJSONObject("worker").getString("userName");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return mobileNumber;
     }
 
     public String getJobId() throws JSONException {
