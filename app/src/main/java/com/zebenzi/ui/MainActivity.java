@@ -1,7 +1,7 @@
 package com.zebenzi.ui;
 
 import android.content.res.Configuration;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
@@ -22,6 +22,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.zebenzi.ui.drawer.ListItem;
+import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
+import com.zebenzi.ui.drawer.NavigationDrawerHeader;
+import com.zebenzi.ui.drawer.NavigationDrawerItem;
 import com.zebenzi.users.Customer;
 
 import java.util.ArrayList;
@@ -102,7 +106,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
         setSupportActionBar(toolbar);
 //        getSupportActionBar().setTitle(R.string.app_name);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.ic_menu_zebenzi);
+//        getSupportActionBar().setIcon(R.drawable.ic_menu_zebenzi);
         appContext = getApplicationContext();
 
         List<ListItem> drawerItems = new ArrayList<ListItem>();
@@ -142,7 +146,6 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                R.drawable.ic_drawer,  /* nav drawer image to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description for accessibility */
                 R.string.drawer_close  /* "close drawer" description for accessibility */
         ) {
