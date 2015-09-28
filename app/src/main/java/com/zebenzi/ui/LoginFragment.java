@@ -3,6 +3,7 @@ package com.zebenzi.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -48,7 +49,7 @@ public class LoginFragment extends Fragment {
     private View mProgressView;
     private View mLoginFormView;
     private String oAuthToken;
-
+    private FragmentListener fragmentListener;
 
 
     @Override
@@ -81,6 +82,13 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        TextView mForgotPasswordText = (TextView) rootView.findViewById(R.id.forgot_password);
+        mForgotPasswordText.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forgotPassword();
+            }
+        });
 
         mLoginFormView = rootView.findViewById(R.id.login_form);
         mProgressView = rootView.findViewById(R.id.login_progress);
@@ -89,6 +97,24 @@ public class LoginFragment extends Fragment {
         login(Customer.getInstance().getToken());
 
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            fragmentListener = (FragmentListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement FragmentListener");
+        }
+    }
+
+    private void forgotPassword() {
+        Toast.makeText(MainActivity.getAppContext(), "We will sms you a new password", Toast.LENGTH_LONG).show();
     }
 
 
@@ -264,12 +290,7 @@ public class LoginFragment extends Fragment {
                         mLoginTokenView.setText(UserName);
                         Intent resultIntent = new Intent();
                         //TODO: Fix this once user data fields are fixed to be consistent in core.
-                        resultIntent.putExtra("Username", UserName);
-
-                        //TODO: Fix return values for Fragment
-//                    setResult(RESULT_OK, resultIntent);
-//                    // Eventually, we should save the token and display the logged-in user's name in the app.
-//                    finish();
+                        fragmentListener.changeFragment(R.id.action_search);
                     } else {
                         System.out.println("Error occurred with login: " + jsonResult.toString());
                         mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));

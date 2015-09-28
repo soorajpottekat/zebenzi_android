@@ -50,8 +50,8 @@ public class HttpPostLoginTask extends AsyncTask<String, String, String> {
 
             URL url = new URL(ctx.getString(R.string.api_url_login_token));
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(15000);
+            conn.setReadTimeout(1000);
+            conn.setConnectTimeout(1000);
             conn.setRequestMethod(ctx.getString(R.string.api_rest_post));
             conn.setDoInput(true);
             conn.setDoOutput(true);

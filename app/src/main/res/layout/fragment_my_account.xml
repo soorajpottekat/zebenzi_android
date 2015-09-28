@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@color/material_light_green_100"
+    tools:context=".LoginActivity">
+
+    <!--<ImageView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/imageView"-->
+        <!--android:layout_gravity="center_horizontal|top"-->
+        <!--android:layout_weight="1"-->
+        <!--android:src="@drawable/zebenzi_banner" />-->
+
+
+    <ScrollView android:id="@+id/my_account_form" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2"
+                android:src="@drawable/orange_circle"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:text="Name"
+                android:id="@+id/account_name" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:text="Mobile Number"
+                android:id="@+id/account_mobile_number" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:text="Address"
+                android:id="@+id/account_address" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:text="Jobs Done"
+                android:id="@+id/account_jobs_done" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:text="Jobs in Progress"
+                android:id="@+id/account_jobs_in_progress" />
+
+            <Button android:id="@+id/change_password_button" style="@style/materialButton"
+                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" android:text="My Jobs"
+                android:background="@color/material_amber_A700" />
+            <Button android:id="@+id/job_history_button" style="@style/materialButton"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" android:text="Change Password"
+                    android:background="@color/material_amber_A700" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
+
+
+

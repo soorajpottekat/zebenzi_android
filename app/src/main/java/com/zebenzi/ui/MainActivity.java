@@ -43,15 +43,14 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
     private FragmentManager fm = getSupportFragmentManager();
     private String mSearchString;
 
-    //TODO: Get this title text dynamically from the fragments
-    private String[] mNavigationOptions = {"Header", "Search", "Account", "History", "Login", "Register"};
-
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
 
     private CharSequence mDrawerTitle = "drawer title";
     private CharSequence mTitle = "drawer title";
+
+    private Menu mMenuOptions;
 
     /**
      * Keep track of the search task to ensure we can cancel it if requested.
@@ -62,6 +61,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_options, menu);
+        mMenuOptions = menu;
 
         // Associate searchable configuration with the SearchView and Toolbar
 
@@ -178,67 +178,14 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         // The action bar home/up action should open or close the drawer.
         // ActionBarDrawerToggle will take care of this.
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
 
-
-        FragmentTransaction transaction = fm.beginTransaction();
-
-
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        switch (item.getItemId()) {
-            case R.id.action_websearch:
-                // create intent to perform web search for this planet
-//                Intent intent = new Intent(Intent.ACTION_WEB_SEARCH);
-//                intent.putExtra(SearchManager.QUERY, getActionBar().getTitle());
-//                // catch event that there's no activity to handle intent
-//                if (intent.resolveActivity(getPackageManager()) != null) {
-//                    startActivity(intent);
-//                } else {
-                    Toast.makeText(this, "TESTING!", Toast.LENGTH_LONG).show();
-//                }
-                return true;
-            case R.id.action_search:
-                SearchResultsFragment searchFragment = new SearchResultsFragment();
-                transaction.replace(R.id.fragment_container, searchFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                getSupportActionBar().setTitle(R.string.search_title);
-                return true;
-            case R.id.action_history:
-                JobHistoryFragment historyFragment = new JobHistoryFragment();
-                transaction.replace(R.id.fragment_container, historyFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                getSupportActionBar().setTitle(R.string.history);
-                return true;
-            case R.id.action_account:
-                return true;
-            case R.id.action_register:
-                RegisterFragment registerFragment = new RegisterFragment();
-                transaction.replace(R.id.fragment_container, registerFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                getSupportActionBar().setTitle(R.string.register);
-
-                return true;
-            case R.id.action_login:
-                LoginFragment loginFragment = new LoginFragment();
-                transaction.replace(R.id.fragment_container, loginFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
-                getSupportActionBar().setTitle(R.string.login);
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        changeFragment(item.getItemId());
+        return true;
     }
 
     public static Context getAppContext(){
@@ -251,16 +198,11 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
     }
 
     private void handleIntent(Intent intent) {
-
         //launch search fragment and pass search string
-
-
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             System.out.println("Search Query = " + query);
-
             doSearch(query);
-
         }
     }
 
@@ -310,6 +252,10 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
                 transaction.commit();
                 break;
             case R.id.action_account:
+                AccountFragment accountFragment = new AccountFragment();
+                transaction.replace(R.id.fragment_container, accountFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
                 break;
             case R.id.action_register:
                 RegisterFragment registerFragment = new RegisterFragment();
@@ -326,6 +272,12 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
             default:
                 System.out.println("Fragment not found. Id = " + fragmentId);
                 break;
+        }
+
+        //Update the title in the actionbar
+        if (mMenuOptions != null) {
+            MenuItem mi = mMenuOptions.findItem(fragmentId);
+            getSupportActionBar().setTitle(mi.getTitle());
         }
     }
 
@@ -363,7 +315,6 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
-        setTitle(mNavigationOptions[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
@@ -382,14 +333,18 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
+        if (mDrawerToggle != null) {
+            mDrawerToggle.syncState();
+        }
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        if (mDrawerToggle != null) {
+            mDrawerToggle.onConfigurationChanged(newConfig);
+        }
     }
 }
 

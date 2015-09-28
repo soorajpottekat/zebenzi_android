@@ -32,9 +32,9 @@ public class Customer {
 
             name = settings.getString("customer_name","no name");
             email = settings.getString("customer_email","no email");
-            mobileNumber = "contactNumber";
-            address = "address";
-            id = "userId";
+            mobileNumber =  settings.getString("customer_mobile_number","no mobile");
+            address =  settings.getString("customer_address","no address");
+            id = settings.getString("customer_id","no id");
 
     }
 
@@ -62,6 +62,9 @@ public class Customer {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("customer_name", name);
         editor.putString("customer_email", email);
+        editor.putString("customer_address", address);
+        editor.putString("customer_mobile_number", mobileNumber);
+        editor.putString("customer_id", id);
 
         // Commit the edits!
         editor.commit();

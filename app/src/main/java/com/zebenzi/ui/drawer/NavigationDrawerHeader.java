@@ -4,10 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.zebenzi.ui.R;
-import com.zebenzi.ui.drawer.ListItem;
-import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.users.Customer;
 
 /**
