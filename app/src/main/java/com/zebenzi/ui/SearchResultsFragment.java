@@ -1,4 +1,4 @@
-package com.zebenzi.zebenzi;
+package com.zebenzi.ui;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;

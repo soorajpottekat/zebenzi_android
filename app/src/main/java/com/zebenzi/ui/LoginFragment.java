@@ -1,4 +1,4 @@
-package com.zebenzi.zebenzi;
+package com.zebenzi.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

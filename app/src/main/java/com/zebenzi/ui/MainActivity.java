@@ -1,4 +1,4 @@
-package com.zebenzi.zebenzi;
+package com.zebenzi.ui;
 
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -19,7 +19,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 

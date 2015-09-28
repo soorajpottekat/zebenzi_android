@@ -1,4 +1,4 @@
-package com.zebenzi.zebenzi;
+package com.zebenzi.ui;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;

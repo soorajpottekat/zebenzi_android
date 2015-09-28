@@ -7,8 +7,6 @@ package com.zebenzi.network;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.zebenzi.zebenzi.R;
-
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;

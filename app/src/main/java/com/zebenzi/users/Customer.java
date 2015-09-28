@@ -3,8 +3,8 @@ package com.zebenzi.users;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.zebenzi.zebenzi.MainActivity;
-import com.zebenzi.zebenzi.R;
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

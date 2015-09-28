@@ -7,7 +7,7 @@ package com.zebenzi.network;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.zebenzi.zebenzi.R;
+import com.zebenzi.ui.R;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
