@@ -19,6 +19,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zebenzi.network.HttpGetUserDetailsTask;
 import com.zebenzi.network.HttpPostLoginTask;
@@ -253,29 +254,35 @@ public class LoginFragment extends Fragment {
 
             showProgress(false);
 
-            try {
-                jsonResult = new JSONObject(result);
-                UserName = jsonResult.get("fullName").toString();
-                Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
+            if (result != null) {
+                try {
+                    jsonResult = new JSONObject(result);
+                    UserName = jsonResult.get("fullName").toString();
+                    Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
 
-                if (UserName != null) {
-                    mLoginTokenView.setText(UserName);
-                    Intent resultIntent = new Intent();
-                    //TODO: Fix this once user data fields are fixed to be consistent in core.
-                    resultIntent.putExtra("Username", UserName);
+                    if (UserName != null) {
+                        mLoginTokenView.setText(UserName);
+                        Intent resultIntent = new Intent();
+                        //TODO: Fix this once user data fields are fixed to be consistent in core.
+                        resultIntent.putExtra("Username", UserName);
 
-                    //TODO: Fix return values for Fragment
+                        //TODO: Fix return values for Fragment
 //                    setResult(RESULT_OK, resultIntent);
 //                    // Eventually, we should save the token and display the logged-in user's name in the app.
 //                    finish();
-                } else {
-                    System.out.println("Error occurred with login: " + jsonResult.toString());
-                    mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
-                    mMobileNumberView.requestFocus();
-                }
+                    } else {
+                        System.out.println("Error occurred with login: " + jsonResult.toString());
+                        mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
+                        mMobileNumberView.requestFocus();
+                    }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }else
+            {
+
+                Toast.makeText(MainActivity.getAppContext(), "Check your network connection", Toast.LENGTH_LONG).show();
             }
         }
 
