@@ -1,4 +1,4 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.drawer;
 
 import android.view.LayoutInflater;
 import android.view.View;

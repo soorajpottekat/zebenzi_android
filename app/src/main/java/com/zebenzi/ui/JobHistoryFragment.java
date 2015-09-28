@@ -19,7 +19,7 @@ import com.zebenzi.network.HttpGetJobHistoryTask;
 import com.zebenzi.network.HttpPostHireWorkerTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
-import com.zebenzi.users.Job;
+import com.zebenzi.job.Job;
 
 import org.json.JSONArray;
 import org.json.JSONException;

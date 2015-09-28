@@ -1,4 +1,4 @@
-package com.zebenzi.users;
+package com.zebenzi.job;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,9 +23,8 @@ public class Job {
     // User.fromJson(jsonArray);
     public static ArrayList<Job> fromJson(JSONArray jsonObjects) {
         ArrayList<Job> jobs = new ArrayList<Job>();
-        //Display in reverse order.
-        //TODO: Should ordering be moved to server? + Handle empty joblist
-        for (int i = jsonObjects.length(); i > 0 ; i--) {
+
+        for (int i = 0; i < jsonObjects.length() ; i++) {
             try {
                 jobs.add(new Job(jsonObjects.getJSONObject(i)));
             } catch (JSONException e) {
