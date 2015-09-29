@@ -45,7 +45,7 @@ public class AccountFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_my_account, container, false);
 
-        ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView);
+//        ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView);
         TextView tvName = (TextView) rootView.findViewById(R.id.account_name);
         TextView tvMobileNumber = (TextView) rootView.findViewById(R.id.account_mobile_number);
         TextView tvAddress = (TextView) rootView.findViewById(R.id.account_address);

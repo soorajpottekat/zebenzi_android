@@ -51,7 +51,6 @@ public class SearchResultsFragment extends Fragment {
     private View mProgressView;
     private SearchResultsAdapter searchResultsAdapter = null;
     private ListView listView;
-    private ImageView imageView;
 
 
     @Override
@@ -68,7 +67,6 @@ public class SearchResultsFragment extends Fragment {
         // Attach the adapter to a ListView
         listView = (ListView) rootView.findViewById(R.id.searchResultsList);
         listView.setAdapter(searchResultsAdapter);
-        imageView = (ImageView) rootView.findViewById(R.id.imageView);
         refreshScreen();
 
         if (getArguments() != null){
@@ -132,11 +130,9 @@ public class SearchResultsFragment extends Fragment {
     private void refreshScreen() {
         if (searchResultsAdapter.isEmpty()){
             listView.setVisibility(View.GONE);
-            imageView.setVisibility(View.VISIBLE);
         }
         else
         {
-            imageView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
             searchResultsAdapter.notifyDataSetChanged();
         }

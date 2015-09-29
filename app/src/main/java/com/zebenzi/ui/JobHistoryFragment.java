@@ -61,7 +61,7 @@ public class JobHistoryFragment extends Fragment {
         // Attach the adapter to a ListView
         listView = (ListView) rootView.findViewById(R.id.jobHistoryList);
         listView.setAdapter(jobHistoryResultsAdapter);
-        imageView = (ImageView) rootView.findViewById(R.id.imageView);
+//        imageView = (ImageView) rootView.findViewById(R.id.imageView);
         refreshScreen();
 
         if (Customer.getInstance().getToken() != null) {

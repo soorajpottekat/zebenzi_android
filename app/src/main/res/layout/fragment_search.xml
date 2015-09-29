@@ -25,12 +25,6 @@
             <!--android:visibility="visible" />-->
 
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/imageView"
-            android:src="@drawable/handyman2" />
-
         <ListView
             android:layout_width="match_parent"
             android:layout_height="424dp"
