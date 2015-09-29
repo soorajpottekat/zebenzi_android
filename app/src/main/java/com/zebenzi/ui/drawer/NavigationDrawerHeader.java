@@ -10,16 +10,13 @@ import com.zebenzi.users.Customer;
 /**
  * Created by Vaugan.Nayagar on 2015/09/27.
  */
-public class NavigationDrawerHeader implements ListItem {
-    public int icon;
-    public String name;
+public class NavigationDrawerHeader extends ListItem {
+
     public String email;
 
     // Constructor.
     public NavigationDrawerHeader(int icon, String name, String email) {
-
-        this.icon = icon;
-        this.name = name;
+        super(name, icon);
         this.email = email;
     }
 
@@ -45,7 +42,7 @@ public class NavigationDrawerHeader implements ListItem {
         //TODO: Get customer profile pic
         imageViewIcon.setImageResource(icon);
         textViewName.setText(Customer.getInstance().getCustomerName());
-        textViewEmail.setText(Customer.getInstance().getCustomerEmail());
+        textViewEmail.setText(Customer.getInstance().getCustomerMobileNumber());
 
         return view;
     }

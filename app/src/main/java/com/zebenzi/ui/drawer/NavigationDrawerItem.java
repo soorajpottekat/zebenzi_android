@@ -9,15 +9,11 @@ import com.zebenzi.ui.R;
 /**
  * Created by Vaugan.Nayagar on 2015/09/27.
  */
-public class NavigationDrawerItem implements ListItem {
-    public int icon;
-    public String name;
+public class NavigationDrawerItem extends ListItem {
 
     // Constructor.
     public NavigationDrawerItem(int icon, String name) {
-
-        this.icon = icon;
-        this.name = name;
+        super(name, icon);
     }
 
     @Override
