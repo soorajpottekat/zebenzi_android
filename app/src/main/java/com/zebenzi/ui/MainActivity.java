@@ -101,6 +101,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
         List<ListItem> drawerItems = new ArrayList<ListItem>();
         drawerItems.add(new NavigationDrawerHeader(R.drawable.profile,
                 Customer.getInstance().getCustomerName(), Customer.getInstance().getCustomerEmail()));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_search, getString(R.string.new_job)));
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_search, getString(R.string.search)));
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_account, getString(R.string.account)));
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.history)));
@@ -215,6 +216,12 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
         switch (fragmentId) {
+            case R.id.action_new_job:
+                NewJobFragment newJobFragment = new NewJobFragment();
+                transaction.replace(R.id.fragment_container, newJobFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
             case R.id.action_search:
                 SearchResultsFragment searchFragment = new SearchResultsFragment();
                 transaction.replace(R.id.fragment_container, searchFragment);
@@ -255,6 +262,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
             MenuItem mi = mMenuOptions.findItem(fragmentId);
             mActionBarTitle = mi.getTitle();
         }
+
     }
 
     /* The click listner for ListView in the navigation drawer */
@@ -273,18 +281,21 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
         int id = R.id.action_search;
         switch (position) {
             case 1:
-                id = R.id.action_search;
+                id = R.id.action_new_job;
                 break;
             case 2:
-                id = R.id.action_account;
+                id = R.id.action_search;
                 break;
             case 3:
-                id = R.id.action_history;
+                id = R.id.action_account;
                 break;
             case 4:
-                id = R.id.action_login;
+                id = R.id.action_history;
                 break;
             case 5:
+                id = R.id.action_login;
+                break;
+            case 6:
                 id = R.id.action_register;
                 break;
         }

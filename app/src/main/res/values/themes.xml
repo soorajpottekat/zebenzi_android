@@ -79,4 +79,15 @@
         <item name="spinBars">true</item>
         <item name="color">@color/material_grey_700</item>
     </style>
+
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/material_red_A700</item>
+
+    </style>
+
+    <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/material_blue_700</item>
+
+    </style>
+
 </resources>

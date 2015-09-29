@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/material_grey_100"
+    tools:context="com.zebenzi.ui.Search"
+    android:clickable="true">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <!--<EditText-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/searchText"-->
+            <!--android:hint="I&apos;m looking for"-->
+            <!--android:visibility="visible" />-->
+
+        <!--<Button-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Go"-->
+            <!--android:id="@+id/searchButton"-->
+            <!--android:visibility="visible" />-->
+
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/new_job_service_name"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/new_job_units"
+            android:hint="Job units"
+            android:visibility="visible"/>
+        <Button
+            android:id="@+id/new_job_get_quote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get Quote"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
