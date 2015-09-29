@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:gravity="center_horizontal"
+    android:background="@color/material_grey_100"
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
@@ -22,7 +23,7 @@
 
     <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:background="@color/material_light_green_100"
+        android:background="@color/material_grey_100"
         android:visibility="visible">
 
 

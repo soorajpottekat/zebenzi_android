@@ -1,9 +1,9 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/material_amber_A700">
+    android:color="@color/zebenzi_accent_color">
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android">
             <corners android:radius="2dp" />
-            <solid android:color="@color/material_amber_A700" />
+            <solid android:color="@color/zebenzi_accent_color" />
         </shape>
     </item>
 </ripple>
