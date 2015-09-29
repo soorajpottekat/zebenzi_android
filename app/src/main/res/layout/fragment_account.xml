@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:gravity="center_horizontal"
+    android:background="@color/material_grey_100"
     android:orientation="vertical"
-    android:background="@color/material_light_green_100"
     tools:context=".LoginActivity">
 
     <!--<ImageView-->
@@ -12,36 +12,47 @@
         <!--android:layout_gravity="center_horizontal|top"-->
         <!--android:layout_weight="1"-->
         <!--android:src="@drawable/zebenzi_banner" />-->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/nav_drawer_background"
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/imageView2"
+            android:src="@drawable/orange_circle"/>
 
-    <ScrollView android:id="@+id/my_account_form" android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#ffffff"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:text="Name"
+            android:id="@+id/account_name" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="#ffffff"
+            android:text="Mobile Number"
+            android:id="@+id/account_mobile_number" />
+
+    </LinearLayout>
 
         <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView2"
-                android:src="@drawable/orange_circle"/>
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginTop="10dp"
-                android:clickable="true"
-                android:text="Name"
-                android:id="@+id/account_name" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:text="Mobile Number"
-                android:id="@+id/account_mobile_number" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_marginTop="20dp"
                 android:text="Address"
                 android:id="@+id/account_address" />
             <TextView
@@ -59,15 +70,15 @@
             <Button android:id="@+id/change_password_button" style="@style/materialButton"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" android:text="My Jobs"
-                android:background="@color/material_amber_A700" />
+                android:background="@color/zebenzi_accent_color" />
             <Button android:id="@+id/job_history_button" style="@style/materialButton"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginTop="16dp" android:text="Change Password"
-                    android:background="@color/material_amber_A700" />
+                    android:background="@color/zebenzi_accent_color" />
 
 
         </LinearLayout>
-    </ScrollView>
+
 
 
 </LinearLayout>
