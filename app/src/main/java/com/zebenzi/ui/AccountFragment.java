@@ -1,35 +1,13 @@
 package com.zebenzi.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.zebenzi.network.HttpGetUserDetailsTask;
-import com.zebenzi.network.HttpPostLoginTask;
-import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 
 //TODO: Revisit how the token is saved and managed via variables
@@ -43,7 +21,7 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View rootView = inflater.inflate(R.layout.fragment_my_account, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_account, container, false);
 
 //        ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView);
         TextView tvName = (TextView) rootView.findViewById(R.id.account_name);
