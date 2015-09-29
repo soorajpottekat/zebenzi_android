@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 /**
  * Created by vaugan.nayagar on 2015/09/06.
+ *
+ * A Job is an actual job that a customer requests to be done. It
  */
 public class Job {
     private JSONObject job;
@@ -101,7 +103,8 @@ public class Job {
             jobServiceName = job.getJSONObject("jobService").getString("serviceName");
         }
         catch (JSONException e) {
-            e.printStackTrace();
+//            Don't print anything if service name is null
+//            e.printStackTrace();
         }
         return jobServiceName;
     }
