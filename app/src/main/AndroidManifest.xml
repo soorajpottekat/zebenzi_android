@@ -8,7 +8,13 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
+    <receiver android:name=".listener.SmsListener">
+        <intent-filter>
+            <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+        </intent-filter>
+    </receiver>
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher_zebenzi"
@@ -28,21 +34,20 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
-        <fragment
-            android:name=".SearchResultsFragment"
-            android:label="@string/app_name" >
-        </fragment>
-        <activity
-            android:name="com.zebenzi.ui.LoginFragment"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
-        </activity>
-        <activity
-            android:name="com.zebenzi.ui.RegisterFragment"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
-        </activity>
-
+        <!--<fragment-->
+            <!--android:name=".SearchResultsFragment"-->
+            <!--android:label="@string/app_name" >-->
+        <!--</fragment>-->
+        <!--<fragment-->
+            <!--android:name="com.zebenzi.ui.LoginFragment"-->
+            <!--android:label="@string/app_name"-->
+            <!--android:windowSoftInputMode="adjustResize|stateVisible" >-->
+        <!--</fragment>-->
+        <!--<fragment-->
+            <!--android:name="com.zebenzi.ui.RegisterFragment"-->
+            <!--android:label="@string/app_name"-->
+            <!--android:windowSoftInputMode="adjustResize|stateVisible" >-->
+        <!--</fragment>-->
 
     </application>
 
