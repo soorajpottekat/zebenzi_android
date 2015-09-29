@@ -229,7 +229,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
                 transaction.commit();
                 break;
             case R.id.action_history:
-                JobHistoryFragment historyFragment = new JobHistoryFragment();
+                HistoryFragment historyFragment = new HistoryFragment();
                 transaction.replace(R.id.fragment_container, historyFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();

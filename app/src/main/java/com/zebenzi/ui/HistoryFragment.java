@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * A login screen that offers login via email/password.
  */
-public class JobHistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment {
 
     public static Context appContext;
 
