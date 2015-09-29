@@ -39,20 +39,6 @@ import org.json.JSONObject;
  */
 public class AccountFragment extends Fragment {
 
-    // Keep track of the async tasks to ensure we can cancel it if requested.
-    private AsyncTask<String, String, String>  mLoginTask = null;
-    private AsyncTask<String, String, String>  mUserDetailsTask = null;
-
-    // UI references.
-    private EditText mMobileNumberView;
-    private EditText mPasswordView;
-    private TextView mLoginTokenView;
-    private View mProgressView;
-    private View mLoginFormView;
-    private String oAuthToken;
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

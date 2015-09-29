@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
@@ -35,20 +34,15 @@ import java.util.List;
 /**
  * A login screen that offers login via email/password.
  */
-public class MainActivity extends ActionBarActivity implements FragmentListener{
+public class MainActivity extends ActionBarActivity implements FragmentListener {
 
-    public static final int LOGIN_REQUEST = 1;
-    public static final int REGISTER_REQUEST = 2;
     public static Context appContext;
     private FragmentManager fm = getSupportFragmentManager();
-    private String mSearchString;
-
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
-
     private CharSequence mDrawerTitle = "drawer title";
-    private CharSequence mTitle = "drawer title";
+    private CharSequence mActionBarTitle = "drawer title";
 
     private Menu mMenuOptions;
 
@@ -64,7 +58,6 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
         mMenuOptions = menu;
 
         // Associate searchable configuration with the SearchView and Toolbar
-
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.toolbar_search);
@@ -101,32 +94,20 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
             fm.beginTransaction().add(R.id.fragment_container, searchResultsFragment).commit();
         }
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
-//        getSupportActionBar().setTitle(R.string.app_name);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-//        getSupportActionBar().setIcon(R.drawable.ic_menu_zebenzi);
         appContext = getApplicationContext();
 
         List<ListItem> drawerItems = new ArrayList<ListItem>();
         drawerItems.add(new NavigationDrawerHeader(R.drawable.profile,
                 Customer.getInstance().getCustomerName(), Customer.getInstance().getCustomerEmail()));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_search, "Search"));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_account, "Account"));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, "Job History"));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_sign_in, "Login"));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_register, "Register"));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_search, getString(R.string.search)));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_account, getString(R.string.account)));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.history)));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_sign_in, getString(R.string.login)));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_register, getString(R.string.register)));
 
-//        NavigationDrawerItem[] drawerItem = new NavigationDrawerItem[5];
-//
-//        drawerItem[0] = new NavigationDrawerItem(R.drawable.ic_search, "Search");
-//        drawerItem[1] = new NavigationDrawerItem(R.drawable.ic_account, "Account");
-//        drawerItem[2] = new NavigationDrawerItem(R.drawable.ic_history, "History");
-//        drawerItem[3] = new NavigationDrawerItem(R.drawable.ic_sign_in, "Login");
-//        drawerItem[4] = new NavigationDrawerItem(R.drawable.ic_register, "Register");
-
-        mTitle = mDrawerTitle = getTitle();
+        mActionBarTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         // set a custom shadow that overlays the main content when the drawer opens
@@ -150,9 +131,10 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
                 R.string.drawer_close  /* "close drawer" description for accessibility */
         ) {
             public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(mTitle);
+                getSupportActionBar().setTitle(mActionBarTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
+
             public void onDrawerOpened(View drawerView) {
                 getSupportActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
@@ -170,10 +152,8 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-//        menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
-
 
 
     @Override
@@ -188,7 +168,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
         return true;
     }
 
-    public static Context getAppContext(){
+    public static Context getAppContext() {
         return appContext;
     }
 
@@ -210,25 +190,21 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
     private void doSearch(String searchString) {
 
         //Have to recreate the searchFrag, as we have only one fragment_container currently, and it could be any one of login, search or registration.
-//        SearchResultsFragment searchFrag = (SearchResultsFragment)  fm.findFragmentById(R.id.fragment_container);
-//        if (searchFrag != null) {
-//            searchFrag.doSearch(searchString);
-//        } else
-        {
-            // Create fragment and give it an argument for the selected article
-            SearchResultsFragment newFragment = new SearchResultsFragment();
-            Bundle args = new Bundle();
-            args.putString(SearchResultsFragment.SEARCH_STRING, searchString);
-            newFragment.setArguments(args);
 
-            FragmentTransaction transaction = fm.beginTransaction();
+        // Create fragment and give it an argument for the selected article
+        SearchResultsFragment newFragment = new SearchResultsFragment();
+        Bundle args = new Bundle();
+        args.putString(SearchResultsFragment.SEARCH_STRING, searchString);
+        newFragment.setArguments(args);
 
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragment_container, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
+        FragmentTransaction transaction = fm.beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragment_container, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 
     @Override
@@ -277,7 +253,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
         //Update the title in the actionbar
         if (mMenuOptions != null) {
             MenuItem mi = mMenuOptions.findItem(fragmentId);
-            getSupportActionBar().setTitle(mi.getTitle());
+            mActionBarTitle = mi.getTitle();
         }
     }
 
@@ -289,7 +265,9 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
         }
     }
 
-    /** Swaps fragments in the main content view */
+    /**
+     * Swaps fragments in the main content view
+     */
     private void selectItem(int position) {
 
         int id = R.id.action_search;
@@ -318,11 +296,11 @@ public class MainActivity extends ActionBarActivity implements FragmentListener{
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
-    @Override
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-        getSupportActionBar().setTitle(mTitle);
-    }
+//    @Override
+//    public void setTitle(CharSequence title) {
+//        mActionBarTitle = title;
+//        getSupportActionBar().setTitle(mActionBarTitle);
+//    }
 
     /**
      * When using the ActionBarDrawerToggle, you must call it during
