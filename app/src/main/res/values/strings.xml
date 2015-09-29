@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">zebenzi</string>
+    <string name="app_name">Zebenzi</string>
     <string name="title_activity_search_results">SearchResults</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -19,6 +19,7 @@
     <string name="drawer_open">Open Drawer</string>
     <string name="drawer_close">Close Drawer</string>
     <string name="forgot_password">Forgot Password?</string>
+    <string name="proxy">-http-proxy http://vaugan.nayagar:BLAckp00l28@10.100.9.115:8080</string>
 
 
 </resources>
