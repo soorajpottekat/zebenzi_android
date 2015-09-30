@@ -1,5 +1,6 @@
 package com.zebenzi.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class HistoryFragment extends Fragment {
     private JobHistoryAdapter jobHistoryResultsAdapter = null;
     private ListView listView;
     private ImageView imageView;
+    private FragmentListener fragmentListener;
 
 
     @Override
@@ -76,7 +78,20 @@ public class HistoryFragment extends Fragment {
         return rootView;
 
     }
+    
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
 
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            fragmentListener = (FragmentListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement FragmentListener");
+        }
+    }
 
     /**
      * Attempts to connect to zebenzi server and obtain job history

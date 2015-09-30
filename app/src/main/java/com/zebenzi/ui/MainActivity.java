@@ -211,6 +211,12 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
     @Override
     public void changeFragment(int fragmentId) {
 
+        //Update the title in the actionbar
+        if (mMenuOptions != null) {
+            MenuItem mi = mMenuOptions.findItem(fragmentId);
+            mActionBarTitle = mi.getTitle();
+        }
+
         FragmentTransaction transaction = fm.beginTransaction();
 
         // Replace whatever is in the fragment_container view with this fragment,
@@ -257,11 +263,6 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
                 break;
         }
 
-        //Update the title in the actionbar
-        if (mMenuOptions != null) {
-            MenuItem mi = mMenuOptions.findItem(fragmentId);
-            mActionBarTitle = mi.getTitle();
-        }
 
     }
 

@@ -3,6 +3,7 @@ package com.zebenzi.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -50,6 +51,7 @@ public class RegisterFragment extends Fragment {
 
     private View mProgressView;
     private View mRegisterCustomerFormView;
+    private FragmentListener fragmentListener;
 
 
     @Override
@@ -84,6 +86,19 @@ public class RegisterFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            fragmentListener = (FragmentListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement FragmentListener");
+        }
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.

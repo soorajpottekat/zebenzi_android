@@ -67,11 +67,11 @@
                 android:text="Jobs in Progress"
                 android:id="@+id/account_jobs_in_progress" />
 
-            <Button android:id="@+id/change_password_button" style="@style/materialButton"
+            <Button android:id="@+id/accounts_job_history_button" style="@style/materialButton"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" android:text="My Jobs"
                 android:background="@color/zebenzi_accent_color" />
-            <Button android:id="@+id/job_history_button" style="@style/materialButton"
+            <Button android:id="@+id/accounts_change_password_button" style="@style/materialButton"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginTop="16dp" android:text="Change Password"
                     android:background="@color/zebenzi_accent_color" />

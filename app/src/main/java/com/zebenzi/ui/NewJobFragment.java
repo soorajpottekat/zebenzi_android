@@ -1,5 +1,6 @@
 package com.zebenzi.ui;
 
+import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
  * A login screen that offers login via mobile number and password.
  */
 public class NewJobFragment extends Fragment {
+
+    private FragmentListener fragmentListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +59,20 @@ public class NewJobFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // This makes sure that the container activity has implemented
+        // the callback interface. If not, it throws an exception
+        try {
+            fragmentListener = (FragmentListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement FragmentListener");
+        }
     }
 }
 
