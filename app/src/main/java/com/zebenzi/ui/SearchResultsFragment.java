@@ -1,10 +1,6 @@
 package com.zebenzi.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -16,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +25,8 @@ import com.zebenzi.users.Worker;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+
+import static com.zebenzi.Service.Fragments.HISTORY;
 
 
 /**
@@ -162,7 +159,7 @@ public class SearchResultsFragment extends Fragment {
             } else {
                 System.out.println("Hire Response = " + hireResult);
                 //TODO: Clear search results and take the user to Job history screen.
-                fragmentListener.changeFragment(R.id.action_history);
+                fragmentListener.changeFragment(HISTORY);
             }
 
         }

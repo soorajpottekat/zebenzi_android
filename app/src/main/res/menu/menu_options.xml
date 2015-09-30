@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/action_account"
-        android:title="@string/account" />
-    <item android:id="@+id/action_new_job"
-          android:title="@string/new_job"/>
-    <item android:id="@+id/action_search"
-        android:title="@string/search"/>
     <item android:id="@+id/action_login"
         android:title="@string/login" />
-    <item android:id="@+id/action_history"
-        android:title="@string/history" />
     <item android:id="@+id/action_register"
         android:title="@string/register" />
-    <item android:id="@+id/toolbar_search"
+    <item android:id="@+id/action_toolbar_search"
           android:title="@string/search_title"
           android:hint="@string/search_title"
           android:icon="@drawable/ic_search_black_24dp"

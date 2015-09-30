@@ -10,7 +10,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zebenzi.Service.Fragments;
 import com.zebenzi.users.Customer;
+
+import static com.zebenzi.Service.Fragments.HISTORY;
 
 
 /**
@@ -41,7 +44,7 @@ public class AccountFragment extends Fragment {
         myJobsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentListener.changeFragment(R.id.action_history);
+                fragmentListener.changeFragment(HISTORY);
             }
         });
 

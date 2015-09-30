@@ -13,11 +13,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.zebenzi.Service.Fragments;
 import com.zebenzi.network.HttpPostRegisterTask;
 import com.zebenzi.network.IAsyncTaskListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static com.zebenzi.Service.Fragments.LOGIN;
 
 //TODO: Make this activity handle both Customer and worker registration since only diff is optional email
 
@@ -225,7 +228,7 @@ public class RegisterFragment extends Fragment {
                     Toast.makeText(MainActivity.getAppContext(), "You are now registered! Please log in to continue.", Toast.LENGTH_LONG).show();
 
                     //If there is a valid name in the response, then the registration was successful.
-                    fragmentListener.changeFragment(R.id.action_login);
+                    fragmentListener.changeFragment(LOGIN);
                 } catch (JSONException e) {
                     //Print error and keep user on this screen.
                     System.out.println("Registration failed: " + result.toString());

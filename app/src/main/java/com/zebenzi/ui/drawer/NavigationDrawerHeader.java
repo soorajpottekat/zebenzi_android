@@ -46,4 +46,14 @@ public class NavigationDrawerHeader extends ListItem {
 
         return view;
     }
+
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public int getIcon() {
+        return this.icon;
+    }
 }

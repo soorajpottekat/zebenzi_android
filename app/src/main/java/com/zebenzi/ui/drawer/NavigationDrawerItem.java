@@ -40,4 +40,14 @@ public class NavigationDrawerItem extends ListItem {
         return view;
     }
 
+    @Override
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public int getIcon() {
+        return this.icon;
+    }
+
 }

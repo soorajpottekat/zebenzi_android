@@ -13,7 +13,12 @@ public abstract class ListItem {
     }
 
     public abstract int getViewType();
-        public abstract View getView(LayoutInflater inflater, View convertView);
+
+    public abstract View getView(LayoutInflater inflater, View convertView);
+
+    public abstract String getName();
+
+    public abstract int getIcon();
 
     protected int icon;
     protected String name;

@@ -1,6 +1,7 @@
 package com.zebenzi.ui;
 
 import android.content.res.Configuration;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.app.SearchManager;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.zebenzi.Service.Fragments;
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.ui.drawer.NavigationDrawerHeader;
@@ -29,6 +31,8 @@ import com.zebenzi.users.Customer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.zebenzi.Service.Fragments.*;
 
 
 /**
@@ -60,7 +64,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
         // Associate searchable configuration with the SearchView and Toolbar
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = menu.findItem(R.id.toolbar_search);
+        MenuItem searchItem = menu.findItem(R.id.action_toolbar_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
@@ -101,18 +105,18 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
         List<ListItem> drawerItems = new ArrayList<ListItem>();
         drawerItems.add(new NavigationDrawerHeader(R.drawable.profile,
                 Customer.getInstance().getCustomerName(), Customer.getInstance().getCustomerEmail()));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_search, getString(R.string.new_job)));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_search, getString(R.string.search)));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_account, getString(R.string.account)));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.history)));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_sign_in, getString(R.string.login)));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_register, getString(R.string.register)));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_register, getString(R.string.nav_drawer_item_new_job)));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_account, getString(R.string.nav_drawer_item_account)));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.nav_drawer_item_history)));
+//        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_search, getString(R.string.search)));
+//        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_sign_in, getString(R.string.login)));
+//        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_register, getString(R.string.register)));
 
         mActionBarTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         // set a custom shadow that overlays the main content when the drawer opens
-//        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
         // set up the drawer's list view with items and click listener
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(this, drawerItems);
         mDrawerList.setAdapter(adapter);
@@ -167,9 +171,11 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
 
         if (item.getItemId() == R.id.action_logout) {
             Customer.getInstance().signOut();
-            changeFragment(R.id.action_login);
-        } else {
-            changeFragment(item.getItemId());
+            changeFragment(LOGIN);
+        } else if (item.getItemId() == R.id.action_login){
+            changeFragment(LOGIN);
+        } else if (item.getItemId() == R.id.action_register){
+            changeFragment(REGISTER);
         }
         return true;
     }
@@ -213,99 +219,86 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
 
     }
 
-    @Override
-    public void changeFragment(int fragmentId) {
+    public void changeFragment(Fragments fragment) {
 
         //Update the title in the actionbar
-        if (mMenuOptions != null) {
-            MenuItem mi = mMenuOptions.findItem(fragmentId);
-            mActionBarTitle = mi.getTitle();
-        }
+        mActionBarTitle = fragment.getName();
 
         FragmentTransaction transaction = fm.beginTransaction();
 
+
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        switch (fragmentId) {
-            case R.id.action_new_job:
+        switch (fragment) {
+            case JOB:
                 NewJobFragment newJobFragment = new NewJobFragment();
                 transaction.replace(R.id.fragment_container, newJobFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
-            case R.id.action_search:
+            case SEARCH:
                 SearchResultsFragment searchFragment = new SearchResultsFragment();
                 transaction.replace(R.id.fragment_container, searchFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
-            case R.id.action_history:
+            case HISTORY:
                 HistoryFragment historyFragment = new HistoryFragment();
                 transaction.replace(R.id.fragment_container, historyFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
-            case R.id.action_account:
+            case ACCOUNT:
                 AccountFragment accountFragment = new AccountFragment();
                 transaction.replace(R.id.fragment_container, accountFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
-            case R.id.action_register:
+            case REGISTER:
                 RegisterFragment registerFragment = new RegisterFragment();
                 transaction.replace(R.id.fragment_container, registerFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
-            case R.id.action_login:
+            case LOGIN:
                 LoginFragment loginFragment = new LoginFragment();
                 transaction.replace(R.id.fragment_container, loginFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             default:
-                System.out.println("Fragment not found. Id = " + fragmentId);
+                System.out.println("Fragment not found. Id = " + fragment);
                 break;
         }
-
-
     }
 
     /* The click listner for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
+            selectNavDrawerItem(position);
         }
     }
 
     /**
      * Swaps fragments in the main content view
      */
-    private void selectItem(int position) {
+    private void selectNavDrawerItem(int position) {
+        Fragments id = JOB;
 
-        int id = R.id.action_search;
         switch (position) {
+            case 0:
+                break;
             case 1:
-                id = R.id.action_new_job;
+                id = JOB;
                 break;
             case 2:
-                id = R.id.action_search;
+                id = ACCOUNT;
                 break;
             case 3:
-                id = R.id.action_account;
-                break;
-            case 4:
-                id = R.id.action_history;
-                break;
-            case 5:
-                id = R.id.action_login;
-                break;
-            case 6:
-                id = R.id.action_register;
+                id = HISTORY;
                 break;
         }
-
         changeFragment(id);
 
         // Highlight the selected item, update the title, and close the drawer

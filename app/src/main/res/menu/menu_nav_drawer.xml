@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/nav_drawer_new_job"
+          android:title="@string/nav_drawer_item_new_job"/>
+    <item android:id="@+id/nav_drawer_account"
+        android:title="@string/nav_drawer_item_account" />
+    <!--<item android:id="@+id/nav_drawer_search"-->
+        <!--android:title="@string/search"/>-->
+    <item android:id="@+id/nav_drawer_history"
+        android:title="@string/history" />
+</menu>
