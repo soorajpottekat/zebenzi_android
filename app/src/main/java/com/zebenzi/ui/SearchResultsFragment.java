@@ -130,6 +130,7 @@ public class SearchResultsFragment extends Fragment {
 
         @Override
         public void onAsyncTaskCancelled() {
+            showProgress(false);
             mSearchTask = null;
         }
     }
@@ -203,45 +204,17 @@ public class SearchResultsFragment extends Fragment {
     }
 
     public void hireWorker(String workerId, String serviceId) {
-
+        showProgress(true);
         mHireWorkerTask = new HttpPostHireWorkerTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), serviceId, workerId);
     }
 
 
     /**
-     * Shows the progress UI and hides the login form.
+     * Shows the progress UI and hides the Search form.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            listView.setVisibility(show ? View.GONE : View.VISIBLE);
-            listView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    listView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             listView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
     }
 }
 

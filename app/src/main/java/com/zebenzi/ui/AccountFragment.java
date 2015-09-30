@@ -34,8 +34,8 @@ public class AccountFragment extends Fragment {
         tvName.setText(Customer.getInstance().getCustomerName());
         tvMobileNumber.setText(Customer.getInstance().getCustomerMobileNumber());
         tvAddress.setText(Customer.getInstance().getCustomerAddress());
-        tvJobsComplete.setText("5");
-        tvJobsInProgress.setText("1");
+        tvJobsComplete.setText("Jobs complete: 5");
+        tvJobsInProgress.setText("Jobs in progress: 1");
 
         return rootView;
     }

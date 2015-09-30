@@ -12,8 +12,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zebenzi.network.HttpGetJobHistoryTask;
 import com.zebenzi.network.HttpPostHireWorkerTask;
@@ -58,23 +60,22 @@ public class HistoryFragment extends Fragment {
 
 
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
+        mProgressView = rootView.findViewById(R.id.history_progress);
         // Attach the adapter to a ListView
         listView = (ListView) rootView.findViewById(R.id.jobHistoryList);
         listView.setAdapter(jobHistoryResultsAdapter);
-//        imageView = (ImageView) rootView.findViewById(R.id.imageView);
-        refreshScreen();
+//        refreshScreen();
 
         if (Customer.getInstance().getToken() != null) {
             getJobHistory();
         } else {
+            Toast.makeText(MainActivity.getAppContext(), "You need to be logged in to get your history", Toast.LENGTH_LONG).show();
             System.out.println("Cannot get history if not logged in.");
         }
 
         return rootView;
 
     }
-
-
 
 
     /**
@@ -85,51 +86,49 @@ public class HistoryFragment extends Fragment {
             return;
         }
 
-//            showProgress(true);
-//        mSearchString = searchString;
+        showProgress(true);
         mJobHistoryTask = new HttpGetJobHistoryTask(MainActivity.getAppContext(), new JobHistoryTaskCompleteListener()).execute(Customer.getToken());
     }
 
-    public class JobHistoryTaskCompleteListener implements IAsyncTaskListener<JSONArray>{
+    public class JobHistoryTaskCompleteListener implements IAsyncTaskListener<JSONArray> {
         @Override
         public void onAsyncTaskComplete(JSONArray jsonJobHistory) {
             mJobHistoryTask = null;
-//            showProgress(false);
+            showProgress(false);
 
             if (jsonJobHistory != null) {
                 jobHistoryResultsAdapter.clear();
                 ArrayList<Job> jobList = Job.fromJson(jsonJobHistory);
                 jobHistoryResultsAdapter.addAll(jobList);
             } else {
-            //TODO: What to do if no job history?
+                //TODO: What to do if no job history?
             }
-            refreshScreen();
+//            refreshScreen();
         }
 
         @Override
         public void onAsyncTaskCancelled() {
+            showProgress(false);
             mJobHistoryTask = null;
         }
     }
 
     private void refreshScreen() {
-        if (jobHistoryResultsAdapter.isEmpty()){
+        if (jobHistoryResultsAdapter.isEmpty()) {
             listView.setVisibility(View.GONE);
 //            imageView.setVisibility(View.VISIBLE);
-        }
-        else
-        {
+        } else {
 //            imageView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
             jobHistoryResultsAdapter.notifyDataSetChanged();
         }
     }
 
-    public class HireWorkerTaskCompleteListener implements IAsyncTaskListener<String>{
+    public class HireWorkerTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
         public void onAsyncTaskComplete(String hireResult) {
             mHireWorkerTask = null;
-//            showProgress(false);
+            showProgress(false);
             System.out.println("Hire Response = " + hireResult);
             //TODO: refresh Job history screen?
         }
@@ -182,7 +181,7 @@ public class HistoryFragment extends Fragment {
 
             //Set up Hire button, but don't allow hiring if a job is in progress
             //TODO: Rework this logic to actually check if a Worker is currently available or not, instead of checking job status
-            Button hireButton = (Button)  convertView.findViewById(R.id.hireButton);
+            Button hireButton = (Button) convertView.findViewById(R.id.hireButton);
             hireButton.setTag(position);
 
             if (job.isJobInProgress()) {
@@ -192,21 +191,29 @@ public class HistoryFragment extends Fragment {
             }
             hireButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View arg0) {
-                    int position=(Integer)arg0.getTag();
+                    int position = (Integer) arg0.getTag();
                     Job job = getItem(position);
                     System.out.println("Trying to hire worker: " + job.getWorkerName());
-                    try{
+                    try {
                         hireWorker(job.getWorkerId(), job.getJobServiceId());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                });
+            });
 
 
             // Return the completed view to render on screen
             return convertView;
         }
+    }
+
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    public void showProgress(final boolean show) {
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        listView.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
     public void hireWorker(String workerId, String serviceId) {

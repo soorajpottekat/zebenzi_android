@@ -4,16 +4,21 @@
     tools:context="com.zebenzi.ui.Search"
     android:clickable="false">
 
+    <!-- History progress -->
+    <ProgressBar android:id="@+id/history_progress" style="?android:attr/progressBarStyleLarge"
+                 android:layout_width="match_parent" android:layout_height="wrap_content"
+                 android:layout_marginBottom="8dp" android:visibility="gone"
+                 android:layout_weight="0" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/material_grey_100">
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/jobHistoryList"
             android:layout_gravity="bottom" />
     </LinearLayout>
