@@ -6,7 +6,7 @@
     tools:context=".LoginActivity">
 
     <!--<ImageView-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:id="@+id/imageView"-->
         <!--android:layout_gravity="center_horizontal|top"-->
@@ -22,7 +22,7 @@
 
 
     <ScrollView android:id="@+id/login_form" android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:background="@color/material_grey_100"
         android:visibility="visible">
 

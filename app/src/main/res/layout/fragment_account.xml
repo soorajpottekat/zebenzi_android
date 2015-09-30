@@ -6,7 +6,7 @@
     tools:context=".LoginActivity">
 
     <!--<ImageView-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:id="@+id/imageView"-->
         <!--android:layout_gravity="center_horizontal|top"-->
@@ -14,7 +14,7 @@
         <!--android:src="@drawable/zebenzi_banner" />-->
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -29,7 +29,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="#ffffff"
             android:layout_marginTop="10dp"
@@ -38,7 +38,7 @@
             android:id="@+id/account_name" />
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="#ffffff"
             android:text="Mobile Number"
@@ -51,19 +51,19 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="20dp"
                 android:text="Address"
                 android:id="@+id/account_address" />
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:text="Jobs Done"
                 android:id="@+id/account_jobs_done" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:text="Jobs in Progress"
                 android:id="@+id/account_jobs_in_progress" />
 

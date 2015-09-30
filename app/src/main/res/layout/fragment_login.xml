@@ -6,7 +6,7 @@
     tools:context=".LoginActivity">
 
     <!--<ImageView-->
-        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:id="@+id/imageView"-->
         <!--android:layout_gravity="center_horizontal|top"-->
@@ -15,7 +15,7 @@
 
     <!-- Login progress -->
     <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
         android:layout_marginBottom="8dp" android:visibility="gone"
         android:layout_weight="0" />
 
@@ -44,14 +44,14 @@
                 android:background="@color/zebenzi_accent_color" />
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:clickable="true"
                 android:text="@string/forgot_password"
                 android:id="@+id/forgot_password" />
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:text=""
                 android:id="@+id/login_token" />
 
