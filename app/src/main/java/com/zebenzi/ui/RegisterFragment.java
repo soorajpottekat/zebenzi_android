@@ -1,13 +1,7 @@
 package com.zebenzi.ui;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -17,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.zebenzi.network.HttpPostRegisterTask;
 import com.zebenzi.network.IAsyncTaskListener;
@@ -59,7 +54,6 @@ public class RegisterFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_register, container, false);
-
 
         mMobileNumberView = (EditText) rootView.findViewById(R.id.register_mobile);
         mFirstnameView = (EditText) rootView.findViewById(R.id.register_firstname);
@@ -221,20 +215,19 @@ public class RegisterFragment extends Fragment {
             try {
                 JSONObject jsonResult = new JSONObject((String)result);
                 userName = jsonResult.get("fullName").toString();
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("Username", userName);
 
-                //TODO: Implement communication from Fragment to activity.
-//                setResult(RESULT_OK, resultIntent);
-//                // Eventually, we should save the token and display the logged-in user's name in the app.
-//                finish();
+                System.out.println("Registration succeeded for "+userName);
+                Toast.makeText(MainActivity.getAppContext(), "You are now registered! Please log in to continue.", Toast.LENGTH_LONG).show();
+
+                //If there is a valid name in the response, then the registration was successful.
+                fragmentListener.changeFragment(R.id.action_login);
             }
             catch (JSONException e)
             {
                 //Print error and keep user on this screen.
                 System.out.println("Registration failed: "+result.toString());
+                Toast.makeText(MainActivity.getAppContext(), "An error occured during registration.", Toast.LENGTH_LONG).show();
             }
-
         }
 
         @Override
@@ -243,7 +236,6 @@ public class RegisterFragment extends Fragment {
             mRegistrationTask = null;
         }
     }
-
 
 }
 
