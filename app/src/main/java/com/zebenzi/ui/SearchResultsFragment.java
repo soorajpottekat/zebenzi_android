@@ -16,8 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zebenzi.network.HttpGetSearchTask;
 import com.zebenzi.network.HttpPostHireWorkerTask;
-import com.zebenzi.network.HttpPostSearchTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
 import com.zebenzi.users.Worker;
@@ -107,7 +107,7 @@ public class SearchResultsFragment extends Fragment {
 
         showProgress(true);
         mSearchString = searchString;
-        mSearchTask = new HttpPostSearchTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(mSearchString);
+        mSearchTask = new HttpGetSearchTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(mSearchString);
     }
 
     public class SearchTaskCompleteListener implements IAsyncTaskListener<JSONArray> {

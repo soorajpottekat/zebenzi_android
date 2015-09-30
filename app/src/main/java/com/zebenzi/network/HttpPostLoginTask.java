@@ -37,7 +37,7 @@ public class HttpPostLoginTask extends AsyncTask<String, String, String> {
     private String resultToDisplay = null;
     private Context ctx;
     private IAsyncTaskListener listener;
-    private boolean networkError;
+    private boolean networkError = false;
 
     public HttpPostLoginTask(Context ctx, IAsyncTaskListener<String> listener) {
         this.ctx = ctx;

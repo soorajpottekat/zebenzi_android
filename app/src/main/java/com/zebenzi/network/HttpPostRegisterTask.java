@@ -32,7 +32,7 @@ public class HttpPostRegisterTask extends AsyncTask<JSONObject, String, String> 
     private Context ctx;
     private IAsyncTaskListener listener;
     String customerRegistrationAPIUrl = "http://www.zebenzi.com/api/accounts/create";
-    private boolean networkError;
+    private boolean networkError = false;
 
     public HttpPostRegisterTask(Context ctx, IAsyncTaskListener<String> listener) {
         this.ctx = ctx;
@@ -67,7 +67,7 @@ public class HttpPostRegisterTask extends AsyncTask<JSONObject, String, String> 
 
             //If successful connection, read input stream, else read error stream
             if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
-                in = new BufferedInputStream(conn.getInputStream());
+//                in = new BufferedInputStream(conn.getInputStream());
                 StringBuilder sb = new StringBuilder();
                 String line = "";
 
@@ -84,7 +84,7 @@ public class HttpPostRegisterTask extends AsyncTask<JSONObject, String, String> 
                 resultToDisplay=jsonResult.toString();
             } else {
 
-                in = new BufferedInputStream(conn.getErrorStream());
+//                in = new BufferedInputStream(conn.getErrorStream());
                 StringBuilder sb = new StringBuilder();
                 String line = "";
 
@@ -110,7 +110,7 @@ public class HttpPostRegisterTask extends AsyncTask<JSONObject, String, String> 
 
             try {
                 os.close();
-                in.close();
+//                in.close();
                 conn.disconnect();
             } catch (IOException e) {
                 e.printStackTrace();

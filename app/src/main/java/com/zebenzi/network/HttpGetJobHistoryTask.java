@@ -29,7 +29,7 @@ public class HttpGetJobHistoryTask extends AsyncTask<String, String, JSONArray> 
     private Context ctx;
     private IAsyncTaskListener listener;
     String jobHistoryURL = "http://www.zebenzi.com/api/job/hired";
-    private boolean networkError;
+    private boolean networkError = false;
 
 
     public HttpGetJobHistoryTask(Context ctx, IAsyncTaskListener<JSONArray> listener) {

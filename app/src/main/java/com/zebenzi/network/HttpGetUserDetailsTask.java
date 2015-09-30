@@ -27,7 +27,7 @@ public class HttpGetUserDetailsTask extends AsyncTask<String, String, String> {
     private Context ctx;
     private IAsyncTaskListener listener;
     String userDetailsURL = "http://www.zebenzi.com/api/accounts/user/current";
-    private boolean networkError;
+    private boolean networkError = false;
 
 
     public HttpGetUserDetailsTask(Context ctx, IAsyncTaskListener<String> listener) {

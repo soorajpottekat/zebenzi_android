@@ -32,7 +32,7 @@ public class HttpPostHireWorkerTask extends AsyncTask<String, String, String> {
 
     private Context ctx;
     private IAsyncTaskListener listener;
-    private boolean networkError;
+    private boolean networkError = false;
 
 
     public HttpPostHireWorkerTask(Context ctx, IAsyncTaskListener<String> listener) {
@@ -78,7 +78,7 @@ public class HttpPostHireWorkerTask extends AsyncTask<String, String, String> {
 
             //If successful connection, read input stream, else read error stream
             if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
-                in = new BufferedInputStream(conn.getInputStream());
+//                in = new BufferedInputStream(conn.getInputStream());
                 StringBuilder sb = new StringBuilder();
                 String line = "";
 
@@ -91,7 +91,7 @@ public class HttpPostHireWorkerTask extends AsyncTask<String, String, String> {
 
             } else {
 
-                in = new BufferedInputStream(conn.getErrorStream());
+//                in = new BufferedInputStream(conn.getErrorStream());
                 StringBuilder sb = new StringBuilder();
                 String line = "";
 
@@ -114,7 +114,7 @@ public class HttpPostHireWorkerTask extends AsyncTask<String, String, String> {
 
             try {
                 os.close();
-                in.close();
+//                in.close();
                 conn.disconnect();
             } catch (IOException e) {
                 e.printStackTrace();
