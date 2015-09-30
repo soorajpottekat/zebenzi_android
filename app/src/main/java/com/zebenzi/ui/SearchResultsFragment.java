@@ -1,6 +1,10 @@
 package com.zebenzi.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -21,7 +25,9 @@ import com.zebenzi.network.HttpPostSearchTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
 import com.zebenzi.users.Worker;
+
 import org.json.JSONArray;
+
 import java.util.ArrayList;
 
 
@@ -62,16 +68,17 @@ public class SearchResultsFragment extends Fragment {
         searchResultsAdapter = new SearchResultsAdapter(MainActivity.getAppContext(), arrayOfUsers);
 
 
-
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        mProgressView = rootView.findViewById(R.id.search_progress);
         // Attach the adapter to a ListView
         listView = (ListView) rootView.findViewById(R.id.searchResultsList);
         listView.setAdapter(searchResultsAdapter);
         refreshScreen();
 
-        if (getArguments() != null){
-        String searchString = getArguments().getString(SearchResultsFragment.SEARCH_STRING);
-        doSearch(searchString);}
+        if (getArguments() != null) {
+            String searchString = getArguments().getString(SearchResultsFragment.SEARCH_STRING);
+            doSearch(searchString);
+        }
 
         return rootView;
 
@@ -100,16 +107,16 @@ public class SearchResultsFragment extends Fragment {
             return;
         }
 
-//            showProgress(true);
+        showProgress(true);
         mSearchString = searchString;
         mSearchTask = new HttpPostSearchTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(mSearchString);
     }
 
-    public class SearchTaskCompleteListener implements IAsyncTaskListener<JSONArray>{
+    public class SearchTaskCompleteListener implements IAsyncTaskListener<JSONArray> {
         @Override
         public void onAsyncTaskComplete(JSONArray jsonSearchResults) {
             mSearchTask = null;
-//            showProgress(false);
+            showProgress(false);
 
             if (jsonSearchResults != null) {
                 searchResultsAdapter.clear();
@@ -128,21 +135,19 @@ public class SearchResultsFragment extends Fragment {
     }
 
     private void refreshScreen() {
-        if (searchResultsAdapter.isEmpty()){
+        if (searchResultsAdapter.isEmpty()) {
             listView.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             listView.setVisibility(View.VISIBLE);
             searchResultsAdapter.notifyDataSetChanged();
         }
     }
 
-    public class HireWorkerTaskCompleteListener implements IAsyncTaskListener<String>{
+    public class HireWorkerTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
         public void onAsyncTaskComplete(String hireResult) {
             mHireWorkerTask = null;
-//            showProgress(false);
+            showProgress(false);
             System.out.println("Hire Response = " + hireResult);
             //TODO: Clear search results and take the user to Job history screen.
             fragmentListener.changeFragment(R.id.action_history);
@@ -152,6 +157,7 @@ public class SearchResultsFragment extends Fragment {
 
         @Override
         public void onAsyncTaskCancelled() {
+            showProgress(false);
             mHireWorkerTask = null;
         }
     }
@@ -180,16 +186,16 @@ public class SearchResultsFragment extends Fragment {
             tvAddress.setText(worker.getAddress());
             tvID.setText(worker.getId());
 
-            Button hireButton = (Button)  convertView.findViewById(R.id.hireButton);
+            Button hireButton = (Button) convertView.findViewById(R.id.hireButton);
             hireButton.setTag(position);
             hireButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View arg0) {
-                    int position=(Integer)arg0.getTag();
+                    int position = (Integer) arg0.getTag();
                     Worker worker = getItem(position);
                     System.out.println("Trying to hire: " + worker.getName() + " ID=" + worker.getId());
                     hireWorker(worker.getId(), worker.getServiceIdFromName(mSearchString));
                 }
-                });
+            });
 
             // Return the completed view to render on screen
             return convertView;
@@ -201,6 +207,42 @@ public class SearchResultsFragment extends Fragment {
         mHireWorkerTask = new HttpPostHireWorkerTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), serviceId, workerId);
     }
 
+
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    public void showProgress(final boolean show) {
+        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
+        // for very easy animations. If available, use these APIs to fade-in
+        // the progress spinner.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+
+            listView.setVisibility(show ? View.GONE : View.VISIBLE);
+            listView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    listView.setVisibility(show ? View.GONE : View.VISIBLE);
+                }
+            });
+
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            mProgressView.animate().setDuration(shortAnimTime).alpha(
+                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+                }
+            });
+        } else {
+            // The ViewPropertyAnimator APIs are not available, so simply show
+            // and hide the relevant UI components.
+            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+            listView.setVisibility(show ? View.GONE : View.VISIBLE);
+        }
+    }
 }
 
 
