@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.zebenzi.users.Customer;
 
 
@@ -22,15 +23,19 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         final View rootView = inflater.inflate(R.layout.fragment_account, container, false);
 
-//        ImageView imageView = (ImageView) rootView.findViewById(R.id.imageView);
         TextView tvName = (TextView) rootView.findViewById(R.id.account_name);
         TextView tvMobileNumber = (TextView) rootView.findViewById(R.id.account_mobile_number);
         TextView tvAddress = (TextView) rootView.findViewById(R.id.account_address);
         TextView tvJobsComplete = (TextView) rootView.findViewById(R.id.account_jobs_done);
         TextView tvJobsInProgress = (TextView) rootView.findViewById(R.id.account_jobs_in_progress);
+
+        tvName.setText(Customer.getInstance().getCustomerName());
+        tvMobileNumber.setText(Customer.getInstance().getCustomerMobileNumber());
+        tvAddress.setText(Customer.getInstance().getCustomerAddress());
+        tvJobsComplete.setText("Jobs complete: 5");
+        tvJobsInProgress.setText("Jobs in progress: 1");
 
         Button myJobsButton = (Button) rootView.findViewById(R.id.accounts_job_history_button);
         myJobsButton.setOnClickListener(new View.OnClickListener() {
@@ -48,19 +53,13 @@ public class AccountFragment extends Fragment {
             }
         });
 
-//        imageView.setImageDrawable(R.drawable.orange_circle);
-        tvName.setText(Customer.getInstance().getCustomerName());
-        tvMobileNumber.setText(Customer.getInstance().getCustomerMobileNumber());
-        tvAddress.setText(Customer.getInstance().getCustomerAddress());
-        tvJobsComplete.setText("Jobs complete: 5");
-        tvJobsInProgress.setText("Jobs in progress: 1");
-
         return rootView;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+//        refreshData();
 
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
@@ -71,6 +70,7 @@ public class AccountFragment extends Fragment {
                     + " must implement FragmentListener");
         }
     }
+
 }
 
 
