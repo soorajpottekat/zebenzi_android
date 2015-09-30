@@ -224,7 +224,8 @@ public class LoginFragment extends Fragment {
                     mMobileNumberView.requestFocus();
                     mLoginTokenView.setText(jsonResult.toString());
                 }
-            } catch (JSONException e) {
+            } catch (Exception e) {
+                Toast.makeText(MainActivity.getAppContext(), MainActivity.getAppContext().getString(R.string.check_your_network_connection), Toast.LENGTH_LONG).show();
                 e.printStackTrace();
             }
 
@@ -260,8 +261,6 @@ public class LoginFragment extends Fragment {
 
                     if (UserName != null) {
                         mLoginTokenView.setText(UserName);
-                        Intent resultIntent = new Intent();
-                        //TODO: Fix this once user data fields are fixed to be consistent in core.
                         fragmentListener.changeFragment(R.id.action_search);
                     } else {
                         System.out.println("Error occurred with login: " + jsonResult.toString());
