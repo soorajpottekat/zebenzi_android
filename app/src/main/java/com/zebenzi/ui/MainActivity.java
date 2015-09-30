@@ -165,7 +165,12 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
             return true;
         }
 
-        changeFragment(item.getItemId());
+        if (item.getItemId() == R.id.action_logout) {
+            Customer.getInstance().signOut();
+            changeFragment(R.id.action_login);
+        } else {
+            changeFragment(item.getItemId());
+        }
         return true;
     }
 

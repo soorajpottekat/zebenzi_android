@@ -15,39 +15,33 @@ import org.json.JSONObject;
 public class Customer {
     public static final String PREFS_NAME = "ZebenziPrefsFile";
 
-    private static String name="name";
-    private static String email="email";
-    private static String mobileNumber;
-    private static String address;
-    private static String id;
+    private static String name = "";
+    private static String email = "";
+    private static String mobileNumber = "";
+    private static String address = "";
+    private static String id = "";
     private static Context ctx = null;
     private static SharedPreferences settings = null;
     private static Customer instance = null;
 
     // Constructor to convert JSON object into a Java class instance
-    private Customer(){
+    private Customer() {
 
-            ctx = MainActivity.getAppContext();
-            settings = ctx.getSharedPreferences(PREFS_NAME, 0);
+        ctx = MainActivity.getAppContext();
+        settings = ctx.getSharedPreferences(PREFS_NAME, 0);
 
-            name = settings.getString("customer_name","no name");
-            email = settings.getString("customer_email","no email");
-            mobileNumber =  settings.getString("customer_mobile_number","no mobile");
-            address =  settings.getString("customer_address","no address");
-            id = settings.getString("customer_id","no id");
-
+        //Read saved customer details from preferences.
+        getCustomerDetails();
     }
 
-    public static Customer getInstance()
-    {
-        if (instance == null)
-        {
+    public static Customer getInstance() {
+        if (instance == null) {
             instance = new Customer();
         }
         return instance;
     }
 
-    //Customer details should be updated every successful login.
+    //Update this singleton details and save to preferences.
     public static void setCustomerDetails(JSONObject customerDetails, String token) throws JSONException {
 
         name = customerDetails.getString("fullName");
@@ -56,7 +50,6 @@ public class Customer {
         address = customerDetails.getString("email");
         id = customerDetails.getString("id");
 
-        //TODO: Save token here
         saveToken(token);
 
         SharedPreferences.Editor editor = settings.edit();
@@ -70,20 +63,24 @@ public class Customer {
         editor.commit();
 
     }
+    //Get from preferences and update this singleton details.
+    public static void getCustomerDetails() {
+        //Read saved customer details from preferences.
+        name = settings.getString("customer_name", "");
+        email = settings.getString("customer_email", "");
+        mobileNumber = settings.getString("customer_mobile_number", "");
+        address = settings.getString("customer_address", "");
+        id = settings.getString("customer_id", "");
+    }
 
-    // Factory method to convert an array of JSON objects into a list of objects
-    // User.fromJson(jsonArray);
-//    public static ArrayList<Customer> fromJson(JSONArray jsonObjects) {
-//        ArrayList<Customer> workers = new ArrayList<Customer>();
-//        for (int i = 0; i < jsonObjects.length(); i++) {
-//            try {
-//                workers.add(new Customer(jsonObjects.getJSONObject(i)));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return workers;
-//    }
+    //Delete from preferences and update this singleton
+    public static void signOut() {
+
+        SharedPreferences.Editor editor = settings.edit();
+        editor.clear();
+        editor.commit();
+        getCustomerDetails();
+    }
 
     public static String getCustomerName() {
         return name;
@@ -106,19 +103,13 @@ public class Customer {
     }
 
     private static void saveToken(String token) {
-        // We need an Editor object to make preference changes.
-        // All objects are from android.context.Context
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(ctx.getString(R.string.api_rest_access_token), token);
-
-        // Commit the edits!
         editor.commit();
     }
 
     public static String getToken() {
-        // We need an Editor object to make preference changes.
-        // All objects are from android.context.Context
         return settings.getString(ctx.getString(R.string.api_rest_access_token), null);
-
     }
+
 }
