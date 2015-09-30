@@ -6,7 +6,9 @@ package com.zebenzi.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
+import com.zebenzi.ui.MainActivity;
 import com.zebenzi.ui.R;
 
 import org.json.JSONException;
@@ -30,6 +32,7 @@ public class HttpPostHireWorkerTask extends AsyncTask<String, String, String> {
 
     private Context ctx;
     private IAsyncTaskListener listener;
+    private boolean networkError;
 
 
     public HttpPostHireWorkerTask(Context ctx, IAsyncTaskListener<String> listener) {
@@ -103,6 +106,7 @@ public class HttpPostHireWorkerTask extends AsyncTask<String, String, String> {
                 System.out.println("Error Stream = " + resultToDisplay);
             }
         } catch (Exception e) {
+            networkError = true;
             System.out.println(e.getMessage());
             return e.getMessage();
 
@@ -125,7 +129,7 @@ public class HttpPostHireWorkerTask extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(final String result) {
-        listener.onAsyncTaskComplete(result);
+        listener.onAsyncTaskComplete(result, networkError);
     }
 
     @Override

@@ -203,32 +203,34 @@ public class LoginFragment extends Fragment {
      */
     public class LoginTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
-        public void onAsyncTaskComplete(String result) {
-
+        public void onAsyncTaskComplete(String result, boolean networkError) {
             mLoginTask = null;
-            JSONObject jsonResult = null;
-
             showProgress(false);
 
-            try {
-                jsonResult = new JSONObject(result);
-                oAuthToken = (String) jsonResult.get(getString(R.string.api_rest_access_token));
-
-                if (oAuthToken != null) {
-                    mLoginTokenView.setText(oAuthToken);
-                    login(oAuthToken);
-                }
-                else {
-                    System.out.println("Error occurred with login: " + jsonResult.toString());
-                    mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
-                    mMobileNumberView.requestFocus();
-                    mLoginTokenView.setText(jsonResult.toString());
-                }
-            } catch (Exception e) {
-                Toast.makeText(MainActivity.getAppContext(), MainActivity.getAppContext().getString(R.string.check_your_network_connection), Toast.LENGTH_LONG).show();
-                e.printStackTrace();
+            if (networkError){
+                Toast.makeText(MainActivity.getAppContext(),
+                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
+                        Toast.LENGTH_LONG).show();
             }
+            else {
+                try {
+                    JSONObject jsonResult = new JSONObject(result);
+                    oAuthToken = (String) jsonResult.get(getString(R.string.api_rest_access_token));
 
+                    if (oAuthToken != null) {
+                        mLoginTokenView.setText(oAuthToken);
+                        login(oAuthToken);
+                    }
+                    else {
+                        System.out.println("Error occurred with login: " + jsonResult.toString());
+                        mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
+                        mMobileNumberView.requestFocus();
+                        mLoginTokenView.setText(jsonResult.toString());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         @Override
@@ -246,35 +248,33 @@ public class LoginFragment extends Fragment {
     public class UserDetailsTaskCompleteListener implements  IAsyncTaskListener<String>
     {
         @Override
-        public void onAsyncTaskComplete(String result) {
+        public void onAsyncTaskComplete(String result, boolean networkError) {
             mUserDetailsTask = null;
-            JSONObject jsonResult;
-            String UserName;
-
             showProgress(false);
 
-            if (result != null) {
-                try {
-                    jsonResult = new JSONObject(result);
-                    UserName = jsonResult.get("fullName").toString();
-                    Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
+            if (networkError){
+                Toast.makeText(MainActivity.getAppContext(),
+                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
+                        Toast.LENGTH_LONG).show();
+            }else {
+                if (result != null) {
+                    try {
+                        JSONObject jsonResult = new JSONObject(result);
+                        String UserName = jsonResult.get("fullName").toString();
+                        Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
 
-                    if (UserName != null) {
-                        mLoginTokenView.setText(UserName);
-                        fragmentListener.changeFragment(R.id.action_search);
-                    } else {
-                        System.out.println("Error occurred with login: " + jsonResult.toString());
-                        mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
-                        mMobileNumberView.requestFocus();
+                        if (UserName != null) {
+                            mLoginTokenView.setText(UserName);
+                            fragmentListener.changeFragment(R.id.action_search);
+                        } else {
+                            System.out.println("Error occurred with login: " + jsonResult.toString());
+                            mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
+                            mMobileNumberView.requestFocus();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }else
-            {
-
-                Toast.makeText(MainActivity.getAppContext(), "Check your network connection", Toast.LENGTH_LONG).show();
             }
         }
 

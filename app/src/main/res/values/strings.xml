@@ -24,6 +24,7 @@
     <string name="implementation_coming_soon">Implementation Coming Soon</string>
     <string name="logout">Sign out</string>
     <string name="check_your_network_connection">Check your network connection</string>
+    <string name="no_history_found">Could not find job history</string>
 
 
 </resources>

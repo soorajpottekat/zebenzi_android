@@ -11,7 +11,7 @@ public interface IAsyncTaskListener<T>
      * Invoked when the AsyncTask has completed its execution.
      * @param result The resulting object from the AsyncTask.
      */
-    public void onAsyncTaskComplete(T result);
+    public void onAsyncTaskComplete(T result, boolean networkError);
 
     /**
      * Invoked when the AsyncTask has its execution cancelled.

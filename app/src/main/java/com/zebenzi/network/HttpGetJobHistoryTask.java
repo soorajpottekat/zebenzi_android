@@ -6,7 +6,9 @@ package com.zebenzi.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
+import com.zebenzi.ui.MainActivity;
 import com.zebenzi.ui.R;
 
 import org.json.JSONArray;
@@ -27,6 +29,7 @@ public class HttpGetJobHistoryTask extends AsyncTask<String, String, JSONArray> 
     private Context ctx;
     private IAsyncTaskListener listener;
     String jobHistoryURL = "http://www.zebenzi.com/api/job/hired";
+    private boolean networkError;
 
 
     public HttpGetJobHistoryTask(Context ctx, IAsyncTaskListener<JSONArray> listener) {
@@ -76,6 +79,7 @@ public class HttpGetJobHistoryTask extends AsyncTask<String, String, JSONArray> 
             }
 
         } catch (Exception e) {
+            networkError = true;
             System.out.println(e.getMessage());
             return null;
         }
@@ -86,7 +90,7 @@ public class HttpGetJobHistoryTask extends AsyncTask<String, String, JSONArray> 
 
     @Override
     protected void onPostExecute(final JSONArray result) {
-        listener.onAsyncTaskComplete(result);
+        listener.onAsyncTaskComplete(result, networkError);
     }
 
     @Override

@@ -6,6 +6,10 @@ package com.zebenzi.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
+
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 
 import org.json.JSONObject;
 
@@ -28,6 +32,7 @@ public class HttpPostRegisterTask extends AsyncTask<JSONObject, String, String> 
     private Context ctx;
     private IAsyncTaskListener listener;
     String customerRegistrationAPIUrl = "http://www.zebenzi.com/api/accounts/create";
+    private boolean networkError;
 
     public HttpPostRegisterTask(Context ctx, IAsyncTaskListener<String> listener) {
         this.ctx = ctx;
@@ -97,6 +102,7 @@ public class HttpPostRegisterTask extends AsyncTask<JSONObject, String, String> 
                 resultToDisplay=jsonResult.toString();
             }
         } catch (Exception e) {
+            networkError = true;
             System.out.println(e.getMessage());
             return e.getMessage();
 
@@ -119,7 +125,7 @@ public class HttpPostRegisterTask extends AsyncTask<JSONObject, String, String> 
 
     @Override
     protected void onPostExecute(final String result) {
-        listener.onAsyncTaskComplete(result);
+        listener.onAsyncTaskComplete(result, networkError);
     }
 
     @Override

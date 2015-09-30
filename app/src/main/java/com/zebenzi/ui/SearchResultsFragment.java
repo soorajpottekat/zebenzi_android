@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zebenzi.network.HttpPostHireWorkerTask;
 import com.zebenzi.network.HttpPostSearchTask;
@@ -114,18 +115,22 @@ public class SearchResultsFragment extends Fragment {
 
     public class SearchTaskCompleteListener implements IAsyncTaskListener<JSONArray> {
         @Override
-        public void onAsyncTaskComplete(JSONArray jsonSearchResults) {
+        public void onAsyncTaskComplete(JSONArray jsonSearchResults, boolean networkError) {
             mSearchTask = null;
             showProgress(false);
 
-            if (jsonSearchResults != null) {
-                searchResultsAdapter.clear();
-                ArrayList<Worker> newWorkers = Worker.fromJson(jsonSearchResults);
-                searchResultsAdapter.addAll(newWorkers);
+            if (networkError) {
+                Toast.makeText(MainActivity.getAppContext(),
+                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
+                        Toast.LENGTH_LONG).show();
             } else {
-                mSearchView.requestFocus();
+                if (jsonSearchResults != null) {
+                    searchResultsAdapter.clear();
+                    ArrayList<Worker> newWorkers = Worker.fromJson(jsonSearchResults);
+                    searchResultsAdapter.addAll(newWorkers);
+                    refreshScreen();
+                }
             }
-            refreshScreen();
         }
 
         @Override
@@ -146,13 +151,19 @@ public class SearchResultsFragment extends Fragment {
 
     public class HireWorkerTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
-        public void onAsyncTaskComplete(String hireResult) {
+        public void onAsyncTaskComplete(String hireResult, boolean networkError) {
             mHireWorkerTask = null;
             showProgress(false);
-            System.out.println("Hire Response = " + hireResult);
-            //TODO: Clear search results and take the user to Job history screen.
-            fragmentListener.changeFragment(R.id.action_history);
 
+            if (networkError) {
+                Toast.makeText(MainActivity.getAppContext(),
+                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
+                        Toast.LENGTH_LONG).show();
+            } else {
+                System.out.println("Hire Response = " + hireResult);
+                //TODO: Clear search results and take the user to Job history screen.
+                fragmentListener.changeFragment(R.id.action_history);
+            }
 
         }
 
@@ -213,8 +224,8 @@ public class SearchResultsFragment extends Fragment {
      * Shows the progress UI and hides the Search form.
      */
     public void showProgress(final boolean show) {
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            listView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+        listView.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 }
 

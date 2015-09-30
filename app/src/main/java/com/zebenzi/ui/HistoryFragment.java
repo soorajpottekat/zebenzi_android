@@ -107,18 +107,25 @@ public class HistoryFragment extends Fragment {
 
     public class JobHistoryTaskCompleteListener implements IAsyncTaskListener<JSONArray> {
         @Override
-        public void onAsyncTaskComplete(JSONArray jsonJobHistory) {
+        public void onAsyncTaskComplete(JSONArray jsonJobHistory, boolean networkError) {
             mJobHistoryTask = null;
             showProgress(false);
 
-            if (jsonJobHistory != null) {
-                jobHistoryResultsAdapter.clear();
-                ArrayList<Job> jobList = Job.fromJson(jsonJobHistory);
-                jobHistoryResultsAdapter.addAll(jobList);
-            } else {
-                //TODO: What to do if no job history?
+            if (networkError){
+                Toast.makeText(MainActivity.getAppContext(),
+                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
+                        Toast.LENGTH_LONG).show();
             }
-//            refreshScreen();
+            else {
+                if (jsonJobHistory != null) {
+                    jobHistoryResultsAdapter.clear();
+                    ArrayList<Job> jobList = Job.fromJson(jsonJobHistory);
+                    jobHistoryResultsAdapter.addAll(jobList);
+                } else {
+                    Toast.makeText(MainActivity.getAppContext(), MainActivity.getAppContext().getString(R.string.no_history_found), Toast.LENGTH_LONG).show();
+                    //TODO: What to do if no job history?
+                }
+            }
         }
 
         @Override
@@ -141,11 +148,19 @@ public class HistoryFragment extends Fragment {
 
     public class HireWorkerTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
-        public void onAsyncTaskComplete(String hireResult) {
+        public void onAsyncTaskComplete(String hireResult, boolean networkError) {
             mHireWorkerTask = null;
             showProgress(false);
-            System.out.println("Hire Response = " + hireResult);
-            //TODO: refresh Job history screen?
+
+            if (networkError){
+                Toast.makeText(MainActivity.getAppContext(),
+                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
+                        Toast.LENGTH_LONG).show();
+            }
+            else {
+                System.out.println("Hire Response = " + hireResult);
+                //TODO: refresh Job history screen?
+            }
         }
 
         @Override

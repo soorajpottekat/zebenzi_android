@@ -6,7 +6,9 @@ package com.zebenzi.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
+import com.zebenzi.ui.MainActivity;
 import com.zebenzi.ui.R;
 
 import java.io.BufferedReader;
@@ -25,6 +27,7 @@ public class HttpGetUserDetailsTask extends AsyncTask<String, String, String> {
     private Context ctx;
     private IAsyncTaskListener listener;
     String userDetailsURL = "http://www.zebenzi.com/api/accounts/user/current";
+    private boolean networkError;
 
 
     public HttpGetUserDetailsTask(Context ctx, IAsyncTaskListener<String> listener) {
@@ -76,6 +79,7 @@ public class HttpGetUserDetailsTask extends AsyncTask<String, String, String> {
                 }
 
             } catch (Exception e) {
+                networkError = true;
                 System.out.println(e.getMessage());
                 return null;
             }
@@ -86,7 +90,7 @@ public class HttpGetUserDetailsTask extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(final String result) {
-        listener.onAsyncTaskComplete(result);
+        listener.onAsyncTaskComplete(result, networkError);
     }
 
     @Override

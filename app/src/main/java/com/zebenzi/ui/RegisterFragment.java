@@ -206,27 +206,31 @@ public class RegisterFragment extends Fragment {
 
     public class RegisterTaskCompleteListener implements IAsyncTaskListener{
         @Override
-        public void onAsyncTaskComplete(Object result) {
-            String userName = "";
+        public void onAsyncTaskComplete(Object result, boolean networkError) {
             mRegistrationTask = null;
             showProgress(false);
-            System.out.println("Register Result: " + result.toString());
 
-            try {
-                JSONObject jsonResult = new JSONObject((String)result);
-                userName = jsonResult.get("fullName").toString();
-
-                System.out.println("Registration succeeded for "+userName);
-                Toast.makeText(MainActivity.getAppContext(), "You are now registered! Please log in to continue.", Toast.LENGTH_LONG).show();
-
-                //If there is a valid name in the response, then the registration was successful.
-                fragmentListener.changeFragment(R.id.action_login);
+            if (networkError){
+                Toast.makeText(MainActivity.getAppContext(),
+                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
+                        Toast.LENGTH_LONG).show();
             }
-            catch (JSONException e)
-            {
-                //Print error and keep user on this screen.
-                System.out.println("Registration failed: "+result.toString());
-                Toast.makeText(MainActivity.getAppContext(), "An error occured during registration.", Toast.LENGTH_LONG).show();
+            else {
+                try {
+                    System.out.println("Register Result: " + result.toString());
+                    JSONObject jsonResult = new JSONObject((String) result);
+                    String userName = jsonResult.get("fullName").toString();
+
+                    System.out.println("Registration succeeded for " + userName);
+                    Toast.makeText(MainActivity.getAppContext(), "You are now registered! Please log in to continue.", Toast.LENGTH_LONG).show();
+
+                    //If there is a valid name in the response, then the registration was successful.
+                    fragmentListener.changeFragment(R.id.action_login);
+                } catch (JSONException e) {
+                    //Print error and keep user on this screen.
+                    System.out.println("Registration failed: " + result.toString());
+                    Toast.makeText(MainActivity.getAppContext(), "An error occurred during registration.", Toast.LENGTH_LONG).show();
+                }
             }
         }
 
