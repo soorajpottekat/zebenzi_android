@@ -47,12 +47,14 @@ public class NewJobFragment extends Fragment {
         final Spinner spinnerService = (Spinner) rootView.findViewById(R.id.new_job_service_name);
         ArrayList<String> spinnerArray= new ArrayList<String>() {
             {
-                add(Services.GARDENING.getName());
-                add(Services.TILING.getName());
-                add(Services.PAINTING.getName());
-                add(Services.CLADDING.getName());
-                add(Services.PAVING.getName());
-                add(Services.PLASTERING.getName());
+                //TODO: Make this build dynamically from the enum
+                add(Services.GARDENER.getName());
+                add(Services.TILER.getName());
+                add(Services.PAINTER.getName());
+                add(Services.CLADDER.getName());
+                add(Services.PAVER.getName());
+                add(Services.PLASTERER.getName());
+                add(Services.PLUMBER.getName());
             }};
 
         //Select date via datepicker fragment

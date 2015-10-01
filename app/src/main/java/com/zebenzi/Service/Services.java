@@ -8,12 +8,13 @@ import java.util.Map;
  */
 public  enum Services {
 
-    TILING("Tiling", "Square Meter", "SQM", 50),
-    PAINTING("Painting", "Square Meter", "SQM", 30),
-    PLASTERING("Painting", "Square Meter", "SQM", 75),
-    PAVING("Paving", "Square Meter", "SQM", 25),
-    CLADDING("Cladding", "Square Meter", "SQM", 120),
-    GARDENING("Gardening", "Day", "DAY", 200);
+    TILER("Tiler", "Square Meter", "SQM", 50),
+    PAINTER("Painter", "Square Meter", "SQM", 30),
+    PLASTERER("Plasterer", "Square Meter", "SQM", 75),
+    PAVER("Paver", "Square Meter", "SQM", 25),
+    CLADDER("Cladder", "Square Meter", "SQM", 120),
+    GARDENER("Gardener", "Day", "DAY", 200),
+    PLUMBER("Plumber", "Hour", "HOUR", 200);
 
     private static final Map<String, Services> SERVICES = new HashMap<>();
 
