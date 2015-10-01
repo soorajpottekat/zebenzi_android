@@ -1,5 +1,8 @@
 package com.zebenzi.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Vaugan.Nayagar on 2015/09/29.
  */
@@ -12,6 +15,7 @@ public  enum Services {
     CLADDING("Cladding", "Square Meter", "SQM", 120),
     GARDENING("Gardening", "Day", "DAY", 200);
 
+    private static final Map<String, Services> SERVICES = new HashMap<>();
 
     private final String name;
     private final String unit;
@@ -39,6 +43,18 @@ public  enum Services {
 
     public float getUnitPrice() {
         return unitPrice;
+    }
+
+    static {
+        for(Services svc : values()) {
+                SERVICES.put(svc.getName(), svc);
+            }
+    }
+
+    public static Services of(String name) {
+        Services services = SERVICES.get(name);
+        if(services == null) throw new IllegalArgumentException(name + " not a valid service");
+        return services;
     }
 }
 

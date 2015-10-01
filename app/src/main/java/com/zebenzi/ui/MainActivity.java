@@ -22,7 +22,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.zebenzi.Service.Fragments;
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.ui.drawer.NavigationDrawerHeader;
@@ -32,7 +31,7 @@ import com.zebenzi.users.Customer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zebenzi.Service.Fragments.*;
+import static com.zebenzi.ui.FragmentsLookup.*;
 
 
 /**
@@ -89,13 +88,15 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
                 return;
             }
 
-            // Create a new Fragment to be placed in the activity layout
-            SearchResultsFragment searchResultsFragment = new SearchResultsFragment();
-            // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
-            searchResultsFragment.setArguments(getIntent().getExtras());
-            // Add the fragment to the 'fragment_container' FrameLayout
-            fm.beginTransaction().add(R.id.fragment_container, searchResultsFragment).commit();
+            changeFragment(JOB);
+
+//            // Create a new Fragment to be placed in the activity layout
+//            SearchResultsFragment searchResultsFragment = new SearchResultsFragment();
+//            // In case this activity was started with special instructions from an
+//            // Intent, pass the Intent's extras to the fragment as arguments
+//            searchResultsFragment.setArguments(getIntent().getExtras());
+//            // Add the fragment to the 'fragment_container' FrameLayout
+//            fm.beginTransaction().add(R.id.fragment_container, searchResultsFragment).commit();
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
@@ -240,7 +241,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
 
     }
 
-    public void changeFragment(Fragments fragment) {
+    public void changeFragment(FragmentsLookup fragment) {
 
         //Update the title in the actionbar
         mActionBarTitle = fragment.getName();
@@ -305,7 +306,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
      * Swaps fragments in the main content view
      */
     private void selectNavDrawerItem(int position) {
-        Fragments id = JOB;
+        FragmentsLookup id = JOB;
 
         switch (position) {
             case 0:

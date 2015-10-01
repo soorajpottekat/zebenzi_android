@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zebenzi.Service.Fragments;
 import com.zebenzi.network.HttpGetUserDetailsTask;
 import com.zebenzi.network.HttpPostLoginTask;
 import com.zebenzi.network.IAsyncTaskListener;
@@ -25,7 +24,7 @@ import com.zebenzi.users.Customer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.zebenzi.Service.Fragments.SEARCH;
+import static com.zebenzi.ui.FragmentsLookup.JOB;
 
 
 //TODO: Revisit how the token is saved and managed via variables
@@ -262,7 +261,7 @@ public class LoginFragment extends Fragment {
 
                         if (UserName != null) {
                             mLoginTokenView.setText(UserName);
-                            fragmentListener.changeFragment(SEARCH);
+                            fragmentListener.changeFragment(JOB);
                         } else {
                             System.out.println("Error occurred with login: " + jsonResult.toString());
                             mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));

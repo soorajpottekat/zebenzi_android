@@ -26,7 +26,7 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-import static com.zebenzi.Service.Fragments.HISTORY;
+import static com.zebenzi.ui.FragmentsLookup.HISTORY;
 
 
 /**

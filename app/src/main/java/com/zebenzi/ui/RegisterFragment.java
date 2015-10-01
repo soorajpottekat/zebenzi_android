@@ -13,14 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.zebenzi.Service.Fragments;
 import com.zebenzi.network.HttpPostRegisterTask;
 import com.zebenzi.network.IAsyncTaskListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.zebenzi.Service.Fragments.LOGIN;
+import static com.zebenzi.ui.FragmentsLookup.LOGIN;
 
 //TODO: Make this activity handle both Customer and worker registration since only diff is optional email
 

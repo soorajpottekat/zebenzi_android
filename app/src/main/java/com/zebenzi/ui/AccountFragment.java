@@ -10,10 +10,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zebenzi.Service.Fragments;
 import com.zebenzi.users.Customer;
 
-import static com.zebenzi.Service.Fragments.HISTORY;
+import static com.zebenzi.ui.FragmentsLookup.HISTORY;
 
 
 /**

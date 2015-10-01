@@ -1,9 +1,9 @@
-package com.zebenzi.Service;
+package com.zebenzi.ui;
 
 /**
  * Created by Vaugan.Nayagar on 2015/09/29.
  */
-public enum Fragments {
+public enum FragmentsLookup {
 
     ACCOUNT("Account", 1),
     HISTORY("History", 2),
@@ -16,7 +16,7 @@ public enum Fragments {
     private final String name;
     private final int id;
 
-        private Fragments(String name,int id) {
+        private FragmentsLookup(String name, int id) {
             this.name = name;
            this.id = id;
         }

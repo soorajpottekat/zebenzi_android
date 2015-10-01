@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zebenzi.Service.Services;
+import com.zebenzi.job.Quote;
 import com.zebenzi.users.Customer;
 import com.zebenzi.users.Worker;
 
@@ -35,7 +37,7 @@ public class NewJobFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_new_job, container, false);
 
-        Spinner spinnerService = (Spinner) rootView.findViewById(R.id.new_job_service_name);
+        final Spinner spinnerService = (Spinner) rootView.findViewById(R.id.new_job_service_name);
         ArrayList<String> spinnerArray= new ArrayList<String>() {
             {
                 add(Services.GARDENING.getName());
@@ -50,9 +52,16 @@ public class NewJobFragment extends Fragment {
         spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinnerService.setAdapter(spinnerArrayAdapter);
 
+        final EditText units = (EditText) rootView.findViewById(R.id.new_job_units);
+
         Button buttonGetQuote = (Button)  rootView.findViewById(R.id.new_job_get_quote);
         buttonGetQuote.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
+                String item = spinnerService.getSelectedItem().toString();
+                Services quoteSvc = Services.of(item);
+                int quoteUnits = Integer.parseInt(units.getText().toString());
+                Quote q = new Quote(quoteSvc, quoteUnits);
+                System.out.println("Quote price = " + q.getPrice());
                 Toast.makeText(MainActivity.getAppContext(), "You have requested a quote!", Toast.LENGTH_LONG).show();
             }
         });
