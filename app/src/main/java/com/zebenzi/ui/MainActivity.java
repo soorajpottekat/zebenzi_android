@@ -157,14 +157,14 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        if (Customer.getInstance().getToken() == null) {
-            showMenuOption(R.id.action_login);
-            showMenuOption(R.id.action_register);
-            hideMenuOption(R.id.action_logout);
-        } else {
+        if (Customer.getInstance().isLoggedIn()) {
             hideMenuOption(R.id.action_login);
             hideMenuOption(R.id.action_register);
             showMenuOption(R.id.action_logout);
+        } else {
+            showMenuOption(R.id.action_login);
+            showMenuOption(R.id.action_register);
+            hideMenuOption(R.id.action_logout);
         }
         return super.onPrepareOptionsMenu(menu);
     }

@@ -112,4 +112,7 @@ public class Customer {
         return settings.getString(ctx.getString(R.string.api_rest_access_token), null);
     }
 
+    public boolean isLoggedIn() {
+        return (settings.getString(ctx.getString(R.string.api_rest_access_token), null) != null);
+    }
 }
