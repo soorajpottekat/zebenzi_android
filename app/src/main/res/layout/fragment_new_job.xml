@@ -38,6 +38,22 @@
             android:hint="Job units"
             android:inputType="number"
             android:visibility="visible"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/new_job_date"
+            android:text="Which day?"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/new_job_time"
+            android:text="What time?"/>
+
         <Button
             android:id="@+id/new_job_get_quote"
             android:layout_width="wrap_content"
@@ -45,7 +61,6 @@
             android:text="Get Quote"/>
 
     </LinearLayout>
-
 
 
 </RelativeLayout>
