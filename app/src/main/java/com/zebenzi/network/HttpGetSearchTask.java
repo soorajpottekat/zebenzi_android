@@ -54,8 +54,8 @@ public class HttpGetSearchTask extends AsyncTask<String, String, JSONArray> {
 //            BufferedInputStream in = new BufferedInputStream(urlConnection.getInputStream());
             URL url = new URL(urlString);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(2000);
-            conn.setConnectTimeout(2000);
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(10000);
             conn.setRequestMethod("GET");
 //            conn.setDoOutput(true);
 //            conn.setUseCaches(false);

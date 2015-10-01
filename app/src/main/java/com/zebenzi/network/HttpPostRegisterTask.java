@@ -51,8 +51,8 @@ public class HttpPostRegisterTask extends AsyncTask<JSONObject, String, String> 
         try {
             URL url = new URL(customerRegistrationAPIUrl);
             conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(2000);
-            conn.setConnectTimeout(2000);
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(10000);
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
             conn.setUseCaches(false);
