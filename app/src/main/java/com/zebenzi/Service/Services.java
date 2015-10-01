@@ -7,6 +7,7 @@ import java.util.Map;
  * Created by Vaugan.Nayagar on 2015/09/29.
  */
 public  enum Services {
+    //TODO: All of this must come from the server
 
     TILER("Tiler", "Square Meter", "SQM", 50),
     PAINTER("Painter", "Square Meter", "SQM", 30),

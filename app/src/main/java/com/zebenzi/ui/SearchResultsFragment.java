@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zebenzi.job.Quote;
 import com.zebenzi.network.HttpGetSearchTask;
 import com.zebenzi.network.HttpPostHireWorkerTask;
 import com.zebenzi.network.IAsyncTaskListener;
@@ -52,9 +53,11 @@ public class SearchResultsFragment extends Fragment {
 
     // UI references.
     private EditText mSearchView;
+    private TextView mQuoteDetails;
     private View mProgressView;
     private SearchResultsAdapter searchResultsAdapter = null;
     private ListView listView;
+    private Quote mQuote;
 
 
     @Override
@@ -65,8 +68,8 @@ public class SearchResultsFragment extends Fragment {
         // Create the adapter to convert the array to views
         searchResultsAdapter = new SearchResultsAdapter(MainActivity.getAppContext(), arrayOfUsers);
 
-
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        mQuoteDetails = (TextView) rootView.findViewById(R.id.search_results_quote_details);
         mProgressView = rootView.findViewById(R.id.search_progress);
         // Attach the adapter to a ListView
         listView = (ListView) rootView.findViewById(R.id.searchResultsList);
@@ -74,8 +77,10 @@ public class SearchResultsFragment extends Fragment {
         refreshScreen();
 
         if (getArguments() != null) {
-            String searchString = getArguments().getString(SearchResultsFragment.SEARCH_STRING);
-            doSearch(searchString);
+            String quoteServiceName = getArguments().getString("name");
+            int quoteUnits = getArguments().getInt("units");
+            mQuoteDetails.setText(quoteServiceName + quoteUnits);
+            doSearch(quoteServiceName);
         }
 
         return rootView;

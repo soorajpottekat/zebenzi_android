@@ -22,6 +22,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.zebenzi.Service.Services;
+import com.zebenzi.job.Quote;
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.ui.drawer.NavigationDrawerHeader;
@@ -31,6 +33,7 @@ import com.zebenzi.users.Customer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zebenzi.Service.Services.PAINTER;
 import static com.zebenzi.ui.FragmentsLookup.*;
 
 
@@ -259,7 +262,13 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
                 transaction.commit();
                 break;
             case SEARCH:
+                Quote quote = new Quote(PAINTER, 5);
                 SearchResultsFragment searchFragment = new SearchResultsFragment();
+                Bundle b = new Bundle();
+                b.putString("name", quote.getServiceName());
+                b.putInt("units", quote.getUnits());
+//                b.putString("price", ((String) quote.getPrice()));
+                searchFragment.setArguments(b);
                 transaction.replace(R.id.fragment_container, searchFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();

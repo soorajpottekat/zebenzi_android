@@ -29,4 +29,12 @@ public class Quote {
     public float getPrice() {
         return this.units * this.svc.getUnitPrice();
     }
+
+    public String getServiceName() {
+        return svc.getName();
+    }
+
+    public int getUnits() {
+        return units;
+    }
 }

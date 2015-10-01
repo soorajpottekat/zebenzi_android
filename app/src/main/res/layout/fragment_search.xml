@@ -30,6 +30,13 @@
             <!--android:id="@+id/searchButton"-->
             <!--android:visibility="visible" />-->
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="quote details"
+            android:id="@+id/search_results_quote_details"/>
+
 
         <ListView
             android:layout_width="match_parent"

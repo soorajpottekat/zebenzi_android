@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import static com.zebenzi.ui.FragmentsLookup.SEARCH;
+
 
 //TODO: Revisit how the token is saved and managed via variables
 
@@ -81,6 +83,7 @@ public class NewJobFragment extends Fragment {
                 Quote q = new Quote(quoteSvc, quoteUnits);
                 System.out.println("Quote price = " + q.getPrice());
                 Toast.makeText(MainActivity.getAppContext(), "You have requested a quote!", Toast.LENGTH_LONG).show();
+                fragmentListener.changeFragment(SEARCH);
             }
         });
 
