@@ -57,12 +57,12 @@
         <!-- The textColor property is backward compatible with the Support Library -->
     </style>
 
-<!--Popup Menu Style-->
+<!--Popup Options Menu Style-->
 
     <style name="popUpTheme"
         parent="@style/Widget.AppCompat.ActionBar.TabText">
         <item name="android:textColor">@color/material_light_green_700</item>
-        <item name="android:colorBackground">@color/material_light_green_100</item>
+        <item name="android:colorBackground">@color/material_grey_300</item>
         <!-- The textColor property is backward compatible with the Support Library -->
     </style>
 
