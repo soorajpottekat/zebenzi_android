@@ -213,7 +213,13 @@ public class SearchResultsFragment extends Fragment {
                     int position = (Integer) arg0.getTag();
                     Worker worker = getItem(position);
                     System.out.println("Trying to hire: " + worker.getName() + " ID=" + worker.getId());
-                    hireWorker(worker.getId(), worker.getServiceIdFromName(mSearchString));
+
+                    if (Customer.getInstance().getToken() != null) {
+                        hireWorker(worker.getId(), worker.getServiceIdFromName(mSearchString));
+                    } else {
+                        Toast.makeText(MainActivity.getAppContext(), "You need to be logged in to hire a worker", Toast.LENGTH_LONG).show();
+                        System.out.println("Cannot hire worker if not logged in.");
+                    }
                 }
             });
 
