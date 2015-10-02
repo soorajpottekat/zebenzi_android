@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.zebenzi.Service.Services;
 import com.zebenzi.job.Quote;
+import com.zebenzi.users.Customer;
 import com.zebenzi.utils.DatePickerFragment;
 
 import java.text.SimpleDateFormat;
@@ -73,6 +74,7 @@ public class NewJobFragment extends Fragment {
         spinnerService.setAdapter(spinnerArrayAdapter);
 
         final EditText units = (EditText) rootView.findViewById(R.id.new_job_units);
+        units.setText("1");
 
         Button buttonGetQuote = (Button)  rootView.findViewById(R.id.new_job_get_quote);
         buttonGetQuote.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +85,7 @@ public class NewJobFragment extends Fragment {
                 Quote q = new Quote(quoteSvc, quoteUnits);
                 System.out.println("Quote price = " + q.getPrice());
                 Toast.makeText(MainActivity.getAppContext(), "You have requested a quote!", Toast.LENGTH_LONG).show();
+                Customer.getInstance().setCurrentQuote(q);
                 fragmentListener.changeFragment(SEARCH);
             }
         });

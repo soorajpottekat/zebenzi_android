@@ -30,12 +30,33 @@
             <!--android:id="@+id/searchButton"-->
             <!--android:visibility="visible" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="quote details"
-            android:id="@+id/search_results_quote_details"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Service"
+                android:id="@+id/search_results_quote_service"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Units"
+                android:id="@+id/search_results_quote_units"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="80sp"
+                android:textColor="@color/material_light_green_700"
+                android:text="Price"
+                android:id="@+id/search_results_quote_price"/>
+        </LinearLayout>
 
 
         <ListView

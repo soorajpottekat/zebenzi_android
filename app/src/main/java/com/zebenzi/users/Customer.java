@@ -3,6 +3,7 @@ package com.zebenzi.users;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.zebenzi.job.Quote;
 import com.zebenzi.ui.MainActivity;
 import com.zebenzi.ui.R;
 
@@ -23,6 +24,16 @@ public class Customer {
     private static Context ctx = null;
     private static SharedPreferences settings = null;
     private static Customer instance = null;
+
+    public Quote getCurrentQuote() {
+        return currentQuote;
+    }
+
+    public void setCurrentQuote(Quote currentQuote) {
+        this.currentQuote = currentQuote;
+    }
+
+    private Quote currentQuote;
 
     // Constructor to convert JSON object into a Java class instance
     private Customer() {

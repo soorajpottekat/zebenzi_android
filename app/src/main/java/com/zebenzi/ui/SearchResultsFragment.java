@@ -53,11 +53,12 @@ public class SearchResultsFragment extends Fragment {
 
     // UI references.
     private EditText mSearchView;
-    private TextView mQuoteDetails;
     private View mProgressView;
     private SearchResultsAdapter searchResultsAdapter = null;
     private ListView listView;
-    private Quote mQuote;
+    private TextView mQuoteService;
+    private TextView mQuoteUnits;
+    private TextView mQuotePrice;
 
 
     @Override
@@ -69,7 +70,9 @@ public class SearchResultsFragment extends Fragment {
         searchResultsAdapter = new SearchResultsAdapter(MainActivity.getAppContext(), arrayOfUsers);
 
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
-        mQuoteDetails = (TextView) rootView.findViewById(R.id.search_results_quote_details);
+        mQuoteService = (TextView) rootView.findViewById(R.id.search_results_quote_service);
+        mQuoteUnits = (TextView) rootView.findViewById(R.id.search_results_quote_units);
+        mQuotePrice = (TextView) rootView.findViewById(R.id.search_results_quote_price);
         mProgressView = rootView.findViewById(R.id.search_progress);
         // Attach the adapter to a ListView
         listView = (ListView) rootView.findViewById(R.id.searchResultsList);
@@ -77,9 +80,12 @@ public class SearchResultsFragment extends Fragment {
         refreshScreen();
 
         if (getArguments() != null) {
-            String quoteServiceName = getArguments().getString("name");
-            int quoteUnits = getArguments().getInt("units");
-            mQuoteDetails.setText(quoteServiceName + quoteUnits);
+            String quoteServiceName = getArguments().getString("service");
+            String quoteServiceUnits = getArguments().getString("units");
+            String quoteServicePrice = getArguments().getString("price");
+            mQuoteService.setText("You need a " + quoteServiceName);
+            mQuoteUnits.setText("Job units " + quoteServiceUnits);
+            mQuotePrice.setText("R"+quoteServicePrice);
             doSearch(quoteServiceName);
         }
 

@@ -13,16 +13,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zebenzi.job.Job;
 import com.zebenzi.network.HttpGetJobHistoryTask;
 import com.zebenzi.network.HttpPostHireWorkerTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
-import com.zebenzi.job.Job;
 
 import org.json.JSONArray;
 import org.json.JSONException;

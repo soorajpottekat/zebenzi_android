@@ -18,12 +18,14 @@
         <item name="colorAccent">@color/zebenzi_accent_color</item>
 
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-
+        <item name="android:dropDownListViewStyle">@style/spinnerDropDownListStyle</item>
 
         <!-- Support library compatibility -->
         <item name="actionBarStyle">@style/MyActionBar</item>
         <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
         <item name="actionMenuTextColor">@color/material_deep_orange_700</item>
+        <item name="android:buttonStyle">@style/materialButton</item>
+        materialButton
     </style>
 
     <!-- ActionBar styles -->
@@ -68,7 +70,8 @@
 
     <style name="materialButton">
         <item name="android:textColor">@color/material_grey_100</item>
-        <!--<item name="android:padding">0dp</item>-->
+        <item name="android:layout_gravity">center</item>
+        <item name="android:paddingTop">10dp</item>
         <!--<item name="android:minWidth">88dp</item>-->
         <!--<item name="android:minHeight">36dp</item>-->
         <!--<item name="android:layout_margin">3dp</item>-->
@@ -80,13 +83,25 @@
         <item name="color">@color/material_grey_700</item>
     </style>
 
+
+    <style name="spinnerDropDownListStyle" parent="android:style/Widget.ListView.DropDown">
+        <item name="android:divider">@color/material_light_green_700</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
-        <item name="android:textColor">@color/material_red_A700</item>
+        <item name="android:textColor">@color/material_light_green_700</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+        <item name="android:paddingLeft">10sp</item>
 
     </style>
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
-        <item name="android:textColor">@color/material_blue_700</item>
+        <item name="android:textColor">@color/material_grey_900</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+        <item name="android:paddingTop">10sp</item>
+        <item name="android:paddingBottom">10sp</item>
+        <item name="android:paddingLeft">10sp</item>
 
     </style>
 

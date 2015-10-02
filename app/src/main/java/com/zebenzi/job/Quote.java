@@ -26,8 +26,8 @@ public class Quote {
         this.svc = svc;
         this.units = units;
     }
-    public float getPrice() {
-        return this.units * this.svc.getUnitPrice();
+    public String getPrice() {
+        return Float.toString (this.units * this.svc.getUnitPrice());
     }
 
     public String getServiceName() {

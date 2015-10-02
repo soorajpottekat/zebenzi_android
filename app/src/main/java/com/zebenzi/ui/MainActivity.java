@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.zebenzi.Service.Services;
 import com.zebenzi.job.Quote;
@@ -262,16 +263,20 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
                 transaction.commit();
                 break;
             case SEARCH:
-                Quote quote = new Quote(PAINTER, 5);
-                SearchResultsFragment searchFragment = new SearchResultsFragment();
-                Bundle b = new Bundle();
-                b.putString("name", quote.getServiceName());
-                b.putInt("units", quote.getUnits());
-//                b.putString("price", ((String) quote.getPrice()));
-                searchFragment.setArguments(b);
-                transaction.replace(R.id.fragment_container, searchFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                Quote quote = Customer.getInstance().getCurrentQuote();
+                if (quote != null) {
+                    SearchResultsFragment searchFragment = new SearchResultsFragment();
+                    Bundle b = new Bundle();
+                    b.putString("service", quote.getServiceName());
+                    b.putString("units", Integer.toString(quote.getUnits()));
+                    b.putString("price", quote.getPrice());
+                    searchFragment.setArguments(b);
+                    transaction.replace(R.id.fragment_container, searchFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                } else {
+                    Toast.makeText(this, "There is no valid quote set!", Toast.LENGTH_LONG).show();
+                }
                 break;
             case HISTORY:
                 HistoryFragment historyFragment = new HistoryFragment();
