@@ -84,7 +84,6 @@ public class NewJobFragment extends Fragment {
                 int quoteUnits = Integer.parseInt(units.getText().toString());
                 Quote q = new Quote(quoteSvc, quoteUnits);
                 System.out.println("Quote price = " + q.getPrice());
-                Toast.makeText(MainActivity.getAppContext(), "You have requested a quote!", Toast.LENGTH_LONG).show();
                 Customer.getInstance().setCurrentQuote(q);
                 fragmentListener.changeFragment(SEARCH);
             }

@@ -32,6 +32,7 @@
 
         <LinearLayout
             android:orientation="vertical"
+            android:background="@color/material_blue_grey_950"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -39,6 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/material_grey_100"
                 android:text="Service"
                 android:id="@+id/search_results_quote_service"/>
 
@@ -46,14 +48,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/material_grey_100"
                 android:text="Units"
                 android:id="@+id/search_results_quote_units"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="80sp"
-                android:textColor="@color/material_light_green_700"
+                android:textSize="50sp"
+                android:textColor="@color/material_light_green_A200"
                 android:text="Price"
                 android:id="@+id/search_results_quote_price"/>
         </LinearLayout>
