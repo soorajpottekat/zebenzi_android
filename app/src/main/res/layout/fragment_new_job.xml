@@ -103,13 +103,19 @@
                     android:text="Time"
                     android:id="@+id/textView4"/>
 
-                <EditText
+                <Button
+                    android:id="@+id/new_job_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="date"
-                    android:ems="10"
-                    android:id="@+id/new_job_time"
-                    android:selectAllOnFocus="true"/>
+                    android:text="Get Quote"/>
+
+                <!--<EditText-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:inputType="date"-->
+                    <!--android:ems="10"-->
+                    <!--android:id="@+id/new_job_time"-->
+                    <!--android:selectAllOnFocus="true"/>-->
             </TableRow>
 
         </TableLayout>

@@ -2,6 +2,7 @@ package com.zebenzi.ui;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,12 +13,15 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 
 import com.zebenzi.service.Services;
 import com.zebenzi.job.Quote;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.DatePickerFragment;
+import com.zebenzi.utils.TimePickerFragment;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +44,9 @@ public class NewJobFragment extends Fragment {
     private int mYear;
     public int mMonth;
     private int mDay;
+    private int mHour;
+    private int mMin;
+    private Button jobTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,14 +69,25 @@ public class NewJobFragment extends Fragment {
 
         //Select date via datepicker fragment
         jobDate = (Button)rootView.findViewById(R.id.new_job_date);
+        jobTime = (Button)rootView.findViewById(R.id.new_job_time);
 
-        DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+        DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy");
         String date = df.format(Calendar.getInstance().getTime());
         jobDate.setText(date);
         jobDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePicker();
+            }
+        });
+
+        df = new SimpleDateFormat("HH:mm");
+        String time = df.format(Calendar.getInstance().getTime());
+        jobTime.setText(time);
+        jobTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePicker();
             }
         });
 
@@ -125,6 +143,20 @@ public class NewJobFragment extends Fragment {
         DatePickerFragment mDatePicker = new DatePickerFragment();
         mDatePicker.setCallBack(mDateSetListener);
         mDatePicker.show(getFragmentManager(), "datePicker");
+    }
+
+    /**
+     * Handle the selection of date via dialog
+     */
+    private void showTimePicker() {
+        //To show current time in the timepicker
+        Calendar mcurrentDate = Calendar.getInstance();
+        mHour = mcurrentDate.get(Calendar.HOUR);
+        mMin = mcurrentDate.get(Calendar.MINUTE);
+
+        TimePickerFragment mTimePicker = new TimePickerFragment();
+        mTimePicker.setCallBack(mTimeSetListener);
+        mTimePicker.show(getFragmentManager(), "timePicker");
 
     }
 
@@ -138,11 +170,25 @@ public class NewJobFragment extends Fragment {
         }
     };
 
+    TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        public void onTimeSet(TimePicker view, int hour,
+                              int min) {
+            mHour = hour;
+            mMin = min;
+            updateTime();
+        }
+    };
+
     private void updateDate() {
         GregorianCalendar c = new GregorianCalendar(mYear, mMonth, mDay);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy");
-
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy");
         jobDate.setText(sdf.format(c.getTime()));
+    }
+
+    private void updateTime() {
+        GregorianCalendar c = new GregorianCalendar(mHour, mMonth, mDay, mHour, mMin);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        jobTime.setText(sdf.format(c.getTime()));
     }
 }
 
