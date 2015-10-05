@@ -78,12 +78,18 @@
                     android:text="Date"
                     android:id="@+id/textView3"/>
 
-                <EditText
+                <Button
+                    android:id="@+id/new_job_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="date"
-                    android:ems="10"
-                    android:id="@+id/new_job_date"
+                    android:text="Get Quote"/>
+
+                <!--<EditText-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:inputType="date"-->
+                    <!--android:ems="10"-->
+                    <!--android:id="@+id/new_job_date"-->
                     />
             </TableRow>
 

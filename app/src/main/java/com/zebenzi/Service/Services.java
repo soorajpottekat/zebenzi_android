@@ -1,4 +1,4 @@
-package com.zebenzi.Service;
+package com.zebenzi.service;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package com.zebenzi.job;
 
-import com.zebenzi.Service.Services;
+import com.zebenzi.service.Services;
 
 import java.sql.Time;
 import java.util.Date;

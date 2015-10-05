@@ -12,17 +12,17 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.zebenzi.Service.Services;
+import com.zebenzi.service.Services;
 import com.zebenzi.job.Quote;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.DatePickerFragment;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static com.zebenzi.ui.FragmentsLookup.SEARCH;
@@ -36,7 +36,7 @@ import static com.zebenzi.ui.FragmentsLookup.SEARCH;
 public class NewJobFragment extends Fragment {
 
     private FragmentListener fragmentListener;
-    private EditText jobDate;
+    private Button jobDate;
     private int mYear;
     public int mMonth;
     private int mDay;
@@ -61,7 +61,11 @@ public class NewJobFragment extends Fragment {
             }};
 
         //Select date via datepicker fragment
-        jobDate = (EditText)rootView.findViewById(R.id.new_job_date);
+        jobDate = (Button)rootView.findViewById(R.id.new_job_date);
+
+        DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm");
+        String date = df.format(Calendar.getInstance().getTime());
+        jobDate.setText(date);
         jobDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

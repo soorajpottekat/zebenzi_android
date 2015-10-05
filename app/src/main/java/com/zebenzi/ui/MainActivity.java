@@ -23,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.zebenzi.Service.Services;
 import com.zebenzi.job.Quote;
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
@@ -34,7 +33,6 @@ import com.zebenzi.users.Customer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zebenzi.Service.Services.PAINTER;
 import static com.zebenzi.ui.FragmentsLookup.*;
 
 
