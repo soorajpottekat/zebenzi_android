@@ -70,17 +70,32 @@
 
     <style name="materialButton">
         <item name="android:textColor">@color/material_grey_100</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:paddingTop">10dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+        <!--<item name="android:layout_gravity">center</item>-->
+        <!--<item name="android:paddingTop">10dp</item>-->
+        <item name="android:gravity">center_vertical|center_horizontal</item>
         <!--<item name="android:minWidth">88dp</item>-->
         <!--<item name="android:minHeight">36dp</item>-->
         <!--<item name="android:layout_margin">3dp</item>-->
-        <item name="android:background">@drawable/button_ripple</item>
+        <item name="android:background">@drawable/button_accent_colour_ripple</item>
     </style>
+
+    <style name="dateTimeButton">
+        <item name="android:textColor">@color/material_light_green_700</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+        <!--<item name="android:layout_gravity">center</item>-->
+        <!--<item name="android:paddingTop">10dp</item>-->
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <!--<item name="android:minWidth">88dp</item>-->
+        <!--<item name="android:minHeight">36dp</item>-->
+        <!--<item name="android:layout_margin">3dp</item>-->
+        <item name="android:background">@drawable/button_date_time_ripple</item>
+    </style>
+
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">@color/material_grey_700</item>
+        <item name="color">@color/material_light_green_700</item>
     </style>
 
 
@@ -91,13 +106,14 @@
 
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
         <item name="android:textColor">@color/material_light_green_700</item>
+        <item name="android:background">@color/material_grey_300</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
         <item name="android:paddingLeft">10sp</item>
 
     </style>
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
-        <item name="android:textColor">@color/material_grey_900</item>
+        <item name="android:textColor">@color/material_light_green_700</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
         <item name="android:paddingTop">10sp</item>
         <item name="android:paddingBottom">10sp</item>

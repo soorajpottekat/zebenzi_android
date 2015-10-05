@@ -9,7 +9,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/diy_tools">
 
         <!--<EditText-->
             <!--android:layout_width="match_parent"-->
@@ -27,18 +28,24 @@
 
 
         <TableLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp">
 
             <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="I need a"
-                    android:id="@+id/textView"/>
+                    android:id="@+id/textView"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:layout_marginRight="20dp"/>
 
                 <Spinner
                     android:layout_width="wrap_content"
@@ -51,38 +58,50 @@
 
             <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Units"
-                    android:id="@+id/textView2"/>
+                    android:id="@+id/textView2"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:layout_marginRight="20dp"/>
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:background="@color/material_grey_300"
+                    android:textColor="@color/material_light_green_700"
                     android:id="@+id/new_job_units"
                     android:inputType="number"
-                    android:visibility="visible"/>
+                    android:visibility="visible"
+                    />
 
             </TableRow>
 
             <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date"
-                    android:id="@+id/textView3"/>
+                    android:id="@+id/textView3"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:layout_marginRight="20dp"/>
 
                 <Button
                     android:id="@+id/new_job_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Get Quote"/>
+                    style="@style/dateTimeButton"/>
 
                 <!--<EditText-->
                     <!--android:layout_width="wrap_content"-->
@@ -95,19 +114,23 @@
 
             <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Time"
-                    android:id="@+id/textView4"/>
+                    android:id="@+id/textView4"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="right"
+                    android:layout_marginRight="20dp"/>
 
                 <Button
                     android:id="@+id/new_job_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Get Quote"/>
+                    style="@style/dateTimeButton"/>
 
                 <!--<EditText-->
                     <!--android:layout_width="wrap_content"-->
@@ -120,11 +143,22 @@
 
         </TableLayout>
 
-        <Button
-            android:id="@+id/new_job_get_quote"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Get Quote"/>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/new_job_get_quote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GET QUOTE"
+                android:layout_gravity="center_horizontal"
+                style="@style/materialButton"
+                />
+        </TableRow>
 
     </LinearLayout>
 
