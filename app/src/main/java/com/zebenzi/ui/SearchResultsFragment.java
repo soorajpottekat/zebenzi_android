@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.zebenzi.job.Quote;
 import com.zebenzi.network.HttpGetSearchTask;
+import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostHireWorkerTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
@@ -48,7 +49,7 @@ public class SearchResultsFragment extends Fragment {
     /**
      * Keep track of the search task to ensure we can cancel it if requested.
      */
-    private AsyncTask<String, String, JSONArray> mSearchTask = null;
+    private AsyncTask<Object, String, String> mSearchTask = null;
     private AsyncTask<String, String, String> mHireWorkerTask = null;
 
     // UI references.
@@ -117,26 +118,34 @@ public class SearchResultsFragment extends Fragment {
         }
 
         showProgress(true);
-        mSearchString = searchString;
-        mSearchTask = new HttpGetSearchTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(mSearchString);
+//        mSearchString = searchString;
+        String searchURL = MainActivity.getAppContext().getString(R.string.api_url_search_services) + searchString;
+                mSearchTask = new HttpGetTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(searchURL, null, null);
     }
 
-    public class SearchTaskCompleteListener implements IAsyncTaskListener<JSONArray> {
+    public class SearchTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
-        public void onAsyncTaskComplete(JSONArray jsonSearchResults, boolean networkError) {
+        public void onAsyncTaskComplete(String searchResults, boolean networkError) {
             mSearchTask = null;
+            JSONArray jsonResult;
             showProgress(false);
+
+            System.out.println("Search Results = " + searchResults);
 
             if (networkError) {
                 Toast.makeText(MainActivity.getAppContext(),
                         MainActivity.getAppContext().getString(R.string.check_your_network_connection),
                         Toast.LENGTH_LONG).show();
             } else {
-                if (jsonSearchResults != null) {
+                try {jsonResult = new JSONArray(searchResults);
+                if (jsonResult != null) {
                     searchResultsAdapter.clear();
-                    ArrayList<Worker> newWorkers = Worker.fromJson(jsonSearchResults);
+                    ArrayList<Worker> newWorkers = Worker.fromJson(jsonResult);
                     searchResultsAdapter.addAll(newWorkers);
                     refreshScreen();
+                }} catch (Exception e)
+                {
+                    e.printStackTrace();
                 }
             }
         }
