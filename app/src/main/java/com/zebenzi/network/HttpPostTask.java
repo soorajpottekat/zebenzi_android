@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 
 import com.zebenzi.ui.R;
 
+import org.apache.http.NameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,10 +20,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Represents an asynchronous http post task
@@ -35,7 +39,7 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
     private boolean networkError = false;
     private String mUrl;
     private HashMap<String, String> mHeader = null;
-    private JSONObject mBody;
+
 
     public HttpPostTask(Context ctx, IAsyncTaskListener<String> listener) {
         this.ctx = ctx;
@@ -45,34 +49,14 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
     @Override
     protected String doInBackground(Object... params) {
         OutputStream os = null;
-        BufferedInputStream in = null;
         HttpURLConnection conn = null;
         String resultToDisplay;
-        String outputString = null;
+        String outputString;
+        BufferedWriter writer;
 
         mUrl = (String)params[0];
         mHeader = (HashMap)params[1];
         HttpContentTypes type = (HttpContentTypes)params[3];
-
-
-
-        //Build output string
-        switch(type){
-            case X_WWW_FORM_URLENCODED:
-
-                break;
-            case RAW:
-                mBody = (JSONObject)params[2];
-                outputString = mBody.toString();
-                break;
-
-            case BINARY:
-            case FORM_DATA:
-            default:
-                //not supported
-                break;
-
-        }
 
         try {
             URL url = new URL(mUrl);
@@ -92,15 +76,34 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
             }
             conn.connect();
 
-            //Write params to output string
             os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os));
+            //Build output string
+            switch(type){
+                case X_WWW_FORM_URLENCODED:
+                    writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                    List<NameValuePair> listBody = (List<NameValuePair>)params[2];
+                    outputString = getQuery(listBody);
+                    break;
+                case RAW:
+                    writer = new BufferedWriter(new OutputStreamWriter(os));
+                    JSONObject jsonBody = (JSONObject)params[2];
+                    outputString = jsonBody.toString();
+                    break;
+
+                //Unsupported content types, so return null.
+                case BINARY:
+                case FORM_DATA:
+                default:
+                    System.out.println("Unsupported content type: "+type);
+                    return null;
+            }
+
+            //Write params to output string
             writer.write(outputString);
             writer.flush();
 
             //If successful connection, read input stream, else read error stream
             if (conn.getResponseCode() / 100 == 2) { // 2xx code means success
-//                in = new BufferedInputStream(conn.getInputStream());
                 StringBuilder sb = new StringBuilder();
                 String line = "";
 
@@ -113,7 +116,6 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
 
             } else {
 
-//                in = new BufferedInputStream(conn.getErrorStream());
                 StringBuilder sb = new StringBuilder();
                 String line = "";
 
@@ -136,7 +138,6 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
 
             try {
                 os.close();
-//                in.close();
                 conn.disconnect();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -157,5 +158,28 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
     @Override
     protected void onCancelled() {
         listener.onAsyncTaskCancelled();
+    }
+
+    //Encode the login params in UTF-8
+    private String getQuery(List<NameValuePair> params) {
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+
+        try {
+            for (NameValuePair pair : params) {
+                if (first)
+                    first = false;
+                else
+                    result.append("&");
+
+                result.append(URLEncoder.encode(pair.getName(), ctx.getString(R.string.api_rest_utf8)));
+                result.append("=");
+                result.append(URLEncoder.encode(pair.getValue(), ctx.getString(R.string.api_rest_utf8)));
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return result.toString();
     }
 }

@@ -2,7 +2,7 @@
 <resources>
     <string name="api_url_search_services">http://zebenzi.com/api/search/services/</string>
     <string name="api_url_user_details">http://www.zebenzi.com/api/accounts/user/current</string>
-    <string name="api_url_login_token">http://www.zebenzi.com/oauth/token</string>
+    <string name="api_url_login">http://www.zebenzi.com/oauth/token</string>
     <string name="api_url_registration">http://www.zebenzi.com/api/accounts/create</string>
     <string name="api_url_hire_worker">http://www.zebenzi.com/api/job/hire/</string>
     <string name="api_url_job_history">http://www.zebenzi.com/api/job/hired</string>

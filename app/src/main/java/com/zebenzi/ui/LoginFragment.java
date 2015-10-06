@@ -17,15 +17,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
-import com.zebenzi.network.HttpPostLoginTask;
+import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static com.zebenzi.ui.FragmentsLookup.JOB;
 
@@ -38,7 +43,7 @@ import static com.zebenzi.ui.FragmentsLookup.JOB;
 public class LoginFragment extends Fragment {
 
     // Keep track of the async tasks to ensure we can cancel it if requested.
-    private AsyncTask<String, String, String>  mLoginTask = null;
+    private AsyncTask<Object, String, String>  mLoginTask = null;
     private AsyncTask<Object, String, String>  mUserDetailsTask = null;
 
     // UI references.
@@ -158,10 +163,20 @@ public class LoginFragment extends Fragment {
             // form field with an error.
             focusView.requestFocus();
         } else {
+
+            //Build url
+            String url = MainActivity.getAppContext().getString(R.string.api_url_login);
+
+            //Build body
+            List<NameValuePair> body = new ArrayList<NameValuePair>();
+            body.add(new BasicNameValuePair(MainActivity.getAppContext().getString(R.string.api_json_field_username), mobileNumber));
+            body.add(new BasicNameValuePair(MainActivity.getAppContext().getString(R.string.api_json_field_password), password));
+            body.add(new BasicNameValuePair(MainActivity.getAppContext().getString(R.string.api_json_field_grant_type), MainActivity.getAppContext().getString(R.string.api_json_field_password)));
+
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mLoginTask = new HttpPostLoginTask(MainActivity.getAppContext(), new LoginTaskCompleteListener()).execute(mobileNumber, password);
+            mLoginTask = new HttpPostTask(MainActivity.getAppContext(), new LoginTaskCompleteListener()).execute(url, null, body, HttpContentTypes.X_WWW_FORM_URLENCODED);
         }
     }
 

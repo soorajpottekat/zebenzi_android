@@ -6,9 +6,7 @@ package com.zebenzi.network;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
-import com.zebenzi.ui.MainActivity;
 import com.zebenzi.ui.R;
 
 import org.apache.http.NameValuePair;
@@ -51,7 +49,7 @@ public class HttpPostLoginTask extends AsyncTask<String, String, String> {
             mMobileNumber = params[0];
             mPassword = params[1];
 
-            URL url = new URL(ctx.getString(R.string.api_url_login_token));
+            URL url = new URL(ctx.getString(R.string.api_url_login));
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(10000);
             conn.setConnectTimeout(10000);
