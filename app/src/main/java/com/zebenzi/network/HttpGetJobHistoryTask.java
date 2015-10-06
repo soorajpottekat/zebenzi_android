@@ -28,7 +28,7 @@ public class HttpGetJobHistoryTask extends AsyncTask<String, String, JSONArray> 
     private String resultToDisplay = null;
     private Context ctx;
     private IAsyncTaskListener listener;
-    String jobHistoryURL = "http://www.zebenzi.com/api/job/hired";
+    String jobHistoryURL = ctx.getString(R.string.api_url_job_history);
     private boolean networkError = false;
 
 

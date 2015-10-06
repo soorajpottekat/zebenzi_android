@@ -17,12 +17,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpGetUserDetailsTask;
 import com.zebenzi.network.HttpPostLoginTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
+
+import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import static com.zebenzi.ui.FragmentsLookup.JOB;
 
@@ -36,7 +41,7 @@ public class LoginFragment extends Fragment {
 
     // Keep track of the async tasks to ensure we can cancel it if requested.
     private AsyncTask<String, String, String>  mLoginTask = null;
-    private AsyncTask<String, String, String>  mUserDetailsTask = null;
+    private AsyncTask<Object, String, String>  mUserDetailsTask = null;
 
     // UI references.
     private EditText mMobileNumberView;
@@ -173,8 +178,16 @@ public class LoginFragment extends Fragment {
 
             //Get the User details and display
             if (mUserDetailsTask == null) {
+                //Build url
+                String url = MainActivity.getAppContext().getString(R.string.api_url_user_details);
+
+                //Build header
+                HashMap<String, String> header = new HashMap<>();
+                header.put("Content-Type", "application/json");
+                header.put("Authorization", "bearer " + token);
+
                 showProgress(true);
-                mUserDetailsTask = new HttpGetUserDetailsTask(MainActivity.getAppContext(), new UserDetailsTaskCompleteListener()).execute(oAuthToken);
+                mUserDetailsTask = new HttpGetTask(MainActivity.getAppContext(), new UserDetailsTaskCompleteListener()).execute(url, header, null);
             }
         }
         else

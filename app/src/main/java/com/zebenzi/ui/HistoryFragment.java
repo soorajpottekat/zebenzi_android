@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.zebenzi.job.Job;
 import com.zebenzi.network.HttpGetJobHistoryTask;
+import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostHireWorkerTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
@@ -27,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -39,7 +41,7 @@ public class HistoryFragment extends Fragment {
     /**
      * Keep track of the history task to ensure we can cancel it if requested.
      */
-    private AsyncTask<String, String, JSONArray> mJobHistoryTask = null;
+    private AsyncTask<Object, String, String> mJobHistoryTask = null;
     private AsyncTask<String, String, String> mHireWorkerTask = null;
 
     // UI references.
@@ -96,17 +98,24 @@ public class HistoryFragment extends Fragment {
      * Attempts to connect to zebenzi server and obtain job history
      */
     public void getJobHistory() {
-        if (mJobHistoryTask != null) {
-            return;
-        }
 
-        showProgress(true);
-        mJobHistoryTask = new HttpGetJobHistoryTask(MainActivity.getAppContext(), new JobHistoryTaskCompleteListener()).execute(Customer.getToken());
+        if (mJobHistoryTask == null) {
+            //Build url
+            String url = MainActivity.getAppContext().getString(R.string.api_url_job_history);
+
+            //Build header
+            HashMap<String, String> header = new HashMap<>();
+            header.put("Content-Type", "application/json");
+            header.put("Authorization", "bearer " + Customer.getInstance().getToken());
+
+            showProgress(true);
+            mJobHistoryTask = new HttpGetTask(MainActivity.getAppContext(), new JobHistoryTaskCompleteListener()).execute(url, header, null);
+        }
     }
 
-    public class JobHistoryTaskCompleteListener implements IAsyncTaskListener<JSONArray> {
+    public class JobHistoryTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
-        public void onAsyncTaskComplete(JSONArray jsonJobHistory, boolean networkError) {
+        public void onAsyncTaskComplete(String history, boolean networkError) {
             mJobHistoryTask = null;
             showProgress(false);
 
@@ -116,10 +125,15 @@ public class HistoryFragment extends Fragment {
                         Toast.LENGTH_LONG).show();
             }
             else {
-                if (jsonJobHistory != null) {
-                    jobHistoryResultsAdapter.clear();
-                    ArrayList<Job> jobList = Job.fromJson(jsonJobHistory);
-                    jobHistoryResultsAdapter.addAll(jobList);
+                if (history != null) {
+                    try {
+                        JSONArray jsonJobHistory = new JSONArray(history);
+                        jobHistoryResultsAdapter.clear();
+                        ArrayList<Job> jobList = Job.fromJson(jsonJobHistory);
+                        jobHistoryResultsAdapter.addAll(jobList);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     Toast.makeText(MainActivity.getAppContext(), MainActivity.getAppContext().getString(R.string.no_history_found), Toast.LENGTH_LONG).show();
                     //TODO: What to do if no job history?

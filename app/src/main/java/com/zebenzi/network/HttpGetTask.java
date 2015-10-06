@@ -9,13 +9,14 @@ import android.os.AsyncTask;
 
 import com.zebenzi.ui.R;
 
-import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Represents an asynchronous login/registration task used to authenticate
@@ -24,7 +25,7 @@ import java.net.URL;
 public class HttpGetTask extends AsyncTask<Object, String, String> {
 
     private String mUrl;
-    private Header mHeader;
+    private HashMap<String, String> mHeader = null;
     private JSONObject mBody;
     private String resultToDisplay = null;
     private Context ctx;
@@ -42,11 +43,12 @@ public class HttpGetTask extends AsyncTask<Object, String, String> {
     @Override
     protected String doInBackground(Object... params) {
         mUrl = (String)params[0];
-        mHeader = (Header)params[1];
+        mHeader = (HashMap)params[1];
         mBody = (JSONObject)params[2];
 
             try {
 
+                //Url should be built by the caller
                 URL url = new URL(mUrl);
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -54,10 +56,16 @@ public class HttpGetTask extends AsyncTask<Object, String, String> {
                 conn.setConnectTimeout(10000);
                 conn.setRequestMethod(ctx.getString(R.string.api_rest_get));
 
+                //All headers should be passed in as a hashmap
                 if (mHeader != null) {
-//                    conn.setRequestProperty("Content-Type", "application/json");
-//                    conn.setRequestProperty("Authorization", "bearer " + mToken);
+                    Iterator<String> it = mHeader.keySet().iterator();
+                    while(it.hasNext()){
+                        String key = it.next();
+                        conn.setRequestProperty(key, mHeader.get(key));
+                    }
                 }
+
+                //TODO: Body
 
                 conn.connect();
 
