@@ -1,6 +1,7 @@
 package com.zebenzi.ui;
 
 import android.app.Activity;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -16,17 +17,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zebenzi.job.Quote;
-import com.zebenzi.network.HttpGetSearchTask;
+import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostHireWorkerTask;
+import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
 import com.zebenzi.users.Worker;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static com.zebenzi.ui.FragmentsLookup.HISTORY;
 
@@ -50,7 +54,7 @@ public class SearchResultsFragment extends Fragment {
      * Keep track of the search task to ensure we can cancel it if requested.
      */
     private AsyncTask<Object, String, String> mSearchTask = null;
-    private AsyncTask<String, String, String> mHireWorkerTask = null;
+    private AsyncTask<Object, String, String> mHireWorkerTask = null;
 
     // UI references.
     private EditText mSearchView;
@@ -238,8 +242,25 @@ public class SearchResultsFragment extends Fragment {
     }
 
     public void hireWorker(String workerId, String serviceId) {
+        JSONObject jsonHireParams = new JSONObject();
+        //Build url
+        String url = MainActivity.getAppContext().getString(R.string.api_url_hire_worker);
+
+        //Build header
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Content-Type", "application/json");
+        header.put("Authorization", "bearer " + Customer.getInstance().getToken());
+
+        //Build body
+        try {
+            jsonHireParams.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), serviceId);
+            jsonHireParams.put(MainActivity.getAppContext().getString(R.string.api_json_field_worker_id), workerId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         showProgress(true);
-        mHireWorkerTask = new HttpPostHireWorkerTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), serviceId, workerId);
+        mHireWorkerTask = new HttpPostTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(url, header, jsonHireParams, HttpContentTypes.RAW);
     }
 
 

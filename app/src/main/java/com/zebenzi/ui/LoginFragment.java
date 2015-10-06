@@ -18,12 +18,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zebenzi.network.HttpGetTask;
-import com.zebenzi.network.HttpGetUserDetailsTask;
 import com.zebenzi.network.HttpPostLoginTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
 
-import org.apache.http.Header;
 import org.json.JSONException;
 import org.json.JSONObject;
 

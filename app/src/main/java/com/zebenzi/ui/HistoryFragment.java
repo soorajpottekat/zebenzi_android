@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zebenzi.job.Job;
-import com.zebenzi.network.HttpGetJobHistoryTask;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostHireWorkerTask;
 import com.zebenzi.network.IAsyncTaskListener;

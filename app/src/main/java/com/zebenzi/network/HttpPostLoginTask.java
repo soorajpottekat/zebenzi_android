@@ -65,6 +65,7 @@ public class HttpPostLoginTask extends AsyncTask<String, String, String> {
             local_params.add(new BasicNameValuePair(ctx.getString(R.string.api_json_field_grant_type), ctx.getString(R.string.api_json_field_password)));
 
 
+
             //Send params via output stream
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
