@@ -13,11 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpPostRegisterTask;
+import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import static com.zebenzi.ui.FragmentsLookup.LOGIN;
 
@@ -32,7 +36,7 @@ public class RegisterFragment extends Fragment {
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private AsyncTask<JSONObject, String, String> mRegistrationTask;
+    private AsyncTask<Object, String, String> mRegistrationTask;
 
     // UI references.
     private EditText mMobileNumberView;
@@ -72,7 +76,7 @@ public class RegisterFragment extends Fragment {
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptRegisterCustomer();
+                registerCustomer();
             }
         });
 
@@ -101,7 +105,7 @@ public class RegisterFragment extends Fragment {
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    public void attemptRegisterCustomer() {
+    public void registerCustomer() {
         if (mRegistrationTask != null) {
             return;
         }
@@ -110,7 +114,7 @@ public class RegisterFragment extends Fragment {
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        // Store values at the time of the login attempt.
+        // Store values at the time of the registration attempt.
         String mobileNumber = mMobileNumberView.getText().toString();
         String firstName = mFirstnameView.getText().toString();
         String lastName = mLastnameView.getText().toString();
@@ -122,31 +126,6 @@ public class RegisterFragment extends Fragment {
         String suburb = mSuburbView.getText().toString();
         String code = mSuburbCodeView.getText().toString();
 
-        JSONObject addressObject = new JSONObject();
-        try {
-            addressObject.put("AddressLine1", addressLine1);
-            addressObject.put("AddressLine2", addressLine2);
-            addressObject.put("Surburb", suburb);
-            addressObject.put("code", code);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JSONObject jsonCustomerParams = new JSONObject();
-        try {
-            jsonCustomerParams.put("FirstName", firstName);
-            jsonCustomerParams.put("LastName", lastName);
-            jsonCustomerParams.put("Email", email);
-            jsonCustomerParams.put("Telephone", mobileNumber);
-            jsonCustomerParams.put("Password", password);
-            jsonCustomerParams.put("ConfirmPassword", confirmPassword);
-            jsonCustomerParams.put("RoleName", "User");
-            jsonCustomerParams.put("Adddress", addressObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Registration jsonParams="+jsonCustomerParams);
         boolean cancel = false;
         View focusView = null;
 
@@ -180,10 +159,41 @@ public class RegisterFragment extends Fragment {
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
+
+            //Build url
+            String url = MainActivity.getAppContext().getString(R.string.api_url_registration);
+
+            //Build header
+            HashMap<String, String> header = new HashMap<>();
+            header.put("Content-Type", "application/json");
+
+            //Build body
+            JSONObject addressObject = new JSONObject();
+            try {
+                addressObject.put("AddressLine1", addressLine1);
+                addressObject.put("AddressLine2", addressLine2);
+                addressObject.put("Surburb", suburb);
+                addressObject.put("code", code);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            JSONObject body = new JSONObject();
+            try {
+                body.put("FirstName", firstName);
+                body.put("LastName", lastName);
+                body.put("Email", email);
+                body.put("Telephone", mobileNumber);
+                body.put("Password", password);
+                body.put("ConfirmPassword", confirmPassword);
+                body.put("RoleName", "User");
+                body.put("Adddress", addressObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            System.out.println("Registration params="+body);
+
             showProgress(true);
-            mRegistrationTask = new HttpPostRegisterTask(MainActivity.getAppContext(), new RegisterTaskCompleteListener()).execute(jsonCustomerParams);
+            mRegistrationTask = new HttpPostTask(MainActivity.getAppContext(), new RegisterTaskCompleteListener()).execute(url, header, body, HttpContentTypes.RAW);
         }
     }
 
