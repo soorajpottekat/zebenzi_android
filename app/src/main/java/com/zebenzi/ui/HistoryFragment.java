@@ -18,13 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zebenzi.job.Job;
+import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostHireWorkerTask;
+import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +44,7 @@ public class HistoryFragment extends Fragment {
      * Keep track of the history task to ensure we can cancel it if requested.
      */
     private AsyncTask<Object, String, String> mJobHistoryTask = null;
-    private AsyncTask<String, String, String> mHireWorkerTask = null;
+    private AsyncTask<Object, String, String> mHireWorkerTask = null;
 
     // UI references.
     private View mProgressView;
@@ -259,8 +262,24 @@ public class HistoryFragment extends Fragment {
     }
 
     public void hireWorker(String workerId, String serviceId) {
+        JSONObject body = new JSONObject();
+        //Build url
+        String url = MainActivity.getAppContext().getString(R.string.api_url_hire_worker);
 
-        mHireWorkerTask = new HttpPostHireWorkerTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(Customer.getInstance().getToken(), serviceId, workerId);
+        //Build header
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Content-Type", "application/json");
+        header.put("Authorization", "bearer " + Customer.getInstance().getToken());
+
+        //Build body
+        try {
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), serviceId);
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_worker_id), workerId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mHireWorkerTask = new HttpPostTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(url, header, body, HttpContentTypes.RAW);
     }
 }
 
