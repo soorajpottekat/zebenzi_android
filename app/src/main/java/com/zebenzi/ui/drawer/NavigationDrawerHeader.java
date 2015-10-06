@@ -40,7 +40,7 @@ public class NavigationDrawerHeader extends ListItem {
         TextView textViewEmail = (TextView) view.findViewById(R.id.navigationDrawerHeaderEmail);
 
         //TODO: Get customer profile pic
-        imageViewIcon.setImageResource(icon);
+        imageViewIcon.setImageResource(R.drawable.profile_vaugan);
         textViewName.setText(Customer.getInstance().getCustomerName());
         textViewEmail.setText(Customer.getInstance().getCustomerMobileNumber());
 
