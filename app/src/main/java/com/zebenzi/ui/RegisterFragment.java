@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.zebenzi.network.HttpContentTypes;
-import com.zebenzi.network.HttpPostRegisterTask;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 

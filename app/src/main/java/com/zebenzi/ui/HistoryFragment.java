@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.zebenzi.job.Job;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
-import com.zebenzi.network.HttpPostHireWorkerTask;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
