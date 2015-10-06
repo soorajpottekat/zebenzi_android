@@ -42,7 +42,7 @@ public class NavigationDrawerHeader extends ListItem {
         //TODO: Get customer profile pic
         imageViewIcon.setImageResource(R.drawable.profile_vaugan);
         textViewName.setText(Customer.getInstance().getCustomerName());
-        textViewEmail.setText(Customer.getInstance().getCustomerMobileNumber());
+//        textViewEmail.setText(Customer.getInstance().getCustomerMobileNumber());
 
         return view;
     }
