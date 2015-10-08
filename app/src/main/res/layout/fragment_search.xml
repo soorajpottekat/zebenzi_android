@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/zebenzi_text_light"
+                android:textColor="@color/zebenzi_light_grey"
                 android:text="Service"
                 android:id="@+id/search_results_quote_service"/>
 
@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/zebenzi_text_light"
+                android:textColor="@color/zebenzi_light_grey"
                 android:text="Units"
                 android:id="@+id/search_results_quote_units"/>
 
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/zebenzi_text_light"
+                android:textColor="@color/zebenzi_light_grey"
                 android:text="Units"
                 android:id="@+id/search_results_quote_date"/>
 
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/zebenzi_text_light"
+                android:textColor="@color/zebenzi_light_grey"
                 android:text="Units"
                 android:id="@+id/search_results_quote_time"/>
 

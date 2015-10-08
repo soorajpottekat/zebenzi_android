@@ -98,11 +98,11 @@ public class SearchResultsFragment extends Fragment {
             String quoteServiceTime = getArguments().getString("time");
 
 
-            mQuoteService.setText("You need a " + quoteServiceName);
-            mQuoteUnits.setText("Job units " + quoteServiceUnits);
+            mQuoteService.setText("Service " + quoteServiceName);
+            mQuoteUnits.setText("SQM " + quoteServiceUnits);
             mQuotePrice.setText("R"+quoteServicePrice);
-            mQuoteDate.setText("Job units " + quoteServiceDate);
-            mQuoteTime.setText("R"+quoteServiceTime);
+            mQuoteDate.setText("Date " + quoteServiceDate);
+            mQuoteTime.setText("Time "+quoteServiceTime);
             doSearch(quoteServiceName);
         }
 

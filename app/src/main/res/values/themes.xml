@@ -89,6 +89,7 @@
         <item name="android:background">@drawable/text_field_border</item>
         <item name="android:divider">@color/zebenzi_primary_color_dark</item>
         <item name="android:dividerHeight">1dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
     </style>
 
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
