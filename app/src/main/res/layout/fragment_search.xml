@@ -39,8 +39,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="50sp"
+                android:textColor="@color/zebenzi_accent_color"
+                android:text="Price"
+                android:id="@+id/search_results_quote_price"
+                android:layout_gravity="center_horizontal"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/material_grey_100"
+                android:textColor="@color/zebenzi_text_light"
                 android:text="Service"
                 android:id="@+id/search_results_quote_service"/>
 
@@ -48,17 +57,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/material_grey_100"
+                android:textColor="@color/zebenzi_text_light"
                 android:text="Units"
                 android:id="@+id/search_results_quote_units"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="50sp"
-                android:textColor="@color/material_light_green_A200"
-                android:text="Price"
-                android:id="@+id/search_results_quote_price"/>
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/zebenzi_text_light"
+                android:text="Units"
+                android:id="@+id/search_results_quote_date"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/zebenzi_text_light"
+                android:text="Units"
+                android:id="@+id/search_results_quote_time"/>
+
         </LinearLayout>
 
 

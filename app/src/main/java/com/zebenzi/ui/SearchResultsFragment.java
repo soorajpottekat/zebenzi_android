@@ -27,7 +27,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import static com.zebenzi.ui.FragmentsLookup.HISTORY;
@@ -62,6 +65,8 @@ public class SearchResultsFragment extends Fragment {
     private TextView mQuoteService;
     private TextView mQuoteUnits;
     private TextView mQuotePrice;
+    private TextView mQuoteDate;
+    private TextView mQuoteTime;
 
 
     @Override
@@ -76,6 +81,8 @@ public class SearchResultsFragment extends Fragment {
         mQuoteService = (TextView) rootView.findViewById(R.id.search_results_quote_service);
         mQuoteUnits = (TextView) rootView.findViewById(R.id.search_results_quote_units);
         mQuotePrice = (TextView) rootView.findViewById(R.id.search_results_quote_price);
+        mQuoteDate = (TextView) rootView.findViewById(R.id.search_results_quote_date);
+        mQuoteTime = (TextView) rootView.findViewById(R.id.search_results_quote_time);
         mProgressView = rootView.findViewById(R.id.search_progress);
         // Attach the adapter to a ListView
         listView = (ListView) rootView.findViewById(R.id.searchResultsList);
@@ -86,9 +93,16 @@ public class SearchResultsFragment extends Fragment {
             String quoteServiceName = getArguments().getString("service");
             String quoteServiceUnits = getArguments().getString("units");
             String quoteServicePrice = getArguments().getString("price");
+
+            String quoteServiceDate = getArguments().getString("date");
+            String quoteServiceTime = getArguments().getString("time");
+
+
             mQuoteService.setText("You need a " + quoteServiceName);
             mQuoteUnits.setText("Job units " + quoteServiceUnits);
             mQuotePrice.setText("R"+quoteServicePrice);
+            mQuoteDate.setText("Job units " + quoteServiceDate);
+            mQuoteTime.setText("R"+quoteServiceTime);
             doSearch(quoteServiceName);
         }
 

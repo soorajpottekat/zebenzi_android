@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 
@@ -39,7 +40,7 @@ import static com.zebenzi.ui.FragmentsLookup.*;
 /**
  * A login screen that offers login via email/password.
  */
-public class MainActivity extends ActionBarActivity implements FragmentListener {
+public class MainActivity extends AppCompatActivity implements FragmentListener {
 
     public static Context appContext;
     private FragmentManager fm = getSupportFragmentManager();
@@ -158,8 +159,7 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+
         if (Customer.getInstance().isLoggedIn()) {
             hideMenuOption(R.id.action_login);
             hideMenuOption(R.id.action_register);
@@ -268,6 +268,8 @@ public class MainActivity extends ActionBarActivity implements FragmentListener 
                     b.putString("service", quote.getServiceName());
                     b.putString("units", Integer.toString(quote.getUnits()));
                     b.putString("price", quote.getPrice());
+                    b.putString("date", quote.getDate());
+                    b.putString("time", quote.getTime());
                     searchFragment.setArguments(b);
                     transaction.replace(R.id.fragment_container, searchFragment);
                     transaction.addToBackStack(null);

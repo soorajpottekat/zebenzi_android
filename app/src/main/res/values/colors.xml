@@ -66,9 +66,13 @@
     <!-- Primary & accent colors -->
     <eat-comment />
 
-    <color name="zebenzi_accent_color">#ff2979ff</color>
+    <color name="zebenzi_accent_color">#ff448aff</color>
+    <!--<color name="zebenzi_accent_color">#ff2979ff</color>-->
     <color name="zebenzi_primary_color">#8BC34A</color>
     <color name="zebenzi_primary_color_dark">#689F38</color>
+    <color name="zebenzi_text_light">#ffa3a3a3</color>
+    <color name="zebenzi_text_dark">#ff212121</color>
+
 
 
 

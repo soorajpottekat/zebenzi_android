@@ -47,6 +47,8 @@ public class NewJobFragment extends Fragment {
     private int mHour;
     private int mMin;
     private Button jobTime;
+    GregorianCalendar mDate;
+    GregorianCalendar mTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,7 +74,8 @@ public class NewJobFragment extends Fragment {
         jobTime = (Button)rootView.findViewById(R.id.new_job_time);
 
         DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy");
-        String date = df.format(Calendar.getInstance().getTime());
+        mDate = new GregorianCalendar();
+        String date = df.format(mDate.getTime());
         jobDate.setText(date);
         jobDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +85,8 @@ public class NewJobFragment extends Fragment {
         });
 
         df = new SimpleDateFormat("HH:mm");
-        String time = df.format(Calendar.getInstance().getTime());
+        mTime = new GregorianCalendar();
+        String time = df.format(mTime.getTime());
         jobTime.setText(time);
         jobTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +108,7 @@ public class NewJobFragment extends Fragment {
                 String item = spinnerService.getSelectedItem().toString();
                 Services quoteSvc = Services.of(item);
                 int quoteUnits = Integer.parseInt(units.getText().toString());
-                Quote q = new Quote(quoteSvc, quoteUnits);
+                Quote q = new Quote(quoteSvc, quoteUnits, mDate, mTime);
                 System.out.println("Quote price = " + q.getPrice());
                 Customer.getInstance().setCurrentQuote(q);
                 fragmentListener.changeFragment(SEARCH);
@@ -180,15 +184,15 @@ public class NewJobFragment extends Fragment {
     };
 
     private void updateDate() {
-        GregorianCalendar c = new GregorianCalendar(mYear, mMonth, mDay);
+        mDate = new GregorianCalendar(mYear, mMonth, mDay);
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy");
-        jobDate.setText(sdf.format(c.getTime()));
+        jobDate.setText(sdf.format(mDate.getTime()));
     }
 
     private void updateTime() {
-        GregorianCalendar c = new GregorianCalendar(mHour, mMonth, mDay, mHour, mMin);
+        mTime = new GregorianCalendar(mHour, mMonth, mDay, mHour, mMin);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        jobTime.setText(sdf.format(c.getTime()));
+        jobTime.setText(sdf.format(mTime.getTime()));
     }
 }
 

@@ -12,5 +12,5 @@
     app:contentInsetEnd="0dp"
     app:contentInsetStart="0dp"
     style="@style/MyActionBar"
-                                   android:translationZ="5dp">
+    android:translationZ="5dp">
     </android.support.v7.widget.Toolbar>

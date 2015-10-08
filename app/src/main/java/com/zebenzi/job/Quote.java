@@ -3,7 +3,9 @@ package com.zebenzi.job;
 import com.zebenzi.service.Services;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Vaugan.Nayagar on 2015/10/01.
@@ -13,19 +15,16 @@ import java.util.Date;
 public class Quote {
     Services svc;
     int units;
-    Date date;
-    Time time;
+    GregorianCalendar date;
+    GregorianCalendar time;
 
-    public Quote(Services svc, int units, Date date, Time time) {
+    public Quote(Services svc, int units, GregorianCalendar date, GregorianCalendar time) {
         this.svc = svc;
         this.units = units;
         this.date = date;
         this.time = time;
     }
-    public Quote(Services svc, int units) {
-        this.svc = svc;
-        this.units = units;
-    }
+
     public String getPrice() {
         return Float.toString (this.units * this.svc.getUnitPrice());
     }
@@ -36,5 +35,16 @@ public class Quote {
 
     public int getUnits() {
         return units;
+    }
+
+    public String getDate() {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy");
+        return sdf.format(date.getTime());
+    }
+
+    public String getTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(time.getTime());
     }
 }
