@@ -15,7 +15,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Job Service Name"
             android:id="@+id/jobServiceName"
-            android:textColor="@color/material_light_green_700" />
+            android:textColor="@color/zebenzi_primary_color_dark" />
 
         <TextView
             android:layout_width="wrap_content"

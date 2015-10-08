@@ -67,6 +67,9 @@
     <eat-comment />
 
     <color name="zebenzi_accent_color">#ff2979ff</color>
+    <color name="zebenzi_primary_color">#8BC34A</color>
+    <color name="zebenzi_primary_color_dark">#689F38</color>
+
 
 
     <color name="material_red_100">#fff4c7c3</color>

@@ -8,10 +8,10 @@
         <item name="android:actionMenuTextColor">@color/material_deep_orange_700</item>
 
         <!-- colorPrimary is used for the default action bar background -->
-        <item name="colorPrimary">@color/material_light_green_500</item>
+        <item name="colorPrimary">@color/zebenzi_primary_color</item>
 
         <!-- colorPrimaryDark is used for the status bar -->
-        <item name="colorPrimaryDark">@color/material_light_green_700</item>
+        <item name="colorPrimaryDark">@color/zebenzi_primary_color_dark</item>
 
         <!-- colorAccent is used as the default value for colorControlActivated,
              which is used to tint widgets -->
@@ -25,7 +25,6 @@
         <item name="actionBarTabTextStyle">@style/MyActionBarTabText</item>
         <item name="actionMenuTextColor">@color/material_deep_orange_700</item>
         <item name="android:buttonStyle">@style/materialButton</item>
-        materialButton
     </style>
 
     <!-- ActionBar styles -->
@@ -63,7 +62,7 @@
 
     <style name="popUpTheme"
         parent="@style/Widget.AppCompat.ActionBar.TabText">
-        <item name="android:textColor">@color/material_light_green_700</item>
+        <item name="android:textColor">@color/zebenzi_primary_color_dark</item>
         <item name="android:colorBackground">@color/material_grey_300</item>
         <!-- The textColor property is backward compatible with the Support Library -->
     </style>
@@ -81,10 +80,10 @@
     </style>
 
     <style name="dateTimeButton">
-        <item name="android:textColor">@color/material_light_green_700</item>
+        <item name="android:textColor">@color/zebenzi_primary_color_dark</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
         <!--<item name="android:layout_gravity">center</item>-->
-        <!--<item name="android:paddingTop">10dp</item>-->
+        <item name="android:padding">20dp</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <!--<item name="android:minWidth">88dp</item>-->
         <!--<item name="android:minHeight">36dp</item>-->
@@ -95,30 +94,29 @@
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">@color/material_light_green_700</item>
+        <item name="color">@color/zebenzi_primary_color_dark</item>
     </style>
 
 
     <style name="spinnerDropDownListStyle" parent="android:style/Widget.ListView.DropDown">
-        <item name="android:divider">@color/material_light_green_700</item>
+        <item name="android:background">@drawable/text_field_border</item>
+        <item name="android:divider">@color/zebenzi_primary_color_dark</item>
         <item name="android:dividerHeight">1dp</item>
     </style>
 
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
-        <item name="android:textColor">@color/material_light_green_700</item>
-        <item name="android:background">@color/material_grey_300</item>
+        <item name="android:textColor">@color/zebenzi_primary_color_dark</item>
+        <item name="android:background">@color/material_grey_100</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
-        <item name="android:paddingLeft">10sp</item>
-
     </style>
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
-        <item name="android:textColor">@color/material_light_green_700</item>
+        <item name="android:textColor">@color/zebenzi_primary_color_dark</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
         <item name="android:paddingTop">10sp</item>
         <item name="android:paddingBottom">10sp</item>
         <item name="android:paddingLeft">10sp</item>
-
     </style>
+
 
 </resources>
