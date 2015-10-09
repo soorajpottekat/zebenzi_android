@@ -32,9 +32,11 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:background="@color/material_blue_grey_950"
+            android:background="@drawable/quote_panel_background"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:translationZ="5dp"
+            android:layout_margin="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,7 +53,8 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/zebenzi_light_grey"
                 android:text="Service"
-                android:id="@+id/search_results_quote_service"/>
+                android:id="@+id/search_results_quote_service"
+                android:paddingLeft="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,7 +62,8 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/zebenzi_light_grey"
                 android:text="Units"
-                android:id="@+id/search_results_quote_units"/>
+                android:id="@+id/search_results_quote_units"
+                android:paddingLeft="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,7 +71,8 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/zebenzi_light_grey"
                 android:text="Units"
-                android:id="@+id/search_results_quote_date"/>
+                android:id="@+id/search_results_quote_date"
+                android:paddingLeft="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,7 +80,8 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/zebenzi_light_grey"
                 android:text="Units"
-                android:id="@+id/search_results_quote_time"/>
+                android:id="@+id/search_results_quote_time"
+                android:paddingLeft="20dp"/>
 
         </LinearLayout>
 
