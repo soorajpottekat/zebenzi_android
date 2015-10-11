@@ -10,15 +10,15 @@ public  enum Services {
     //TODO: All of this must come from the server
 
     //service descr, unit, unit abbr, rate/unit, min units, max units, increment
-    TILER("Tiler", "Square Meter", "SQM", 50, 20, 5000, 50),
-    PAINTER("Painter", "Square Meter", "SQM", 30, 50, 5000, 50),
-    GARDENER("Gardener", "Day", "DAY", 200, 1, 10, 1),
+    TILER("Tiler", "Square Meters", "SQM", 50, 20, 5000, 50),
+    PAINTER("Painter", "Square Meters", "SQM", 30, 50, 5000, 50),
+    GARDENER("Gardener", "Days", "DAY", 200, 1, 10, 1),
     MAID("Maid", "Day", "DAY", 220, 1, 10, 1),
-    PLASTERER("Plasterer", "Square Meter", "SQM", 75, 20, 5000, 50),
-    PAVER("Paver", "Square Meter", "SQM", 25, 10, 10000, 50),
-    CLADDER("Cladder", "Square Meter", "SQM", 120, 10, 1000, 20),
+    PLASTERER("Plasterer", "Square Meters", "SQM", 75, 20, 5000, 50),
+    PAVER("Paver", "Square Meters", "SQM", 25, 10, 10000, 50),
+    CLADDER("Cladder", "Square Meters", "SQM", 120, 10, 1000, 20),
     BRICKLAYER("Bricklayer", "Bricks", "BRK", 2, 100, 10000, 100),
-    PLUMBER("Plumber", "Hour", "HRS", 200, 1, 10, 1);
+    PLUMBER("Plumber", "Hours", "HRS", 200, 1, 10, 1);
 
     private static final Map<String, Services> SERVICES = new HashMap<>();
 

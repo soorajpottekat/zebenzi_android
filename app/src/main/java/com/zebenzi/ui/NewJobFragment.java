@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.zebenzi.service.Services;
@@ -20,6 +21,8 @@ import com.zebenzi.job.Quote;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.DatePickerFragment;
 import com.zebenzi.utils.TimePickerFragment;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -51,6 +54,7 @@ public class NewJobFragment extends Fragment {
     private Spinner spinnerUnits;
     ArrayList<String> unitsSpinnerArray = new ArrayList<String>();
     ArrayAdapter<String> unitsSpinnerArrayAdapter;
+    private TextView mUnitsLabel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class NewJobFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_new_job, container, false);
 
+        mUnitsLabel = (TextView) rootView.findViewById(R.id.new_job_units_label);
 
         //Select date via datepicker fragment
         jobDate = (Button) rootView.findViewById(R.id.new_job_date);
@@ -135,6 +140,7 @@ public class NewJobFragment extends Fragment {
     private void updateUnits() {
         unitsSpinnerArray.clear();
         Services svc = Services.of(spinnerService.getSelectedItem().toString());
+        mUnitsLabel.setText(svc.getUnit());
         int increment;
         int units = 0;
         increment = svc.getIncrement();
