@@ -29,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.concurrent.TimeUnit;
 
 import static com.zebenzi.ui.FragmentsLookup.SEARCH;
 
@@ -55,6 +56,7 @@ public class NewJobFragment extends Fragment {
     ArrayList<String> unitsSpinnerArray = new ArrayList<String>();
     ArrayAdapter<String> unitsSpinnerArrayAdapter;
     private TextView mUnitsLabel;
+    private TextView mDateLabel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class NewJobFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_new_job, container, false);
 
         mUnitsLabel = (TextView) rootView.findViewById(R.id.new_job_units_label);
+        mDateLabel =  (TextView) rootView.findViewById(R.id.new_job_date_label);
 
         //Select date via datepicker fragment
         jobDate = (Button) rootView.findViewById(R.id.new_job_date);
@@ -96,8 +99,9 @@ public class NewJobFragment extends Fragment {
         spinnerService = (Spinner) rootView.findViewById(R.id.new_job_service_name);
         ArrayList<String> spinnerArray = new ArrayList<String>() {
             {
-                for(Services svc: Services.values()){
-                    add(svc.getName());}
+                for (Services svc : Services.values()) {
+                    add(svc.getName());
+                }
             }
         };
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(MainActivity.getAppContext(), R.layout.spinner_item, spinnerArray);
@@ -114,7 +118,6 @@ public class NewJobFragment extends Fragment {
                 //do nothing
             }
         });
-
 
 
         //Spinner for number of units
@@ -143,6 +146,7 @@ public class NewJobFragment extends Fragment {
         unitsSpinnerArray.clear();
         Services svc = Services.of(spinnerService.getSelectedItem().toString());
         mUnitsLabel.setText(svc.getUnit());
+
         int increment;
         int units = 0;
         increment = svc.getIncrement();
@@ -229,6 +233,12 @@ public class NewJobFragment extends Fragment {
         mDate = new GregorianCalendar(mYear, mMonth, mDay);
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy");
         jobDate.setText(sdf.format(mDate.getTime()));
+
+        GregorianCalendar currentDay = new GregorianCalendar();
+
+        Long millisecs = mDate.getTimeInMillis() + TimeUnit.HOURS.toMillis(mTime.HOUR_OF_DAY) - currentDay.getTimeInMillis();
+        mDateLabel.setText("Date (In " + TimeUnit.MILLISECONDS.toDays(millisecs) + " days)");
+
     }
 
     private void updateTime() {
@@ -240,10 +250,11 @@ public class NewJobFragment extends Fragment {
     /**
      * For the spinner, we can't just display a linear increment.
      * So we have a sliding scale.
-     *     1-20 = x1
-     *     21-30 = x5
-     *     31-50 = x10
-     *     51-100 = x20
+     * 1-20 = x1
+     * 21-30 = x5
+     * 31-50 = x10
+     * 51-100 = x20
+     *
      * @param spinnerCounter
      * @return
      */
@@ -261,6 +272,8 @@ public class NewJobFragment extends Fragment {
 
         return 0;
     }
+
+
 }
 
 

@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date"
-                android:id="@+id/textView3"
+                android:id="@+id/new_job_date_label"
                 android:layout_gravity="center_vertical|left"
                 android:textColor="@color/zebenzi_light_grey"
                 android:gravity="right"
