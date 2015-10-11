@@ -3,5 +3,5 @@
     android:exitFadeDuration="@android:integer/config_mediumAnimTime" >
     <item android:state_pressed="false" android:state_checked="true" android:color="@color/zebenzi_white" />
     <item android:state_pressed="true" android:color="@color/zebenzi_white" />
-    <item android:color="@color/zebenzi_primary_color_dark" />
+    <item android:color="@color/zebenzi_black" />
 </selector>

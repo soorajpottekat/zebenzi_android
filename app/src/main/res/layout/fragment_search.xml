@@ -5,11 +5,6 @@
     tools:context="com.zebenzi.ui.Search"
     android:clickable="false">
 
-    <!-- Search progress -->
-    <ProgressBar android:id="@+id/search_progress" style="?android:attr/progressBarStyleLarge"
-                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                 android:layout_marginBottom="8dp" android:visibility="gone"
-                 android:layout_weight="0" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -32,7 +27,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:background="@drawable/quote_panel_background"
+            android:background="@drawable/panel_border"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:translationZ="5dp"
@@ -42,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="50sp"
-                android:textColor="@color/zebenzi_accent_color"
+                android:textColor="@color/zebenzi_black"
                 android:text="Price"
                 android:id="@+id/search_results_quote_price"
                 android:layout_gravity="center_horizontal"/>
@@ -85,6 +80,11 @@
 
         </LinearLayout>
 
+        <!-- Search progress -->
+        <ProgressBar android:id="@+id/search_progress" style="?android:attr/progressBarStyleLarge"
+                     android:layout_width="match_parent" android:layout_height="wrap_content"
+                     android:layout_marginBottom="8dp" android:visibility="gone"
+                     android:layout_weight="0" />
 
         <ListView
             android:layout_width="match_parent"

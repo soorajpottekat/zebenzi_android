@@ -26,7 +26,7 @@ public class Quote {
     }
 
     public String getPrice() {
-        return Float.toString (this.units * this.svc.getUnitPrice());
+        return String.format ("%.02f", this.units * this.svc.getUnitPrice());
     }
 
     public String getServiceName() {

@@ -247,33 +247,6 @@ public class NewJobFragment extends Fragment {
         jobTime.setText(sdf.format(mTime.getTime()));
     }
 
-    /**
-     * For the spinner, we can't just display a linear increment.
-     * So we have a sliding scale.
-     * 1-20 = x1
-     * 21-30 = x5
-     * 31-50 = x10
-     * 51-100 = x20
-     *
-     * @param spinnerCounter
-     * @return
-     */
-    public int getUnit(int spinnerCounter, int increment) {
-
-        if (spinnerCounter <= 20) {
-            return spinnerCounter * increment * spinnerCounter;
-        } else if (spinnerCounter <= 30) {
-            return spinnerCounter * increment * spinnerCounter * 5;
-        } else if (spinnerCounter <= 50) {
-            return spinnerCounter * increment * spinnerCounter * 10;
-        } else if (spinnerCounter <= 100) {
-            return spinnerCounter * increment * spinnerCounter * 20;
-        }
-
-        return 0;
-    }
-
-
 }
 
 
