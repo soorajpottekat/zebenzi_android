@@ -4,7 +4,7 @@
               android:paddingTop="8dp"
               android:paddingBottom="8dp"
               android:layout_height="wrap_content"
-              android:background="@color/material_grey_100"
+              android:background="@color/zebenzi_white"
               android:orientation="horizontal">
 
 

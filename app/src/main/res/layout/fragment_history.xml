@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/material_grey_100">
+        android:background="@color/zebenzi_white">
 
         <ListView
             android:layout_width="match_parent"
