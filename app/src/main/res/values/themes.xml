@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- the theme applied to the application or activity -->
     <style name="ZebenziDefaultTheme"
         parent="@style/Theme.AppCompat.Light.NoActionBar">
@@ -87,15 +87,17 @@
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
         <item name="android:textColor">@color/zebenzi_primary_color_dark</item>
         <!--<item name="android:background">@color/material_grey_100</item>-->
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
-        <item name="android:textColor">@color/zebenzi_primary_color_dark</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:paddingTop">10sp</item>
-        <item name="android:paddingBottom">10sp</item>
-        <item name="android:paddingLeft">10sp</item>
+
+        <item name="android:textColor">@drawable/spinner_dropdown_textcolor</item>
+        <item name="android:background">@drawable/spinner_dropdown_background</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:paddingTop">15sp</item>
+        <item name="android:paddingBottom">15sp</item>
+        <item name="android:paddingLeft">20sp</item>
     </style>
 
     <style name="Divider">

@@ -7,10 +7,10 @@
     android:minHeight="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
     android:title="@string/app_name"
-    app:theme="@style/ZebenziDefaultTheme"
-    app:popupTheme="@style/popUpTheme"
-    app:contentInsetEnd="0dp"
-    app:contentInsetStart="0dp"
+                                   android:contentInsetEnd="0dp"
+                                   android:contentInsetStart="0dp"
+                                   android:popupTheme="@style/popUpTheme"
+                                   android:theme="@style/ZebenziDefaultTheme"
     style="@style/MyActionBar"
     android:translationZ="5dp">
     </android.support.v7.widget.Toolbar>
