@@ -6,178 +6,179 @@
     android:clickable="true">
 
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TableLayout
         android:layout_width="match_parent"
-        android:background="@color/material_grey_300"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/panel_border"
+        android:layout_margin="20dp"
+        android:translationZ="5dp"
+        android:id="@+id/tableLayout">
 
-        <!--<EditText-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/searchText"-->
-            <!--android:hint="I&apos;m looking for"-->
-            <!--android:visibility="visible" />-->
-
-        <!--<Button-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="Go"-->
-            <!--android:id="@+id/searchButton"-->
-            <!--android:visibility="visible" />-->
-
-
-        <TableLayout
+        <TableRow
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:translationZ="5dp">
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp">
 
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="I need a"
-                    android:id="@+id/textView"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="right"
-                    android:textColor="@color/zebenzi_light_grey"
-                    android:layout_marginRight="20dp"
-                    android:textSize="18sp"/>
-
-                <Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/spinner_bg_arrow"
-                    android:padding="20dp"
-                    android:id="@+id/new_job_service_name"
-                    />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Units"
-                    android:id="@+id/textView2"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="right"
-                    android:textColor="@color/zebenzi_light_grey"
-                    android:layout_marginRight="20dp"
-                    android:textSize="18sp"/>
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:background="@drawable/text_field_border"
-                    android:textColor="@color/zebenzi_primary_color_dark"
-                    android:id="@+id/new_job_units"
-                    android:inputType="number"
-                    android:visibility="visible"
-                    android:padding="20dp"
-                    />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Date"
-                    android:id="@+id/textView3"
-                    android:layout_gravity="center_vertical"
-                    android:textColor="@color/zebenzi_light_grey"
-                    android:gravity="right"
-                    android:layout_marginRight="20dp"
-                    android:textSize="18sp"/>
-
-                <Button
-                    android:id="@+id/new_job_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/text_field_border"
-
-                    style="@style/dateTimeButton"/>
-
-                <!--<EditText-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:inputType="date"-->
-                    <!--android:ems="10"-->
-                    <!--android:id="@+id/new_job_date"-->
-                    />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Time"
-                    android:id="@+id/textView4"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="right"
-                    android:textColor="@color/zebenzi_light_grey"
-                    android:layout_marginRight="20dp"
-                    android:textSize="18sp"/>
-
-                <Button
-                    android:id="@+id/new_job_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/text_field_border"
-
-                    style="@style/dateTimeButton"/>
-
-                <!--<EditText-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:inputType="date"-->
-                    <!--android:ems="10"-->
-                    <!--android:id="@+id/new_job_time"-->
-                    <!--android:selectAllOnFocus="true"/>-->
-            </TableRow>
-
-        </TableLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I need a"
+                android:id="@+id/textView"
+                android:layout_gravity="center_vertical|left"
+                android:gravity="right"
+                android:textColor="@color/zebenzi_light_grey"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"/>
+        </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:gravity="center_horizontal"
-            >
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
-            <Button
-                android:id="@+id/new_job_get_quote"
+            <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="GET QUOTE"
-                android:layout_gravity="center_horizontal"
-                style="@style/materialButton"
-                android:textSize="22sp"
-                android:padding="20dp"/>
+                android:background="@drawable/spinner_bg_arrow"
+                android:padding="15dp"
+                android:id="@+id/new_job_service_name"
+                />
         </TableRow>
 
-    </LinearLayout>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Units"
+                android:id="@+id/textView2"
+                android:layout_gravity="center_vertical|left"
+                android:gravity="right"
+                android:textColor="@color/zebenzi_light_grey"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:background="@drawable/text_field_border"
+                android:textColor="@color/zebenzi_primary_color_dark"
+                android:id="@+id/new_job_units"
+                android:inputType="number"
+                android:visibility="visible"
+                android:padding="15dp"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:id="@+id/textView3"
+                android:layout_gravity="center_vertical|left"
+                android:textColor="@color/zebenzi_light_grey"
+                android:gravity="right"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <Button
+                android:id="@+id/new_job_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_field_border"
+
+                style="@style/dateTimeButton"
+                android:layout_gravity="left"
+                />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:id="@+id/textView4"
+                android:layout_gravity="center_vertical|left"
+                android:gravity="right"
+                android:textColor="@color/zebenzi_light_grey"
+                android:layout_marginRight="20dp"
+                android:textSize="18sp"
+                />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:translationZ="10dp"
+            android:layout_marginBottom="20dp">
+
+            <Button
+                android:id="@+id/new_job_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/text_field_border"
+
+                style="@style/dateTimeButton"
+                android:layout_gravity="left"
+                />
+        </TableRow>
+
+    </TableLayout>
+
+    <Button
+        android:id="@+id/new_job_get_quote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GET QUOTE"
+        android:layout_gravity="center_horizontal|left"
+        style="@style/materialButton"
+        android:textSize="22sp"
+        android:padding="20dp"
+        android:translationZ="10dp"
+        android:layout_below="@+id/tableLayout"
+        android:layout_alignLeft="@+id/tableLayout"
+        android:layout_alignStart="@+id/tableLayout"/>
 
 
 </RelativeLayout>
