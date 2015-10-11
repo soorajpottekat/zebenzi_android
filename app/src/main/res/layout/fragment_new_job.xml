@@ -73,17 +73,12 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp">
 
-            <EditText
-                android:layout_width="wrap_content"
+            <Spinner
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:background="@drawable/text_field_border"
-                android:textColor="@color/zebenzi_primary_color_dark"
-                android:id="@+id/new_job_units"
-                android:inputType="number"
-                android:visibility="visible"
+                android:background="@drawable/spinner_bg_arrow"
                 android:padding="15dp"
-                />
+                android:id="@+id/new_job_units_spinner"/>
         </TableRow>
 
         <TableRow
