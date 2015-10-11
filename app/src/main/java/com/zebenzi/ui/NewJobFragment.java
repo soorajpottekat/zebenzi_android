@@ -81,6 +81,8 @@ public class NewJobFragment extends Fragment {
 
         df = new SimpleDateFormat("HH:mm");
         mTime = new GregorianCalendar();
+        mTime.set(Calendar.HOUR_OF_DAY, 8);
+        mTime.set(Calendar.MINUTE, 0);
         String time = df.format(mTime.getTime());
         jobTime.setText(time);
         jobTime.setOnClickListener(new View.OnClickListener() {
