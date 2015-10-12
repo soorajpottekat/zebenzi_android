@@ -4,6 +4,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+import com.zebenzi.ui.MainActivity;
 import com.zebenzi.ui.R;
 import com.zebenzi.users.Customer;
 
@@ -40,7 +43,9 @@ public class NavigationDrawerHeader extends ListItem {
         TextView textViewEmail = (TextView) view.findViewById(R.id.navigationDrawerHeaderEmail);
 
         //TODO: Get customer profile pic
-        imageViewIcon.setImageResource(R.drawable.profile_vaugan);
+//        imageViewIcon.setImageResource(R.drawable.profile_vaugan);
+        Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(imageViewIcon);
+
         textViewName.setText(Customer.getInstance().getCustomerName());
 //        textViewEmail.setText(Customer.getInstance().getCustomerMobileNumber());
 

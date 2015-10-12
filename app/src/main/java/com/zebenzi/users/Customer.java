@@ -21,6 +21,7 @@ public class Customer {
     private static String mobileNumber = "";
     private static String address = "";
     private static String id = "";
+    private static String imageUrl = "";
     private static Context ctx = null;
     private static SharedPreferences settings = null;
     private static Customer instance = null;
@@ -60,6 +61,7 @@ public class Customer {
         mobileNumber = customerDetails.getString("userName");
         address = customerDetails.getString("email");
         id = customerDetails.getString("id");
+        imageUrl = customerDetails.getString("imageUrl");
 
         saveToken(token);
 
@@ -69,6 +71,7 @@ public class Customer {
         editor.putString("customer_address", address);
         editor.putString("customer_mobile_number", mobileNumber);
         editor.putString("customer_id", id);
+        editor.putString("customer_image_url", imageUrl);
 
         // Commit the edits!
         editor.commit();
@@ -82,6 +85,8 @@ public class Customer {
         mobileNumber = settings.getString("customer_mobile_number", "");
         address = settings.getString("customer_address", "");
         id = settings.getString("customer_id", "");
+        imageUrl = settings.getString("customer_image_url", "");
+
     }
 
     //Delete from preferences and update this singleton
@@ -113,6 +118,9 @@ public class Customer {
         return id;
     }
 
+    public static String getCustomerImageUrl() {
+        return imageUrl;
+    }
     private static void saveToken(String token) {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(ctx.getString(R.string.api_rest_access_token), token);
