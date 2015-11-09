@@ -43,9 +43,11 @@ public class NavigationDrawerHeader extends ListItem {
         TextView textViewEmail = (TextView) view.findViewById(R.id.navigationDrawerHeaderEmail);
 
         //TODO: Get customer profile pic
-//        imageViewIcon.setImageResource(R.drawable.profile_vaugan);
-        Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(imageViewIcon);
-
+        if (Customer.getInstance().getCustomerImageUrl().equalsIgnoreCase("")){
+        imageViewIcon.setImageResource(R.drawable.profile_pic_default);}
+        else {
+            Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(imageViewIcon);
+        }
         textViewName.setText(Customer.getInstance().getCustomerName());
 //        textViewEmail.setText(Customer.getInstance().getCustomerMobileNumber());
 
