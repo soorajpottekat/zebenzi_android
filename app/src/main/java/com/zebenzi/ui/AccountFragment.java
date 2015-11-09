@@ -35,7 +35,7 @@ public class AccountFragment extends Fragment {
         TextView tvJobsComplete = (TextView) rootView.findViewById(R.id.account_jobs_done);
         TextView tvJobsInProgress = (TextView) rootView.findViewById(R.id.account_jobs_in_progress);
 
-        tvName.setText(Customer.getInstance().getCustomerName());
+        tvName.setText(Customer.getInstance().getCustomerFirstName());
         tvMobileNumber.setText(Customer.getInstance().getCustomerMobileNumber());
         tvAddress.setText(Customer.getInstance().getCustomerAddress());
         tvJobsComplete.setText("Jobs complete: 5");

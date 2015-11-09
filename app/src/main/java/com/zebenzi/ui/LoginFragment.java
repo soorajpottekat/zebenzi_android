@@ -282,7 +282,7 @@ public class LoginFragment extends Fragment {
                 if (result != null) {
                     try {
                         JSONObject jsonResult = new JSONObject(result);
-                        String UserName = jsonResult.get("fullName").toString();
+                        String UserName = jsonResult.get("userName").toString();
                         Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
 
                         if (UserName != null) {
@@ -296,6 +296,10 @@ public class LoginFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }
+                else
+                {
+                    System.out.println("User Details task returned null data");
                 }
             }
         }

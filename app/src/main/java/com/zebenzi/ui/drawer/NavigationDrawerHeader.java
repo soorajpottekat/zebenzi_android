@@ -48,7 +48,7 @@ public class NavigationDrawerHeader extends ListItem {
         else {
             Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(imageViewIcon);
         }
-        textViewName.setText(Customer.getInstance().getCustomerName());
+        textViewName.setText(Customer.getInstance().getCustomerFirstName());
 //        textViewEmail.setText(Customer.getInstance().getCustomerMobileNumber());
 
         return view;

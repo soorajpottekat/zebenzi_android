@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -108,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
         List<ListItem> drawerItems = new ArrayList<ListItem>();
         drawerItems.add(new NavigationDrawerHeader(R.drawable.profile,
-                Customer.getInstance().getCustomerName(), Customer.getInstance().getCustomerEmail()));
+                Customer.getInstance().getCustomerFirstName(), Customer.getInstance().getCustomerEmail()));
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_register, getString(R.string.nav_drawer_item_new_job)));
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_account, getString(R.string.nav_drawer_item_account)));
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.nav_drawer_item_history)));

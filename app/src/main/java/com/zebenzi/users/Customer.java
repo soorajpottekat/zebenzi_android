@@ -16,7 +16,8 @@ import org.json.JSONObject;
 public class Customer {
     public static final String PREFS_NAME = "ZebenziPrefsFile";
 
-    private static String name = "";
+    private static String firstName = "";
+    private static String lastName = "";
     private static String email = "";
     private static String mobileNumber = "";
     private static String address = "";
@@ -56,7 +57,8 @@ public class Customer {
     //Update this singleton details and save to preferences.
     public static void setCustomerDetails(JSONObject customerDetails, String token) throws JSONException {
 
-        name = customerDetails.getString("fullName");
+        firstName = customerDetails.getString("firstName");
+        lastName = customerDetails.getString("lastName");
         email = customerDetails.getString("email");
         mobileNumber = customerDetails.getString("userName");
         address = customerDetails.getString("email");
@@ -66,7 +68,8 @@ public class Customer {
         saveToken(token);
 
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString("customer_name", name);
+        editor.putString("customer_first_name", firstName);
+        editor.putString("customer_last_name", lastName);
         editor.putString("customer_email", email);
         editor.putString("customer_address", address);
         editor.putString("customer_mobile_number", mobileNumber);
@@ -80,7 +83,8 @@ public class Customer {
     //Get from preferences and update this singleton details.
     public static void getCustomerDetails() {
         //Read saved customer details from preferences.
-        name = settings.getString("customer_name", "");
+        firstName = settings.getString("customer_first_name", "");
+        lastName = settings.getString("customer_last_name", "");
         email = settings.getString("customer_email", "");
         mobileNumber = settings.getString("customer_mobile_number", "");
         address = settings.getString("customer_address", "");
@@ -98,8 +102,12 @@ public class Customer {
         getCustomerDetails();
     }
 
-    public static String getCustomerName() {
-        return name;
+    public static String getCustomerFirstName() {
+        return firstName;
+    }
+
+    public static String getCustomerLastName() {
+        return lastName;
     }
 
     public static String getCustomerEmail() {
