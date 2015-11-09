@@ -18,6 +18,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.zebenzi.json.model.Service;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.service.ServicesHardcoded;
@@ -311,6 +314,16 @@ public class NewJobFragment extends Fragment {
                         serviceSpinnerArray.add(serviceName);
                     }
                     serviceSpinnerArrayAdapter.notifyDataSetChanged();
+
+
+
+                    // Get Gson object
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+
+                    // parse json string to object
+                    Service[] javaServices = gson.fromJson(result, Service[].class);
+                    System.out.println("Converted to Java!"+javaServices.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
