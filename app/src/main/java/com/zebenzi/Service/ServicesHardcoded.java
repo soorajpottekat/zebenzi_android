@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by Vaugan.Nayagar on 2015/09/29.
  */
-public  enum Services {
+public  enum ServicesHardcoded {
     //TODO: All of this must come from the server
 
     //service descr, unit, unit abbr, rate/unit, min units, max units, increment
@@ -20,7 +20,7 @@ public  enum Services {
     BRICKLAYER("Bricklayer", "Bricks", "BRK", 2, 100, 10000, 100),
     PLUMBER("Plumber", "Hours", "HRS", 200, 1, 10, 1);
 
-    private static final Map<String, Services> SERVICES = new HashMap<>();
+    private static final Map<String, ServicesHardcoded> SERVICES = new HashMap<>();
 
     private final String name;
     private final String unit;
@@ -30,7 +30,7 @@ public  enum Services {
     private final int maxUnits;
     private final int increment;
 
-        private Services(String name, String unit, String unitAbbr, float unitPrice, int minUnits, int maxUnits, int increment) {
+        private ServicesHardcoded(String name, String unit, String unitAbbr, float unitPrice, int minUnits, int maxUnits, int increment) {
             this.name = name;
             this.unit = unit;
             this.unitAbbr = unitAbbr;
@@ -63,13 +63,13 @@ public  enum Services {
     public int getIncrement() { return increment; }
 
     static {
-        for(Services svc : values()) {
+        for(ServicesHardcoded svc : values()) {
                 SERVICES.put(svc.getName(), svc);
             }
     }
 
-    public static Services of(String name) {
-        Services services = SERVICES.get(name);
+    public static ServicesHardcoded of(String name) {
+        ServicesHardcoded services = SERVICES.get(name);
         if(services == null) throw new IllegalArgumentException(name + " not a valid service");
         return services;
     }

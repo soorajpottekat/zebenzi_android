@@ -1,10 +1,8 @@
 package com.zebenzi.job;
 
-import com.zebenzi.service.Services;
+import com.zebenzi.service.ServicesHardcoded;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -13,12 +11,12 @@ import java.util.GregorianCalendar;
  * Right now, we just need this to calculate price, but we might want to save quotes in future.
  */
 public class Quote {
-    Services svc;
+    ServicesHardcoded svc;
     int units;
     GregorianCalendar date;
     GregorianCalendar time;
 
-    public Quote(Services svc, int units, GregorianCalendar date, GregorianCalendar time) {
+    public Quote(ServicesHardcoded svc, int units, GregorianCalendar date, GregorianCalendar time) {
         this.svc = svc;
         this.units = units;
         this.date = date;

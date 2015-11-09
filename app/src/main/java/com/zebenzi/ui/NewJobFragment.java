@@ -3,6 +3,7 @@ package com.zebenzi.ui;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,20 +16,25 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
-import com.zebenzi.service.Services;
+import com.zebenzi.network.HttpGetTask;
+import com.zebenzi.network.IAsyncTaskListener;
+import com.zebenzi.service.ServicesHardcoded;
 import com.zebenzi.job.Quote;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.DatePickerFragment;
 import com.zebenzi.utils.TimePickerFragment;
 
-import org.w3c.dom.Text;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import static com.zebenzi.ui.FragmentsLookup.SEARCH;
@@ -51,12 +57,16 @@ public class NewJobFragment extends Fragment {
     private Button jobTime;
     GregorianCalendar mDate;
     GregorianCalendar mTime;
-    private Spinner spinnerService;
+    private Spinner serviceSpinner;
     private Spinner spinnerUnits;
     ArrayList<String> unitsSpinnerArray = new ArrayList<String>();
     ArrayAdapter<String> unitsSpinnerArrayAdapter;
     private TextView mUnitsLabel;
     private TextView mDateLabel;
+    private AsyncTask<Object, String, String> mGetServicesTask;
+
+    ArrayAdapter<String> serviceSpinnerArrayAdapter;
+    ArrayList<String> serviceSpinnerArray;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,18 +106,18 @@ public class NewJobFragment extends Fragment {
         });
 
         //Spinner for list of services
-        spinnerService = (Spinner) rootView.findViewById(R.id.new_job_service_name);
-        ArrayList<String> spinnerArray = new ArrayList<String>() {
+        serviceSpinner = (Spinner) rootView.findViewById(R.id.new_job_service_name);
+        serviceSpinnerArray = new ArrayList<String>() {
             {
-                for (Services svc : Services.values()) {
+                for (ServicesHardcoded svc : ServicesHardcoded.values()) {
                     add(svc.getName());
                 }
             }
         };
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(MainActivity.getAppContext(), R.layout.spinner_item, spinnerArray);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        spinnerService.setAdapter(spinnerArrayAdapter);
-        spinnerService.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        serviceSpinnerArrayAdapter = new ArrayAdapter<>(MainActivity.getAppContext(), R.layout.spinner_item, serviceSpinnerArray);
+        serviceSpinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        serviceSpinner.setAdapter(serviceSpinnerArrayAdapter);
+        serviceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 updateUnits();
@@ -128,8 +138,8 @@ public class NewJobFragment extends Fragment {
         Button buttonGetQuote = (Button) rootView.findViewById(R.id.new_job_get_quote);
         buttonGetQuote.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                String item = spinnerService.getSelectedItem().toString();
-                Services quoteSvc = Services.of(item);
+                String item = serviceSpinner.getSelectedItem().toString();
+                ServicesHardcoded quoteSvc = ServicesHardcoded.of(item);
                 int quoteUnits = Integer.parseInt(spinnerUnits.getSelectedItem().toString());
                 Quote q = new Quote(quoteSvc, quoteUnits, mDate, mTime);
                 System.out.println("Quote price = " + q.getPrice());
@@ -138,13 +148,14 @@ public class NewJobFragment extends Fragment {
             }
         });
 
+        getServices();
 
         return rootView;
     }
 
     private void updateUnits() {
         unitsSpinnerArray.clear();
-        Services svc = Services.of(spinnerService.getSelectedItem().toString());
+        ServicesHardcoded svc = ServicesHardcoded.of(serviceSpinner.getSelectedItem().toString());
         mUnitsLabel.setText(svc.getUnit());
 
         int increment;
@@ -245,6 +256,72 @@ public class NewJobFragment extends Fragment {
         mTime = new GregorianCalendar(mHour, mMonth, mDay, mHour, mMin);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         jobTime.setText(sdf.format(mTime.getTime()));
+    }
+
+    /**
+     * Attempts to sign in using stored oAuth token
+     */
+    private void getServices() {
+        if (mGetServicesTask == null) {
+            //Build url
+            String url = MainActivity.getAppContext().getString(R.string.api_url_all_services);
+
+            //Build header
+            HashMap<String, String> header = new HashMap<>();
+            header.put("Content-Type", "application/json");
+//            header.put("Authorization", "bearer " + token);
+
+//            showProgress(true);
+            mGetServicesTask = new HttpGetTask(MainActivity.getAppContext(), new GetServicesTaskCompleteListener()).execute(url, header, null);
+        }
+    }
+
+    /**
+     * Shows the progress UI and hides the login form.
+     */
+//    public void showProgress(final boolean show) {
+//        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+//        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+//    }
+
+    /**
+     * Once the login task completes successfully, we should have a valid token and can
+     * obtain the user details.
+     * If unsuccessful, place focus on input text field.
+     */
+    public class GetServicesTaskCompleteListener implements IAsyncTaskListener<String> {
+        @Override
+        public void onAsyncTaskComplete(String result, boolean networkError) {
+            mGetServicesTask = null;
+//            showProgress(false);
+
+            if (networkError){
+                Toast.makeText(MainActivity.getAppContext(),
+                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
+                        Toast.LENGTH_LONG).show();
+            }
+            else {
+                try {
+                    JSONArray services = new JSONArray(result);
+                    System.out.println("Services:"+services.toString());
+                    serviceSpinnerArray.clear();
+                    for (int i=0;i<services.length();i++) {
+                        JSONObject svc = services.getJSONObject(i);
+                        String serviceName = svc.getString("ServiceName");
+                        serviceSpinnerArray.add(serviceName);
+                    }
+                    serviceSpinnerArrayAdapter.notifyDataSetChanged();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onAsyncTaskCancelled() {
+//            showProgress(false);
+            mGetServicesTask = null;
+        }
     }
 
 }

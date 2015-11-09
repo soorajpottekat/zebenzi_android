@@ -6,6 +6,7 @@
     <string name="api_url_registration">http://www.zebenzi.com/api/accounts/create</string>
     <string name="api_url_hire_worker">http://www.zebenzi.com/api/job/hire/</string>
     <string name="api_url_job_history">http://www.zebenzi.com/api/job/hired</string>
+    <string name="api_url_all_services">http://www.zebenzi.com/api/service</string>
 
     <string name="api_json_field_username">username</string>
     <string name="api_json_field_password">password</string>
