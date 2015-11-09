@@ -87,6 +87,15 @@
                 android:inputType="textPersonName" android:maxLines="1"
                 android:singleLine="true" />
 
+
+            <ImageButton
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/register_profile_image"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_weight="1"
+            android:src="@drawable/profile_pic_default" />
+
             <Button android:id="@+id/register_customer_button" style="@style/materialButton"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" android:text="@string/action_register_customer"

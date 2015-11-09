@@ -1,16 +1,26 @@
 package com.zebenzi.ui;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.zebenzi.network.HttpContentTypes;
@@ -20,6 +30,7 @@ import com.zebenzi.network.IAsyncTaskListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 
 import static com.zebenzi.ui.FragmentsLookup.LOGIN;
@@ -48,15 +59,17 @@ public class RegisterFragment extends Fragment {
     private EditText mAddressLine2View;
     private EditText mSuburbView;
     private EditText mSuburbCodeView;
-
+    private ImageButton mProfileImageButton;
     private View mProgressView;
     private View mRegisterCustomerFormView;
     private FragmentListener fragmentListener;
+    private static int RESULT_LOAD_IMAGE = 50;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         View rootView = inflater.inflate(R.layout.fragment_register, container, false);
 
@@ -76,6 +89,20 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 registerCustomer();
+            }
+        });
+
+        mProfileImageButton = (ImageButton) rootView.findViewById(R.id.register_profile_image);
+        mProfileImageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+
+                Intent i = new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
 
@@ -124,6 +151,8 @@ public class RegisterFragment extends Fragment {
         String addressLine2 = mAddressLine2View.getText().toString();
         String suburb = mSuburbView.getText().toString();
         String code = mSuburbCodeView.getText().toString();
+        String image = Base64.encodeToString(getBytesFromBitmap(((BitmapDrawable) mProfileImageButton.getDrawable()).getBitmap()),
+                Base64.NO_WRAP);
 
         boolean cancel = false;
         View focusView = null;
@@ -186,6 +215,9 @@ public class RegisterFragment extends Fragment {
                 body.put("ConfirmPassword", confirmPassword);
                 body.put("RoleName", "User");
                 body.put("Adddress", addressObject);
+                body.put("ImageExtention",".jpg");
+                body.put("ImageData", image);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -252,6 +284,32 @@ public class RegisterFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = MainActivity.getAppContext().getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            mProfileImageButton.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        }
+    }
+
+    // convert from bitmap to byte array
+    public byte[] getBytesFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+        return stream.toByteArray();
+    }
 }
 
 
