@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zebenzi.json.model.Service;
+import com.zebenzi.json.model.ServiceDefaults;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.service.ServicesHardcoded;
@@ -28,9 +29,6 @@ import com.zebenzi.job.Quote;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.DatePickerFragment;
 import com.zebenzi.utils.TimePickerFragment;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -61,7 +59,7 @@ public class NewJobFragment extends Fragment {
     GregorianCalendar mDate;
     GregorianCalendar mTime;
     private Spinner serviceSpinner;
-    private Spinner spinnerUnits;
+    private Spinner unitsSpinner;
     ArrayList<String> unitsSpinnerArray = new ArrayList<String>();
     ArrayAdapter<String> unitsSpinnerArrayAdapter;
     private TextView mUnitsLabel;
@@ -70,6 +68,7 @@ public class NewJobFragment extends Fragment {
 
     ArrayAdapter<String> serviceSpinnerArrayAdapter;
     ArrayList<String> serviceSpinnerArray;
+    Service[] services;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -134,8 +133,9 @@ public class NewJobFragment extends Fragment {
 
 
         //Spinner for number of units
-        spinnerUnits = (Spinner) rootView.findViewById(R.id.new_job_units_spinner);
-        updateUnits();
+        unitsSpinner = (Spinner) rootView.findViewById(R.id.new_job_units_spinner);
+        unitsSpinner.setEnabled(false);
+//        updateUnits();
 
 
         Button buttonGetQuote = (Button) rootView.findViewById(R.id.new_job_get_quote);
@@ -143,7 +143,7 @@ public class NewJobFragment extends Fragment {
             public void onClick(View arg0) {
                 String item = serviceSpinner.getSelectedItem().toString();
                 ServicesHardcoded quoteSvc = ServicesHardcoded.of(item);
-                int quoteUnits = Integer.parseInt(spinnerUnits.getSelectedItem().toString());
+                int quoteUnits = Integer.parseInt(unitsSpinner.getSelectedItem().toString());
                 Quote q = new Quote(quoteSvc, quoteUnits, mDate, mTime);
                 System.out.println("Quote price = " + q.getPrice());
                 Customer.getInstance().setCurrentQuote(q);
@@ -158,25 +158,22 @@ public class NewJobFragment extends Fragment {
 
     private void updateUnits() {
         unitsSpinnerArray.clear();
-        ServicesHardcoded svc = ServicesHardcoded.of(serviceSpinner.getSelectedItem().toString());
-        mUnitsLabel.setText(svc.getUnit());
 
-        int increment;
-        int units = 0;
-        increment = svc.getIncrement();
-
-        //TODO: Move the logic to server
-        for (int i = 1; i <= svc.getMaxUnits(); i++) {
-            units = (i * increment);
-            if (units < svc.getMaxUnits()) {
-                unitsSpinnerArray.add(Integer.toString(units));
-            } else {
-                break;
+        if (services != null) {
+            for (int i=0;i<services.length;i++)
+            {
+                if (services[i].getServiceName().equalsIgnoreCase(serviceSpinner.getSelectedItem().toString())){
+                    ServiceDefaults[] units = services[i].getServiceDefaults();
+                    for (int j=0;j<units.length;j++) {
+                        unitsSpinnerArray.add(Integer.toString(units[j].getValue()));
+                    }
+                }
             }
         }
+
         unitsSpinnerArrayAdapter = new ArrayAdapter<>(MainActivity.getAppContext(), R.layout.spinner_item, unitsSpinnerArray);
         unitsSpinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        spinnerUnits.setAdapter(unitsSpinnerArrayAdapter);
+        unitsSpinner.setAdapter(unitsSpinnerArrayAdapter);
     }
 
 
@@ -305,25 +302,22 @@ public class NewJobFragment extends Fragment {
             }
             else {
                 try {
-                    JSONArray services = new JSONArray(result);
-                    System.out.println("Services:"+services.toString());
+                    //Parse json into java objects
+                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                    services = gson.fromJson(result, Service[].class);
+
+                    //update spinners
                     serviceSpinnerArray.clear();
-                    for (int i=0;i<services.length();i++) {
-                        JSONObject svc = services.getJSONObject(i);
-                        String serviceName = svc.getString("ServiceName");
+                    for (int i=0;i<services.length;i++) {
+                        String serviceName = services[i].getServiceName();
                         serviceSpinnerArray.add(serviceName);
                     }
                     serviceSpinnerArrayAdapter.notifyDataSetChanged();
+                    updateUnits();
+                    unitsSpinner.setEnabled(true);
 
 
 
-                    // Get Gson object
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-
-                    // parse json string to object
-                    Service[] javaServices = gson.fromJson(result, Service[].class);
-                    System.out.println("Converted to Java!"+javaServices.toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
