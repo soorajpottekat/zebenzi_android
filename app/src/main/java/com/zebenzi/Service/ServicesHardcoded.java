@@ -10,8 +10,8 @@ public  enum ServicesHardcoded {
     //TODO: All of this must come from the server
 
     //service descr, unit, unit abbr, rate/unit, min units, max units, increment
-    TILER("Tiler", "Square Meters", "SQM", 50, 20, 5000, 50),
-    PAINTER("Painter", "Square Meters", "SQM", 30, 50, 5000, 50),
+    TILER("Tiling", "Square Meters", "SQM", 50, 20, 5000, 50),
+    PAINTER("Painting", "Square Meters", "SQM", 30, 50, 5000, 50),
     GARDENER("Gardener", "Days", "DAY", 200, 1, 10, 1),
     MAID("Maid", "Day", "DAY", 220, 1, 10, 1),
     PLASTERER("Plasterer", "Square Meters", "SQM", 75, 20, 5000, 50),
