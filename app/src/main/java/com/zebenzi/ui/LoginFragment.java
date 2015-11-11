@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.zebenzi.json.model.service.Service;
 import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpContentTypes;
@@ -283,19 +285,21 @@ public class LoginFragment extends Fragment {
             }else {
                 if (result != null) {
                     try {
-                        JSONObject jsonResult = new JSONObject(result);
-                        String UserName = jsonResult.get("userName").toString();
-                        Customer.getInstance().setCustomerDetails(jsonResult, oAuthToken);
+                        //Parse json into java objects
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        User user = gson.fromJson(result, User.class);
 
-                        if (UserName != null) {
-                            mLoginTokenView.setText(UserName);
+                        Customer.getInstance().setCustomerDetails(user, oAuthToken);
+
+                        if (user != null) {
+                            mLoginTokenView.setText(user.getUserName());
                             fragmentListener.changeFragment(JOB);
                         } else {
-                            System.out.println("Error occurred with login: " + jsonResult.toString());
+                            System.out.println("Error occurred with login: " + result);
                             mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
                             mMobileNumberView.requestFocus();
                         }
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
