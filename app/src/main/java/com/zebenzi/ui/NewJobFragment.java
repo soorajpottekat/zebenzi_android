@@ -20,8 +20,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.zebenzi.json.model.Service;
-import com.zebenzi.json.model.ServiceDefaults;
+import com.zebenzi.json.model.service.Service;
+import com.zebenzi.json.model.service.ServiceDefaults;
+import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.service.ServicesHardcoded;
@@ -269,7 +270,6 @@ public class NewJobFragment extends Fragment {
             //Build header
             HashMap<String, String> header = new HashMap<>();
             header.put("Content-Type", "application/json");
-//            header.put("Authorization", "bearer " + token);
 
 //            showProgress(true);
             mGetServicesTask = new HttpGetTask(MainActivity.getAppContext(), new GetServicesTaskCompleteListener()).execute(url, header, null);

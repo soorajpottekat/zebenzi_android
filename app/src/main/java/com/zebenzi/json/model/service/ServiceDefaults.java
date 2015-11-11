@@ -1,21 +1,20 @@
-package com.zebenzi.json.model;
+package com.zebenzi.json.model.service;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Vaugan.Nayagar on 2015/11/09.
  */
-public class ServiceUnit {
+public class ServiceDefaults {
 
-    @SerializedName("UnitId")
+
+    @SerializedName("ServiceDefaultId")
     private int id;
-    @SerializedName("Name")
-    private String name;
-    @SerializedName("UnitCounter")
-    private int unitCounter;
-    @SerializedName("AddedDate")
+    @SerializedName("DefaultValue")
+    private int value;
+    @SerializedName("AddedDateTime")
     private String addedDate;
-    @SerializedName("UpdatedDate")
+    @SerializedName("UpdatedDateTime")
     private String updatedDate;
 
     public int getId() {
@@ -26,20 +25,12 @@ public class ServiceUnit {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getValue() {
+        return value;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getUnitCounter() {
-        return unitCounter;
-    }
-
-    public void setUnitCounter(int unitCounter) {
-        this.unitCounter = unitCounter;
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public String getAddedDate() {

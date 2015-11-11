@@ -1,4 +1,4 @@
-package com.zebenzi.json.model;
+package com.zebenzi.json.model.service;
 
 import com.google.gson.annotations.SerializedName;
 
