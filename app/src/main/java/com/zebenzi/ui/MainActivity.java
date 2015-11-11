@@ -23,7 +23,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.zebenzi.job.Quote;
+import com.zebenzi.job.JobRequest;
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.ui.drawer.NavigationDrawerHeader;
@@ -260,21 +260,21 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 transaction.commit();
                 break;
             case SEARCH:
-                Quote quote = Customer.getInstance().getCurrentQuote();
-                if (quote != null) {
+                JobRequest jobRequest = Customer.getInstance().getCurrentJobRequest();
+                if (jobRequest != null) {
                     SearchResultsFragment searchFragment = new SearchResultsFragment();
                     Bundle b = new Bundle();
-                    b.putString("service", quote.getServiceName());
-                    b.putString("units", Integer.toString(quote.getUnits()));
-                    b.putString("price", quote.getPrice());
-                    b.putString("date", quote.getDate());
-                    b.putString("time", quote.getTime());
+                    b.putString("service", jobRequest.getServiceName());
+                    b.putString("units", Integer.toString(jobRequest.getUnits()));
+                    b.putString("price", jobRequest.getPrice());
+                    b.putString("date", jobRequest.getDate());
+                    b.putString("time", jobRequest.getTime());
                     searchFragment.setArguments(b);
                     transaction.replace(R.id.fragment_container, searchFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
                 } else {
-                    Toast.makeText(this, "There is no valid quote set!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "There is no valid job request set!", Toast.LENGTH_LONG).show();
                 }
                 break;
             case HISTORY:

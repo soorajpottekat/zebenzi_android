@@ -77,7 +77,7 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
             conn.connect();
 
             os = conn.getOutputStream();
-            //Build output string
+            //Build output string using body - params[2]
             switch(type){
                 case X_WWW_FORM_URLENCODED:
                     writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));

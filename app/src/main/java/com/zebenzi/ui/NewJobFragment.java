@@ -22,11 +22,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zebenzi.json.model.service.Service;
 import com.zebenzi.json.model.service.ServiceDefaults;
-import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.service.ServicesHardcoded;
-import com.zebenzi.job.Quote;
+import com.zebenzi.job.JobRequest;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.DatePickerFragment;
 import com.zebenzi.utils.TimePickerFragment;
@@ -145,9 +144,9 @@ public class NewJobFragment extends Fragment {
                 String item = serviceSpinner.getSelectedItem().toString();
                 ServicesHardcoded quoteSvc = ServicesHardcoded.of(item);
                 int quoteUnits = Integer.parseInt(unitsSpinner.getSelectedItem().toString());
-                Quote q = new Quote(quoteSvc, quoteUnits, mDate, mTime);
-                System.out.println("Quote price = " + q.getPrice());
-                Customer.getInstance().setCurrentQuote(q);
+                JobRequest q = new JobRequest(quoteSvc, quoteUnits, mDate, mTime);
+                System.out.println("Estimated price = " + q.getPrice());
+                Customer.getInstance().setCurrentJobRequest(q);
                 fragmentListener.changeFragment(SEARCH);
             }
         });

@@ -8,6 +8,9 @@
     <string name="api_url_job_history">http://www.zebenzi.com/api/job/hired</string>
     <string name="api_url_all_services">http://www.zebenzi.com/api/service</string>
     <string name="api_url_all_users">http://www.zebenzi.com/api/accounts/users</string>
+    <string name="api_url_quote">http://www.zebenzi.com/api/quote</string>
+
+
 
     <string name="api_json_field_username">username</string>
     <string name="api_json_field_password">password</string>

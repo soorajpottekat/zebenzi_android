@@ -4,14 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.zebenzi.job.Quote;
+import com.zebenzi.job.JobRequest;
 import com.zebenzi.json.model.user.User;
-import com.zebenzi.json.model.user.UserAddress;
 import com.zebenzi.ui.MainActivity;
 import com.zebenzi.ui.R;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by vaugan.nayagar on 2015/09/06.
@@ -22,7 +20,7 @@ public class Customer {
     private SharedPreferences settings = null;
     private static Customer instance = null;
     private User currentUser;
-    private Quote currentQuote;
+    private JobRequest currentJobRequest;
 
     private Customer() {
 
@@ -133,11 +131,11 @@ public class Customer {
         return (settings.getString(ctx.getString(R.string.api_rest_access_token), null) != null);
     }
 
-    public Quote getCurrentQuote() {
-        return currentQuote;
+    public JobRequest getCurrentJobRequest() {
+        return currentJobRequest;
     }
 
-    public void setCurrentQuote(Quote currentQuote) {
-        this.currentQuote = currentQuote;
+    public void setCurrentJobRequest(JobRequest currentJobRequest) {
+        this.currentJobRequest = currentJobRequest;
     }
 }

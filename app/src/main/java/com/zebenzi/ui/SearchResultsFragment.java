@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostTask;
@@ -27,10 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 
 import static com.zebenzi.ui.FragmentsLookup.HISTORY;
@@ -56,6 +55,8 @@ public class SearchResultsFragment extends Fragment {
      */
     private AsyncTask<Object, String, String> mSearchTask = null;
     private AsyncTask<Object, String, String> mHireWorkerTask = null;
+    private AsyncTask<Object, String, String> mQuoteTask = null;
+
 
     // UI references.
     private EditText mSearchView;
@@ -102,9 +103,12 @@ public class SearchResultsFragment extends Fragment {
             mQuoteUnits.setText("SQM " + quoteServiceUnits);
             mQuotePrice.setText("R"+quoteServicePrice);
             mQuoteDate.setText("Date " + quoteServiceDate);
-            mQuoteTime.setText("Time "+quoteServiceTime);
-            doSearch(quoteServiceName);
+            mQuoteTime.setText("Time " + quoteServiceTime);
+
+//            doSearch(quoteServiceName);
+            getQuote(quoteServiceName);
         }
+
 
         return rootView;
 
@@ -124,7 +128,6 @@ public class SearchResultsFragment extends Fragment {
         }
     }
 
-
     /**
      * Attempts to connect to zebenzi server and obtain search results
      */
@@ -138,6 +141,48 @@ public class SearchResultsFragment extends Fragment {
         String searchURL = MainActivity.getAppContext().getString(R.string.api_url_search_services) + searchString;
                 mSearchTask = new HttpGetTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(searchURL, null, null);
     }
+
+
+
+
+    /**
+     * Attempts to connect to zebenzi server and obtain search results
+     */
+    public void getQuote(String searchString) {
+        if (mQuoteTask != null) {
+            return;
+        }
+        showProgress(true);
+
+        //Build url
+        String url = MainActivity.getAppContext().getString(R.string.api_url_quote);
+
+        //Build header
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Content-Type", "application/json");
+
+        //Build body
+        JSONObject body = new JSONObject();
+        try {
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), "1");
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_default_id), "2");
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_work_start_date), "2015-11-02T00:00:00+02:00");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mQuoteTask = new HttpPostTask(MainActivity.getAppContext(), new GetQuoteTaskCompleteListener()).execute(url, header, body, HttpContentTypes.RAW);
+    }
+
+    private void refreshScreen() {
+        if (searchResultsAdapter.isEmpty()) {
+            listView.setVisibility(View.GONE);
+        } else {
+            listView.setVisibility(View.VISIBLE);
+            searchResultsAdapter.notifyDataSetChanged();
+        }
+    }
+
 
     public class SearchTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
@@ -173,12 +218,32 @@ public class SearchResultsFragment extends Fragment {
         }
     }
 
-    private void refreshScreen() {
-        if (searchResultsAdapter.isEmpty()) {
-            listView.setVisibility(View.GONE);
-        } else {
-            listView.setVisibility(View.VISIBLE);
-            searchResultsAdapter.notifyDataSetChanged();
+    public class GetQuoteTaskCompleteListener implements IAsyncTaskListener<String> {
+        @Override
+        public void onAsyncTaskComplete(String quoteResult, boolean networkError) {
+            mQuoteTask = null;
+            showProgress(false);
+
+            if (networkError) {
+                Toast.makeText(MainActivity.getAppContext(),
+                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
+                        Toast.LENGTH_LONG).show();
+            } else {
+                System.out.println("Job request Response = " + quoteResult);
+                Gson gson = new Gson();
+                Quote quote = gson.fromJson(quoteResult, Quote.class);
+
+                System.out.println("Quote="+quote);
+                //TODO: Clear search results and take the user to Job history screen.
+//                fragmentListener.changeFragment(HISTORY);
+            }
+
+        }
+
+        @Override
+        public void onAsyncTaskCancelled() {
+            showProgress(false);
+            mQuoteTask = null;
         }
     }
 

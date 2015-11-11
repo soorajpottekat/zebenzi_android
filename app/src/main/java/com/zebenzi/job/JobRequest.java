@@ -10,13 +10,13 @@ import java.util.GregorianCalendar;
  *
  * Right now, we just need this to calculate price, but we might want to save quotes in future.
  */
-public class Quote {
+public class JobRequest {
     ServicesHardcoded svc;
     int units;
     GregorianCalendar date;
     GregorianCalendar time;
 
-    public Quote(ServicesHardcoded svc, int units, GregorianCalendar date, GregorianCalendar time) {
+    public JobRequest(ServicesHardcoded svc, int units, GregorianCalendar date, GregorianCalendar time) {
         this.svc = svc;
         this.units = units;
         this.date = date;
