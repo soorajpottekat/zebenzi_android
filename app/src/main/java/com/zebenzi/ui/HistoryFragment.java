@@ -38,21 +38,16 @@ import java.util.HashMap;
  * */
 public class HistoryFragment extends Fragment {
 
-    public static Context appContext;
-
     /**
      * Keep track of the history task to ensure we can cancel it if requested.
      */
     private AsyncTask<Object, String, String> mJobHistoryTask = null;
-    private AsyncTask<Object, String, String> mHireWorkerTask = null;
 
     // UI references.
     private View mProgressView;
     private JobHistoryAdapter jobHistoryResultsAdapter = null;
     private ListView listView;
-    private ImageView imageView;
     private FragmentListener fragmentListener;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -163,29 +158,6 @@ public class HistoryFragment extends Fragment {
         }
     }
 
-    public class HireWorkerTaskCompleteListener implements IAsyncTaskListener<String> {
-        @Override
-        public void onAsyncTaskComplete(String hireResult, boolean networkError) {
-            mHireWorkerTask = null;
-            showProgress(false);
-
-            if (networkError){
-                Toast.makeText(MainActivity.getAppContext(),
-                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
-                        Toast.LENGTH_LONG).show();
-            }
-            else {
-                System.out.println("Hire Response = " + hireResult);
-                //TODO: refresh Job history screen?
-            }
-        }
-
-        @Override
-        public void onAsyncTaskCancelled() {
-            mHireWorkerTask = null;
-        }
-    }
-
     public class JobHistoryAdapter extends ArrayAdapter<Job> {
         public JobHistoryAdapter(Context context, ArrayList<Job> users) {
             super(context, 0, users);
@@ -244,26 +216,6 @@ public class HistoryFragment extends Fragment {
         listView.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
-    public void hireWorker(String workerId, String serviceId) {
-        JSONObject body = new JSONObject();
-        //Build url
-        String url = MainActivity.getAppContext().getString(R.string.api_url_hire_worker);
-
-        //Build header
-        HashMap<String, String> header = new HashMap<>();
-        header.put("Content-Type", "application/json");
-        header.put("Authorization", "bearer " + Customer.getInstance().getToken());
-
-        //Build body
-        try {
-            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), serviceId);
-            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_worker_id), workerId);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        mHireWorkerTask = new HttpPostTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(url, header, body, HttpContentTypes.RAW);
-    }
 }
 
 
