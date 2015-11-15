@@ -6,7 +6,8 @@ import java.util.GregorianCalendar;
 /**
  * Created by Vaugan.Nayagar on 2015/10/01.
  *
- * Right now, we just need this to calculate price, but we might want to save quotes in future.
+ * Class to hold the parameters for a job request.
+ * These parameters will be used to request a Quote from the server.
  */
 public class JobRequest {
     int serviceId;

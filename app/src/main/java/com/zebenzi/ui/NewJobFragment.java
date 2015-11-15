@@ -40,15 +40,17 @@ import java.util.concurrent.TimeUnit;
 
 import static com.zebenzi.ui.FragmentsLookup.QUOTE;
 
-
-//TODO: Revisit how the token is saved and managed via variables
+//TODO: Display network error if user is not connected to network and allow refreshing of page when reconnected.
 
 /**
- * A login screen that offers login via mobile number and password.
- */
+ * Fragment for customer to select parameters for a new job.
+ * serviceSpinner and serviceSpinner values must be obtained from the zebenzi server first.
+ *
+ * */
 public class NewJobFragment extends Fragment {
 
     private FragmentListener fragmentListener;
+    private View mProgressView;
     private Button jobDate;
     private int mYear;
     public int mMonth;
@@ -75,6 +77,8 @@ public class NewJobFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_new_job, container, false);
+
+        mProgressView = rootView.findViewById(R.id.new_job_progress);
 
         mUnitsLabel = (TextView) rootView.findViewById(R.id.new_job_units_label);
         mDateLabel =  (TextView) rootView.findViewById(R.id.new_job_date_label);
@@ -129,19 +133,16 @@ public class NewJobFragment extends Fragment {
             }
         });
 
-
         //Spinner for number of units
         unitsSpinner = (Spinner) rootView.findViewById(R.id.new_job_units_spinner);
         unitsSpinner.setEnabled(false);
-//        updateUnits();
 
-
+        //Button to save the job request and change to Quote fragment to request quote
         Button buttonGetQuote = (Button) rootView.findViewById(R.id.new_job_get_quote);
         buttonGetQuote.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
 
                 try {
-                    //Save the job request and change to Quote fragment to request quote
                     String service = serviceSpinner.getSelectedItem().toString();
                     int units = Integer.parseInt(unitsSpinner.getSelectedItem().toString());
 
@@ -156,7 +157,6 @@ public class NewJobFragment extends Fragment {
                 }
             }
         });
-
         getServices();
 
         return rootView;
@@ -265,7 +265,7 @@ public class NewJobFragment extends Fragment {
     }
 
     /**
-     * Attempts to sign in using stored oAuth token
+     * Get list of available services from zebenzi server
      */
     private void getServices() {
         if (mGetServicesTask == null) {
@@ -276,29 +276,26 @@ public class NewJobFragment extends Fragment {
             HashMap<String, String> header = new HashMap<>();
             header.put("Content-Type", "application/json");
 
-//            showProgress(true);
+            showProgress(true);
             mGetServicesTask = new HttpGetTask(MainActivity.getAppContext(), new GetServicesTaskCompleteListener()).execute(url, header, null);
         }
     }
 
     /**
-     * Shows the progress UI and hides the login form.
+     * Shows the progress UI
      */
-//    public void showProgress(final boolean show) {
-//        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-//        mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-//    }
+    public void showProgress(final boolean show) {
+        mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
 
     /**
-     * Once the login task completes successfully, we should have a valid token and can
-     * obtain the user details.
-     * If unsuccessful, place focus on input text field.
+     * Once the http request for available Services is complete, handle the returned data.
      */
     public class GetServicesTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
         public void onAsyncTaskComplete(String result, boolean networkError) {
             mGetServicesTask = null;
-//            showProgress(false);
+            showProgress(false);
 
             if (networkError){
                 Toast.makeText(MainActivity.getAppContext(),
@@ -320,8 +317,6 @@ public class NewJobFragment extends Fragment {
                     updateUnits();
                     unitsSpinner.setEnabled(true);
 
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -330,7 +325,7 @@ public class NewJobFragment extends Fragment {
 
         @Override
         public void onAsyncTaskCancelled() {
-//            showProgress(false);
+            showProgress(false);
             mGetServicesTask = null;
         }
     }
@@ -341,7 +336,6 @@ public class NewJobFragment extends Fragment {
                 return svc.getServiceId();
             }
         }
-
         throw new ZebenziException("Invalid service ID");
     }
 
@@ -356,7 +350,6 @@ public class NewJobFragment extends Fragment {
                 }
             }
         }
-
         throw new ZebenziException("Invalid serviceDefault ID");
     }
 }

@@ -5,6 +5,11 @@
     tools:context="com.zebenzi.ui.Search"
     android:clickable="true">
 
+    <!-- Login progress -->
+    <ProgressBar android:id="@+id/new_job_progress" style="?android:attr/progressBarStyleLarge"
+                 android:layout_width="match_parent" android:layout_height="wrap_content"
+                 android:layout_marginBottom="8dp" android:visibility="gone"
+                 android:layout_weight="0" />
 
     <TableLayout
         android:layout_width="match_parent"
