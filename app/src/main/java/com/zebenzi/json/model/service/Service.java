@@ -7,23 +7,13 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Service {
 
-    @SerializedName("ServiceId")
     private int serviceId;
-    @SerializedName("ServiceName")
     private String serviceName;
-
-    @SerializedName("ServiceUnit")
     private ServiceUnit serviceUnit;
-    @SerializedName("ServicePrice")
     private ServicePrice servicePrice;
-    @SerializedName("ServiceDefaults")
     private ServiceDefaults[] serviceDefaults;
-
-    @SerializedName("AddedDate")
     private String addedDate;
-    @SerializedName("UpdatedDate")
     private String updatedDate;
-    @SerializedName("HoursPerUnit")
     private int hoursPerUnit;
 
 

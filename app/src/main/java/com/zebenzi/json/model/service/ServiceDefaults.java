@@ -1,51 +1,45 @@
 package com.zebenzi.json.model.service;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by Vaugan.Nayagar on 2015/11/09.
  */
 public class ServiceDefaults {
 
 
-    @SerializedName("ServiceDefaultId")
-    private int id;
-    @SerializedName("DefaultValue")
-    private int value;
-    @SerializedName("AddedDateTime")
-    private String addedDate;
-    @SerializedName("UpdatedDateTime")
-    private String updatedDate;
+    private int serviceDefaultId;
+    private int defaultValue;
+    private String addedDateTime;
+    private String updatedDateTime;
 
-    public int getId() {
-        return id;
+    public int getServiceDefaultId() {
+        return serviceDefaultId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setServiceDefaultId(int serviceDefaultId) {
+        this.serviceDefaultId = serviceDefaultId;
     }
 
-    public int getValue() {
-        return value;
+    public int getDefaultValue() {
+        return defaultValue;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public void setDefaultValue(int defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
-    public String getAddedDate() {
-        return addedDate;
+    public String getAddedDateTime() {
+        return addedDateTime;
     }
 
-    public void setAddedDate(String addedDate) {
-        this.addedDate = addedDate;
+    public void setAddedDateTime(String addedDateTime) {
+        this.addedDateTime = addedDateTime;
     }
 
-    public String getUpdatedDate() {
-        return updatedDate;
+    public String getUpdatedDateTime() {
+        return updatedDateTime;
     }
 
-    public void setUpdatedDate(String updatedDate) {
-        this.updatedDate = updatedDate;
+    public void setUpdatedDateTime(String updatedDateTime) {
+        this.updatedDateTime = updatedDateTime;
     }
 }

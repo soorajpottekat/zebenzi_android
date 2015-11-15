@@ -7,23 +7,18 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ServiceUnit {
 
-    @SerializedName("UnitId")
-    private int id;
-    @SerializedName("Name")
+    private int unitId;
     private String name;
-    @SerializedName("UnitCounter")
     private int unitCounter;
-    @SerializedName("AddedDate")
     private String addedDate;
-    @SerializedName("UpdatedDate")
     private String updatedDate;
 
-    public int getId() {
-        return id;
+    public int getUnitId() {
+        return unitId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
     }
 
     public String getName() {

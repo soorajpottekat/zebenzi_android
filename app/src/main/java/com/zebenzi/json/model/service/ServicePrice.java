@@ -6,23 +6,19 @@ import com.google.gson.annotations.SerializedName;
  * Created by Vaugan.Nayagar on 2015/11/09.
  */
 public class ServicePrice {
-    @SerializedName("PriceId")
-    private int id;
-    @SerializedName("Description")
+    private int priceId;
     private String description;
-    @SerializedName("EffectiveDate")
+    private float price;
     private String effectiveDate;
-    @SerializedName("AddedDate")
     private String addedDate;
-    @SerializedName("UpdatedDate")
     private String updatedDate;
 
-    public int getId() {
-        return id;
+    public int getPriceId() {
+        return priceId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPriceId(int priceId) {
+        this.priceId = priceId;
     }
 
     public String getDescription() {
@@ -31,6 +27,14 @@ public class ServicePrice {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 
     public String getEffectiveDate() {

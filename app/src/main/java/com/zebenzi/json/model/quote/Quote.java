@@ -8,18 +8,12 @@ import com.zebenzi.json.model.user.User;
  * Created by Vaugan.Nayagar on 2015/11/11.
  */
 public class Quote {
-    @SerializedName("QuoteId")
     private int quoteId;
-    @SerializedName("Price")
     private int price;
-    @SerializedName("WorkDate")
     private String workDate;
-    @SerializedName("Work")
     private Work work;
-    @SerializedName("Service")
     private Service service;
-    @SerializedName("AvailableWorkers")
-    private User[] users;
+    private User[] availableWorkers;
 
     public int getQuoteId() {
         return quoteId;
@@ -61,11 +55,11 @@ public class Quote {
         this.service = service;
     }
 
-    public User[] getUsers() {
-        return users;
+    public User[] getAvailableWorkers() {
+        return availableWorkers;
     }
 
-    public void setUsers(User[] users) {
-        this.users = users;
+    public void setAvailableWorkers(User[] availableWorkers) {
+        this.availableWorkers = availableWorkers;
     }
 }

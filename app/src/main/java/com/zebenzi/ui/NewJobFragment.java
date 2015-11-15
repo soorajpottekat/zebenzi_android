@@ -165,7 +165,7 @@ public class NewJobFragment extends Fragment {
                 if (services[i].getServiceName().equalsIgnoreCase(serviceSpinner.getSelectedItem().toString())){
                     ServiceDefaults[] units = services[i].getServiceDefaults();
                     for (int j=0;j<units.length;j++) {
-                        unitsSpinnerArray.add(Integer.toString(units[j].getValue()));
+                        unitsSpinnerArray.add(Integer.toString(units[j].getDefaultValue()));
                     }
                 }
             }
