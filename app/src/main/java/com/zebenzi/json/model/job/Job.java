@@ -16,7 +16,7 @@ public class Job {
     String jobCreatedDate;
     String jobUpdatedDate;
     JobStatus[] statusHistory;
-    int Rating;
+    float Rating;
 
     public int getJobid() {
         return jobid;
@@ -98,11 +98,28 @@ public class Job {
         this.statusHistory = statusHistory;
     }
 
-    public int getRating() {
+    public float getRating() {
         return Rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(float rating) {
         Rating = rating;
+    }
+
+    public boolean isJobInProgress()
+    {
+        try {
+            String jobStatus = getJobStatus();
+
+            if ((jobStatus.equalsIgnoreCase("Accepted")) ||
+                    (jobStatus.equalsIgnoreCase("Pending Acceptence")) ||
+                    (jobStatus.equalsIgnoreCase("No reply from worker")) ||
+                    (jobStatus.equalsIgnoreCase("Waiting acceptence from other workers"))) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

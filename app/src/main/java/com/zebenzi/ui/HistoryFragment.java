@@ -7,17 +7,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zebenzi.job.JobManualParsing;
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+import com.zebenzi.json.model.job.Job;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostTask;
@@ -29,12 +29,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
-
 /**
- * A login screen that offers login via email/password.
- */
+ * Fragment for customer to view history of zebenzi jobs.
+ *
+ * */
 public class HistoryFragment extends Fragment {
 
     public static Context appContext;
@@ -57,11 +58,10 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Construct the data source
-        ArrayList<JobManualParsing> arrayOfJobs = new ArrayList<JobManualParsing>();
+        ArrayList<Job> arrayOfJobs = new ArrayList<Job>();
 
         // Create the adapter to convert the array to views
         jobHistoryResultsAdapter = new JobHistoryAdapter(MainActivity.getAppContext(), arrayOfJobs);
-
 
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
         mProgressView = rootView.findViewById(R.id.history_progress);
@@ -130,7 +130,10 @@ public class HistoryFragment extends Fragment {
                     try {
                         JSONArray jsonJobHistory = new JSONArray(history);
                         jobHistoryResultsAdapter.clear();
-                        ArrayList<JobManualParsing> jobList = JobManualParsing.fromJson(jsonJobHistory);
+                        Gson gson = new Gson();
+                        Job[] jobHistory = gson.fromJson(history, Job[].class);
+                        ArrayList<Job> jobList = new ArrayList<>(Arrays.asList(jobHistory));
+
                         jobHistoryResultsAdapter.addAll(jobList);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -183,21 +186,22 @@ public class HistoryFragment extends Fragment {
         }
     }
 
-    public class JobHistoryAdapter extends ArrayAdapter<JobManualParsing> {
-        public JobHistoryAdapter(Context context, ArrayList<JobManualParsing> users) {
+    public class JobHistoryAdapter extends ArrayAdapter<Job> {
+        public JobHistoryAdapter(Context context, ArrayList<Job> users) {
             super(context, 0, users);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
-            JobManualParsing job = getItem(position);
+            Job job = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_job_history, parent, false);
             }
             // Lookup view for data population
-            TextView tvWorkerName = (TextView) convertView.findViewById(R.id.jobWorkerName);
+            TextView tvWorkerFirstName = (TextView) convertView.findViewById(R.id.jobWorkerFirstName);
+            TextView tvWorkerLastName = (TextView) convertView.findViewById(R.id.jobWorkerLastName);
             TextView tvJobNumber = (TextView) convertView.findViewById(R.id.jobNumber);
             TextView tvJobStatus = (TextView) convertView.findViewById(R.id.jobStatus);
             TextView tvJobStartDate = (TextView) convertView.findViewById(R.id.jobStartDate);
@@ -206,45 +210,25 @@ public class HistoryFragment extends Fragment {
             TextView tvWorkerMobileNumber = (TextView) convertView.findViewById(R.id.jobWorkerMobileNumber);
             TextView tvJobServiceName = (TextView) convertView.findViewById(R.id.jobServiceName);
             RatingBar rbJobRatingBar = (RatingBar) convertView.findViewById(R.id.jobRatingBar);
+            ImageView img = (ImageView) convertView.findViewById(R.id.historyWorkerImage);
+
             // Populate the data into the template view using the data object
 
             try {
-                tvWorkerName.setText(job.getWorkerName());
-                tvJobNumber.setText(job.getJobId());
+                tvWorkerFirstName.setText(job.getWorker().getFirstName());
+                tvWorkerLastName.setText(job.getWorker().getLastName());
+                tvJobNumber.setText(Integer.toString(job.getJobid()));
                 tvJobStatus.setText(job.getJobStatus());
-                tvJobStartDate.setText(job.getJobStartDate());
-                tvJobCompletedDate.setText(job.getJobCompletedDate());
-                tvRating.setText(job.getJobRating());
-                tvWorkerMobileNumber.setText(job.getWorkerMobileNumber());
-                tvJobServiceName.setText(job.getJobServiceName());
-                rbJobRatingBar.setRating(Float.valueOf(job.getJobRating()));
-            } catch (JSONException e) {
+                tvJobStartDate.setText(job.getJobCreatedDate());
+                tvJobCompletedDate.setText(job.getJobStatusDate());
+                tvRating.setText(Float.valueOf(job.getRating()).toString());
+                tvWorkerMobileNumber.setText(job.getWorker().getUserName());
+                tvJobServiceName.setText(job.getJobService());
+                rbJobRatingBar.setRating(Float.valueOf(job.getRating()));
+                Picasso.with(MainActivity.getAppContext()).load(job.getWorker().getImageUrl()).into(img);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-            //Set up Hire button, but don't allow hiring if a job is in progress
-            //TODO: Rework this logic to actually check if a Worker is currently available or not, instead of checking job status
-            Button hireButton = (Button) convertView.findViewById(R.id.hireButton);
-            hireButton.setTag(position);
-
-            if (job.isJobInProgress()) {
-                hireButton.setVisibility(View.GONE);
-            } else {
-                hireButton.setVisibility(View.VISIBLE);
-            }
-            hireButton.setOnClickListener(new OnClickListener() {
-                public void onClick(View arg0) {
-                    int position = (Integer) arg0.getTag();
-                    JobManualParsing job = getItem(position);
-                    System.out.println("Trying to hire worker: " + job.getWorkerName());
-                    try {
-                        hireWorker(job.getWorkerId(), job.getJobServiceId());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
 
 
             // Return the completed view to render on screen
