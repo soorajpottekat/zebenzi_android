@@ -23,6 +23,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
@@ -247,9 +249,9 @@ public class RegisterFragment extends Fragment {
         mRegisterCustomerFormView.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
-    public class RegisterTaskCompleteListener implements IAsyncTaskListener{
+    public class RegisterTaskCompleteListener implements IAsyncTaskListener<String>{
         @Override
-        public void onAsyncTaskComplete(Object result, boolean networkError) {
+        public void onAsyncTaskComplete(String result, boolean networkError) {
             mRegistrationTask = null;
             showProgress(false);
 
@@ -259,18 +261,19 @@ public class RegisterFragment extends Fragment {
                         Toast.LENGTH_LONG).show();
             }
             else {
-                try {
-                    System.out.println("Register Result: " + result.toString());
-                    JSONObject jsonResult = new JSONObject((String) result);
-                    String userName = jsonResult.get("fullName").toString();
+                System.out.println("Register Result: " + result.toString());
+                Gson gson = new Gson();
+                User user = gson.fromJson(result, User.class);
 
-                    System.out.println("Registration succeeded for " + userName);
+                if (user.getId() != null) {
+                    System.out.println("Registration succeeded for " + user.getFirstName() + " " + user.getLastName());
                     Toast.makeText(MainActivity.getAppContext(), "You are now registered! Please log in to continue.", Toast.LENGTH_LONG).show();
 
-                    //If there is a valid name in the response, then the registration was successful.
+                    //If there is a valid id in the response, then the registration was successful.
                     fragmentListener.changeFragment(LOGIN);
-                } catch (JSONException e) {
-                    //Print error and keep user on this screen.
+                }
+                else
+                {
                     System.out.println("Registration failed: " + result.toString());
                     Toast.makeText(MainActivity.getAppContext(), "An error occurred during registration.", Toast.LENGTH_LONG).show();
                 }
