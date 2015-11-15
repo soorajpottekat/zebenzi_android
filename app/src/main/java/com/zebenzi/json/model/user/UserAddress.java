@@ -67,4 +67,14 @@ public class UserAddress {
     public void setAddressProvince(String addressProvince) {
         this.addressProvince = addressProvince;
     }
+
+    @Override
+    public String toString(){
+
+        return addressLine1 + "\n" +
+               addressLine2 + "\n" +
+               addressSurburb + "\n" +
+               code + "\n" +
+               addressProvince;
+    }
 }

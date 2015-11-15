@@ -29,15 +29,17 @@ public class AccountFragment extends Fragment {
         super.onCreate(savedInstanceState);
         final View rootView = inflater.inflate(R.layout.fragment_account, container, false);
 
-        TextView tvName = (TextView) rootView.findViewById(R.id.account_name);
+        TextView tvFirstName = (TextView) rootView.findViewById(R.id.account_first_name);
+        TextView tvLastName = (TextView) rootView.findViewById(R.id.account_last_name);
         TextView tvMobileNumber = (TextView) rootView.findViewById(R.id.account_mobile_number);
         TextView tvAddress = (TextView) rootView.findViewById(R.id.account_address);
         TextView tvJobsComplete = (TextView) rootView.findViewById(R.id.account_jobs_done);
         TextView tvJobsInProgress = (TextView) rootView.findViewById(R.id.account_jobs_in_progress);
 
-        tvName.setText(Customer.getInstance().getCustomerFirstName());
+        tvFirstName.setText(Customer.getInstance().getCustomerFirstName());
+        tvLastName.setText(Customer.getInstance().getCustomerLastName());
         tvMobileNumber.setText(Customer.getInstance().getCustomerMobileNumber());
-        tvAddress.setText(Customer.getInstance().getCustomerAddress());
+        tvAddress.setText(Customer.getInstance().getCustomerAddress().toString());
         tvJobsComplete.setText("Jobs complete: 5");
         tvJobsInProgress.setText("Jobs in progress: 1");
 
@@ -57,7 +59,7 @@ public class AccountFragment extends Fragment {
             }
         });
 
-        ImageView img = (ImageView) rootView.findViewById(R.id.imageView2);
+        ImageView img = (ImageView) rootView.findViewById(R.id.account_image);
         Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(img);
         return rootView;
     }

@@ -11,11 +11,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 import com.zebenzi.job.JobRequest;
 import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.json.model.user.User;
@@ -236,15 +238,20 @@ public class QuoteFragment extends Fragment {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_search_results, parent, false);
             }
             // Lookup view for data population
-            TextView tvName = (TextView) convertView.findViewById(R.id.workerName);
+            TextView tvFirstName = (TextView) convertView.findViewById(R.id.workerFirstName);
+            TextView tvLastName = (TextView) convertView.findViewById(R.id.workerLastName);
             TextView tvContact = (TextView) convertView.findViewById(R.id.workerContactNumber);
             TextView tvAddress = (TextView) convertView.findViewById(R.id.workerAddress);
             TextView tvID = (TextView) convertView.findViewById(R.id.workerID);
+            ImageView img = (ImageView) convertView.findViewById(R.id.workerImage);
+
             // Populate the data into the template view using the data object
-            tvName.setText(user.getFirstName());
+            tvFirstName.setText(user.getFirstName());
+            tvLastName.setText(user.getLastName());
             tvContact.setText(user.getUserName());
             tvAddress.setText(user.getUserAddress().toString());
             tvID.setText(user.getId());
+            Picasso.with(MainActivity.getAppContext()).load(user.getImageUrl()).into(img);
 
             Button hireButton = (Button) convertView.findViewById(R.id.hireButton);
             hireButton.setTag(position);
