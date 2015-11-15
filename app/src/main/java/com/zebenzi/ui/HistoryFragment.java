@@ -18,15 +18,9 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.zebenzi.json.model.job.Job;
-import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
-import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,7 +57,6 @@ public class HistoryFragment extends Fragment {
         // Attach the adapter to a ListView
         listView = (ListView) rootView.findViewById(R.id.jobHistoryList);
         listView.setAdapter(jobHistoryResultsAdapter);
-//        refreshScreen();
 
         if (Customer.getInstance().getToken() != null) {
             getJobHistory();
@@ -73,7 +66,6 @@ public class HistoryFragment extends Fragment {
         }
 
         return rootView;
-
     }
     
     @Override
@@ -123,12 +115,10 @@ public class HistoryFragment extends Fragment {
             else {
                 if (history != null) {
                     try {
-                        JSONArray jsonJobHistory = new JSONArray(history);
                         jobHistoryResultsAdapter.clear();
                         Gson gson = new Gson();
                         Job[] jobHistory = gson.fromJson(history, Job[].class);
                         ArrayList<Job> jobList = new ArrayList<>(Arrays.asList(jobHistory));
-
                         jobHistoryResultsAdapter.addAll(jobList);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -150,9 +140,7 @@ public class HistoryFragment extends Fragment {
     private void refreshScreen() {
         if (jobHistoryResultsAdapter.isEmpty()) {
             listView.setVisibility(View.GONE);
-//            imageView.setVisibility(View.VISIBLE);
         } else {
-//            imageView.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
             jobHistoryResultsAdapter.notifyDataSetChanged();
         }
@@ -184,8 +172,6 @@ public class HistoryFragment extends Fragment {
             RatingBar rbJobRatingBar = (RatingBar) convertView.findViewById(R.id.jobRatingBar);
             ImageView img = (ImageView) convertView.findViewById(R.id.historyWorkerImage);
 
-            // Populate the data into the template view using the data object
-
             try {
                 tvWorkerFirstName.setText(job.getWorker().getFirstName());
                 tvWorkerLastName.setText(job.getWorker().getLastName());
@@ -201,7 +187,6 @@ public class HistoryFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
 
             // Return the completed view to render on screen
             return convertView;
