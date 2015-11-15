@@ -264,9 +264,8 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 if (jobRequest != null) {
                     QuoteFragment searchFragment = new QuoteFragment();
                     Bundle b = new Bundle();
-                    b.putString("service", jobRequest.getServiceName());
-                    b.putString("units", Integer.toString(jobRequest.getUnits()));
-                    b.putString("price", jobRequest.getPrice());
+                    b.putString("serviceId", Integer.toString(jobRequest.getServiceId()));
+                    b.putString("units", Integer.toString(jobRequest.getServiceDefaultId()));
                     b.putString("date", jobRequest.getDate());
                     b.putString("time", jobRequest.getTime());
                     searchFragment.setArguments(b);

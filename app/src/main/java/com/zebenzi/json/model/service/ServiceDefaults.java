@@ -2,6 +2,12 @@ package com.zebenzi.json.model.service;
 
 /**
  * Created by Vaugan.Nayagar on 2015/11/09.
+ *
+ * A service default is a value that will be displayed in the drop down list for job size.
+ * This was done so the server can send a predefined list of values to display.
+ * Eg. for painting job size, we can have in the drop down: "10, 20, 50, 100, 500, 1000, 1500".
+ * The server will send us the list of "Service Default" IDs and values.
+ * When requesting a quote, we must send the Service ID and the ServiceDefault ID.
  */
 public class ServiceDefaults {
 

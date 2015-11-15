@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.zebenzi.job.JobRequest;
 import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpContentTypes;
@@ -67,6 +68,7 @@ public class QuoteFragment extends Fragment {
     private TextView mQuotePrice;
     private TextView mQuoteDate;
     private TextView mQuoteTime;
+    private Quote quote;
 
 
     @Override
@@ -89,22 +91,17 @@ public class QuoteFragment extends Fragment {
         listView.setAdapter(availableWorkersAdapter);
         refreshScreen();
 
-        if (getArguments() != null) {
-            String quoteServiceName = getArguments().getString("service");
-            String quoteServiceUnits = getArguments().getString("units");
-            String quoteServicePrice = getArguments().getString("price");
+        JobRequest job = Customer.getInstance().getCurrentJobRequest();
+        if (job != null) {
+            int id = job.getServiceId();
+            int units = job.getServiceDefaultId();
+            String date = job.getDate();
 
-            String quoteServiceDate = getArguments().getString("date");
-            String quoteServiceTime = getArguments().getString("time");
-
-
-            mQuoteService.setText("Service " + quoteServiceName);
-            mQuoteUnits.setText("SQM " + quoteServiceUnits);
-            mQuotePrice.setText("R"+quoteServicePrice);
-            mQuoteDate.setText("Date " + quoteServiceDate);
-            mQuoteTime.setText("Time " + quoteServiceTime);
-
-            getQuote(quoteServiceName);
+            getQuote(id, units, date);
+        }
+        else
+        {
+            Toast.makeText(MainActivity.getAppContext(), "No job request to quote", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -129,7 +126,7 @@ public class QuoteFragment extends Fragment {
     /**
      * Attempts to connect to zebenzi server and obtain search results
      */
-    public void getQuote(String searchString) {
+    public void getQuote(int serviceId, int numberOfUnits, String dateTime ) {
         if (mQuoteTask != null) {
             return;
         }
@@ -145,9 +142,9 @@ public class QuoteFragment extends Fragment {
         //Build body
         JSONObject body = new JSONObject();
         try {
-            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), "1");
-            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_default_id), "2");
-            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_work_start_date), "2015-11-02T00:00:00+02:00");
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), serviceId);
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_default_id), numberOfUnits);
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_work_start_date), dateTime);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -161,6 +158,14 @@ public class QuoteFragment extends Fragment {
         } else {
             listView.setVisibility(View.VISIBLE);
             availableWorkersAdapter.notifyDataSetChanged();
+        }
+
+        if (quote != null) {
+            mQuoteService.setText("Service " + quote.getService().getServiceName());
+            mQuoteUnits.setText("SQM " + quote.getWork().getDefaultValue());
+            mQuotePrice.setText("R" + quote.getPrice());
+            mQuoteDate.setText("Date " + quote.getWorkDate());
+            mQuoteTime.setText("Time " + quote.getWorkDate());
         }
     }
 
@@ -177,17 +182,20 @@ public class QuoteFragment extends Fragment {
             } else {
                 System.out.println("Job request Response = " + quoteResult);
                 Gson gson = new Gson();
-                Quote quote = gson.fromJson(quoteResult, Quote.class);
+                quote = gson.fromJson(quoteResult, Quote.class);
 
-                System.out.println("Quote="+quote);
-                Customer.getInstance().setLastQuote(quote);
+                try {
+                    System.out.println("Quote=" + quote);
+                    Customer.getInstance().setLastQuote(quote);
 
-                //TODO: Update search results list with available workers in quote.
-                availableWorkersAdapter.clear();
-
-                ArrayList<User> newWorkers = new ArrayList<User>(Arrays.asList(quote.getAvailableWorkers()));
-                availableWorkersAdapter.addAll(newWorkers);
-                refreshScreen();
+                    availableWorkersAdapter.clear();
+                    ArrayList<User> newWorkers = new ArrayList<User>(Arrays.asList(quote.getAvailableWorkers()));
+                    availableWorkersAdapter.addAll(newWorkers);
+                    refreshScreen();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
             }
 
         }

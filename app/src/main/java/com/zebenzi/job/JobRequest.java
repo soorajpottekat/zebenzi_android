@@ -1,7 +1,5 @@
 package com.zebenzi.job;
 
-import com.zebenzi.service.ServicesHardcoded;
-
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
@@ -11,28 +9,20 @@ import java.util.GregorianCalendar;
  * Right now, we just need this to calculate price, but we might want to save quotes in future.
  */
 public class JobRequest {
-    ServicesHardcoded svc;
-    int units;
+    int serviceId;
+    int serviceDefaultId; //We don't use the actual number of units, but instead the ID of the "ServiceDefault"
     GregorianCalendar date;
     GregorianCalendar time;
 
-    public JobRequest(ServicesHardcoded svc, int units, GregorianCalendar date, GregorianCalendar time) {
-        this.svc = svc;
-        this.units = units;
+    public JobRequest(int serviceId, int serviceDefaultId, GregorianCalendar date, GregorianCalendar time) {
+        this.serviceId = serviceId;
+        this.serviceDefaultId = serviceDefaultId;
         this.date = date;
         this.time = time;
     }
 
-    public String getPrice() {
-        return String.format ("%.02f", this.units * this.svc.getUnitPrice());
-    }
-
-    public String getServiceName() {
-        return svc.getName();
-    }
-
-    public int getUnits() {
-        return units;
+    public int getServiceDefaultId() {
+        return serviceDefaultId;
     }
 
     public String getDate() {
@@ -45,4 +35,13 @@ public class JobRequest {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         return sdf.format(time.getTime());
     }
+    public int getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(int serviceId) {
+        this.serviceId = serviceId;
+    }
+
+
 }

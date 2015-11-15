@@ -24,11 +24,11 @@ import com.zebenzi.json.model.service.Service;
 import com.zebenzi.json.model.service.ServiceDefaults;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
-import com.zebenzi.service.ServicesHardcoded;
 import com.zebenzi.job.JobRequest;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.DatePickerFragment;
 import com.zebenzi.utils.TimePickerFragment;
+import com.zebenzi.utils.ZebenziException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -111,9 +111,7 @@ public class NewJobFragment extends Fragment {
         serviceSpinner = (Spinner) rootView.findViewById(R.id.new_job_service_name);
         serviceSpinnerArray = new ArrayList<String>() {
             {
-                for (ServicesHardcoded svc : ServicesHardcoded.values()) {
-                    add(svc.getName());
-                }
+                    add("Services currently not available");
             }
         };
         serviceSpinnerArrayAdapter = new ArrayAdapter<>(MainActivity.getAppContext(), R.layout.spinner_item, serviceSpinnerArray);
@@ -141,13 +139,21 @@ public class NewJobFragment extends Fragment {
         Button buttonGetQuote = (Button) rootView.findViewById(R.id.new_job_get_quote);
         buttonGetQuote.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                String item = serviceSpinner.getSelectedItem().toString();
-                ServicesHardcoded quoteSvc = ServicesHardcoded.of(item);
-                int quoteUnits = Integer.parseInt(unitsSpinner.getSelectedItem().toString());
-                JobRequest q = new JobRequest(quoteSvc, quoteUnits, mDate, mTime);
-                System.out.println("Estimated price = " + q.getPrice());
-                Customer.getInstance().setCurrentJobRequest(q);
-                fragmentListener.changeFragment(QUOTE);
+
+                try {
+                    //Save the job request and change to Quote fragment to request quote
+                    String service = serviceSpinner.getSelectedItem().toString();
+                    int units = Integer.parseInt(unitsSpinner.getSelectedItem().toString());
+
+                    JobRequest request = new JobRequest(getServiceId(service), getDefaultId(service, units), mDate, mTime);
+                    Customer.getInstance().setCurrentJobRequest(request);
+                    fragmentListener.changeFragment(QUOTE);
+                }
+                catch (Exception e){
+                    Toast.makeText(MainActivity.getAppContext(), "An error occurred with this job request. Please try again later.", Toast.LENGTH_SHORT).show();
+                    System.out.println("An error occurred during the job request. Check the stack trace.");
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -307,9 +313,8 @@ public class NewJobFragment extends Fragment {
 
                     //update spinners
                     serviceSpinnerArray.clear();
-                    for (int i=0;i<services.length;i++) {
-                        String serviceName = services[i].getServiceName();
-                        serviceSpinnerArray.add(serviceName);
+                    for (Service svc : services) {
+                        serviceSpinnerArray.add(svc.getServiceName());
                     }
                     serviceSpinnerArrayAdapter.notifyDataSetChanged();
                     updateUnits();
@@ -330,6 +335,30 @@ public class NewJobFragment extends Fragment {
         }
     }
 
+    private int getServiceId(String serviceName){
+        for (Service svc: services){
+            if (svc.getServiceName().equalsIgnoreCase(serviceName)){
+                return svc.getServiceId();
+            }
+        }
+
+        throw new ZebenziException("Invalid service ID");
+    }
+
+    private int getDefaultId(String serviceName, int defaultValue){
+        for (Service svc: services){
+            if (svc.getServiceName().equalsIgnoreCase(serviceName)){
+                ServiceDefaults[] defaults = svc.getServiceDefaults();
+                for (ServiceDefaults sd: defaults) {
+                    if (sd.getDefaultValue() == defaultValue) {
+                        return sd.getServiceDefaultId();
+                    }
+                }
+            }
+        }
+
+        throw new ZebenziException("Invalid serviceDefault ID");
+    }
 }
 
 
