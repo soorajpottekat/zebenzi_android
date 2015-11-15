@@ -10,7 +10,7 @@ public enum FragmentsLookup {
     LOGIN("Login", 3),
     JOB("Job", 4),
     REGISTER("Register", 5),
-    SEARCH("Search", 6);
+    QUOTE("Quote", 6);
 
 
     private final String name;

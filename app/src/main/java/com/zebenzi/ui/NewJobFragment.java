@@ -38,7 +38,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import static com.zebenzi.ui.FragmentsLookup.SEARCH;
+import static com.zebenzi.ui.FragmentsLookup.QUOTE;
 
 
 //TODO: Revisit how the token is saved and managed via variables
@@ -147,7 +147,7 @@ public class NewJobFragment extends Fragment {
                 JobRequest q = new JobRequest(quoteSvc, quoteUnits, mDate, mTime);
                 System.out.println("Estimated price = " + q.getPrice());
                 Customer.getInstance().setCurrentJobRequest(q);
-                fragmentListener.changeFragment(SEARCH);
+                fragmentListener.changeFragment(QUOTE);
             }
         });
 

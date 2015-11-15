@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
-            case SEARCH:
+            case QUOTE:
                 JobRequest jobRequest = Customer.getInstance().getCurrentJobRequest();
                 if (jobRequest != null) {
                     QuoteFragment searchFragment = new QuoteFragment();
