@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.zebenzi.job.JobRequest;
+import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.json.model.user.User;
 import com.zebenzi.ui.MainActivity;
 import com.zebenzi.ui.R;
@@ -21,6 +22,7 @@ public class Customer {
     private static Customer instance = null;
     private User currentUser;
     private JobRequest currentJobRequest;
+    private Quote lastQuote;
 
     private Customer() {
 
@@ -137,5 +139,13 @@ public class Customer {
 
     public void setCurrentJobRequest(JobRequest currentJobRequest) {
         this.currentJobRequest = currentJobRequest;
+    }
+
+    public Quote getLastQuote() {
+        return lastQuote;
+    }
+
+    public void setLastQuote(Quote lastQuote) {
+        this.lastQuote = lastQuote;
     }
 }

@@ -12,7 +12,7 @@
     <string name="empty_search_string">Please enter search text</string>
     <string name="hire_me">Hire Me</string>
     <string name="search_title">I\&apos;m looking for</string>
-    <string name="api_json_field_service_id">serviceId</string>
+    <string name="api_json_field_service_id">ServiceId</string>
     <string name="api_json_field_service_default_id">serviceDeafaultId</string>
     <string name="api_json_field_user_id">userId</string>
     <string name="api_json_field_work_start_date">workStartDate</string>

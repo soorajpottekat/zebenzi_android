@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.zebenzi.json.model.quote.Quote;
+import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostTask;
@@ -30,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import static com.zebenzi.ui.FragmentsLookup.HISTORY;
@@ -61,7 +63,7 @@ public class SearchResultsFragment extends Fragment {
     // UI references.
     private EditText mSearchView;
     private View mProgressView;
-    private SearchResultsAdapter searchResultsAdapter = null;
+    private SearchResultsAdapter availableWorkersAdapter = null;
     private ListView listView;
     private TextView mQuoteService;
     private TextView mQuoteUnits;
@@ -74,9 +76,9 @@ public class SearchResultsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Construct the data source
-        ArrayList<Worker> arrayOfUsers = new ArrayList<Worker>();
+        ArrayList<User> arrayOfAvailableWorkers = new ArrayList<User>();
         // Create the adapter to convert the array to views
-        searchResultsAdapter = new SearchResultsAdapter(MainActivity.getAppContext(), arrayOfUsers);
+        availableWorkersAdapter = new SearchResultsAdapter(MainActivity.getAppContext(), arrayOfAvailableWorkers);
 
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
         mQuoteService = (TextView) rootView.findViewById(R.id.search_results_quote_service);
@@ -87,7 +89,7 @@ public class SearchResultsFragment extends Fragment {
         mProgressView = rootView.findViewById(R.id.search_progress);
         // Attach the adapter to a ListView
         listView = (ListView) rootView.findViewById(R.id.searchResultsList);
-        listView.setAdapter(searchResultsAdapter);
+        listView.setAdapter(availableWorkersAdapter);
         refreshScreen();
 
         if (getArguments() != null) {
@@ -175,11 +177,11 @@ public class SearchResultsFragment extends Fragment {
     }
 
     private void refreshScreen() {
-        if (searchResultsAdapter.isEmpty()) {
+        if (availableWorkersAdapter.isEmpty()) {
             listView.setVisibility(View.GONE);
         } else {
             listView.setVisibility(View.VISIBLE);
-            searchResultsAdapter.notifyDataSetChanged();
+            availableWorkersAdapter.notifyDataSetChanged();
         }
     }
 
@@ -200,9 +202,9 @@ public class SearchResultsFragment extends Fragment {
             } else {
                 try {jsonResult = new JSONArray(searchResults);
                 if (jsonResult != null) {
-                    searchResultsAdapter.clear();
-                    ArrayList<Worker> newWorkers = Worker.fromJson(jsonResult);
-                    searchResultsAdapter.addAll(newWorkers);
+//                    availableWorkersAdapter.clear();
+//                    ArrayList<User> newWorkers = User.fromJson(jsonResult);
+//                    availableWorkersAdapter.addAll(newWorkers);
                     refreshScreen();
                 }} catch (Exception e)
                 {
@@ -234,8 +236,14 @@ public class SearchResultsFragment extends Fragment {
                 Quote quote = gson.fromJson(quoteResult, Quote.class);
 
                 System.out.println("Quote="+quote);
-                //TODO: Clear search results and take the user to Job history screen.
-//                fragmentListener.changeFragment(HISTORY);
+                Customer.getInstance().setLastQuote(quote);
+
+                //TODO: Update search results list with available workers in quote.
+                availableWorkersAdapter.clear();
+
+                ArrayList<User> newWorkers = new ArrayList<User>(Arrays.asList(quote.getAvailableWorkers()));
+                availableWorkersAdapter.addAll(newWorkers);
+                refreshScreen();
             }
 
         }
@@ -272,15 +280,15 @@ public class SearchResultsFragment extends Fragment {
         }
     }
 
-    public class SearchResultsAdapter extends ArrayAdapter<Worker> {
-        public SearchResultsAdapter(Context context, ArrayList<Worker> users) {
+    public class SearchResultsAdapter extends ArrayAdapter<User> {
+        public SearchResultsAdapter(Context context, ArrayList<User> users) {
             super(context, 0, users);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
-            Worker worker = getItem(position);
+            User user = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_search_results, parent, false);
@@ -291,21 +299,21 @@ public class SearchResultsFragment extends Fragment {
             TextView tvAddress = (TextView) convertView.findViewById(R.id.workerAddress);
             TextView tvID = (TextView) convertView.findViewById(R.id.workerID);
             // Populate the data into the template view using the data object
-            tvName.setText(worker.getName());
-            tvContact.setText(worker.getMobileNumber());
-            tvAddress.setText(worker.getAddress());
-            tvID.setText(worker.getId());
+            tvName.setText(user.getFirstName());
+            tvContact.setText(user.getUserName());
+            tvAddress.setText(user.getUserAddress().toString());
+            tvID.setText(user.getId());
 
             Button hireButton = (Button) convertView.findViewById(R.id.hireButton);
             hireButton.setTag(position);
             hireButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View arg0) {
                     int position = (Integer) arg0.getTag();
-                    Worker worker = getItem(position);
-                    System.out.println("Trying to hire: " + worker.getName() + " ID=" + worker.getId());
+                    User user = getItem(position);
+                    System.out.println("Trying to hire: " + user.getFirstName() + " ID=" + user.getId());
 
                     if (Customer.getInstance().getToken() != null) {
-                        hireWorker(worker.getId(), worker.getServiceIdFromName(mSearchString));
+                        hireWorker(Customer.getInstance().getLastQuote().getService().getServiceId(), user.getId());
                     } else {
                         Toast.makeText(MainActivity.getAppContext(), "You need to be logged in to hire a worker", Toast.LENGTH_LONG).show();
                         System.out.println("Cannot hire worker if not logged in.");
@@ -318,7 +326,7 @@ public class SearchResultsFragment extends Fragment {
         }
     }
 
-    public void hireWorker(String workerId, String serviceId) {
+    public void hireWorker(int serviceId, String workerId) {
         JSONObject jsonHireParams = new JSONObject();
         //Build url
         String url = MainActivity.getAppContext().getString(R.string.api_url_hire_worker);
