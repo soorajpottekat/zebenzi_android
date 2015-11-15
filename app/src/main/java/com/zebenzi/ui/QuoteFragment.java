@@ -11,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,30 +35,20 @@ import static com.zebenzi.ui.FragmentsLookup.HISTORY;
 
 
 /**
- * A login screen that offers login via email/password.
- */
+ * Fragment for customer to see quote from server and list of available workers.
+ * Customer can view details of the workers and hire via button click.
+ *
+ * */
 public class QuoteFragment extends Fragment {
 
-    public static final int LOGIN_REQUEST = 1;
-    public static final int REGISTER_REQUEST = 2;
-    public static final String apiURL = "http://www.zebenzi.com/oauth/token";
-    public static final String user = "0846676467";
-    public static final String password = "dolphin";
-    public static final String SEARCH_STRING = "Search";
-    public static Context appContext;
-
-    private String mSearchString;
     private FragmentListener fragmentListener;
     /**
-     * Keep track of the search task to ensure we can cancel it if requested.
+     * Keep track of the spawned tasks to ensure we can cancel it if requested.
      */
-    private AsyncTask<Object, String, String> mSearchTask = null;
-    private AsyncTask<Object, String, String> mHireWorkerTask = null;
     private AsyncTask<Object, String, String> mQuoteTask = null;
-
+    private AsyncTask<Object, String, String> mHireWorkerTask = null;
 
     // UI references.
-    private EditText mSearchView;
     private View mProgressView;
     private AvailableWorkersAdapter availableWorkersAdapter = null;
     private ListView listView;
@@ -74,23 +63,22 @@ public class QuoteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Construct the data source
-        ArrayList<User> arrayOfAvailableWorkers = new ArrayList<User>();
-        // Create the adapter to convert the array to views
-        availableWorkersAdapter = new AvailableWorkersAdapter(MainActivity.getAppContext(), arrayOfAvailableWorkers);
-
-        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_quote, container, false);
         mQuoteService = (TextView) rootView.findViewById(R.id.search_results_quote_service);
         mQuoteUnits = (TextView) rootView.findViewById(R.id.search_results_quote_units);
         mQuotePrice = (TextView) rootView.findViewById(R.id.search_results_quote_price);
         mQuoteDate = (TextView) rootView.findViewById(R.id.search_results_quote_date);
         mQuoteTime = (TextView) rootView.findViewById(R.id.search_results_quote_time);
         mProgressView = rootView.findViewById(R.id.search_progress);
-        // Attach the adapter to a ListView
-        listView = (ListView) rootView.findViewById(R.id.searchResultsList);
+
+        // Set up the available workers list view
+        ArrayList<User> arrayOfAvailableWorkers = new ArrayList<User>();
+        availableWorkersAdapter = new AvailableWorkersAdapter(MainActivity.getAppContext(), arrayOfAvailableWorkers);
+        listView = (ListView) rootView.findViewById(R.id.availableWorkersList);
         listView.setAdapter(availableWorkersAdapter);
         refreshScreen();
 
+        //If there is a valid job request stored, update the ui
         JobRequest job = Customer.getInstance().getCurrentJobRequest();
         if (job != null) {
             int id = job.getServiceId();
@@ -104,9 +92,7 @@ public class QuoteFragment extends Fragment {
             Toast.makeText(MainActivity.getAppContext(), "No job request to quote", Toast.LENGTH_SHORT).show();
         }
 
-
         return rootView;
-
     }
 
     @Override
@@ -124,9 +110,13 @@ public class QuoteFragment extends Fragment {
     }
 
     /**
-     * Attempts to connect to zebenzi server and obtain search results
+     * Attempts to connect to zebenzi server and get a quote based on the job request parameters.
+     * @param serviceId ID of the job request.
+     * @param serviceDefaultId See ServiceDefault class for explanation.
+     * @param dateTime Date and time of job request.
+     *
      */
-    public void getQuote(int serviceId, int numberOfUnits, String dateTime ) {
+    public void getQuote(int serviceId, int serviceDefaultId, String dateTime ) {
         if (mQuoteTask != null) {
             return;
         }
@@ -143,7 +133,7 @@ public class QuoteFragment extends Fragment {
         JSONObject body = new JSONObject();
         try {
             body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), serviceId);
-            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_default_id), numberOfUnits);
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_default_id), serviceDefaultId);
             body.put(MainActivity.getAppContext().getString(R.string.api_json_field_work_start_date), dateTime);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -279,7 +269,6 @@ public class QuoteFragment extends Fragment {
     }
 
     public void hireWorker(int serviceId, String workerId) {
-        JSONObject jsonHireParams = new JSONObject();
         //Build url
         String url = MainActivity.getAppContext().getString(R.string.api_url_hire_worker);
 
@@ -289,15 +278,16 @@ public class QuoteFragment extends Fragment {
         header.put("Authorization", "bearer " + Customer.getInstance().getToken());
 
         //Build body
+        JSONObject body = new JSONObject();
         try {
-            jsonHireParams.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), serviceId);
-            jsonHireParams.put(MainActivity.getAppContext().getString(R.string.api_json_field_worker_id), workerId);
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), serviceId);
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_worker_id), workerId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         showProgress(true);
-        mHireWorkerTask = new HttpPostTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(url, header, jsonHireParams, HttpContentTypes.RAW);
+        mHireWorkerTask = new HttpPostTask(MainActivity.getAppContext(), new HireWorkerTaskCompleteListener()).execute(url, header, body, HttpContentTypes.RAW);
     }
 
 
