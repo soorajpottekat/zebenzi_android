@@ -37,7 +37,7 @@ import static com.zebenzi.ui.FragmentsLookup.HISTORY;
 /**
  * A login screen that offers login via email/password.
  */
-public class SearchResultsFragment extends Fragment {
+public class QuoteFragment extends Fragment {
 
     public static final int LOGIN_REQUEST = 1;
     public static final int REGISTER_REQUEST = 2;

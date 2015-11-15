@@ -227,9 +227,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         //Have to recreate the searchFrag, as we have only one fragment_container currently, and it could be any one of login, search or registration.
 
         // Create fragment and give it an argument for the selected article
-        SearchResultsFragment newFragment = new SearchResultsFragment();
+        QuoteFragment newFragment = new QuoteFragment();
         Bundle args = new Bundle();
-        args.putString(SearchResultsFragment.SEARCH_STRING, searchString);
+        args.putString(QuoteFragment.SEARCH_STRING, searchString);
         newFragment.setArguments(args);
 
         FragmentTransaction transaction = fm.beginTransaction();
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
             case SEARCH:
                 JobRequest jobRequest = Customer.getInstance().getCurrentJobRequest();
                 if (jobRequest != null) {
-                    SearchResultsFragment searchFragment = new SearchResultsFragment();
+                    QuoteFragment searchFragment = new QuoteFragment();
                     Bundle b = new Bundle();
                     b.putString("service", jobRequest.getServiceName());
                     b.putString("units", Integer.toString(jobRequest.getUnits()));
