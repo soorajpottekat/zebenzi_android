@@ -20,13 +20,10 @@ import com.google.gson.Gson;
 import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpContentTypes;
-import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
-import com.zebenzi.users.Worker;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -63,7 +60,7 @@ public class SearchResultsFragment extends Fragment {
     // UI references.
     private EditText mSearchView;
     private View mProgressView;
-    private SearchResultsAdapter availableWorkersAdapter = null;
+    private AvailableWorkersAdapter availableWorkersAdapter = null;
     private ListView listView;
     private TextView mQuoteService;
     private TextView mQuoteUnits;
@@ -78,7 +75,7 @@ public class SearchResultsFragment extends Fragment {
         // Construct the data source
         ArrayList<User> arrayOfAvailableWorkers = new ArrayList<User>();
         // Create the adapter to convert the array to views
-        availableWorkersAdapter = new SearchResultsAdapter(MainActivity.getAppContext(), arrayOfAvailableWorkers);
+        availableWorkersAdapter = new AvailableWorkersAdapter(MainActivity.getAppContext(), arrayOfAvailableWorkers);
 
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
         mQuoteService = (TextView) rootView.findViewById(R.id.search_results_quote_service);
@@ -107,7 +104,6 @@ public class SearchResultsFragment extends Fragment {
             mQuoteDate.setText("Date " + quoteServiceDate);
             mQuoteTime.setText("Time " + quoteServiceTime);
 
-//            doSearch(quoteServiceName);
             getQuote(quoteServiceName);
         }
 
@@ -129,23 +125,6 @@ public class SearchResultsFragment extends Fragment {
                     + " must implement FragmentListener");
         }
     }
-
-    /**
-     * Attempts to connect to zebenzi server and obtain search results
-     */
-    public void doSearch(String searchString) {
-        if (mSearchTask != null) {
-            return;
-        }
-
-        showProgress(true);
-//        mSearchString = searchString;
-        String searchURL = MainActivity.getAppContext().getString(R.string.api_url_search_services) + searchString;
-                mSearchTask = new HttpGetTask(MainActivity.getAppContext(), new SearchTaskCompleteListener()).execute(searchURL, null, null);
-    }
-
-
-
 
     /**
      * Attempts to connect to zebenzi server and obtain search results
@@ -182,41 +161,6 @@ public class SearchResultsFragment extends Fragment {
         } else {
             listView.setVisibility(View.VISIBLE);
             availableWorkersAdapter.notifyDataSetChanged();
-        }
-    }
-
-
-    public class SearchTaskCompleteListener implements IAsyncTaskListener<String> {
-        @Override
-        public void onAsyncTaskComplete(String searchResults, boolean networkError) {
-            mSearchTask = null;
-            JSONArray jsonResult;
-            showProgress(false);
-
-            System.out.println("Search Results = " + searchResults);
-
-            if (networkError) {
-                Toast.makeText(MainActivity.getAppContext(),
-                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
-                        Toast.LENGTH_LONG).show();
-            } else {
-                try {jsonResult = new JSONArray(searchResults);
-                if (jsonResult != null) {
-//                    availableWorkersAdapter.clear();
-//                    ArrayList<User> newWorkers = User.fromJson(jsonResult);
-//                    availableWorkersAdapter.addAll(newWorkers);
-                    refreshScreen();
-                }} catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        @Override
-        public void onAsyncTaskCancelled() {
-            showProgress(false);
-            mSearchTask = null;
         }
     }
 
@@ -280,8 +224,8 @@ public class SearchResultsFragment extends Fragment {
         }
     }
 
-    public class SearchResultsAdapter extends ArrayAdapter<User> {
-        public SearchResultsAdapter(Context context, ArrayList<User> users) {
+    public class AvailableWorkersAdapter extends ArrayAdapter<User> {
+        public AvailableWorkersAdapter(Context context, ArrayList<User> users) {
             super(context, 0, users);
         }
 
