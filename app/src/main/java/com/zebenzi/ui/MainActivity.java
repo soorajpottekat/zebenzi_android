@@ -151,8 +151,6 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-
-        handleIntent(getIntent());
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
@@ -207,40 +205,6 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         return appContext;
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-        //launch search fragment and pass search string
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            System.out.println("Search Query = " + query);
-            doSearch(query);
-        }
-    }
-
-
-    private void doSearch(String searchString) {
-
-        //Have to recreate the searchFrag, as we have only one fragment_container currently, and it could be any one of login, search or registration.
-
-        // Create fragment and give it an argument for the selected article
-        QuoteFragment newFragment = new QuoteFragment();
-        Bundle args = new Bundle();
-        args.putString(QuoteFragment.SEARCH_STRING, searchString);
-        newFragment.setArguments(args);
-
-        FragmentTransaction transaction = fm.beginTransaction();
-
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragment_container, newFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-
-    }
 
     public void changeFragment(FragmentsLookup fragment) {
 
