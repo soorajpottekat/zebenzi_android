@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.zebenzi.job.JobRequest;
+import com.zebenzi.json.model.job.Job;
 import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpContentTypes;
@@ -211,7 +212,12 @@ public class QuoteFragment extends Fragment {
                         Toast.LENGTH_LONG).show();
             } else {
                 System.out.println("Hire Response = " + hireResult);
-                //TODO: Clear search results and take the user to Job history screen.
+
+                Gson gson = new Gson();
+                Job j = gson.fromJson(hireResult, Job.class);
+
+
+
                 fragmentListener.changeFragment(HISTORY);
             }
 

@@ -17,7 +17,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zebenzi.job.Job;
+import com.zebenzi.job.JobManualParsing;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostTask;
@@ -57,7 +57,7 @@ public class HistoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Construct the data source
-        ArrayList<Job> arrayOfJobs = new ArrayList<Job>();
+        ArrayList<JobManualParsing> arrayOfJobs = new ArrayList<JobManualParsing>();
 
         // Create the adapter to convert the array to views
         jobHistoryResultsAdapter = new JobHistoryAdapter(MainActivity.getAppContext(), arrayOfJobs);
@@ -130,7 +130,7 @@ public class HistoryFragment extends Fragment {
                     try {
                         JSONArray jsonJobHistory = new JSONArray(history);
                         jobHistoryResultsAdapter.clear();
-                        ArrayList<Job> jobList = Job.fromJson(jsonJobHistory);
+                        ArrayList<JobManualParsing> jobList = JobManualParsing.fromJson(jsonJobHistory);
                         jobHistoryResultsAdapter.addAll(jobList);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -183,15 +183,15 @@ public class HistoryFragment extends Fragment {
         }
     }
 
-    public class JobHistoryAdapter extends ArrayAdapter<Job> {
-        public JobHistoryAdapter(Context context, ArrayList<Job> users) {
+    public class JobHistoryAdapter extends ArrayAdapter<JobManualParsing> {
+        public JobHistoryAdapter(Context context, ArrayList<JobManualParsing> users) {
             super(context, 0, users);
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
-            Job job = getItem(position);
+            JobManualParsing job = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_job_history, parent, false);
@@ -236,7 +236,7 @@ public class HistoryFragment extends Fragment {
             hireButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View arg0) {
                     int position = (Integer) arg0.getTag();
-                    Job job = getItem(position);
+                    JobManualParsing job = getItem(position);
                     System.out.println("Trying to hire worker: " + job.getWorkerName());
                     try {
                         hireWorker(job.getWorkerId(), job.getJobServiceId());

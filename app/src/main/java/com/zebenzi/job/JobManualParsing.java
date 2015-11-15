@@ -11,24 +11,24 @@ import java.util.ArrayList;
  *
  * A Job is an actual job that a customer requests to be done. It
  */
-public class Job {
+public class JobManualParsing {
     private JSONObject job;
 
     //TODO: getTotalJobs, getPendingJobs, getCompletedJobs, getCancelledJobs etc.
 
     // Constructor to convert JSON object into a Java class instance
-    public Job(JSONObject object){
+    public JobManualParsing(JSONObject object){
         this.job = object;
     }
 
     // Factory method to convert an array of JSON objects into a list of objects
     // User.fromJson(jsonArray);
-    public static ArrayList<Job> fromJson(JSONArray jsonObjects) {
-        ArrayList<Job> jobs = new ArrayList<Job>();
+    public static ArrayList<JobManualParsing> fromJson(JSONArray jsonObjects) {
+        ArrayList<JobManualParsing> jobs = new ArrayList<JobManualParsing>();
 
         for (int i = 0; i < jsonObjects.length() ; i++) {
             try {
-                jobs.add(new Job(jsonObjects.getJSONObject(i)));
+                jobs.add(new JobManualParsing(jsonObjects.getJSONObject(i)));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
