@@ -257,7 +257,12 @@ public class QuoteFragment extends Fragment {
             tvContact.setText(user.getUserName());
             tvAddress.setText(user.getUserAddress().toString());
             tvID.setText(user.getId());
-            Picasso.with(MainActivity.getAppContext()).load(user.getImageUrl()).into(img);
+            try {
+                Picasso.with(MainActivity.getAppContext()).load(user.getImageUrl()).into(img);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
 
             Button hireButton = (Button) convertView.findViewById(R.id.hireButton);
             hireButton.setTag(position);

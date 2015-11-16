@@ -41,13 +41,15 @@ public class NavigationDrawerHeader extends ListItem {
         ImageView imageViewIcon = (ImageView) view.findViewById(R.id.navigationDrawerHeaderIcon);
         TextView textViewName = (TextView) view.findViewById(R.id.navigationDrawerHeaderName);
         TextView textViewEmail = (TextView) view.findViewById(R.id.navigationDrawerHeaderEmail);
+        imageViewIcon.setImageResource(R.drawable.profile_pic_default);
 
-        //TODO: Get customer profile pic
-        if (Customer.getInstance().getCustomerImageUrl().equalsIgnoreCase("")){
-        imageViewIcon.setImageResource(R.drawable.profile_pic_default);}
-        else {
+        try {
             Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(imageViewIcon);
         }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
         textViewName.setText(Customer.getInstance().getCustomerFirstName());
 //        textViewEmail.setText(Customer.getInstance().getCustomerMobileNumber());
 

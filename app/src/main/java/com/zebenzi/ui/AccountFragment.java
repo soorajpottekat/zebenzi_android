@@ -60,7 +60,12 @@ public class AccountFragment extends Fragment {
         });
 
         ImageView img = (ImageView) rootView.findViewById(R.id.account_image);
-        Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(img);
+        try {
+            Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(img);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         return rootView;
     }
 
