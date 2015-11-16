@@ -1,91 +1,95 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:gravity="center_horizontal"
-    android:background="@color/zebenzi_white"
-    android:orientation="vertical"
-    tools:context=".LoginActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
 
-    <!--<ImageView-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                  android:layout_height="match_parent" android:gravity="center_horizontal"
+                  android:background="@color/zebenzi_white"
+                  android:orientation="vertical"
+                  tools:context=".LoginActivity">
+
+        <!--<ImageView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:id="@+id/imageView"-->
         <!--android:layout_gravity="center_horizontal|top"-->
         <!--android:layout_weight="1"-->
         <!--android:src="@drawable/zebenzi_banner" />-->
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/nav_drawer_background">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/account_image"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:src="@drawable/profile_vaugan"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@color/zebenzi_white"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"/>
-
         <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp">
+            android:background="@drawable/nav_drawer_background">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/account_image"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:src="@drawable/profile_vaugan"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@color/zebenzi_white"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"/>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp">
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="#ffffff"
+                        android:layout_marginTop="10dp"
+                        android:clickable="true"
+                        android:text="FirstName"
+                        android:id="@+id/account_first_name"
+                        android:layout_marginLeft="0dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textColor="#ffffff"
+                        android:layout_marginTop="10dp"
+                        android:clickable="true"
+                        android:text="LastName"
+                        android:id="@+id/account_last_name"
+                        android:layout_marginLeft="10dp"/>
+                </LinearLayout>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="#ffffff"
-                    android:layout_marginTop="10dp"
-                    android:clickable="true"
-                    android:text="FirstName"
-                    android:id="@+id/account_first_name"
-                    android:layout_marginLeft="0dp"/>
+                    android:text="Mobile Number"
+                    android:id="@+id/account_mobile_number" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textColor="#ffffff"
-                    android:layout_marginTop="10dp"
-                    android:clickable="true"
-                    android:text="LastName"
-                    android:id="@+id/account_last_name"
-                    android:layout_marginLeft="10dp"/>
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
+                      android:layout_height="match_parent" android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="#ffffff"
-                android:text="Mobile Number"
-                android:id="@+id/account_mobile_number" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout android:id="@+id/email_login_form" android:layout_width="match_parent"
-            android:layout_height="match_parent" android:orientation="vertical">
-
-        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Jobs Done"
@@ -101,19 +105,19 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:layout_marginTop="10dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Address"
-            android:id="@+id/account_address"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Address"
+                android:id="@+id/account_address"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
 
-        <Button android:id="@+id/accounts_job_history_button" style="@style/materialButton"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="My Jobs"
-                android:background="@color/zebenzi_accent_color"
-                android:layout_gravity="bottom"/>
+            <Button android:id="@+id/accounts_job_history_button" style="@style/materialButton"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="My Jobs"
+                    android:background="@color/zebenzi_accent_color"
+                    android:layout_gravity="bottom"/>
             <Button android:id="@+id/accounts_change_password_button" style="@style/materialButton"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginTop="16dp" android:text="Change Password"
@@ -126,7 +130,8 @@
         </LinearLayout>
 
 
-</LinearLayout>
+    </LinearLayout>
 
+</ScrollView>
 
 

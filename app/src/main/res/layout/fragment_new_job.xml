@@ -1,184 +1,189 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/zebenzi_white"
-    tools:context="com.zebenzi.ui.Search"
-    android:clickable="true">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
 
-    <!-- Login progress -->
-    <ProgressBar android:id="@+id/new_job_progress" style="?android:attr/progressBarStyleLarge"
-                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                 android:layout_marginBottom="8dp" android:visibility="gone"
-                 android:layout_weight="0" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/zebenzi_white"
+                    tools:context="com.zebenzi.ui.Search"
+                    android:clickable="true">
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/panel_border"
-        android:layout_margin="20dp"
-        android:translationZ="5dp"
-        android:id="@+id/tableLayout">
+        <!-- Login progress -->
+        <ProgressBar android:id="@+id/new_job_progress" style="?android:attr/progressBarStyleLarge"
+                     android:layout_width="match_parent" android:layout_height="wrap_content"
+                     android:layout_marginBottom="8dp" android:visibility="gone"
+                     android:layout_weight="0" />
 
-        <TableRow
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/panel_border"
+            android:layout_margin="20dp"
+            android:translationZ="5dp"
+            android:id="@+id/tableLayout">
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="I need a"
+                    android:id="@+id/textView"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="right"
+                    android:textColor="@color/zebenzi_light_grey"
+                    android:layout_marginRight="20dp"
+                    android:textSize="18sp"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <Spinner
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_bg_arrow"
+                    android:padding="15dp"
+                    android:id="@+id/new_job_service_name"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Units"
+                    android:id="@+id/new_job_units_label"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="right"
+                    android:textColor="@color/zebenzi_light_grey"
+                    android:layout_marginRight="20dp"
+                    android:textSize="18sp"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/spinner_bg_arrow"
+                    android:padding="15dp"
+                    android:id="@+id/new_job_units_spinner"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:id="@+id/new_job_date_label"
+                    android:layout_gravity="center_vertical|left"
+                    android:textColor="@color/zebenzi_light_grey"
+                    android:gravity="right"
+                    android:layout_marginRight="20dp"
+                    android:textSize="18sp"
+                    />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <Button
+                    android:id="@+id/new_job_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_field_border"
+
+                    style="@style/dateTimeButton"
+                    android:layout_gravity="left"
+                    />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time"
+                    android:id="@+id/textView4"
+                    android:layout_gravity="center_vertical|left"
+                    android:gravity="right"
+                    android:textColor="@color/zebenzi_light_grey"
+                    android:layout_marginRight="20dp"
+                    android:textSize="18sp"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:translationZ="10dp"
+                android:layout_marginBottom="20dp">
+
+                <Button
+                    android:id="@+id/new_job_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/text_field_border"
+
+                    style="@style/dateTimeButton"
+                    android:layout_gravity="left"
+                    />
+            </TableRow>
+
+        </TableLayout>
+
+        <Button
+            android:id="@+id/new_job_get_quote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="I need a"
-                android:id="@+id/textView"
-                android:layout_gravity="center_vertical|left"
-                android:gravity="right"
-                android:textColor="@color/zebenzi_light_grey"
-                android:layout_marginRight="20dp"
-                android:textSize="18sp"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/spinner_bg_arrow"
-                android:padding="15dp"
-                android:id="@+id/new_job_service_name"
-                />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Units"
-                android:id="@+id/new_job_units_label"
-                android:layout_gravity="center_vertical|left"
-                android:gravity="right"
-                android:textColor="@color/zebenzi_light_grey"
-                android:layout_marginRight="20dp"
-                android:textSize="18sp"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/spinner_bg_arrow"
-                android:padding="15dp"
-                android:id="@+id/new_job_units_spinner"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date"
-                android:id="@+id/new_job_date_label"
-                android:layout_gravity="center_vertical|left"
-                android:textColor="@color/zebenzi_light_grey"
-                android:gravity="right"
-                android:layout_marginRight="20dp"
-                android:textSize="18sp"
-                />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-
-            <Button
-                android:id="@+id/new_job_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/text_field_border"
-
-                style="@style/dateTimeButton"
-                android:layout_gravity="left"
-                />
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time"
-                android:id="@+id/textView4"
-                android:layout_gravity="center_vertical|left"
-                android:gravity="right"
-                android:textColor="@color/zebenzi_light_grey"
-                android:layout_marginRight="20dp"
-                android:textSize="18sp"
-                />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:text="GET QUOTE"
+            android:layout_gravity="center_horizontal|left"
+            style="@style/materialButton"
+            android:textSize="20sp"
+            android:padding="15dp"
             android:translationZ="10dp"
-            android:layout_marginBottom="20dp">
-
-            <Button
-                android:id="@+id/new_job_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/text_field_border"
-
-                style="@style/dateTimeButton"
-                android:layout_gravity="left"
-                />
-        </TableRow>
-
-    </TableLayout>
-
-    <Button
-        android:id="@+id/new_job_get_quote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="GET QUOTE"
-        android:layout_gravity="center_horizontal|left"
-        style="@style/materialButton"
-        android:textSize="20sp"
-        android:padding="15dp"
-        android:translationZ="10dp"
-        android:layout_below="@+id/tableLayout"
-        android:layout_alignLeft="@+id/tableLayout"
-        android:layout_alignStart="@+id/tableLayout"/>
+            android:layout_below="@+id/tableLayout"
+            android:layout_alignLeft="@+id/tableLayout"
+            android:layout_alignStart="@+id/tableLayout"/>
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
