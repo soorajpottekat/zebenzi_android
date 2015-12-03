@@ -33,7 +33,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="I need a"
+                    android:text="I need help with"
                     android:id="@+id/textView"
                     android:layout_gravity="center_vertical|left"
                     android:gravity="right"
@@ -67,7 +67,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Units"
+                    android:text="Number of "
                     android:id="@+id/new_job_units_label"
                     android:layout_gravity="center_vertical|left"
                     android:gravity="right"

@@ -53,13 +53,12 @@ public class NewJobFragment extends Fragment {
     private View mProgressView;
     private Button jobDate;
     private int mYear;
-    public int mMonth;
+    private int mMonth;
     private int mDay;
     private int mHour;
     private int mMin;
     private Button jobTime;
-    GregorianCalendar mDate;
-    GregorianCalendar mTime;
+    GregorianCalendar mJobDateTime;
     private Spinner serviceSpinner;
     private Spinner unitsSpinner;
     ArrayList<String> unitsSpinnerArray = new ArrayList<String>();
@@ -76,6 +75,14 @@ public class NewJobFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //Initialise variables for date time
+        Calendar mcurrentDate = Calendar.getInstance();
+        mYear = mcurrentDate.get(Calendar.YEAR);
+        mMonth = mcurrentDate.get(Calendar.MONTH);
+        mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+        mHour = 8;
+        mMin = 0;
+
         View rootView = inflater.inflate(R.layout.fragment_new_job, container, false);
 
         mProgressView = rootView.findViewById(R.id.new_job_progress);
@@ -88,8 +95,8 @@ public class NewJobFragment extends Fragment {
         jobTime = (Button) rootView.findViewById(R.id.new_job_time);
 
         DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy");
-        mDate = new GregorianCalendar();
-        String date = df.format(mDate.getTime());
+        mJobDateTime = new GregorianCalendar();
+        String date = df.format(mJobDateTime.getTime());
         jobDate.setText(date);
         jobDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,10 +106,7 @@ public class NewJobFragment extends Fragment {
         });
 
         df = new SimpleDateFormat("HH:mm");
-        mTime = new GregorianCalendar();
-        mTime.set(Calendar.HOUR_OF_DAY, 8);
-        mTime.set(Calendar.MINUTE, 0);
-        String time = df.format(mTime.getTime());
+        String time = df.format(mJobDateTime.getTime());
         jobTime.setText(time);
         jobTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,7 +150,7 @@ public class NewJobFragment extends Fragment {
                     String service = serviceSpinner.getSelectedItem().toString();
                     int units = Integer.parseInt(unitsSpinner.getSelectedItem().toString());
 
-                    JobRequest request = new JobRequest(getServiceId(service), getDefaultId(service, units), mDate, mTime);
+                    JobRequest request = new JobRequest(getServiceId(service), getDefaultId(service, units), mJobDateTime);
                     Customer.getInstance().setCurrentJobRequest(request);
                     fragmentListener.changeFragment(QUOTE);
                 }
@@ -201,12 +205,6 @@ public class NewJobFragment extends Fragment {
      * Handle the selection of date via dialog
      */
     private void showDatePicker() {
-        //To show current date in the datepicker
-        Calendar mcurrentDate = Calendar.getInstance();
-        mYear = mcurrentDate.get(Calendar.YEAR);
-        mMonth = mcurrentDate.get(Calendar.MONTH);
-        mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-
         DatePickerFragment mDatePicker = new DatePickerFragment();
         mDatePicker.setCallBack(mDateSetListener);
         mDatePicker.show(getFragmentManager(), "datePicker");
@@ -216,11 +214,6 @@ public class NewJobFragment extends Fragment {
      * Handle the selection of date via dialog
      */
     private void showTimePicker() {
-        //To show current time in the timepicker
-        Calendar mcurrentDate = Calendar.getInstance();
-        mHour = mcurrentDate.get(Calendar.HOUR);
-        mMin = mcurrentDate.get(Calendar.MINUTE);
-
         TimePickerFragment mTimePicker = new TimePickerFragment();
         mTimePicker.setCallBack(mTimeSetListener);
         mTimePicker.show(getFragmentManager(), "timePicker");
@@ -233,35 +226,74 @@ public class NewJobFragment extends Fragment {
             mYear = year;
             mMonth = monthOfYear;
             mDay = dayOfMonth;
-            updateDate();
+            updateDateTime();
+//            updateDate();
         }
     };
 
     TimePickerDialog.OnTimeSetListener mTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         public void onTimeSet(TimePicker view, int hour,
                               int min) {
+
+            if (min>0){
+                Toast.makeText(MainActivity.getAppContext(), "Sorry, you can only schedule on the hour", Toast.LENGTH_LONG).show();
+            }
             mHour = hour;
-            mMin = min;
-            updateTime();
+            mMin = 0;
+            updateDateTime();
+            //            updateTime();
         }
     };
 
-    private void updateDate() {
-        mDate = new GregorianCalendar(mYear, mMonth, mDay);
+    private void updateDateTime() {
+        //Update datetime"
+
+        mJobDateTime = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMin);
+
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy");
-        jobDate.setText(sdf.format(mDate.getTime()));
+        jobDate.setText(sdf.format(mJobDateTime.getTime()));
 
+        //Update label for "In x days"
         GregorianCalendar currentDay = new GregorianCalendar();
-
-        Long millisecs = mDate.getTimeInMillis() + TimeUnit.HOURS.toMillis(mTime.HOUR_OF_DAY) - currentDay.getTimeInMillis();
+        Long millisecs = mJobDateTime.getTimeInMillis() + TimeUnit.HOURS.toMillis(mJobDateTime.HOUR_OF_DAY) - currentDay.getTimeInMillis();
+        int daysRemainingTillJob = 0;
+        if (TimeUnit.MILLISECONDS.toDays(millisecs) > 0){
+            daysRemainingTillJob = (int)TimeUnit.MILLISECONDS.toDays(millisecs);
+        }
         mDateLabel.setText("Date (In " + TimeUnit.MILLISECONDS.toDays(millisecs) + " days)");
+
+        sdf = new SimpleDateFormat("HH:mm");
+        jobTime.setText(sdf.format(mJobDateTime.getTime()));
 
     }
 
+    private void updateDate() {
+        //Update datetime"
+        mJobDateTime = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMin);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy");
+        jobDate.setText(sdf.format(mJobDateTime.getTime()));
+
+        //Update label for "In x days"
+        GregorianCalendar currentDay = new GregorianCalendar();
+        Long millisecs = mJobDateTime.getTimeInMillis() + TimeUnit.HOURS.toMillis(mJobDateTime.HOUR_OF_DAY) - currentDay.getTimeInMillis();
+        int daysRemainingTillJob = 0;
+        if (TimeUnit.MILLISECONDS.toDays(millisecs) > 0){
+            daysRemainingTillJob = (int)TimeUnit.MILLISECONDS.toDays(millisecs);
+        }
+        mDateLabel.setText("Date (In " + TimeUnit.MILLISECONDS.toDays(millisecs) + " days)");
+    }
     private void updateTime() {
-        mTime = new GregorianCalendar(mHour, mMonth, mDay, mHour, mMin);
+
+        //Update datetime"
+        mJobDateTime = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMin);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        jobTime.setText(sdf.format(mTime.getTime()));
+        jobTime.setText(sdf.format(mJobDateTime.getTime()));
+
+        //Update label for "In x days"
+        GregorianCalendar currentDay = new GregorianCalendar();
+        Long millisecs = mJobDateTime.getTimeInMillis() + TimeUnit.HOURS.toMillis(mJobDateTime.HOUR_OF_DAY) - currentDay.getTimeInMillis();
+        mDateLabel.setText("Date (In " + TimeUnit.MILLISECONDS.toDays(millisecs) + " days)");
     }
 
     /**

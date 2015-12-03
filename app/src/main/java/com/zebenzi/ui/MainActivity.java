@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
@@ -230,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                     Bundle b = new Bundle();
                     b.putString("serviceId", Integer.toString(jobRequest.getServiceId()));
                     b.putString("units", Integer.toString(jobRequest.getServiceDefaultId()));
-                    b.putString("date", jobRequest.getDate());
+                    b.putString("date", jobRequest.getDateTime());
                     b.putString("time", jobRequest.getTime());
                     searchFragment.setArguments(b);
                     transaction.replace(R.id.fragment_container, searchFragment);

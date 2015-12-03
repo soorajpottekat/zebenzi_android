@@ -86,7 +86,7 @@ public class QuoteFragment extends Fragment {
         if (job != null) {
             int id = job.getServiceId();
             int units = job.getServiceDefaultId();
-            String date = job.getDate();
+            String date = job.getDateTime();
 
             getQuote(id, units, date);
         }
@@ -157,8 +157,8 @@ public class QuoteFragment extends Fragment {
             mQuoteService.setText("Service " + quote.getService().getServiceName());
             mQuoteUnits.setText("SQM " + quote.getWork().getDefaultValue());
             mQuotePrice.setText("R" + quote.getPrice());
-            mQuoteDate.setText("Date " + quote.getWorkDate());
-            mQuoteTime.setText("Time " + quote.getWorkDate());
+            mQuoteDate.setText("Date " + quote.getPrettyDate());
+            mQuoteTime.setText("Time " + quote.getPrettyTime());
         }
     }
 

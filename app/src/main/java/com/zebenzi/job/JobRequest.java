@@ -12,29 +12,27 @@ import java.util.GregorianCalendar;
 public class JobRequest {
     int serviceId;
     int serviceDefaultId; //We don't use the actual number of units, but instead the ID of the "ServiceDefault"
-    GregorianCalendar date;
-    GregorianCalendar time;
+    GregorianCalendar dateTime;
 
-    public JobRequest(int serviceId, int serviceDefaultId, GregorianCalendar date, GregorianCalendar time) {
+    public JobRequest(int serviceId, int serviceDefaultId, GregorianCalendar dateTime) {
         this.serviceId = serviceId;
         this.serviceDefaultId = serviceDefaultId;
-        this.date = date;
-        this.time = time;
+        this.dateTime = dateTime;
     }
 
     public int getServiceDefaultId() {
         return serviceDefaultId;
     }
 
-    public String getDate() {
+    public String getDateTime() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy");
-        return sdf.format(date.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        return sdf.format(dateTime.getTime());
     }
 
     public String getTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        return sdf.format(time.getTime());
+        return sdf.format(dateTime.getTime());
     }
     public int getServiceId() {
         return serviceId;

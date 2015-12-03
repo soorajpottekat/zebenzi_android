@@ -115,6 +115,7 @@ public class HistoryFragment extends Fragment {
             else {
                 if (history != null) {
                     try {
+                        //TODO: Handle invalid request returned here. User is presented with blank screen.
                         jobHistoryResultsAdapter.clear();
                         Gson gson = new Gson();
                         Job[] jobHistory = gson.fromJson(history, Job[].class);
