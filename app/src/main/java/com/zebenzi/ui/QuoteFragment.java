@@ -273,7 +273,7 @@ public class QuoteFragment extends Fragment {
                     System.out.println("Trying to hire: " + user.getFirstName() + " ID=" + user.getId());
 
                     if (Customer.getInstance().getToken() != null) {
-                        hireWorker(Customer.getInstance().getLastQuote().getService().getServiceId(), user.getId());
+                        hireWorker(Customer.getInstance().getLastQuote().getQuoteId(), user.getId());
                     } else {
                         Toast.makeText(MainActivity.getAppContext(), "You need to be logged in to hire a worker", Toast.LENGTH_LONG).show();
                         System.out.println("Cannot hire worker if not logged in.");
