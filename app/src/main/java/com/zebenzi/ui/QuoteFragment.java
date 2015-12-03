@@ -154,8 +154,8 @@ public class QuoteFragment extends Fragment {
         }
 
         if (quote != null) {
-            mQuoteService.setText("Service " + quote.getService().getServiceName());
-            mQuoteUnits.setText("SQM " + quote.getWork().getDefaultValue());
+            mQuoteService.setText(quote.getService().getServiceName());
+            mQuoteUnits.setText(quote.getWork().getDefaultValue() + " " + quote.getService().getServiceUnit().getName());
             mQuotePrice.setText("R" + quote.getPrice());
             mQuoteDate.setText("Date " + quote.getPrettyDate());
             mQuoteTime.setText("Time " + quote.getPrettyTime());
@@ -286,7 +286,7 @@ public class QuoteFragment extends Fragment {
         }
     }
 
-    public void hireWorker(int serviceId, String workerId) {
+    public void hireWorker(int quoteId, String workerId) {
         //Build url
         String url = MainActivity.getAppContext().getString(R.string.api_url_hire_worker);
 
@@ -298,7 +298,7 @@ public class QuoteFragment extends Fragment {
         //Build body
         JSONObject body = new JSONObject();
         try {
-            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), serviceId);
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_quote_id), quoteId);
             body.put(MainActivity.getAppContext().getString(R.string.api_json_field_worker_id), workerId);
         } catch (JSONException e) {
             e.printStackTrace();

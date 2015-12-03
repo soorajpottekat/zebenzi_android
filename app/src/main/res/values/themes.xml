@@ -64,8 +64,8 @@
 
     <style name="dateTimeButton">
         <item name="android:textColor">@color/zebenzi_black</item>
-        <item name="android:textSize">22sp</item>
-        <item name="android:padding">15dp</item>
+        <!--<item name="android:textAppearance">@android:attr/textAppearanceMedium</item>-->
+        <item name="android:padding">5dp</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="android:background">@drawable/button_date_time_ripple</item>
     </style>
@@ -81,22 +81,22 @@
         <item name="android:background">@drawable/text_field_border</item>
         <item name="android:divider">@color/zebenzi_light_grey</item>
         <item name="android:dividerHeight">1dp</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textAppearance">@android:attr/textAppearanceMedium</item>
     </style>
 
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
         <item name="android:textColor">@color/zebenzi_black</item>
         <!--<item name="android:background">@color/material_grey_100</item>-->
-        <item name="android:textSize">24sp</item>
+        <!--<item name="android:textAppearance">@android:attr/textAppearanceMedium</item>-->
     </style>
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
 
         <item name="android:textColor">@drawable/spinner_dropdown_textcolor</item>
         <item name="android:background">@drawable/spinner_dropdown_background</item>
-        <item name="android:textSize">24sp</item>
-        <item name="android:paddingTop">15sp</item>
-        <item name="android:paddingBottom">15sp</item>
+        <item name="android:textAppearance">@android:attr/textAppearanceMedium</item>
+        <item name="android:paddingTop">10sp</item>
+        <item name="android:paddingBottom">10sp</item>
         <item name="android:paddingLeft">20sp</item>
     </style>
 

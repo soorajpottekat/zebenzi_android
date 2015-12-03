@@ -119,7 +119,7 @@ public class NewJobFragment extends Fragment {
         serviceSpinner = (Spinner) rootView.findViewById(R.id.new_job_service_name);
         serviceSpinnerArray = new ArrayList<String>() {
             {
-                    add("Services currently not available");
+                    add(MainActivity.getAppContext().getString(R.string.no_connection));
             }
         };
         serviceSpinnerArrayAdapter = new ArrayAdapter<>(MainActivity.getAppContext(), R.layout.spinner_item, serviceSpinnerArray);
