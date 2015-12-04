@@ -173,17 +173,24 @@ public class HistoryFragment extends Fragment {
             RatingBar rbJobRatingBar = (RatingBar) convertView.findViewById(R.id.jobRatingBar);
             ImageView img = (ImageView) convertView.findViewById(R.id.historyWorkerImage);
 
+            //TODO: Should we handle errors in the results? Eg. Null data. Or should the server worry about his?
+
             try {
                 tvWorkerFirstName.setText(job.getWorker().getFirstName());
                 tvWorkerLastName.setText(job.getWorker().getLastName());
-                tvJobNumber.setText(Integer.toString(job.getJobid()));
-                tvJobStatus.setText(job.getJobStatus());
-                tvJobStartDate.setText(job.getJobCreatedDate());
-                tvJobCompletedDate.setText(job.getJobStatusDate());
-                tvRating.setText(Float.valueOf(job.getRating()).toString());
+                tvJobNumber.setText(Integer.toString(job.getJobId()));
+                if (job.getStatus() != null) {
+                    tvJobStatus.setText(job.getStatus().getStatusReason());
+                }
+                tvJobStartDate.setText(job.getCreatedDate());
+                tvJobCompletedDate.setText(job.getCreatedDate());
+//                tvRating.setText(Float.valueOf(job.getUser().);
                 tvWorkerMobileNumber.setText(job.getWorker().getUserName());
-                tvJobServiceName.setText(job.getJobService());
-                rbJobRatingBar.setRating(Float.valueOf(job.getRating()));
+
+                if (job.getQuote().getService() != null) {
+                    tvJobServiceName.setText(job.getQuote().getService().getServiceName());
+                }
+//                rbJobRatingBar.setRating(Float.valueOf(job.getRating()));
                 Picasso.with(MainActivity.getAppContext()).load(job.getWorker().getImageUrl()).into(img);
             } catch (Exception e) {
                 e.printStackTrace();

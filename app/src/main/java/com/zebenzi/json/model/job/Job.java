@@ -1,61 +1,35 @@
 package com.zebenzi.json.model.job;
 
+import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.json.model.user.User;
 
 /**
  * Created by Vaugan.Nayagar on 2015/11/15.
  */
 public class Job {
-    int jobid;
-    int currentStatusCode;
-    String jobStatus;
-    String jobStatusDate;
-    String jobService;
+    int jobId;
+    JobStatus status;
     User user;
     User worker;
-    String jobCreatedDate;
-    String jobUpdatedDate;
-    JobStatus[] statusHistory;
-    float Rating;
+    Quote quote;
+    boolean isDeleted;
+    String createdDate;
+    String updatedDate;
 
-    public int getJobid() {
-        return jobid;
+    public int getJobId() {
+        return jobId;
     }
 
-    public void setJobid(int jobid) {
-        this.jobid = jobid;
+    public void setJobId(int jobId) {
+        this.jobId = jobId;
     }
 
-    public int getCurrentStatusCode() {
-        return currentStatusCode;
+    public JobStatus getStatus() {
+        return status;
     }
 
-    public void setCurrentStatusCode(int currentStatusCode) {
-        this.currentStatusCode = currentStatusCode;
-    }
-
-    public String getJobStatus() {
-        return jobStatus;
-    }
-
-    public void setJobStatus(String jobStatus) {
-        this.jobStatus = jobStatus;
-    }
-
-    public String getJobStatusDate() {
-        return jobStatusDate;
-    }
-
-    public void setJobStatusDate(String jobStatusDate) {
-        this.jobStatusDate = jobStatusDate;
-    }
-
-    public String getJobService() {
-        return jobService;
-    }
-
-    public void setJobService(String jobService) {
-        this.jobService = jobService;
+    public void setStatus(JobStatus status) {
+        this.status = status;
     }
 
     public User getUser() {
@@ -74,42 +48,42 @@ public class Job {
         this.worker = worker;
     }
 
-    public String getJobCreatedDate() {
-        return jobCreatedDate;
+    public Quote getQuote() {
+        return quote;
     }
 
-    public void setJobCreatedDate(String jobCreatedDate) {
-        this.jobCreatedDate = jobCreatedDate;
+    public void setQuote(Quote quote) {
+        this.quote = quote;
     }
 
-    public String getJobUpdatedDate() {
-        return jobUpdatedDate;
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
-    public void setJobUpdatedDate(String jobUpdatedDate) {
-        this.jobUpdatedDate = jobUpdatedDate;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
-    public JobStatus[] getStatusHistory() {
-        return statusHistory;
+    public String getCreatedDate() {
+        return createdDate;
     }
 
-    public void setStatusHistory(JobStatus[] statusHistory) {
-        this.statusHistory = statusHistory;
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
     }
 
-    public float getRating() {
-        return Rating;
+    public String getUpdatedDate() {
+        return updatedDate;
     }
 
-    public void setRating(float rating) {
-        Rating = rating;
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
     }
 
     public boolean isJobInProgress()
     {
         try {
-            String jobStatus = getJobStatus();
+            String jobStatus = status.getStatusReason();
 
             if ((jobStatus.equalsIgnoreCase("Accepted")) ||
                     (jobStatus.equalsIgnoreCase("Pending Acceptence")) ||
