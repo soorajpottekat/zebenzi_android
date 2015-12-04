@@ -98,7 +98,6 @@ public class HttpGetTask extends AsyncTask<Object, String, String> {
             } catch (Exception e) {
                 networkError = true;
                 System.out.println(e.getMessage());
-                return resultToDisplay;
             }
 
             return resultToDisplay;
