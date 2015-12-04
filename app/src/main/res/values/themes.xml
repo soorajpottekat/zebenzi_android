@@ -55,9 +55,18 @@
     </style>
 
     <style name="materialButton">
+        <!--<item name="style">@style/materialButtonText</item>-->
         <item name="android:textColor">@color/zebenzi_white</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:padding">20dp</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:background">@color/zebenzi_accent_color</item>
+    </style>
+
+    <style name="HireMeButton">
+        <item name="android:textColor">@color/zebenzi_white</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:padding">5dp</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="android:background">@color/zebenzi_accent_color</item>
     </style>
