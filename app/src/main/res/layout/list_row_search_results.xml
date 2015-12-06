@@ -14,7 +14,7 @@
         android:layout_height="72dp"
         android:src="@drawable/profile_vaugan"
         app:civ_border_width="2dp"
-        app:civ_border_color="@color/zebenzi_primary_color_dark"
+        app:civ_border_color="@color/zebenzi_light_grey"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
