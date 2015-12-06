@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent"
+    >
 
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -10,8 +11,9 @@
                     tools:context="com.zebenzi.ui.Search"
                     android:clickable="true">
 
+
         <TableLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/panel_border"
             android:layout_margin="20dp"
@@ -34,7 +36,7 @@
                     android:gravity="right"
                     android:textColor="@color/zebenzi_light_grey"
                     android:layout_marginRight="20dp"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/text_size_small"/>
             </TableRow>
 
             <TableRow
@@ -47,7 +49,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/spinner_bg_arrow"
-                    android:padding="5dp"
                     android:id="@+id/new_job_service_name"
                     />
             </TableRow>
@@ -68,7 +69,7 @@
                     android:gravity="right"
                     android:textColor="@color/zebenzi_light_grey"
                     android:layout_marginRight="20dp"
-                    android:textSize="18sp"/>
+                    android:textSize="@dimen/text_size_small"/>
             </TableRow>
 
             <TableRow
@@ -81,7 +82,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/spinner_bg_arrow"
-                    android:padding="5dp"
                     android:id="@+id/new_job_units_spinner"/>
             </TableRow>
 
@@ -101,7 +101,7 @@
                     android:textColor="@color/zebenzi_light_grey"
                     android:gravity="right"
                     android:layout_marginRight="20dp"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_small"/>
                     />
 
             </TableRow>
@@ -140,7 +140,7 @@
                     android:gravity="right"
                     android:textColor="@color/zebenzi_light_grey"
                     android:layout_marginRight="20dp"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_small"/>
                     />
             </TableRow>
 
