@@ -251,13 +251,13 @@ public class QuoteFragment extends Fragment {
             TextView tvID = (TextView) convertView.findViewById(R.id.workerID);
             ImageView img = (ImageView) convertView.findViewById(R.id.workerImage);
 
-            // Populate the data into the template view using the data object
-            tvFirstName.setText(user.getFirstName());
-            tvLastName.setText(user.getLastName());
-            tvContact.setText(user.getUserName());
-            tvAddress.setText(user.getUserAddress().toString());
-            tvID.setText(user.getId());
             try {
+                // Populate the data into the template view using the data object
+                tvFirstName.setText(user.getFirstName());
+                tvLastName.setText(user.getLastName());
+                tvContact.setText(user.getUserName());
+                tvAddress.setText(user.getUserAddress().toString());
+                tvID.setText(user.getId());
                 Picasso.with(MainActivity.getAppContext()).load(user.getImageUrl()).into(img);
             }
             catch (Exception e){
