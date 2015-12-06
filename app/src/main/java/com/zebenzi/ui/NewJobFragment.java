@@ -184,6 +184,15 @@ public class NewJobFragment extends Fragment {
         unitsSpinnerArrayAdapter = new ArrayAdapter<>(MainActivity.getAppContext(), R.layout.spinner_item, unitsSpinnerArray);
         unitsSpinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         unitsSpinner.setAdapter(unitsSpinnerArrayAdapter);
+
+
+        try {
+            String serviceName = serviceSpinner.getSelectedItem().toString();
+            mUnitsLabel.setText(getService(serviceName).getServiceUnit().getName());
+        }catch (Exception e)
+        {
+            System.out.println("No services retrieved yet, so cannot update units label");
+        }
     }
 
 
@@ -360,6 +369,15 @@ public class NewJobFragment extends Fragment {
             showProgress(false);
             mGetServicesTask = null;
         }
+    }
+
+    private Service getService(String serviceName){
+        for (Service svc: services){
+            if (svc.getServiceName().equalsIgnoreCase(serviceName)){
+                return svc;
+            }
+        }
+        throw new ZebenziException("Invalid service name");
     }
 
     private int getServiceId(String serviceName){
