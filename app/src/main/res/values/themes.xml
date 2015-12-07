@@ -118,4 +118,7 @@
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
+    <style name="zebenziRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_bar_zebenzi</item>
+    </style>
 </resources>
