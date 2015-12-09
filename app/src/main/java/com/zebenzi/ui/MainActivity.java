@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.zebenzi.job.JobRequest;
+import com.zebenzi.json.model.job.Job;
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.ui.drawer.NavigationDrawerHeader;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 return;
             }
 
-            changeFragment(JOB);
+            changeFragment(NEW_JOB, null);
 
 //            // Create a new Fragment to be placed in the activity layout
 //            SearchResultsFragment searchResultsFragment = new SearchResultsFragment();
@@ -179,23 +180,21 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
         if (item.getItemId() == R.id.action_logout) {
             Customer.getInstance().signOut();
-            changeFragment(LOGIN);
-        } else if (item.getItemId() == R.id.action_login){
-            changeFragment(LOGIN);
-        } else if (item.getItemId() == R.id.action_register){
-            changeFragment(REGISTER);
+            changeFragment(LOGIN, null);
+        } else if (item.getItemId() == R.id.action_login) {
+            changeFragment(LOGIN, null);
+        } else if (item.getItemId() == R.id.action_register) {
+            changeFragment(REGISTER, null);
         }
         return true;
     }
 
-    private void hideMenuOption(int id)
-    {
+    private void hideMenuOption(int id) {
         MenuItem item = mMenuOptions.findItem(id);
         item.setVisible(false);
     }
 
-    private void showMenuOption(int id)
-    {
+    private void showMenuOption(int id) {
         MenuItem item = mMenuOptions.findItem(id);
         item.setVisible(true);
     }
@@ -205,18 +204,17 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
     }
 
 
-    public void changeFragment(FragmentsLookup fragment) {
+    public void changeFragment(FragmentsLookup fragment, Object data) {
 
         //Update the title in the actionbar
-        mActionBarTitle = fragment.getName();
+        setTitle(fragment.getName());
 
         FragmentTransaction transaction = fm.beginTransaction();
-
 
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
         switch (fragment) {
-            case JOB:
+            case NEW_JOB:
                 NewJobFragment newJobFragment = new NewJobFragment();
                 transaction.replace(R.id.fragment_container, newJobFragment);
                 transaction.addToBackStack(null);
@@ -225,14 +223,14 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
             case QUOTE:
                 JobRequest jobRequest = Customer.getInstance().getCurrentJobRequest();
                 if (jobRequest != null) {
-                    QuoteFragment searchFragment = new QuoteFragment();
+                    QuoteFragment quoteFragment = new QuoteFragment();
                     Bundle b = new Bundle();
                     b.putString("serviceId", Integer.toString(jobRequest.getServiceId()));
                     b.putString("units", Integer.toString(jobRequest.getServiceDefaultId()));
                     b.putString("date", jobRequest.getDateTime());
                     b.putString("time", jobRequest.getTime());
-                    searchFragment.setArguments(b);
-                    transaction.replace(R.id.fragment_container, searchFragment);
+                    quoteFragment.setArguments(b);
+                    transaction.replace(R.id.fragment_container, quoteFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
                 } else {
@@ -263,6 +261,15 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
+            case JOB_DETAILS:
+                if (data != null) {
+                    Job j = (Job) data;
+                    JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(j);
+                    transaction.replace(R.id.fragment_container, jobDetailsFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+                break;
             default:
                 System.out.println("Fragment not found. Id = " + fragment);
                 break;
@@ -281,13 +288,13 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
      * Swaps fragments in the main content view
      */
     private void selectNavDrawerItem(int position) {
-        FragmentsLookup id = JOB;
+        FragmentsLookup id = NEW_JOB;
 
         switch (position) {
             case 0:
                 break;
             case 1:
-                id = JOB;
+                id = NEW_JOB;
                 break;
             case 2:
                 id = ACCOUNT;
@@ -296,18 +303,20 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 id = HISTORY;
                 break;
         }
-        changeFragment(id);
+        changeFragment(id, null);
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
-//    @Override
-//    public void setTitle(CharSequence title) {
-//        mActionBarTitle = title;
-//        getSupportActionBar().setTitle(mActionBarTitle);
-//    }
+    @Override
+    public void setTitle(CharSequence title) {
+        if ((title != null) && (getSupportActionBar() != null)) {
+            mActionBarTitle = title;
+            getSupportActionBar().setTitle(mActionBarTitle);
+        }
+    }
 
     /**
      * When using the ActionBarDrawerToggle, you must call it during

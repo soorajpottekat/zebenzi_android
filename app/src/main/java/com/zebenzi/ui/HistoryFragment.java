@@ -5,9 +5,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.zebenzi.json.model.job.Job;
+import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
@@ -25,6 +28,9 @@ import com.zebenzi.users.Customer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+
+import static com.zebenzi.ui.FragmentsLookup.JOB_DETAILS;
 
 /**
  * Fragment for customer to view history of zebenzi jobs.
@@ -57,6 +63,19 @@ public class HistoryFragment extends Fragment {
         // Attach the adapter to a ListView
         listView = (ListView) rootView.findViewById(R.id.jobHistoryList);
         listView.setAdapter(jobHistoryResultsAdapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Job job = jobHistoryResultsAdapter.getItem(position);
+                System.out.println("Job ID =" + job.getJobId() + " Job Quote=" + job.getQuote() + " Worker=" + job.getWorker().getFirstName());
+                Toast.makeText(MainActivity.getAppContext(), "Job Id = " + job.getJobId(), Toast.LENGTH_LONG).show();
+                fragmentListener.changeFragment(JOB_DETAILS, job);
+
+            }
+        });
 
         if (Customer.getInstance().getToken() != null) {
             getJobHistory();
@@ -119,8 +138,11 @@ public class HistoryFragment extends Fragment {
                         jobHistoryResultsAdapter.clear();
                         Gson gson = new Gson();
                         Job[] jobHistory = gson.fromJson(history, Job[].class);
+
+                        //Remove bad entries. ie. user, worker or quote is null. This happened
+                        // during development, and we need to avoid displaying incorrect data.
                         ArrayList<Job> jobList = new ArrayList<>(Arrays.asList(jobHistory));
-                        jobHistoryResultsAdapter.addAll(jobList);
+                        jobHistoryResultsAdapter.addAll(removeDirtyJobs(jobList));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -136,6 +158,22 @@ public class HistoryFragment extends Fragment {
             showProgress(false);
             mJobHistoryTask = null;
         }
+    }
+
+    //Handle bad job data coming from server
+    private ArrayList<Job>  removeDirtyJobs(ArrayList<Job>  jobList) {
+
+        for (Iterator<Job> iterator = jobList.iterator(); iterator.hasNext();) {
+            Job job = iterator.next();
+            if ((job.getWorker() == null) ||
+                    (job.getStatus() == null) ||
+                    (job.getUser() == null) ||
+                    (job.getQuote() == null)){
+                //delete this job from the display as it has corrupted data.
+                iterator.remove();
+            }
+        }
+        return jobList;
     }
 
     private void refreshScreen() {
@@ -190,7 +228,8 @@ public class HistoryFragment extends Fragment {
                 if (job.getQuote().getService() != null) {
                     tvJobServiceName.setText(job.getQuote().getService().getServiceName());
                 }
-//                rbJobRatingBar.setRating(Float.valueOf(job.getRating()));
+                float rating= (float) 3.5;
+                rbJobRatingBar.setRating(rating);
                 Picasso.with(MainActivity.getAppContext()).load(job.getWorker().getImageUrl()).into(img);
             } catch (Exception e) {
                 e.printStackTrace();

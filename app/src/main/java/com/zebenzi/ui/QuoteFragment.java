@@ -33,8 +33,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import static com.zebenzi.ui.FragmentsLookup.HISTORY;
+import static com.zebenzi.ui.FragmentsLookup.JOB_DETAILS;
 
 
 /**
@@ -183,7 +185,7 @@ public class QuoteFragment extends Fragment {
 
                     availableWorkersAdapter.clear();
                     ArrayList<User> newWorkers = new ArrayList<User>(Arrays.asList(quote.getAvailableWorkers()));
-                    availableWorkersAdapter.addAll(newWorkers);
+                    availableWorkersAdapter.addAll(removeDirtyWorkers(newWorkers));
                     refreshScreen();
                 }
                 catch (Exception e){
@@ -217,8 +219,9 @@ public class QuoteFragment extends Fragment {
                 Job j = gson.fromJson(hireResult, Job.class);
 
 
+                fragmentListener.changeFragment(HISTORY, null);
 
-                fragmentListener.changeFragment(HISTORY);
+//                fragmentListener.changeFragment(JOB_DETAILS, j);
             }
 
         }
@@ -315,6 +318,19 @@ public class QuoteFragment extends Fragment {
     public void showProgress(final boolean show) {
         mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
         listView.setVisibility(show ? View.GONE : View.VISIBLE);
+    }
+
+    //Handle bad worker data coming from server
+    private ArrayList<User> removeDirtyWorkers(ArrayList<User>  availableWorkersList) {
+
+        for (Iterator<User> iterator = availableWorkersList.iterator(); iterator.hasNext();) {
+            User worker = iterator.next();
+            if (worker == null){
+                //delete this worker from the display as it has corrupted data.
+                iterator.remove();
+            }
+        }
+        return availableWorkersList;
     }
 }
 

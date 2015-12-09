@@ -47,7 +47,7 @@ public class AccountFragment extends Fragment {
         myJobsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentListener.changeFragment(HISTORY);
+                fragmentListener.changeFragment(HISTORY, null);
             }
         });
 

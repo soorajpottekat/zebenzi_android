@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.zebenzi.json.model.service.Service;
 import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
@@ -29,14 +28,13 @@ import com.zebenzi.users.Customer;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.zebenzi.ui.FragmentsLookup.JOB;
+import static com.zebenzi.ui.FragmentsLookup.NEW_JOB;
 
 
 //TODO: Revisit how the token is saved and managed via variables
@@ -293,7 +291,7 @@ public class LoginFragment extends Fragment {
 
                         if (user != null) {
                             mLoginTokenView.setText(user.getUserName());
-                            fragmentListener.changeFragment(JOB);
+                            fragmentListener.changeFragment(NEW_JOB, null);
                         } else {
                             System.out.println("Error occurred with login: " + result);
                             mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));

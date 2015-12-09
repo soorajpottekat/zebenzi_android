@@ -270,7 +270,7 @@ public class RegisterFragment extends Fragment {
                     Toast.makeText(MainActivity.getAppContext(), "You are now registered! Please log in to continue.", Toast.LENGTH_LONG).show();
 
                     //If there is a valid id in the response, then the registration was successful.
-                    fragmentListener.changeFragment(LOGIN);
+                    fragmentListener.changeFragment(LOGIN, null);
                 }
                 else
                 {

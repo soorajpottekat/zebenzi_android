@@ -3,10 +3,12 @@ package com.zebenzi.json.model.job;
 import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.json.model.user.User;
 
+import java.io.Serializable;
+
 /**
  * Created by Vaugan.Nayagar on 2015/11/15.
  */
-public class Job {
+public class Job implements Serializable {
     int jobId;
     JobStatus status;
     User user;

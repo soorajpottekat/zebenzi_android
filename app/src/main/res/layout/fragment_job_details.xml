@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/zebenzi_white"
+    tools:context="com.zebenzi.ui.Search"
+    android:clickable="false">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@drawable/panel_border"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:translationZ="5dp"
+            android:layout_margin="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="50sp"
+                android:textColor="@color/zebenzi_black"
+                android:id="@+id/job_details_price"
+                android:layout_gravity="center_horizontal"
+                android:phoneNumber="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/zebenzi_light_grey"
+                android:id="@+id/job_details_service"
+                android:paddingLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/zebenzi_light_grey"
+                android:id="@+id/job_details_units"
+                android:paddingLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/zebenzi_light_grey"
+                android:id="@+id/job_details_date"
+                android:paddingLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/zebenzi_light_grey"
+                android:id="@+id/job_details_time"
+                android:paddingLeft="20dp"/>
+
+        </LinearLayout>
+
+
+        <!-- Search progress -->
+        <ProgressBar android:id="@+id/job_details_progress" style="?android:attr/progressBarStyleLarge"
+                     android:layout_width="match_parent" android:layout_height="wrap_content"
+                     android:layout_marginBottom="8dp" android:visibility="gone"
+                     android:layout_weight="0" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -8,9 +8,10 @@ public enum FragmentsLookup {
     ACCOUNT("Account", 1),
     HISTORY("History", 2),
     LOGIN("Login", 3),
-    JOB("Job", 4),
+    NEW_JOB("New Job", 4),
     REGISTER("Register", 5),
-    QUOTE("Quote", 6);
+    QUOTE("Quote", 6),
+    JOB_DETAILS("Job Details", 7);
 
 
     private final String name;
