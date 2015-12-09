@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.zebenzi.job.JobRequest;
 import com.zebenzi.json.model.job.Job;
+import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.ui.drawer.NavigationDrawerHeader;
@@ -221,20 +222,15 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 transaction.commit();
                 break;
             case QUOTE:
-                JobRequest jobRequest = Customer.getInstance().getCurrentJobRequest();
-                if (jobRequest != null) {
-                    QuoteFragment quoteFragment = new QuoteFragment();
-                    Bundle b = new Bundle();
-                    b.putString("serviceId", Integer.toString(jobRequest.getServiceId()));
-                    b.putString("units", Integer.toString(jobRequest.getServiceDefaultId()));
-                    b.putString("date", jobRequest.getDateTime());
-                    b.putString("time", jobRequest.getTime());
-                    quoteFragment.setArguments(b);
+                //We get the job request from the user's input, then on the Quote fragment, get and display the quote from the server.
+                if (data != null) {
+                    JobRequest r = (JobRequest) data;
+                    QuoteFragment quoteFragment = QuoteFragment.newInstance(r);
                     transaction.replace(R.id.fragment_container, quoteFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
                 } else {
-                    Toast.makeText(this, "There is no valid job request set!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "There is no valid job request to display!", Toast.LENGTH_LONG).show();
                 }
                 break;
             case HISTORY:
@@ -268,6 +264,8 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                     transaction.replace(R.id.fragment_container, jobDetailsFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
+                } else {
+                    Toast.makeText(this, "There is no valid job to display!", Toast.LENGTH_LONG).show();
                 }
                 break;
             default:
@@ -276,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         }
     }
 
-    /* The click listner for ListView in the navigation drawer */
+    /* The click listener for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -292,6 +290,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
         switch (position) {
             case 0:
+                //Title bar
                 break;
             case 1:
                 id = NEW_JOB;

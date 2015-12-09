@@ -45,6 +45,7 @@ import static com.zebenzi.ui.FragmentsLookup.JOB_DETAILS;
  *
  * */
 public class QuoteFragment extends Fragment {
+    private static final String QUOTE_FRAGMENT_KEY = FragmentsLookup.QUOTE.getName();
 
     private FragmentListener fragmentListener;
     /**
@@ -63,6 +64,18 @@ public class QuoteFragment extends Fragment {
     private TextView mQuoteDate;
     private TextView mQuoteTime;
     private Quote quote;
+
+    //This allows us to pass objects into the fragment
+    //http://stackoverflow.com/questions/9931993/passing-an-object-from-an-activity-to-a-fragment
+    public static QuoteFragment newInstance(JobRequest request) {
+        QuoteFragment fragment = new QuoteFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(QUOTE_FRAGMENT_KEY, request);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
 
 
     @Override
@@ -84,11 +97,14 @@ public class QuoteFragment extends Fragment {
         refreshScreen();
 
         //If there is a valid job request stored, update the ui
-        JobRequest job = Customer.getInstance().getCurrentJobRequest();
-        if (job != null) {
-            int id = job.getServiceId();
-            int units = job.getServiceDefaultId();
-            String date = job.getDateTime();
+//        JobRequest jr = Customer.getInstance().getCurrentJobRequest();
+
+        JobRequest jr = (JobRequest) getArguments().getSerializable(QUOTE_FRAGMENT_KEY);
+
+        if (jr != null) {
+            int id = jr.getServiceId();
+            int units = jr.getServiceDefaultId();
+            String date = jr.getDateTime();
 
             getQuote(id, units, date);
         }

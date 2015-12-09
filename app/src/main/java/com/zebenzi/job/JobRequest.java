@@ -1,5 +1,6 @@
 package com.zebenzi.job;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
@@ -9,7 +10,7 @@ import java.util.GregorianCalendar;
  * Class to hold the parameters for a job request.
  * These parameters will be used to request a Quote from the server.
  */
-public class JobRequest {
+public class JobRequest implements Serializable{
     int serviceId;
     int serviceDefaultId; //We don't use the actual number of units, but instead the ID of the "ServiceDefault"
     GregorianCalendar dateTime;

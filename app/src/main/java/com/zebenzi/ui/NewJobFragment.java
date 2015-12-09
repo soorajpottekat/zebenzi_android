@@ -151,8 +151,12 @@ public class NewJobFragment extends Fragment {
                     int units = Integer.parseInt(unitsSpinner.getSelectedItem().toString());
 
                     JobRequest request = new JobRequest(getServiceId(service), getDefaultId(service, units), mJobDateTime);
+
+                    //Save the latest job request.
                     Customer.getInstance().setCurrentJobRequest(request);
-                    fragmentListener.changeFragment(QUOTE, null);
+
+                    //Change to Quote fragment to get and display quote
+                    fragmentListener.changeFragment(QUOTE, request);
                 }
                 catch (Exception e){
                     Toast.makeText(MainActivity.getAppContext(), "An error occurred with this job request. Please try again later.", Toast.LENGTH_SHORT).show();

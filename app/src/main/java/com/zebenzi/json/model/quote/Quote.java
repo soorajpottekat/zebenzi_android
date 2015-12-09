@@ -4,13 +4,14 @@ import com.google.gson.annotations.SerializedName;
 import com.zebenzi.json.model.service.Service;
 import com.zebenzi.json.model.user.User;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by Vaugan.Nayagar on 2015/11/11.
  */
-public class Quote {
+public class Quote implements Serializable {
     private int quoteId;
     private int price;
     private String workDate;
