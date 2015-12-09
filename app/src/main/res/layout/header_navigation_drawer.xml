@@ -10,7 +10,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/navigationDrawerHeaderIcon"
+        android:id="@+id/nav_drawer_header_icon"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:src="@drawable/profile_vaugan"
@@ -26,17 +26,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/navigationDrawerHeaderIcon"
-        android:layout_toEndOf="@+id/navigationDrawerHeaderIcon">
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/navigationDrawerHeaderIcon"-->
-            <!--android:paddingLeft="16dp"-->
-            <!--android:src="@drawable/profile"/>-->
+        android:layout_toRightOf="@+id/nav_drawer_header_icon"
+        android:layout_toEndOf="@+id/nav_drawer_header_icon">
 
         <TextView
-            android:id="@+id/navigationDrawerHeaderName"
+            android:id="@+id/nav_drawer_header_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -46,7 +40,7 @@
             />
 
         <TextView
-            android:id="@+id/navigationDrawerHeaderEmail"
+            android:id="@+id/nav_drawer_header_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/zebenzi_white"
@@ -55,16 +49,7 @@
             android:text="5 jobs, 2 reviews"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textStyle="normal"
-
             />
     </LinearLayout>
 
-    <!--<de.hdodenhof.circleimageview.CircleImageView-->
-        <!--android:layout_width="70dp"-->
-        <!--android:layout_height="70dp"-->
-        <!--android:src="@drawable/aka"-->
-        <!--android:layout_marginLeft="16dp"-->
-        <!--android:layout_marginTop="38dp"-->
-        <!--android:id="@+id/circleView"-->
-        <!--/>-->
 </RelativeLayout>

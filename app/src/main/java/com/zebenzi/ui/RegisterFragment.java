@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -80,7 +79,7 @@ public class RegisterFragment extends Fragment {
         mLastnameView = (EditText) rootView.findViewById(R.id.register_lastname);
         mEmailView = (EditText) rootView.findViewById(R.id.register_email);
         mPasswordView = (EditText) rootView.findViewById(R.id.register_password);
-        mConfirmPasswordView = (EditText) rootView.findViewById(R.id.register_confirmPassword);
+        mConfirmPasswordView = (EditText) rootView.findViewById(R.id.register_confirm_password);
         mAddressLine1View = (EditText) rootView.findViewById(R.id.register_address_line1);
         mAddressLine2View = (EditText) rootView.findViewById(R.id.register_address_line2);
         mSuburbView = (EditText) rootView.findViewById(R.id.register_suburb);

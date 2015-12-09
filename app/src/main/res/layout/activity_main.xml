@@ -9,13 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<ImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/imageView"-->
-        <!--android:layout_gravity="center_horizontal|top"-->
-        <!--android:layout_weight="0.09"-->
-        <!--android:src="@drawable/zebenzi_banner" />-->
         <include layout="@layout/app_toolbar"/>
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"

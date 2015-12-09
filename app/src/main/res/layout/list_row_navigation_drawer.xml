@@ -11,7 +11,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/navigationDrawerRowIcon"
+        android:id="@+id/list_row_nav_drawer_row_icon"
         android:paddingLeft="16dp"
         android:src="@drawable/profile"/>
 
@@ -22,6 +22,6 @@
         android:paddingTop="4dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/navigationDrawerRowText" />
+        android:id="@+id/list_row_nav_drawer_row_text" />
 
 </LinearLayout>

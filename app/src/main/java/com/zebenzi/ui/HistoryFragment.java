@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.zebenzi.json.model.job.Job;
-import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
@@ -61,7 +60,7 @@ public class HistoryFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
         mProgressView = rootView.findViewById(R.id.history_progress);
         // Attach the adapter to a ListView
-        listView = (ListView) rootView.findViewById(R.id.jobHistoryList);
+        listView = (ListView) rootView.findViewById(R.id.history_list);
         listView.setAdapter(jobHistoryResultsAdapter);
 
 
@@ -199,17 +198,17 @@ public class HistoryFragment extends Fragment {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_job_history, parent, false);
             }
             // Lookup view for data population
-            TextView tvWorkerFirstName = (TextView) convertView.findViewById(R.id.jobWorkerFirstName);
-            TextView tvWorkerLastName = (TextView) convertView.findViewById(R.id.jobWorkerLastName);
-            TextView tvJobNumber = (TextView) convertView.findViewById(R.id.jobNumber);
-            TextView tvJobStatus = (TextView) convertView.findViewById(R.id.jobStatus);
-            TextView tvJobStartDate = (TextView) convertView.findViewById(R.id.jobStartDate);
-            TextView tvJobCompletedDate = (TextView) convertView.findViewById(R.id.jobCompleteDate);
-            TextView tvRating = (TextView) convertView.findViewById(R.id.jobRating);
-            TextView tvWorkerMobileNumber = (TextView) convertView.findViewById(R.id.jobWorkerMobileNumber);
-            TextView tvJobServiceName = (TextView) convertView.findViewById(R.id.jobServiceName);
-            RatingBar rbJobRatingBar = (RatingBar) convertView.findViewById(R.id.jobRatingBar);
-            ImageView img = (ImageView) convertView.findViewById(R.id.historyWorkerImage);
+            TextView tvWorkerFirstName = (TextView) convertView.findViewById(R.id.list_row_job_history_worker_first_name);
+            TextView tvWorkerLastName = (TextView) convertView.findViewById(R.id.list_row_job_history_worker_last_name);
+            TextView tvJobNumber = (TextView) convertView.findViewById(R.id.list_row_job_history_job_number);
+            TextView tvJobStatus = (TextView) convertView.findViewById(R.id.list_row_job_history_job_status);
+            TextView tvJobStartDate = (TextView) convertView.findViewById(R.id.list_row_job_history_job_start_date);
+            TextView tvJobCompletedDate = (TextView) convertView.findViewById(R.id.list_row_job_history_job_complete_date);
+            TextView tvRating = (TextView) convertView.findViewById(R.id.list_row_job_history_job_rating);
+            TextView tvWorkerMobileNumber = (TextView) convertView.findViewById(R.id.list_row_job_history_worker_mobile);
+            TextView tvJobServiceName = (TextView) convertView.findViewById(R.id.list_row_job_history_service_name);
+            RatingBar rbJobRatingBar = (RatingBar) convertView.findViewById(R.id.list_row_job_history_job_rating_bar);
+            ImageView img = (ImageView) convertView.findViewById(R.id.list_row_job_history_worker_image);
 
             //TODO: Should we handle errors in the results? Eg. Null data. Or should the server worry about his?
 

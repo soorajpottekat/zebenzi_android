@@ -36,7 +36,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import static com.zebenzi.ui.FragmentsLookup.HISTORY;
-import static com.zebenzi.ui.FragmentsLookup.JOB_DETAILS;
 
 
 /**
@@ -92,7 +91,7 @@ public class QuoteFragment extends Fragment {
         // Set up the available workers list view
         ArrayList<User> arrayOfAvailableWorkers = new ArrayList<User>();
         availableWorkersAdapter = new AvailableWorkersAdapter(MainActivity.getAppContext(), arrayOfAvailableWorkers);
-        listView = (ListView) rootView.findViewById(R.id.availableWorkersList);
+        listView = (ListView) rootView.findViewById(R.id.search_results_available_workers_list);
         listView.setAdapter(availableWorkersAdapter);
         refreshScreen();
 
@@ -263,12 +262,12 @@ public class QuoteFragment extends Fragment {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_search_results, parent, false);
             }
             // Lookup view for data population
-            TextView tvFirstName = (TextView) convertView.findViewById(R.id.workerFirstName);
-            TextView tvLastName = (TextView) convertView.findViewById(R.id.workerLastName);
-            TextView tvContact = (TextView) convertView.findViewById(R.id.workerContactNumber);
-            TextView tvAddress = (TextView) convertView.findViewById(R.id.workerAddress);
-            TextView tvID = (TextView) convertView.findViewById(R.id.workerID);
-            ImageView img = (ImageView) convertView.findViewById(R.id.workerImage);
+            TextView tvFirstName = (TextView) convertView.findViewById(R.id.list_row_search_results_worker_first_name);
+            TextView tvLastName = (TextView) convertView.findViewById(R.id.list_row_search_results_worker_last_name);
+            TextView tvContact = (TextView) convertView.findViewById(R.id.list_row_search_results_worker_mobile);
+            TextView tvAddress = (TextView) convertView.findViewById(R.id.list_row_search_results_worker_address);
+            TextView tvID = (TextView) convertView.findViewById(R.id.list_row_search_results_worker_id);
+            ImageView img = (ImageView) convertView.findViewById(R.id.list_row_search_results_worker_image);
 
             try {
                 // Populate the data into the template view using the data object
@@ -283,7 +282,7 @@ public class QuoteFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            Button hireButton = (Button) convertView.findViewById(R.id.hireButton);
+            Button hireButton = (Button) convertView.findViewById(R.id.list_row_search_results_hire_button);
             hireButton.setTag(position);
             hireButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View arg0) {

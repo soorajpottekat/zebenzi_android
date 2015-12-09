@@ -18,7 +18,7 @@
             android:background="@drawable/panel_border"
             android:layout_margin="20dp"
             android:translationZ="5dp"
-            android:id="@+id/tableLayout">
+            android:id="@+id/new_job_table_layout">
 
             <TableRow
                 android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="I need help with"
-                    android:id="@+id/textView"
+                    android:id="@+id/new_job_service_label"
                     android:layout_gravity="center_vertical|left"
                     android:gravity="right"
                     android:textColor="@color/zebenzi_light_grey"
@@ -135,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Time"
-                    android:id="@+id/textView4"
+                    android:id="@+id/new_job_time_label"
                     android:layout_gravity="center_vertical|left"
                     android:gravity="right"
                     android:textColor="@color/zebenzi_light_grey"
@@ -174,9 +174,9 @@
             style="@style/materialButton"
             android:padding="10dp"
             android:translationZ="10dp"
-            android:layout_below="@+id/tableLayout"
-            android:layout_alignLeft="@+id/tableLayout"
-            android:layout_alignStart="@+id/tableLayout"/>
+            android:layout_below="@+id/new_job_table_layout"
+            android:layout_alignLeft="@+id/new_job_table_layout"
+            android:layout_alignStart="@+id/new_job_table_layout"/>
 
         <!-- Login progress -->
         <ProgressBar android:id="@+id/new_job_progress" style="?android:attr/progressBarStyleLarge"

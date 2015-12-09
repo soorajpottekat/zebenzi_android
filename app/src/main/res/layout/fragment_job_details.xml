@@ -9,61 +9,196 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="1">
+
+
+        <!-- Search progress -->
+
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal" android:layout_width="match_parent"
+                  android:background="@color/zebenzi_white"
+                  android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"
-            android:background="@drawable/panel_border"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:translationZ="5dp"
-            android:layout_margin="20dp">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_medium"
+                android:text="Job Service Name"
+                android:id="@+id/job_details_service_name"
+                android:textColor="@color/zebenzi_dark_grey"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="Firstname"
+                    android:id="@+id/job_details_worker_first_name"
+                    android:textColor="@color/material_grey_700" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="Lastname"
+                    android:id="@+id/job_details_worker_last_name"
+                    android:textColor="@color/material_grey_700"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="50sp"
-                android:textColor="@color/zebenzi_black"
-                android:id="@+id/job_details_price"
-                android:layout_gravity="center_horizontal"
-                android:phoneNumber="true"/>
+                android:textSize="@dimen/text_size_small"
+                android:text="Worker Mobile Number"
+                android:id="@+id/job_details_worker_mobile_number"
+                android:textColor="@color/material_grey_700" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="Job Number"
+                    android:id="@+id/job_details_job_number"
+                    android:textColor="@color/material_grey_700" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="Job Status"
+                    android:id="@+id/job_details_job_status"
+                    android:textColor="@color/material_grey_700"
+                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/zebenzi_light_grey"
-                android:id="@+id/job_details_service"
-                android:paddingLeft="20dp"/>
+                android:textSize="@dimen/text_size_small"
+                android:text="Job Start Date"
+                android:id="@+id/job_details_start_date"
+                android:textColor="@color/material_grey_700" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/zebenzi_light_grey"
-                android:id="@+id/job_details_units"
-                android:paddingLeft="20dp"/>
+                android:textSize="@dimen/text_size_small"
+                android:text="Job Complete Date"
+                android:id="@+id/job_details_complete_date"
+                android:textColor="@color/material_grey_700" />
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/zebenzi_light_grey"
-                android:id="@+id/job_details_date"
-                android:paddingLeft="20dp"/>
+                android:textSize="@dimen/text_size_small"
+                android:text="Job Rating"
+                android:id="@+id/job_details_job_rating"
+                android:textColor="@color/material_grey_700" />
 
-            <TextView
+            <LinearLayout
+                android:orientation="vertical"
+                android:background="@drawable/panel_border"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:translationZ="5dp"
+                android:layout_margin="20dp"
+                android:layout_weight="4.22">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="50sp"
+                    android:textColor="@color/zebenzi_black"
+                    android:id="@+id/job_details_price"
+                    android:layout_gravity="center_horizontal"
+                    android:phoneNumber="true"
+                    android:text="R1000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/zebenzi_light_grey"
+                    android:id="@+id/job_details_service"
+                    android:paddingLeft="20dp"
+                    android:text="Painting"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/zebenzi_light_grey"
+                    android:id="@+id/job_details_units"
+                    android:paddingLeft="20dp"
+                    android:text="100 Square Meters"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/zebenzi_light_grey"
+                    android:id="@+id/job_details_date"
+                    android:paddingLeft="20dp"
+                    android:text="Sat, 19 Dec 2015"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/zebenzi_light_grey"
+                    android:id="@+id/job_details_time"
+                    android:paddingLeft="20dp"
+                    android:text="08h00"/>
+
+            </LinearLayout>
+
+            <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/zebenzi_light_grey"
-                android:id="@+id/job_details_time"
-                android:paddingLeft="20dp"/>
+                android:isIndicator="true"
+                style="@style/zebenziRatingBar"
+                android:id="@+id/job_details_rating_bar"
+                android:nestedScrollingEnabled="false"
+                android:numStars="5"/>
 
         </LinearLayout>
 
 
-        <!-- Search progress -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/job_details_worker_image"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/profile_vaugan"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/zebenzi_light_grey"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"/>
+
         <ProgressBar android:id="@+id/job_details_progress" style="?android:attr/progressBarStyleLarge"
                      android:layout_width="match_parent" android:layout_height="wrap_content"
                      android:layout_marginBottom="8dp" android:visibility="gone"

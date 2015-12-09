@@ -65,8 +65,8 @@ public class LoginFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
         // Set up the login form.
-        mMobileNumberView = (EditText) rootView.findViewById(R.id.mobile_number);
-        mPasswordView = (EditText) rootView.findViewById(R.id.password);
+        mMobileNumberView = (EditText) rootView.findViewById(R.id.login_mobile_number);
+        mPasswordView = (EditText) rootView.findViewById(R.id.login_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -80,7 +80,7 @@ public class LoginFragment extends Fragment {
 
         mLoginTokenView = (TextView) rootView.findViewById(R.id.login_token);
 
-        Button mEmailSignInButton = (Button) rootView.findViewById(R.id.customer_sign_in_button);
+        Button mEmailSignInButton = (Button) rootView.findViewById(R.id.login_customer_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,7 +88,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        TextView mForgotPasswordText = (TextView) rootView.findViewById(R.id.forgot_password);
+        TextView mForgotPasswordText = (TextView) rootView.findViewById(R.id.login_forgot_password_textview);
         mForgotPasswordText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,7 +96,7 @@ public class LoginFragment extends Fragment {
             }
         });
 
-        mLoginFormView = rootView.findViewById(R.id.login_form);
+        mLoginFormView = rootView.findViewById(R.id.login_scrollview);
         mProgressView = rootView.findViewById(R.id.login_progress);
 
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.my_awesome_toolbar);

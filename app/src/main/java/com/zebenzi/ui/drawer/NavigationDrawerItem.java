@@ -31,8 +31,8 @@ public class NavigationDrawerItem extends ListItem {
             view = convertView;
         }
 
-        ImageView imageViewIcon = (ImageView) view.findViewById(R.id.navigationDrawerRowIcon);
-        TextView textViewName = (TextView) view.findViewById(R.id.navigationDrawerRowText);
+        ImageView imageViewIcon = (ImageView) view.findViewById(R.id.list_row_nav_drawer_row_icon);
+        TextView textViewName = (TextView) view.findViewById(R.id.list_row_nav_drawer_row_text);
 
         imageViewIcon.setImageResource(this.icon);
         textViewName.setText(this.name);

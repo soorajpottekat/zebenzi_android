@@ -38,9 +38,9 @@ public class NavigationDrawerHeader extends ListItem {
             view = convertView;
         }
 
-        ImageView imageViewIcon = (ImageView) view.findViewById(R.id.navigationDrawerHeaderIcon);
-        TextView textViewName = (TextView) view.findViewById(R.id.navigationDrawerHeaderName);
-        TextView textViewEmail = (TextView) view.findViewById(R.id.navigationDrawerHeaderEmail);
+        ImageView imageViewIcon = (ImageView) view.findViewById(R.id.nav_drawer_header_icon);
+        TextView textViewName = (TextView) view.findViewById(R.id.nav_drawer_header_name);
+        TextView textViewEmail = (TextView) view.findViewById(R.id.nav_drawer_header_email);
         imageViewIcon.setImageResource(R.drawable.profile_pic_default);
 
         try {
