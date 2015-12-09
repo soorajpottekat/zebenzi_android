@@ -1,18 +1,28 @@
 package com.zebenzi.utils;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsMessage;
+
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 
 /**
  * Created by Vaugan.Nayagar on 2015/09/29.
+ *
+ * This already works as-is. If there are problems with onReceive, it is because of app permissions.
  */
 public class SmsListener extends BroadcastReceiver {
 
     private SharedPreferences preferences;
+    private int mId = 1;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -33,10 +43,47 @@ public class SmsListener extends BroadcastReceiver {
                         String msgBody = msgs[i].getMessageBody();
                         System.out.println("SMS= " + msgBody);
                     }
+
+
+                    displayNotification();
+
                 }catch(Exception e){
 //                            Log.d("Exception caught",e.getMessage());
                 }
             }
         }
     }
+
+    private void displayNotification() {
+
+        NotificationCompat.Builder mBuilder =   new NotificationCompat.Builder(MainActivity.getAppContext())
+                .setSmallIcon(R.drawable.ic_launcher_zebenzi) // notification icon
+                .setContentTitle("Notification!") // title for notification
+                .setContentText("Hello word") // message for notification
+                .setAutoCancel(true); // clear notification after click
+// Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(MainActivity.getAppContext(), MainActivity.class);
+
+// The stack builder object will contain an artificial back stack for the
+// started Activity.
+// This ensures that navigating backward from the Activity leads out of
+// your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.getAppContext());
+// Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(MainActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) MainActivity.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
+// mId allows you to update the notification later on.
+        mNotificationManager.notify(mId, mBuilder.build());
+    }
+
+
 }
