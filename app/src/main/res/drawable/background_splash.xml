@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@color/zebenzi_primary_color_dark"/>
+
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/zebenzi_splash"/>
+    </item>
+
+</layer-list>
