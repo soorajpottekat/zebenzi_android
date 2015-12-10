@@ -1,16 +1,12 @@
 package com.zebenzi.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,10 +14,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-import com.zebenzi.job.JobRequest;
 import com.zebenzi.json.model.job.Job;
 import com.zebenzi.json.model.quote.Quote;
-import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
@@ -30,11 +24,7 @@ import com.zebenzi.users.Customer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-
-import static com.zebenzi.ui.FragmentsLookup.HISTORY;
 
 
 /**
@@ -53,11 +43,26 @@ public class JobDetailsFragment extends Fragment {
     // UI references.
     private View mProgressView;
     private ListView listView;
-    private TextView mQuoteService;
-    private TextView mQuoteUnits;
-    private TextView mQuotePrice;
-    private TextView mQuoteDate;
-    private TextView mQuoteTime;
+
+    //Job Details
+    private TextView mServiceName;
+    private TextView mUnits;
+    private TextView mPrice;
+    private TextView mStartDate;
+    private TextView mStartTime;
+    private TextView mCompleteDate;
+    private TextView mJobRating;
+    private TextView mStatus;
+
+    //Worker Details
+    private TextView mWorkerFirstName;
+    private TextView mWorkerLastName;
+    private TextView mWorkerMobile;
+    private ImageView mWorkerImage;
+    private TextView mWorkerRating;
+
+
+
     private Quote quote;
     private int mJobId;
     private Job mJob;
@@ -77,11 +82,24 @@ public class JobDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle b) {
 
         View rootView = inflater.inflate(R.layout.fragment_job_details, container, false);
-        mQuoteService = (TextView) rootView.findViewById(R.id.job_details_service);
-        mQuoteUnits = (TextView) rootView.findViewById(R.id.job_details_units);
-        mQuotePrice = (TextView) rootView.findViewById(R.id.job_details_price);
-        mQuoteDate = (TextView) rootView.findViewById(R.id.job_details_date);
-        mQuoteTime = (TextView) rootView.findViewById(R.id.job_details_time);
+
+        //Job Details
+        mServiceName = (TextView) rootView.findViewById(R.id.job_details_service);
+        mUnits = (TextView) rootView.findViewById(R.id.job_details_units);
+        mPrice = (TextView) rootView.findViewById(R.id.job_details_price);
+        mStartDate = (TextView) rootView.findViewById(R.id.job_details_date);
+        mStartTime = (TextView) rootView.findViewById(R.id.job_details_time);
+        mCompleteDate = (TextView) rootView.findViewById(R.id.job_details_complete_date);
+        mJobRating = (TextView) rootView.findViewById(R.id.job_details_job_rating);
+        mStatus = (TextView) rootView.findViewById(R.id.job_details_job_status);
+
+        //Worker Details
+        mWorkerFirstName = (TextView) rootView.findViewById(R.id.job_details_worker_first_name);
+        mWorkerLastName = (TextView) rootView.findViewById(R.id.job_details_worker_last_name);
+        mWorkerMobile = (TextView) rootView.findViewById(R.id.job_details_worker_mobile_number);
+        mWorkerRating = (TextView) rootView.findViewById(R.id.job_details_worker_rating);
+        mWorkerImage = (ImageView) rootView.findViewById(R.id.job_details_worker_image);
+
         mProgressView = rootView.findViewById(R.id.job_details_progress);
 
         mJob = (Job) getArguments().getSerializable(JOB_DETAILS_FRAGMENT_KEY);
@@ -142,11 +160,28 @@ public class JobDetailsFragment extends Fragment {
 
     private void refreshScreen() {
         if (mJob != null) {
-            mQuotePrice.setText(Integer.toString(mJob.getQuote().getPrice()));
-            mQuoteDate.setText(mJob.getQuote().getPrettyDate());
-            mQuoteTime.setText(mJob.getQuote().getPrettyTime());
-//            mQuoteService.setText(mJob.getQuote().getService().getServiceName());
-//            mQuoteUnits.setText(mJob.getQuote().getService().getServiceUnit().getName());
+            mPrice.setText(Integer.toString(mJob.getQuote().getPrice()));
+            mStartDate.setText(mJob.getQuote().getPrettyDate());
+            mStartTime.setText(mJob.getQuote().getPrettyTime());
+
+            //TODO: Bug in server returning some null data for the Service and Work
+            if (mJob.getQuote().getService() != null) {
+                mServiceName.setText(mJob.getQuote().getService().getServiceName());
+                mUnits.setText(mJob.getQuote().getService().getServiceUnit().getName());
+            }
+            //TODO: Fix the completed date and job rating when available from server.
+            mCompleteDate.setText(mJob.getUpdatedDate());
+
+//            mJobRating.setText("");
+
+            mStatus.setText(mJob.getStatus().getStatusReason());
+
+            //Worker Details
+            mWorkerFirstName.setText(mJob.getWorker().getFirstName());
+            mWorkerLastName.setText(mJob.getWorker().getLastName());
+            mWorkerMobile.setText(mJob.getWorker().getUserName());
+            mWorkerRating.setText("2.5");
+            Picasso.with(MainActivity.getAppContext()).load(mJob.getWorker().getImageUrl()).into(mWorkerImage);
         }
     }
 
