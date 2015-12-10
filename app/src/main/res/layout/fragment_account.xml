@@ -55,7 +55,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textSize="@dimen/text_size_large"
                         android:textColor="#ffffff"
                         android:layout_marginTop="10dp"
                         android:clickable="true"
@@ -66,7 +66,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:textSize="@dimen/text_size_large"
                         android:textColor="#ffffff"
                         android:layout_marginTop="10dp"
                         android:clickable="true"
@@ -78,7 +78,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textSize="@dimen/text_size_medium"
                     android:textColor="#ffffff"
                     android:text="Mobile Number"
                     android:id="@+id/account_mobile_number" />
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:text="Jobs Done"
                 android:id="@+id/account_jobs_done"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="@dimen/text_size_small"
                 android:layout_marginTop="10dp"/>
 
             <TextView
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:text="Jobs in Progress"
                 android:id="@+id/account_jobs_in_progress"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="@dimen/text_size_small"
                 android:layout_marginTop="10dp"/>
 
             <TextView
@@ -111,11 +111,11 @@
                 android:layout_marginTop="10dp"
                 android:text="Address"
                 android:id="@+id/account_address"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"/>
+                android:textSize="@dimen/text_size_small"/>
 
             <Button android:id="@+id/accounts_job_history_button" style="@style/materialButton"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="My Jobs"
+                    android:text="My History"
                     android:background="@color/zebenzi_accent_color"
                     android:layout_gravity="bottom"/>
             <Button android:id="@+id/accounts_change_password_button" style="@style/materialButton"

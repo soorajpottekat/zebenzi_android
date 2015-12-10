@@ -197,12 +197,13 @@ public class HistoryFragment extends Fragment {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_job_history, parent, false);
             }
             // Lookup view for data population
+            TextView tvJobPrice = (TextView) convertView.findViewById(R.id.list_row_job_history_price);
             TextView tvWorkerFirstName = (TextView) convertView.findViewById(R.id.list_row_job_history_worker_first_name);
             TextView tvWorkerLastName = (TextView) convertView.findViewById(R.id.list_row_job_history_worker_last_name);
             TextView tvJobNumber = (TextView) convertView.findViewById(R.id.list_row_job_history_job_number);
             TextView tvJobStatus = (TextView) convertView.findViewById(R.id.list_row_job_history_job_status);
-            TextView tvJobStartDate = (TextView) convertView.findViewById(R.id.list_row_job_history_job_start_date);
-            TextView tvJobCompletedDate = (TextView) convertView.findViewById(R.id.list_row_job_history_job_complete_date);
+            TextView tvJobDate = (TextView) convertView.findViewById(R.id.list_row_job_history_job_date);
+            TextView tvJobTime = (TextView) convertView.findViewById(R.id.list_row_job_history_job_time);
             TextView tvRating = (TextView) convertView.findViewById(R.id.list_row_job_history_job_rating);
             TextView tvWorkerMobileNumber = (TextView) convertView.findViewById(R.id.list_row_job_history_worker_mobile);
             TextView tvJobServiceName = (TextView) convertView.findViewById(R.id.list_row_job_history_service_name);
@@ -212,14 +213,15 @@ public class HistoryFragment extends Fragment {
             //TODO: Should we handle errors in the results? Eg. Null data. Or should the server worry about his?
 
             try {
+                tvJobPrice.setText("R" + Integer.toString(job.getQuote().getPrice()));
                 tvWorkerFirstName.setText(job.getWorker().getFirstName());
                 tvWorkerLastName.setText(job.getWorker().getLastName());
                 tvJobNumber.setText(Integer.toString(job.getJobId()));
                 if (job.getStatus() != null) {
                     tvJobStatus.setText(job.getStatus().getStatusReason());
                 }
-                tvJobStartDate.setText(job.getCreatedDate());
-                tvJobCompletedDate.setText(job.getCreatedDate());
+                tvJobDate.setText(job.getQuote().getPrettyDate());
+                tvJobTime.setText(job.getQuote().getPrettyTime());
 //                tvRating.setText(Float.valueOf(job.getUser().);
                 tvWorkerMobileNumber.setText(job.getWorker().getUserName());
 

@@ -167,7 +167,7 @@ public class JobDetailsFragment extends Fragment {
             //TODO: Bug in server returning some null data for the Service and Work
             if (mJob.getQuote().getService() != null) {
                 mServiceName.setText(mJob.getQuote().getService().getServiceName());
-                mUnits.setText(mJob.getQuote().getService().getServiceUnit().getName());
+//                mUnits.setText(mJob.getQuote().getService().getServiceUnit().getName());
             }
             //TODO: Fix the completed date and job rating when available from server.
             mCompleteDate.setText(mJob.getUpdatedDate());

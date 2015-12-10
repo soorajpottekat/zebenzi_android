@@ -18,7 +18,8 @@
             android:background="@drawable/panel_border"
             android:layout_margin="20dp"
             android:translationZ="5dp"
-            android:id="@+id/new_job_table_layout">
+            android:id="@+id/new_job_table_layout"
+            android:layout_centerHorizontal="true">
 
             <TableRow
                 android:layout_width="wrap_content"
