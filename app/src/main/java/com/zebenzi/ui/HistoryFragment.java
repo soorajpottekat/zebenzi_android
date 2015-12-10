@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.internal.widget.AdapterViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -208,7 +207,7 @@ public class HistoryFragment extends Fragment {
             TextView tvWorkerMobileNumber = (TextView) convertView.findViewById(R.id.list_row_job_history_worker_mobile);
             TextView tvJobServiceName = (TextView) convertView.findViewById(R.id.list_row_job_history_service_name);
             RatingBar rbJobRatingBar = (RatingBar) convertView.findViewById(R.id.list_row_job_history_job_rating_bar);
-            ImageView img = (ImageView) convertView.findViewById(R.id.list_row_job_history_worker_image);
+            ImageView img = (ImageView) convertView.findViewById(R.id.list_row_worker_image);
 
             //TODO: Should we handle errors in the results? Eg. Null data. Or should the server worry about his?
 

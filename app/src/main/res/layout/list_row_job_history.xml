@@ -123,7 +123,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/list_row_job_history_worker_image"
+        android:id="@+id/list_row_worker_image"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:src="@drawable/profile_vaugan"
@@ -134,4 +134,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"/>
+
+
+
 </LinearLayout>
