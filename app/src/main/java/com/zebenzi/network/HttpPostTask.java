@@ -9,11 +9,9 @@ import android.os.AsyncTask;
 
 import com.zebenzi.ui.R;
 
-import org.apache.http.NameValuePair;
-import org.json.JSONException;
+//import org.apache.http.NameValuePair;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -26,7 +24,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Represents an asynchronous http post task
@@ -39,6 +37,7 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
     private boolean networkError = false;
     private String mUrl;
     private HashMap<String, String> mHeader = null;
+    String mBody;
 
 
     public HttpPostTask(Context ctx, IAsyncTaskListener<String> listener) {
@@ -51,7 +50,6 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
         OutputStream os = null;
         HttpURLConnection conn = null;
         String resultToDisplay;
-        String outputString;
         BufferedWriter writer;
 
         mUrl = (String)params[0];
@@ -81,13 +79,13 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
             switch(type){
                 case X_WWW_FORM_URLENCODED:
                     writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                    List<NameValuePair> listBody = (List<NameValuePair>)params[2];
-                    outputString = getQuery(listBody);
+                    Map<String,String> listBody = (Map<String,String>)params[2];
+                    mBody = getEncodedData(listBody);
                     break;
                 case RAW:
                     writer = new BufferedWriter(new OutputStreamWriter(os));
                     JSONObject jsonBody = (JSONObject)params[2];
-                    outputString = jsonBody.toString();
+                    mBody = jsonBody.toString();
                     break;
 
                 //Unsupported content types, so return null.
@@ -99,7 +97,7 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
             }
 
             //Write params to output string
-            writer.write(outputString);
+            writer.write(mBody);
             writer.flush();
 
             //If successful connection, read input stream, else read error stream
@@ -161,25 +159,43 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
     }
 
     //Encode the login params in UTF-8
-    private String getQuery(List<NameValuePair> params) {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
+//    private String getQuery(List<NameValuePair> params) {
+//        StringBuilder result = new StringBuilder();
+//        boolean first = true;
+//
+//        try {
+//            for (NameValuePair pair : params) {
+//                if (first)
+//                    first = false;
+//                else
+//                    result.append("&");
+//
+//                result.append(URLEncoder.encode(pair.getName(), ctx.getString(R.string.api_rest_utf8)));
+//                result.append("=");
+//                result.append(URLEncoder.encode(pair.getValue(), ctx.getString(R.string.api_rest_utf8)));
+//            }
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return result.toString();
+//    }
 
-        try {
-            for (NameValuePair pair : params) {
-                if (first)
-                    first = false;
-                else
-                    result.append("&");
-
-                result.append(URLEncoder.encode(pair.getName(), ctx.getString(R.string.api_rest_utf8)));
-                result.append("=");
-                result.append(URLEncoder.encode(pair.getValue(), ctx.getString(R.string.api_rest_utf8)));
+    private String getEncodedData(Map<String,String> data) {
+        StringBuilder sb = new StringBuilder();
+        for(String key : data.keySet()) {
+            String value = null;
+            try {
+                value = URLEncoder.encode(data.get(key),"UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
 
-        return result.toString();
+            if(sb.length()>0)
+                sb.append("&");
+
+            sb.append(key + "=" + value);
+        }
+        return sb.toString();
     }
 }
