@@ -13,34 +13,49 @@
 
     <ScrollView android:id="@+id/login_scrollview" android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_weight="1"
+                android:background="@drawable/zebenzi_splash">
 
         <LinearLayout android:id="@+id/login_form_linear_layout" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical">
+            android:layout_height="wrap_content" android:orientation="vertical"
+                      android:paddingLeft="10dp"
+                      android:paddingTop="20dp">
 
             <EditText android:id="@+id/login_mobile_number" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_mobile"
                 android:inputType="number" android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:textColorHint="@color/zebenzi_light_grey"
+                      android:layout_marginRight="10dp"
+                />
 
             <EditText android:id="@+id/login_password" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_password"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified" android:inputType="textPassword"
-                android:maxLines="1" android:singleLine="true" />
+                android:maxLines="1" android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:textColorHint="@color/zebenzi_light_grey"
+                      android:layout_marginRight="10dp"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginBottom="20dp"
+                />
 
             <Button android:id="@+id/login_customer_sign_in_button" style="@style/materialButton"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" android:text="@string/action_sign_in_short"
-                android:background="@color/zebenzi_accent_color" />
+                    android:text="@string/action_sign_in_short"
+                android:background="@color/zebenzi_accent_color"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:clickable="true"
                 android:text="@string/forgot_password"
-                android:id="@+id/login_forgot_password_textview" />
+                android:id="@+id/login_forgot_password_textview"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

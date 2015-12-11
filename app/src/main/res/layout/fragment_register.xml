@@ -14,34 +14,56 @@
 
     <ScrollView android:id="@+id/login_scrollview" android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/zebenzi_white"
+        android:background="@drawable/zebenzi_splash"
         android:visibility="visible">
 
 
         <LinearLayout android:id="@+id/register_customer_form" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical"
-            android:weightSum="1">
+            android:weightSum="1"
+                      android:background="@drawable/panel_border"
+                      android:paddingLeft="10dp"
+                      android:paddingTop="20dp">
 
 
             <EditText android:id="@+id/register_mobile" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_mobile"
                 android:inputType="phone" android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:layout_marginRight="10dp"
+                      android:paddingLeft="10dp"
+                      android:textColorHint="@color/zebenzi_light_grey"/>
 
             <EditText android:id="@+id/register_firstname" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_firstname"
                 android:inputType="textPersonName" android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginRight="10dp"
+                      android:paddingLeft="10dp"
+                      android:textColorHint="@color/zebenzi_light_grey"/>
 
             <EditText android:id="@+id/register_lastname" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_lastname"
                 android:inputType="textPersonName" android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginRight="10dp"
+                      android:paddingLeft="10dp"
+                      android:textColorHint="@color/zebenzi_light_grey"/>
 
             <EditText android:id="@+id/register_email" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress" android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginRight="10dp"
+                      android:paddingLeft="10dp"
+                      android:textColorHint="@color/zebenzi_light_grey"/>
 
 
             <EditText android:id="@+id/register_password" android:layout_width="match_parent"
@@ -49,34 +71,64 @@
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified" android:inputType="textPassword"
-                android:maxLines="1" android:singleLine="true" />
+                android:maxLines="1" android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginRight="10dp"
+                      android:paddingLeft="10dp"
+                      android:textColorHint="@color/zebenzi_light_grey"/>
 
             <EditText android:id="@+id/register_confirm_password" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_confirm_password"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified" android:inputType="textPassword"
-                android:maxLines="1" android:singleLine="true" />
+                android:maxLines="1" android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginRight="10dp"
+                      android:paddingLeft="10dp"
+                      android:textColorHint="@color/zebenzi_light_grey"/>
 
             <EditText android:id="@+id/register_address_line1" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_address_line1"
                 android:inputType="textPersonName" android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginRight="10dp"
+                      android:paddingLeft="10dp"
+                      android:textColorHint="@color/zebenzi_light_grey"/>
 
             <EditText android:id="@+id/register_address_line2" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_address_line2"
                 android:inputType="textPersonName" android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginRight="10dp"
+                      android:paddingLeft="10dp"
+                      android:textColorHint="@color/zebenzi_light_grey"/>
 
             <EditText android:id="@+id/register_suburb" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_suburb"
                 android:inputType="textPersonName" android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginRight="10dp"
+                      android:paddingLeft="10dp"
+                      android:textColorHint="@color/zebenzi_light_grey"/>
 
             <EditText android:id="@+id/register_suburb_code" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_suburb_code"
                 android:inputType="textPersonName" android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                      android:background="@drawable/text_border"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginRight="10dp"
+                      android:paddingLeft="10dp"
+                      android:textColorHint="@color/zebenzi_light_grey"/>
 
 
             <ImageButton
@@ -85,7 +137,25 @@
             android:id="@+id/register_profile_image"
             android:layout_gravity="center_horizontal|top"
             android:layout_weight="1"
-            android:src="@drawable/profile_pic_default" />
+            android:src="@drawable/profile_pic_default"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY"/>
+
+            <!--<de.hdodenhof.circleimageview.CircleImageView-->
+                <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+                <!--android:id="@+id/register_profile_image"-->
+                <!--android:layout_width="72dp"-->
+                <!--android:layout_height="72dp"-->
+                <!--android:src="@drawable/profile_pic_default"-->
+                <!--app:civ_border_width="2dp"-->
+                <!--app:civ_border_color="@color/zebenzi_light_grey"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_margin="20dp"-->
+                <!--android:layout_gravity="center_horizontal"/>-->
 
             <Button android:id="@+id/register_customer_button" style="@style/materialButton"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"

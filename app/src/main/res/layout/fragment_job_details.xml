@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/zebenzi_white"
+    android:background="@drawable/zebenzi_splash"
     tools:context="com.zebenzi.ui.Search"
     android:clickable="false">
 
@@ -195,7 +195,7 @@
                 android:id="@+id/job_details_worker_image"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:src="@drawable/profile_vaugan"
+                android:src="@drawable/profile_pic_default"
                 app:civ_border_width="2dp"
                 app:civ_border_color="@color/zebenzi_light_grey"
                 android:layout_alignParentTop="true"

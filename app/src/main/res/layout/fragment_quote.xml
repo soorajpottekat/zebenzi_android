@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/zebenzi_white"
+    android:background="@drawable/zebenzi_splash"
     tools:context="com.zebenzi.ui.Search"
     android:clickable="false">
 
@@ -13,7 +13,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:background="@drawable/panel_border"
+            android:background="@drawable/panel_border_opaque"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:translationZ="5dp"
