@@ -22,6 +22,7 @@ import com.zebenzi.json.model.job.Job;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
+import com.zebenzi.utils.TimeFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -220,8 +221,8 @@ public class HistoryFragment extends Fragment {
                 if (job.getStatus() != null) {
                     tvJobStatus.setText(job.getStatus().getStatusReason());
                 }
-                tvJobDate.setText(job.getQuote().getPrettyDate());
-                tvJobTime.setText(job.getQuote().getPrettyTime());
+                tvJobDate.setText(TimeFormat.getPrettyDate(job.getQuote().getWorkDate()));
+                tvJobTime.setText(TimeFormat.getPrettyTime(job.getQuote().getWorkDate()));
 //                tvRating.setText(Float.valueOf(job.getUser().);
                 tvWorkerMobileNumber.setText(job.getWorker().getUserName());
 

@@ -72,29 +72,4 @@ public class Quote implements Serializable {
         this.availableWorkers = availableWorkers;
     }
 
-    //TODO: We need a date util class to convert between server and Calendar formats.
-    public String getPrettyDate() {
-        try {
-            SimpleDateFormat serverFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            Date d = serverFormat.parse(workDate);
-            SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy");
-            return format.format(d);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
-    public String getPrettyTime() {
-        try {
-            SimpleDateFormat serverFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            Date d = serverFormat.parse(workDate);
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm");
-            return format.format(d);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
-
 }

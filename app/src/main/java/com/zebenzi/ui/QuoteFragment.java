@@ -26,6 +26,7 @@ import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
+import com.zebenzi.utils.TimeFormat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -174,8 +175,8 @@ public class QuoteFragment extends Fragment {
             mQuoteService.setText(quote.getService().getServiceName());
             mQuoteUnits.setText(quote.getWork().getDefaultValue() + " " + quote.getService().getServiceUnit().getName());
             mQuotePrice.setText("R" + quote.getPrice());
-            mQuoteDate.setText("Date " + quote.getPrettyDate());
-            mQuoteTime.setText("Time " + quote.getPrettyTime());
+            mQuoteDate.setText("Date " + TimeFormat.getPrettyDate(quote.getWorkDate()));
+            mQuoteTime.setText("Time " + TimeFormat.getPrettyTime(quote.getWorkDate()));
         }
     }
 

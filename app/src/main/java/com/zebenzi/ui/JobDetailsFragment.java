@@ -20,6 +20,7 @@ import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
+import com.zebenzi.utils.TimeFormat;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -161,8 +162,8 @@ public class JobDetailsFragment extends Fragment {
     private void refreshScreen() {
         if (mJob != null) {
             mPrice.setText(Integer.toString(mJob.getQuote().getPrice()));
-            mStartDate.setText(mJob.getQuote().getPrettyDate());
-            mStartTime.setText(mJob.getQuote().getPrettyTime());
+            mStartDate.setText(TimeFormat.getPrettyDate(mJob.getQuote().getWorkDate()));
+            mStartTime.setText(TimeFormat.getPrettyDate(mJob.getQuote().getWorkDate()));
 
             //TODO: Bug in server returning some null data for the Service and Work
             if (mJob.getQuote().getService() != null) {
