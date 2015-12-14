@@ -12,7 +12,10 @@ import java.util.GregorianCalendar;
  */
 public class JobRequest implements Serializable{
     int serviceId;
-    int serviceDefaultId; //We don't use the actual number of units, but instead the ID of the "ServiceDefault"
+
+    //We don't use the actual number of units, but instead the ID of the "ServiceDefault".
+    // ie The ID of the number of units which is passed in with the quote.
+    int serviceDefaultId;
     GregorianCalendar dateTime;
 
     public JobRequest(int serviceId, int serviceDefaultId, GregorianCalendar dateTime) {
