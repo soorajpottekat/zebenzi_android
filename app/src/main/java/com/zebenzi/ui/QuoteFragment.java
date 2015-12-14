@@ -197,12 +197,18 @@ public class QuoteFragment extends Fragment {
 
                 try {
                     System.out.println("Quote=" + quote);
+
+                    if (quote.getAvailableWorkers() != null){
                     Customer.getInstance().setLastQuote(quote);
 
                     availableWorkersAdapter.clear();
                     ArrayList<User> newWorkers = new ArrayList<User>(Arrays.asList(quote.getAvailableWorkers()));
                     availableWorkersAdapter.addAll(removeDirtyWorkers(newWorkers));
-                    refreshScreen();
+                    refreshScreen();}
+                    else
+                    {
+                        mQuoteService.setText("Sorry, currently there are no available workers for this service. Please try again later.");
+                    }
                 }
                 catch (Exception e){
                     e.printStackTrace();
