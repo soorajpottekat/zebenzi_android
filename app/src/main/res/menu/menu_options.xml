@@ -5,12 +5,12 @@
         android:title="@string/login" />
     <item android:id="@+id/action_register"
         android:title="@string/register" />
-    <item android:id="@+id/action_toolbar_search"
-          android:title="@string/search_title"
-          android:hint="@string/search_title"
-          android:icon="@drawable/ic_search_black_24dp"
-          app:showAsAction="always"
-          app:actionViewClass="android.support.v7.widget.SearchView" />
+    <!--<item android:id="@+id/action_toolbar_search"-->
+          <!--android:title="@string/search_title"-->
+          <!--android:hint="@string/search_title"-->
+          <!--android:icon="@drawable/ic_search_black_24dp"-->
+          <!--app:showAsAction="always"-->
+          <!--app:actionViewClass="android.support.v7.widget.SearchView" />-->
     <item android:id="@+id/action_logout"
           android:title="@string/logout" />
 

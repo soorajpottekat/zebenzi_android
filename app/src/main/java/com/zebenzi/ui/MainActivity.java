@@ -19,12 +19,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.zebenzi.job.JobRequest;
 import com.zebenzi.json.model.job.Job;
-import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.ui.drawer.NavigationDrawerHeader;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle = "drawer title";
     private CharSequence mActionBarTitle = "drawer title";
-
+    private ImageView mToolbarProfileImage;
     private Menu mMenuOptions;
 
     /**
@@ -64,13 +65,13 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         mMenuOptions = menu;
 
         // Associate searchable configuration with the SearchView and Toolbar
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = menu.findItem(R.id.action_toolbar_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(true);
+//        SearchManager searchManager =
+//                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        MenuItem searchItem = menu.findItem(R.id.action_toolbar_search);
+//        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+//        searchView.setSearchableInfo(
+//                searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setIconifiedByDefault(true);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -78,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        appContext = getApplicationContext();
+
         setContentView(R.layout.activity_main);
 
         // Check that the activity is using the layout version with
@@ -90,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
             if (savedInstanceState != null) {
                 return;
             }
+
+            mToolbarProfileImage = (ImageView) findViewById(R.id.toolbar_user_image);
+
 
             changeFragment(NEW_JOB, null);
 
@@ -104,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
-        appContext = getApplicationContext();
 
         List<ListItem> drawerItems = new ArrayList<ListItem>();
         drawerItems.add(new NavigationDrawerHeader(R.drawable.profile,
@@ -210,6 +216,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         //Update the title in the actionbar
         setTitle(fragment.getName());
 
+
         FragmentTransaction transaction = fm.beginTransaction();
 
         // Replace whatever is in the fragment_container view with this fragment,
@@ -314,6 +321,14 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         if ((title != null) && (getSupportActionBar() != null)) {
             mActionBarTitle = title;
             getSupportActionBar().setTitle(mActionBarTitle);
+        }
+
+
+        try {
+            Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(mToolbarProfileImage);
+        }
+        catch (Exception e){
+            Picasso.with(MainActivity.getAppContext()).load(R.drawable.profile_pic_default).into(mToolbarProfileImage);
         }
     }
 

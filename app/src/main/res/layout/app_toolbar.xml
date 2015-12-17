@@ -13,4 +13,16 @@
                                    android:theme="@style/ZebenziDefaultTheme"
     style="@style/MyActionBar"
     android:translationZ="5dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar_user_image"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/profile_pic_default"
+        android:layout_gravity="right"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:baselineAlignBottom="false"
+        />
     </android.support.v7.widget.Toolbar>
