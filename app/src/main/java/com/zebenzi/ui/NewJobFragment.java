@@ -153,7 +153,7 @@ public class NewJobFragment extends Fragment {
                     JobRequest request = new JobRequest(getServiceId(service), getDefaultId(service, units), mJobDateTime);
 
                     //Save the latest job request.
-                    Customer.getInstance().setCurrentJobRequest(request);
+//                    Customer.getInstance().setCurrentJobRequest(request);
 
                     //Change to Quote fragment to get and display quote
                     fragmentListener.changeFragment(QUOTE, request);

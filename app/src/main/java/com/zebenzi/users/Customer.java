@@ -21,7 +21,6 @@ public class Customer {
     private SharedPreferences settings = null;
     private static Customer instance = null;
     private User currentUser;
-    private JobRequest currentJobRequest;
     private Quote lastQuote;
 
     private Customer() {
@@ -131,14 +130,6 @@ public class Customer {
 
     public boolean isLoggedIn() {
         return (settings.getString(ctx.getString(R.string.api_rest_access_token), null) != null);
-    }
-
-    public JobRequest getCurrentJobRequest() {
-        return currentJobRequest;
-    }
-
-    public void setCurrentJobRequest(JobRequest currentJobRequest) {
-        this.currentJobRequest = currentJobRequest;
     }
 
     public Quote getLastQuote() {
