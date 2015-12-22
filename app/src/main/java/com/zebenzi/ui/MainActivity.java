@@ -328,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
             Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(mToolbarProfileImage);
         }
         catch (Exception e){
-            Picasso.with(MainActivity.getAppContext()).load(R.drawable.profile_pic_default).into(mToolbarProfileImage);
+            Picasso.with(MainActivity.getAppContext()).load(R.drawable.ic_account).into(mToolbarProfileImage);
         }
     }
 

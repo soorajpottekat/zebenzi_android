@@ -41,7 +41,7 @@ public class NavigationDrawerHeader extends ListItem {
         ImageView imageViewIcon = (ImageView) view.findViewById(R.id.nav_drawer_header_icon);
         TextView textViewName = (TextView) view.findViewById(R.id.nav_drawer_header_name);
         TextView textViewEmail = (TextView) view.findViewById(R.id.nav_drawer_header_email);
-        imageViewIcon.setImageResource(R.drawable.profile_pic_default);
+        imageViewIcon.setImageResource(R.drawable.ic_account);
 
         try {
             Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(imageViewIcon);
