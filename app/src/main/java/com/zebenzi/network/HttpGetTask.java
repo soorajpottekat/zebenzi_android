@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -52,8 +53,8 @@ public class HttpGetTask extends AsyncTask<Object, String, String> {
                 URL url = new URL(mUrl);
 
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(10000);
+                conn.setReadTimeout(15000);
+                conn.setConnectTimeout(15000);
                 conn.setRequestMethod(ctx.getString(R.string.api_rest_get));
 
                 //All headers should be passed in as a hashmap
@@ -95,7 +96,12 @@ public class HttpGetTask extends AsyncTask<Object, String, String> {
                     resultToDisplay = sb.toString();
                 }
 
-            } catch (Exception e) {
+            }
+            catch (SocketTimeoutException e) {
+                e.printStackTrace();
+                return e.getMessage();
+            }
+            catch (Exception e) {
                 networkError = true;
                 System.out.println(e.getMessage());
                 return e.getMessage();

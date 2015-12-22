@@ -20,6 +20,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -49,7 +50,7 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
     protected String doInBackground(Object... params) {
         OutputStream os = null;
         HttpURLConnection conn = null;
-        String resultToDisplay;
+        String resultToDisplay = "";
         BufferedWriter writer;
 
         mUrl = (String)params[0];
@@ -127,9 +128,14 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
                 System.out.println("Error = "+conn.getResponseCode());
                 System.out.println("Error Stream = " + resultToDisplay);
             }
-        } catch (Exception e) {
+        }
+        catch (SocketTimeoutException e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+        catch (Exception e) {
             networkError = true;
-            System.out.println(e.getMessage());
+            e.printStackTrace();
             return e.getMessage();
 
         } finally {
@@ -157,29 +163,6 @@ public class HttpPostTask extends AsyncTask<Object, String, String> {
     protected void onCancelled() {
         listener.onAsyncTaskCancelled();
     }
-
-    //Encode the login params in UTF-8
-//    private String getQuery(List<NameValuePair> params) {
-//        StringBuilder result = new StringBuilder();
-//        boolean first = true;
-//
-//        try {
-//            for (NameValuePair pair : params) {
-//                if (first)
-//                    first = false;
-//                else
-//                    result.append("&");
-//
-//                result.append(URLEncoder.encode(pair.getName(), ctx.getString(R.string.api_rest_utf8)));
-//                result.append("=");
-//                result.append(URLEncoder.encode(pair.getValue(), ctx.getString(R.string.api_rest_utf8)));
-//            }
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return result.toString();
-//    }
 
     private String getEncodedData(Map<String,String> data) {
         StringBuilder sb = new StringBuilder();
