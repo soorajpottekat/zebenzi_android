@@ -344,30 +344,34 @@ public class NewJobFragment extends Fragment {
             mGetServicesTask = null;
             showProgress(false);
 
-            if (networkError){
+            if (networkError) {
                 Toast.makeText(MainActivity.getAppContext(),
                         MainActivity.getAppContext().getString(R.string.check_your_network_connection),
                         Toast.LENGTH_LONG).show();
-            }
-            else {
-                try {
-                    //Parse json into java objects
-                    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-                    services = gson.fromJson(result, Service[].class);
+            } else {
+                if (result != null) {
+                    try {
+                        //Parse json into java objects
+                        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        services = gson.fromJson(result, Service[].class);
 
-                    //update spinners
-                    serviceSpinnerArray.clear();
-                    for (Service svc : services) {
-                        serviceSpinnerArray.add(svc.getServiceName());
+                        //update spinners
+                        serviceSpinnerArray.clear();
+                        for (Service svc : services) {
+                            serviceSpinnerArray.add(svc.getServiceName());
+                        }
+                        serviceSpinnerArrayAdapter.notifyDataSetChanged();
+                        updateUnits();
+                        unitsSpinner.setEnabled(true);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    serviceSpinnerArrayAdapter.notifyDataSetChanged();
-                    updateUnits();
-                    unitsSpinner.setEnabled(true);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(MainActivity.getAppContext(), MainActivity.getAppContext().getString(R.string.no_response_from_server), Toast.LENGTH_LONG).show();
                 }
-            }
+
+        }
         }
 
         @Override

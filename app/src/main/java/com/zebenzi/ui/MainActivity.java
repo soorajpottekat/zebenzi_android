@@ -1,17 +1,19 @@
 package com.zebenzi.ui;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
-import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 
 import android.view.Menu;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
     private CharSequence mActionBarTitle = "drawer title";
     private ImageView mToolbarProfileImage;
     private Menu mMenuOptions;
+    private int mId = 2;
 
     /**
      * Keep track of the search task to ensure we can cancel it if requested.
@@ -84,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
         setContentView(R.layout.activity_main);
 
+
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
         if (findViewById(R.id.fragment_container) != null) {
@@ -96,9 +100,35 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
             }
 
             mToolbarProfileImage = (ImageView) findViewById(R.id.toolbar_user_image);
+            mToolbarProfileImage.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View arg0) {
+
+                    try {
+                        if (Customer.getInstance().isLoggedIn()) {
+                            //launch profile screen
+                            changeFragment(ACCOUNT, null);
+
+                        } else {
+                            //launch login screen
+                            changeFragment(LOGIN, null);
+
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
 
 
-            changeFragment(NEW_JOB, null);
+            //Launch new job fragment unless otherwise specified in the intent.
+            String fragmentName = getIntent().getStringExtra("fragment_to_launch");
+            String data = getIntent().getStringExtra("fragment_data");
+            FragmentsLookup fragmentToLaunch = FragmentsLookup.findByName(fragmentName);
+            if (fragmentToLaunch != null) {
+                changeFragment(fragmentToLaunch, data);
+            } else {
+                changeFragment(NEW_JOB, null);
+            }
 
 //            // Create a new Fragment to be placed in the activity layout
 //            SearchResultsFragment searchResultsFragment = new SearchResultsFragment();
@@ -192,6 +222,8 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
             changeFragment(LOGIN, null);
         } else if (item.getItemId() == R.id.action_register) {
             changeFragment(REGISTER, null);
+        } else if (item.getItemId() == R.id.action_notify1) {
+            displayNotification();
         }
         return true;
     }
@@ -266,8 +298,11 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 break;
             case JOB_DETAILS:
                 if (data != null) {
-                    Job j = (Job) data;
-                    JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(j);
+//                    Job j = (Job) data;
+//                    JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(j.getJobId());
+                    int jobId = Integer.valueOf((String)data);
+                    JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(jobId);
+
                     transaction.replace(R.id.fragment_container, jobDetailsFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();

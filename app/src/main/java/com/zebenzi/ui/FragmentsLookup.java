@@ -30,5 +30,14 @@ public enum FragmentsLookup {
         return id;
     }
 
+    public static FragmentsLookup findByName(String fragmentName){
+        for(FragmentsLookup f : values()){
+            if( f.getName().equalsIgnoreCase(fragmentName)){
+                return f;
+            }
+        }
+        return null;
+    }
+
 }
 

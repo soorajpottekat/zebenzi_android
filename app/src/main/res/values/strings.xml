@@ -29,6 +29,7 @@
     <string name="check_your_network_connection">Check your network connection</string>
     <string name="no_history_found">Could not find job history</string>
     <string name="no_connection">No connection</string>
+    <string name="no_response_from_server">No response from server. Please try again later.</string>
 
 
     //fragment tags

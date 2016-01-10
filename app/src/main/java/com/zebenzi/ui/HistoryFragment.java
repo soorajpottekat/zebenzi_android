@@ -71,7 +71,7 @@ public class HistoryFragment extends Fragment {
                 Job job = jobHistoryResultsAdapter.getItem(position);
                 System.out.println("Job ID =" + job.getJobId() + " Job Quote=" + job.getQuote() + " Worker=" + job.getWorker().getFirstName());
                 Toast.makeText(MainActivity.getAppContext(), "Job Id = " + job.getJobId(), Toast.LENGTH_LONG).show();
-                fragmentListener.changeFragment(JOB_DETAILS, job);
+                fragmentListener.changeFragment(JOB_DETAILS, Integer.toString(job.getJobId()));
 
             }
         });

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,18 +16,19 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+import com.zebenzi.job.JobRequest;
 import com.zebenzi.json.model.job.Job;
 import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.network.HttpContentTypes;
+import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.TimeFormat;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
+
+import static com.zebenzi.ui.FragmentsLookup.QUOTE;
 
 
 /**
@@ -40,11 +42,11 @@ public class JobDetailsFragment extends Fragment {
     /**
      * Keep track of the spawned tasks to ensure we can cancel it if requested.
      */
-    private AsyncTask<Object, String, String> mQuoteTask = null;
+    private AsyncTask<Object, String, String> mJobDetailsTask = null;
 
     // UI references.
     private View mProgressView;
-    private ListView listView;
+    private View mLinearLayout;
 
     //Job Details
     private TextView mServiceName;
@@ -52,8 +54,9 @@ public class JobDetailsFragment extends Fragment {
     private TextView mPrice;
     private TextView mStartDate;
     private TextView mStartTime;
-    private TextView mCompleteDate;
+//    private TextView mCompleteDate;
     private TextView mJobRating;
+    private TextView mJobNumber;
     private TextView mStatus;
 
     //Worker Details
@@ -65,16 +68,15 @@ public class JobDetailsFragment extends Fragment {
 
 
 
-    private Quote quote;
-    private int mJobId;
+    private int mJobId = 0;
     private Job mJob;
 
     //This allows us to pass objects into the fragment
     //http://stackoverflow.com/questions/9931993/passing-an-object-from-an-activity-to-a-fragment
-    public static JobDetailsFragment newInstance(Job job) {
+    public static JobDetailsFragment newInstance(int jobId) {
         JobDetailsFragment fragment = new JobDetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(JOB_DETAILS_FRAGMENT_KEY, job);
+        bundle.putSerializable(JOB_DETAILS_FRAGMENT_KEY, jobId);
         fragment.setArguments(bundle);
 
         return fragment;
@@ -91,8 +93,9 @@ public class JobDetailsFragment extends Fragment {
         mPrice = (TextView) rootView.findViewById(R.id.job_details_price);
         mStartDate = (TextView) rootView.findViewById(R.id.job_details_date);
         mStartTime = (TextView) rootView.findViewById(R.id.job_details_time);
-        mCompleteDate = (TextView) rootView.findViewById(R.id.job_details_complete_date);
-        mJobRating = (TextView) rootView.findViewById(R.id.job_details_job_rating);
+//        mCompleteDate = (TextView) rootView.findViewById(R.id.job_details_complete_date);
+//        mJobRating = (TextView) rootView.findViewById(R.id.job_details_job_rating);
+        mJobNumber = (TextView) rootView.findViewById(R.id.job_details_job_number);
         mStatus = (TextView) rootView.findViewById(R.id.job_details_job_status);
 
         //Worker Details
@@ -103,11 +106,31 @@ public class JobDetailsFragment extends Fragment {
         mWorkerImage = (ImageView) rootView.findViewById(R.id.job_details_worker_image);
 
         mProgressView = rootView.findViewById(R.id.job_details_progress);
+        mLinearLayout = rootView.findViewById(R.id.linearLayout);
 
-        mJob = (Job) getArguments().getSerializable(JOB_DETAILS_FRAGMENT_KEY);
-//        System.out.println("Bundle=" + b.toString());
+        //Button to cancel job
+        Button buttonCancelJob = (Button) rootView.findViewById(R.id.job_details_cancel_job);
+        buttonCancelJob.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Toast.makeText(MainActivity.getAppContext(), "This button not implemented yet", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        refreshScreen();
+        //Button to complete job
+        Button buttonCompleteJob = (Button) rootView.findViewById(R.id.job_details_complete_job);
+        buttonCompleteJob.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Toast.makeText(MainActivity.getAppContext(), "This button not implemented yet", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mJobId = (int) getArguments().getSerializable(JOB_DETAILS_FRAGMENT_KEY);
+
+        if (mJobId > 0){
+            getJob(mJobId);
+        }
+
+//        refreshScreen();
 
 
         return rootView;
@@ -130,50 +153,49 @@ public class JobDetailsFragment extends Fragment {
 
     /**
      * Attempts to connect to zebenzi server and get a quote based on the job request parameters.
-     * @param serviceId ID of the job request.
-     * @param serviceDefaultId See ServiceDefault class for explanation.
-     * @param dateTime Date and time of job request.
+     * @param jobId ID of the job to be retrieved from server.
      *
      */
-    public void getQuote(int serviceId, int serviceDefaultId, String dateTime ) {
-        if (mQuoteTask != null) {
+    public void getJob(int jobId) {
+        if (mJobDetailsTask != null) {
             return;
         }
         showProgress(true);
 
         //Build url
-        String url = MainActivity.getAppContext().getString(R.string.api_url_quote);
+        String url = MainActivity.getAppContext().getString(R.string.api_url_job_by_id) + Integer.toString(jobId);
 
         //Build header
         HashMap<String, String> header = new HashMap<>();
         header.put("Content-Type", "application/json");
+        header.put("Authorization", "bearer " + Customer.getInstance().getToken());
 
         //Build body
-        JSONObject body = new JSONObject();
-        try {
-            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), serviceId);
-            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_default_id), serviceDefaultId);
-            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_work_start_date), dateTime);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        JSONObject body = new JSONObject();
+//        try {
+//            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_id), serviceId);
+//            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_service_default_id), serviceDefaultId);
+//            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_work_start_date), dateTime);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
-        mQuoteTask = new HttpPostTask(MainActivity.getAppContext(), new GetQuoteTaskCompleteListener()).execute(url, header, body, HttpContentTypes.RAW);
+        mJobDetailsTask = new HttpGetTask(MainActivity.getAppContext(), new GetJobDetailsTaskCompleteListener()).execute(url, header, null, HttpContentTypes.RAW);
     }
 
     private void refreshScreen() {
         if (mJob != null) {
-            mPrice.setText(Integer.toString(mJob.getQuote().getPrice()));
+            mPrice.setText("R" + Integer.toString(mJob.getQuote().getPrice()));
             mStartDate.setText(TimeFormat.getPrettyDate(mJob.getQuote().getWorkDate()));
-            mStartTime.setText(TimeFormat.getPrettyDate(mJob.getQuote().getWorkDate()));
+            mStartTime.setText(TimeFormat.getPrettyTime(mJob.getQuote().getWorkDate()));
+            mJobNumber.setText(Integer.toString(mJob.getJobId()));
 
             //TODO: Bug in server returning some null data for the Service and Work
             if (mJob.getQuote().getService() != null) {
                 mServiceName.setText(mJob.getQuote().getService().getServiceName());
-//                mUnits.setText(mJob.getQuote().getService().getServiceUnit().getName());
             }
             //TODO: Fix the completed date and job rating when available from server.
-            mCompleteDate.setText(mJob.getUpdatedDate());
+//            mCompleteDate.setText(mJob.getQuote().getWorkDate());
 
 //            mJobRating.setText("");
 
@@ -183,15 +205,15 @@ public class JobDetailsFragment extends Fragment {
             mWorkerFirstName.setText(mJob.getWorker().getFirstName());
             mWorkerLastName.setText(mJob.getWorker().getLastName());
             mWorkerMobile.setText(mJob.getWorker().getUserName());
-            mWorkerRating.setText("2.5");
+            mWorkerRating.setText("3.5");
             Picasso.with(MainActivity.getAppContext()).load(mJob.getWorker().getImageUrl()).into(mWorkerImage);
         }
     }
 
-    public class GetQuoteTaskCompleteListener implements IAsyncTaskListener<String> {
+    public class GetJobDetailsTaskCompleteListener implements IAsyncTaskListener<String> {
         @Override
-        public void onAsyncTaskComplete(String quoteResult, boolean networkError) {
-            mQuoteTask = null;
+        public void onAsyncTaskComplete(String jobDetailsResult, boolean networkError) {
+            mJobDetailsTask = null;
             showProgress(false);
 
             if (networkError) {
@@ -199,13 +221,12 @@ public class JobDetailsFragment extends Fragment {
                         MainActivity.getAppContext().getString(R.string.check_your_network_connection),
                         Toast.LENGTH_LONG).show();
             } else {
-                System.out.println("Job request Response = " + quoteResult);
+                System.out.println("Job request Response = " + jobDetailsResult);
                 Gson gson = new Gson();
-                quote = gson.fromJson(quoteResult, Quote.class);
+                mJob = gson.fromJson(jobDetailsResult, Job.class);
 
                 try {
-                    System.out.println("Quote=" + quote);
-                    Customer.getInstance().setLastQuote(quote);
+                    System.out.println("mJob=" + mJob);
 
                     refreshScreen();
                 }
@@ -219,7 +240,7 @@ public class JobDetailsFragment extends Fragment {
         @Override
         public void onAsyncTaskCancelled() {
             showProgress(false);
-            mQuoteTask = null;
+            mJobDetailsTask = null;
         }
     }
 
@@ -229,7 +250,9 @@ public class JobDetailsFragment extends Fragment {
      */
     public void showProgress(final boolean show) {
         mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        listView.setVisibility(show ? View.GONE : View.VISIBLE);
+        mLinearLayout.setVisibility(show ? View.GONE : View.VISIBLE);
+
+
     }
 }
 
