@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.telephony.SmsMessage;
 
+import com.zebenzi.ui.FragmentsLookup;
 import com.zebenzi.ui.MainActivity;
 import com.zebenzi.ui.R;
 
@@ -26,7 +27,9 @@ public class SmsListener extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO Auto-generated method stub
+
+        String msgBody=null;
+        int jobId=0;
 
         if(intent.getAction().equals("android.provider.Telephony.SMS_RECEIVED")){
             Bundle bundle = intent.getExtras();           //---get the SMS message passed in---
@@ -40,12 +43,15 @@ public class SmsListener extends BroadcastReceiver {
                     for(int i=0; i<msgs.length; i++){
                         msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
                         msg_from = msgs[i].getOriginatingAddress();
-                        String msgBody = msgs[i].getMessageBody();
+                        msgBody = msgs[i].getMessageBody();
                         System.out.println("SMS= " + msgBody);
                     }
 
+                    jobId = parseSMS(msgBody);
 
-                    displayNotification();
+                    if (jobId > 0) {
+                        displayNotification(jobId);
+                    }
 
                 }catch(Exception e){
 //                            Log.d("Exception caught",e.getMessage());
@@ -54,15 +60,46 @@ public class SmsListener extends BroadcastReceiver {
         }
     }
 
-    private void displayNotification() {
+    /**
+     * Parse Zebenzi sms's and provide app notifications to user.
+     * Eventually, this will be supplemented with Google Cloud Messaging as only worker phones will receive sms's.
+     *
+     * @param msgBody - the sms text which should contain a zebenzi header string.
+     */
+    private int parseSMS(String msgBody) {
+
+        String header = "[zbzc-";
+
+        if (msgBody.indexOf(header) != -1) {
+            //Valid zebenzi customer SMS
+            //TODO: Also handle worker SMS header - "[zbzw-"
+            String newString = msgBody.substring(msgBody.indexOf(header)+header.length(), msgBody.indexOf("]"));
+            System.out.println("New String = " + newString);
+
+            return Integer.parseInt(newString);
+        }
+        return 0;
+    }
+
+    /**
+     * Pop up zebenzi notification for customer.
+     *
+     * @param jobId - the job ID from the SMS, which will be used to retrieve and display job details.
+     */
+
+    private void displayNotification(int jobId) {
+
+//        int jobId = parseSMS("test");
 
         NotificationCompat.Builder mBuilder =   new NotificationCompat.Builder(MainActivity.getAppContext())
                 .setSmallIcon(R.drawable.ic_launcher_zebenzi) // notification icon
-                .setContentTitle("Notification!") // title for notification
-                .setContentText("Hello word") // message for notification
-                .setAutoCancel(true); // clear notification after click
+                .setContentTitle("Zebenzi Job [" + jobId + "] update!") // title for notification
+                        .setContentText("Touch to see the the job update") // message for notification
+                        .setAutoCancel(true); // clear notification after click
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(MainActivity.getAppContext(), MainActivity.class);
+        resultIntent.putExtra("fragment_to_launch", FragmentsLookup.JOB_DETAILS.getName());
+        resultIntent.putExtra("fragment_data", Integer.toString(jobId));
 
 // The stack builder object will contain an artificial back stack for the
 // started Activity.
@@ -84,6 +121,9 @@ public class SmsListener extends BroadcastReceiver {
 // mId allows you to update the notification later on.
         mNotificationManager.notify(mId, mBuilder.build());
     }
+
+
+
 
 
 }

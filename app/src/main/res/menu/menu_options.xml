@@ -13,5 +13,15 @@
           <!--app:actionViewClass="android.support.v7.widget.SearchView" />-->
     <item android:id="@+id/action_logout"
           android:title="@string/logout" />
+    <item android:id="@+id/action_notify1"
+          android:title="@string/notify1" />
+    <item android:id="@+id/action_notify2"
+          android:title="@string/notify3" />
+    <item android:id="@+id/action_notify3"
+          android:title="@string/notify3" />
+    <item android:id="@+id/action_notify4"
+          android:title="@string/notify4" />
+    <item android:id="@+id/action_notify5"
+          android:title="@string/notify5" />
 
 </menu>

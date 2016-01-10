@@ -389,6 +389,58 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
             mDrawerToggle.onConfigurationChanged(newConfig);
         }
     }
+
+    public void displayNotification() {
+
+        int jobId = parseSMS("test");
+
+        NotificationCompat.Builder mBuilder =   new NotificationCompat.Builder(MainActivity.getAppContext())
+                .setSmallIcon(R.drawable.ic_launcher_zebenzi) // notification icon
+                .setContentTitle("Zebenzi Job#" + jobId + " update") // title for notification
+                .setContentText("The status of Job#" + jobId + " is:") // message for notification
+                .setAutoCancel(true); // clear notification after click
+// Creates an explicit intent for an Activity in your app
+        Intent resultIntent = new Intent(MainActivity.getAppContext(), MainActivity.class);
+        resultIntent.putExtra("fragment_to_launch", FragmentsLookup.JOB_DETAILS.getName());
+        resultIntent.putExtra("fragment_data", Integer.toString(jobId));
+
+
+// The stack builder object will contain an artificial back stack for the
+// started Activity.
+// This ensures that navigating backward from the Activity leads out of
+// your application to the Home screen.
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.getAppContext());
+// Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(MainActivity.class);
+// Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(
+                        0,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager =
+                (NotificationManager) MainActivity.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
+// mId allows you to update the notification later on.
+        mNotificationManager.notify(mId, mBuilder.build());
+    }
+
+    private int parseSMS(String msgBody) {
+
+        String header = "[zbzc";
+        String s = "[zbzc1005]";
+        if (s.indexOf("[zbzc") != -1) {
+            //Valid zebenzi customer SMS
+            String newString = s.substring(s.indexOf("[zbzc")+header.length(), s.indexOf("]"));
+            System.out.println("New String = " + newString);
+
+            return Integer.parseInt(newString);
+        }
+        return 0;
+    }
+
+
 }
 
 

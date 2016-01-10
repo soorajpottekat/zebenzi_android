@@ -44,5 +44,10 @@
     <string name="nav_drawer_item_new_job">New Job</string>
     <string name="nav_drawer_item_account">My Account</string>
     <string name="nav_drawer_item_history">My History</string>
+    <string name="notify1">Notify 1</string>
+    <string name="notify2">Notify 2</string>
+    <string name="notify3">Notify 3</string>
+    <string name="notify4">Notify 4</string>
+    <string name="notify5">Notify 5</string>
 
 </resources>
