@@ -14,7 +14,7 @@
         <TableLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/panel_border"
+            android:background="@drawable/panel_border_transparent"
             android:layout_margin="20dp"
             android:translationZ="5dp"
             android:id="@+id/new_job_table_layout"

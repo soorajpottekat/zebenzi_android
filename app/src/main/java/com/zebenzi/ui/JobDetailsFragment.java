@@ -5,12 +5,15 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,9 @@ import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.TimeFormat;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 import static com.zebenzi.ui.FragmentsLookup.QUOTE;
@@ -33,8 +39,7 @@ import static com.zebenzi.ui.FragmentsLookup.QUOTE;
 
 /**
  * Fragment to display a single job details with options for completing or cancelling etc.
- *
- * */
+ */
 public class JobDetailsFragment extends Fragment {
 
     private FragmentListener fragmentListener;
@@ -43,29 +48,32 @@ public class JobDetailsFragment extends Fragment {
      * Keep track of the spawned tasks to ensure we can cancel it if requested.
      */
     private AsyncTask<Object, String, String> mJobDetailsTask = null;
+    private AsyncTask<Object, String, String> mSubmitJobRatingTask = null;
 
     // UI references.
     private View mProgressView;
     private View mLinearLayout;
+    private View mRatingLayout;
+    private View mButtonsLayout;
 
     //Job Details
     private TextView mServiceName;
     private TextView mUnits;
     private TextView mPrice;
     private TextView mStartDate;
-    private TextView mStartTime;
-//    private TextView mCompleteDate;
-    private TextView mJobRating;
+    //    private TextView mCompleteDate;
     private TextView mJobNumber;
     private TextView mStatus;
 
     //Worker Details
     private TextView mWorkerFirstName;
     private TextView mWorkerLastName;
-    private TextView mWorkerMobile;
     private ImageView mWorkerImage;
     private TextView mWorkerRating;
 
+    //Rating
+    private RatingBar mJobRatingBar;
+    private EditText mJobComment;
 
 
     private int mJobId = 0;
@@ -92,21 +100,24 @@ public class JobDetailsFragment extends Fragment {
         mUnits = (TextView) rootView.findViewById(R.id.job_details_units);
         mPrice = (TextView) rootView.findViewById(R.id.job_details_price);
         mStartDate = (TextView) rootView.findViewById(R.id.job_details_date);
-        mStartTime = (TextView) rootView.findViewById(R.id.job_details_time);
-//        mCompleteDate = (TextView) rootView.findViewById(R.id.job_details_complete_date);
-//        mJobRating = (TextView) rootView.findViewById(R.id.job_details_job_rating);
         mJobNumber = (TextView) rootView.findViewById(R.id.job_details_job_number);
         mStatus = (TextView) rootView.findViewById(R.id.job_details_job_status);
 
         //Worker Details
         mWorkerFirstName = (TextView) rootView.findViewById(R.id.job_details_worker_first_name);
         mWorkerLastName = (TextView) rootView.findViewById(R.id.job_details_worker_last_name);
-        mWorkerMobile = (TextView) rootView.findViewById(R.id.job_details_worker_mobile_number);
         mWorkerRating = (TextView) rootView.findViewById(R.id.job_details_worker_rating);
         mWorkerImage = (ImageView) rootView.findViewById(R.id.job_details_worker_image);
 
         mProgressView = rootView.findViewById(R.id.job_details_progress);
         mLinearLayout = rootView.findViewById(R.id.linearLayout);
+        mRatingLayout = rootView.findViewById(R.id.job_details_rating_layout);
+        mButtonsLayout = rootView.findViewById(R.id.job_details_buttons_layout);
+
+        mJobRatingBar = (RatingBar) rootView.findViewById(R.id.job_details_rating_bar);
+        mJobComment = (EditText) rootView.findViewById(R.id.job_details_comment);
+        ;
+
 
         //Button to cancel job
         Button buttonCancelJob = (Button) rootView.findViewById(R.id.job_details_cancel_job);
@@ -124,14 +135,20 @@ public class JobDetailsFragment extends Fragment {
             }
         });
 
+        //Button to submit rating
+        Button buttonSubmitRating = (Button) rootView.findViewById(R.id.job_details_submit_rating);
+        buttonSubmitRating.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                submitRating(mJobId, mJobRatingBar.getRating(), mJobComment.getText());
+//                Toast.makeText(MainActivity.getAppContext(), "This button not implemented yet", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mJobId = (int) getArguments().getSerializable(JOB_DETAILS_FRAGMENT_KEY);
 
-        if (mJobId > 0){
-            getJob(mJobId);
-        }
+        getJob(mJobId);
 
 //        refreshScreen();
-
 
         return rootView;
     }
@@ -152,12 +169,45 @@ public class JobDetailsFragment extends Fragment {
     }
 
     /**
+     * Submit rating and comment after job is completed.
+     *  @param jobId   ID of the job to be rated.
+     * @param rating  customer rating for the job.
+     * @param comment customer comment for the job.
+     */
+    public void submitRating(int jobId, float rating, Editable comment) {
+        if (mSubmitJobRatingTask != null) {
+            return;
+        }
+        showProgress(true);
+
+        //Build url
+        String url = MainActivity.getAppContext().getString(R.string.api_url_submit_job_rating);
+
+        //Build header
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Content-Type", "application/json");
+        header.put("Authorization", "bearer " + Customer.getInstance().getToken());
+
+        //Build body
+        JSONObject body = new JSONObject();
+        try {
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_job_id), jobId);
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_job_comment), comment);
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_job_rating), rating);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mSubmitJobRatingTask = new HttpPostTask(MainActivity.getAppContext(), new SubmitJobRatingTaskCompleteListener()).execute(url, header, body, HttpContentTypes.RAW);
+    }
+
+    /**
      * Attempts to connect to zebenzi server and get a quote based on the job request parameters.
-     * @param jobId ID of the job to be retrieved from server.
      *
+     * @param jobId ID of the job to be retrieved from server.
      */
     public void getJob(int jobId) {
-        if (mJobDetailsTask != null) {
+        if ((jobId <= 0) || (mJobDetailsTask != null)) {
             return;
         }
         showProgress(true);
@@ -187,7 +237,6 @@ public class JobDetailsFragment extends Fragment {
         if (mJob != null) {
             mPrice.setText("R" + Integer.toString(mJob.getQuote().getPrice()));
             mStartDate.setText(TimeFormat.getPrettyDate(mJob.getQuote().getWorkDate()));
-            mStartTime.setText(TimeFormat.getPrettyTime(mJob.getQuote().getWorkDate()));
             mJobNumber.setText(Integer.toString(mJob.getJobId()));
 
             //TODO: Bug in server returning some null data for the Service and Work
@@ -201,12 +250,30 @@ public class JobDetailsFragment extends Fragment {
 
             mStatus.setText(mJob.getStatus().getStatusReason());
 
+            //Depending on the state of the job, we show a different part of the UI
+            if (mJob.getStatus().getStatusReason().equalsIgnoreCase("Completed")) {
+                //Once the job is completed and rated, don't show any buttons or rating prompt.
+                //TODO: Show a "You rated this job...."
+                //TODO: This state must be completed+rated. eg. Completed_Rated
+                mRatingLayout.setVisibility(View.GONE);
+                mButtonsLayout.setVisibility(View.GONE);
+            } else if (mJob.getStatus().getStatusReason().equalsIgnoreCase("Accepted")) {
+                //Disable rating bar since job is in progress. Enable cancel button.
+                //TODO: This state must be completed+unrated. eg. Completed_Unrated
+                mRatingLayout.setVisibility(View.VISIBLE);
+                mButtonsLayout.setVisibility(View.GONE);
+            } else {
+                //Disable rating bar since job is in progress. Enable cancel button.
+                mRatingLayout.setVisibility(View.GONE);
+                mButtonsLayout.setVisibility(View.VISIBLE);
+            }
+
             //Worker Details
             mWorkerFirstName.setText(mJob.getWorker().getFirstName());
             mWorkerLastName.setText(mJob.getWorker().getLastName());
-            mWorkerMobile.setText(mJob.getWorker().getUserName());
             mWorkerRating.setText("3.5");
             Picasso.with(MainActivity.getAppContext()).load(mJob.getWorker().getImageUrl()).into(mWorkerImage);
+
         }
     }
 
@@ -229,8 +296,7 @@ public class JobDetailsFragment extends Fragment {
                     System.out.println("mJob=" + mJob);
 
                     refreshScreen();
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -244,6 +310,43 @@ public class JobDetailsFragment extends Fragment {
         }
     }
 
+    public class SubmitJobRatingTaskCompleteListener implements IAsyncTaskListener<String> {
+        @Override
+        public void onAsyncTaskComplete(String ratingResult, boolean networkError) {
+            mSubmitJobRatingTask = null;
+            showProgress(false);
+
+            if (networkError) {
+                Toast.makeText(MainActivity.getAppContext(),
+                        MainActivity.getAppContext().getString(R.string.check_your_network_connection),
+                        Toast.LENGTH_LONG).show();
+            } else {
+                System.out.println("Job rating Response = " + ratingResult);
+
+                //If rating successfully submitted, then refresh the screen
+                getJob(mJobId);
+
+//                Gson gson = new Gson();
+//                mJob = gson.fromJson(ratingResult, Job.class);
+//
+//                try {
+//                    System.out.println("mJob=" + mJob);
+//
+//                    refreshScreen();
+//                }
+//                catch (Exception e){
+//                    e.printStackTrace();
+//                }
+            }
+
+        }
+
+        @Override
+        public void onAsyncTaskCancelled() {
+            showProgress(false);
+            mSubmitJobRatingTask = null;
+        }
+    }
 
     /**
      * Shows the progress UI and hides the Search form.

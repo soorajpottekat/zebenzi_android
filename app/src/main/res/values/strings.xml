@@ -17,6 +17,9 @@
     <string name="api_json_field_user_id">userId</string>
     <string name="api_json_field_quote_id">quoteId</string>
     <string name="api_json_field_work_start_date">workStartDate</string>
+    <string name="api_json_field_job_id">JobId</string>
+    <string name="api_json_field_job_comment">Comment</string>
+    <string name="api_json_field_job_rating">Rating</string>
 
     <string name="api_json_field_worker_id">workerId</string>
     <string name="history">My Jobs</string>
