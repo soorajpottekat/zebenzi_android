@@ -21,7 +21,7 @@
         <LinearLayout android:id="@+id/register_customer_form" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical"
             android:weightSum="1"
-                      android:background="@drawable/panel_border"
+                      android:background="@drawable/panel_border_transparent"
                       android:paddingLeft="10dp"
                       android:paddingTop="20dp">
 
