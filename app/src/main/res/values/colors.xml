@@ -71,6 +71,7 @@
     <color name="zebenzi_primary_color">#8BC34A</color>
     <color name="zebenzi_primary_color_dark">#689F38</color>
     <color name="zebenzi_background">#fff5f5f5</color>
+    <color name="zebenzi_very_light_grey">#ffeeeeee</color>
     <color name="zebenzi_light_grey">#ffa3a3a3</color>
     <color name="zebenzi_dark_grey">#ff212121</color>
     <color name="zebenzi_white">#fff5f5f5</color>
