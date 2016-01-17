@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_medium"
-                android:id="@+id/list_card_job_history_job_number_label"
+                android:id="@+id/list_row_job_history_job_number_label"
                 android:textColor="@color/zebenzi_dark_grey"
                 android:textStyle="bold"
                 android:text="Job "/>
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_medium"
                 android:text="1000000"
-                android:id="@+id/list_card_job_history_job_number"
+                android:id="@+id/list_row_job_history_job_number"
                 android:textColor="@color/zebenzi_dark_grey"
                 android:textStyle="bold"/>
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_medium"
                 android:text="Job Service Name"
-                android:id="@+id/list_card_job_history_service_name"
+                android:id="@+id/list_row_job_history_service_name"
                 android:textColor="@color/zebenzi_dark_grey"
                 android:textStyle="bold"
                 android:layout_marginLeft="10dp"/>
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_small"
                 android:text="Sat, 5 Dec 2015"
-                android:id="@+id/list_card_job_history_job_date"
+                android:id="@+id/list_row_job_history_job_date"
                 android:textColor="@color/material_grey_700" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_small"
                 android:text="08:00"
-                android:id="@+id/list_card_job_history_job_time"
+                android:id="@+id/list_row_job_history_job_time"
                 android:textColor="@color/material_grey_700"
                 android:paddingLeft="10dp"/>
         </LinearLayout>
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_small"
             android:text="Completed"
-            android:id="@+id/list_card_job_history_job_status"
+            android:id="@+id/list_row_job_history_job_status"
             android:textColor="@color/zebenzi_white"
             android:textStyle="bold"
             android:background="@color/zebenzi_primary_color"
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_small"
                 android:text="Firstname"
-                android:id="@+id/list_card_job_history_worker_first_name"
+                android:id="@+id/list_row_job_history_worker_first_name"
                 android:textColor="@color/material_grey_700" />
 
             <TextView
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_small"
                 android:text="Lastname"
-                android:id="@+id/list_card_job_history_worker_last_name"
+                android:id="@+id/list_row_job_history_worker_last_name"
                 android:textColor="@color/material_grey_700"
                 android:layout_marginLeft="10dp"/>
         </LinearLayout>
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_small"
             android:text="Worker Mobile Number"
-            android:id="@+id/list_card_job_history_worker_mobile"
+            android:id="@+id/list_row_job_history_worker_mobile"
             android:textColor="@color/material_grey_700" />
 
 
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_small"
             android:text="You rated this job:"
-            android:id="@+id/list_card_job_history_job_rating"
+            android:id="@+id/list_row_job_history_job_rating"
             android:textColor="@color/material_grey_700" />
 
         <RatingBar
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:isIndicator="true"
             style="@style/zebenziRatingBar"
-            android:id="@+id/list_card_job_history_job_rating_bar"
+            android:id="@+id/list_row_job_history_job_rating_bar"
             android:nestedScrollingEnabled="false"
             android:numStars="5"/>
 
@@ -137,7 +137,7 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/list_card_worker_image"
+            android:id="@+id/list_row_worker_image"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:src="@drawable/ic_account"
@@ -155,7 +155,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_size_large"
             android:text="R5000"
-            android:id="@+id/list_card_job_history_price"
+            android:id="@+id/list_row_job_history_price"
             android:textColor="@color/zebenzi_dark_grey"
             android:layout_gravity="right"
             android:layout_marginRight="10dp"
