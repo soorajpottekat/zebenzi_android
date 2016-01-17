@@ -41,14 +41,12 @@ public class JobHistoryAdapter extends RecyclerView.Adapter<JobHistoryAdapter.Jo
         try {
             jobViewHolder.tvJobPrice.setText("R" + Integer.toString(job.getQuote().getPrice()));
             jobViewHolder.tvWorkerFirstName.setText(job.getWorker().getFirstName());
-            jobViewHolder.tvWorkerLastName.setText(job.getWorker().getLastName());
             jobViewHolder.tvJobNumber.setText(Integer.toString(job.getJobId()));
             if (job.getStatus() != null) {
                 jobViewHolder.tvJobStatus.setText(job.getStatus().getStatusReason());
             }
             jobViewHolder.tvJobDate.setText(TimeFormat.getPrettyDate(job.getQuote().getWorkDate()));
             jobViewHolder.tvJobTime.setText(TimeFormat.getPrettyTime(job.getQuote().getWorkDate()));
-            jobViewHolder.tvWorkerMobileNumber.setText(job.getWorker().getUserName());
 
             if (job.getQuote().getService() != null) {
                 jobViewHolder.tvJobServiceName.setText(job.getQuote().getService().getServiceName());
@@ -96,13 +94,11 @@ public class JobHistoryAdapter extends RecyclerView.Adapter<JobHistoryAdapter.Jo
     public static class JobViewHolder extends RecyclerView.ViewHolder {
         protected TextView tvJobPrice;
         protected TextView tvWorkerFirstName;
-        protected TextView tvWorkerLastName;
         protected TextView tvJobNumber;
         protected TextView tvJobStatus;
         protected TextView tvJobDate;
         protected TextView tvJobTime;
         protected TextView tvRating;
-        protected TextView tvWorkerMobileNumber;
         protected TextView tvJobServiceName;
         protected RatingBar rbJobRatingBar;
         protected ImageView img;
@@ -115,13 +111,11 @@ public class JobHistoryAdapter extends RecyclerView.Adapter<JobHistoryAdapter.Jo
             // Lookup view for data population
             tvJobPrice = (TextView) v.findViewById(R.id.list_card_job_history_price);
             tvWorkerFirstName = (TextView) v.findViewById(R.id.list_card_job_history_worker_first_name);
-            tvWorkerLastName = (TextView) v.findViewById(R.id.list_card_job_history_worker_last_name);
             tvJobNumber = (TextView) v.findViewById(R.id.list_card_job_history_job_number);
             tvJobStatus = (TextView) v.findViewById(R.id.list_card_job_history_job_status);
             tvJobDate = (TextView) v.findViewById(R.id.list_card_job_history_job_date);
             tvJobTime = (TextView) v.findViewById(R.id.list_card_job_history_job_time);
             tvRating = (TextView) v.findViewById(R.id.list_card_job_history_job_rating);
-            tvWorkerMobileNumber = (TextView) v.findViewById(R.id.list_card_job_history_worker_mobile);
             tvJobServiceName = (TextView) v.findViewById(R.id.list_card_job_history_service_name);
             rbJobRatingBar = (RatingBar) v.findViewById(R.id.list_card_job_history_job_rating_bar);
             img = (ImageView) v.findViewById(R.id.list_card_worker_image);
