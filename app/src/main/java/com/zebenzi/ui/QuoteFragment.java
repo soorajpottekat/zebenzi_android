@@ -209,8 +209,8 @@ public class QuoteFragment extends Fragment {
             mQuoteService.setText(quote.getService().getServiceName());
             mQuoteUnits.setText(quote.getWork().getDefaultValue() + " " + quote.getService().getServiceUnit().getName());
             mQuotePrice.setText("R" + quote.getPrice());
-            mQuoteDate.setText("Date " + TimeFormat.getPrettyDate(quote.getWorkDate()));
-            mQuoteTime.setText("Time " + TimeFormat.getPrettyTime(quote.getWorkDate()));
+            mQuoteTime.setText(TimeFormat.getPrettyTime(quote.getWorkDate()));
+            mQuoteDate.setText(TimeFormat.getPrettyDate(quote.getWorkDate()));
         }
     }
 
