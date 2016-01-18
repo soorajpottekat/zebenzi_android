@@ -1,14 +1,18 @@
 package com.zebenzi.ui;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.zebenzi.json.model.user.User;
+import com.zebenzi.users.Customer;
 
 import java.util.ArrayList;
 
@@ -18,9 +22,11 @@ import java.util.ArrayList;
 public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.WorkerViewHolder> {
 
     private ArrayList<User> arrayOfWorkers;
+    private QuoteFragment fragment;
 
-    public QuoteAdapter(ArrayList<User> workerList) {
+    public QuoteAdapter(ArrayList<User> workerList, QuoteFragment fragment) {
         this.arrayOfWorkers = workerList;
+        this.fragment = fragment;
     }
 
 
@@ -35,7 +41,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.WorkerViewHo
 
     @Override
     public void onBindViewHolder(WorkerViewHolder workerViewHolder, int i) {
-        User worker = arrayOfWorkers.get(i);
+        final User worker = arrayOfWorkers.get(i);
 
         //TODO: Should we handle errors in the results? Eg. Null data. Or should the server worry about his?
         try {
@@ -44,8 +50,28 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.WorkerViewHo
             workerViewHolder.tvLastName.setText(worker.getLastName());
             workerViewHolder.tvRating.setText(worker.getId());
             Picasso.with(MainActivity.getAppContext()).load(worker.getImageUrl()).into(workerViewHolder.img);
-        }
-        catch (Exception e){
+
+            // onClick Listener for view
+            workerViewHolder.hireButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        if (Customer.getInstance().getToken() != null) {
+                            fragment.hireWorker(Customer.getInstance().getLastQuote().getQuoteId(), worker.getId());
+                        } else {
+                            Toast.makeText(MainActivity.getAppContext(), "You need to be logged in to hire a worker", Toast.LENGTH_LONG).show();
+                            System.out.println("Cannot hire worker if not logged in.");
+                        }
+                }
+            });
+            // onClick Listener for view
+            workerViewHolder.img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(v.getContext(), "Worker IMG Pressed. Worker = " + worker.getFirstName(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -59,6 +85,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.WorkerViewHo
 
         return new WorkerViewHolder(itemView);
     }
+
     public void clear() {
         arrayOfWorkers.clear();
     }
@@ -72,6 +99,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.WorkerViewHo
         protected TextView tvLastName;
         protected TextView tvRating;
         protected ImageView img;
+        protected Button hireButton;
 
         private User mWorker;
 
@@ -83,7 +111,9 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.WorkerViewHo
             tvLastName = (TextView) v.findViewById(R.id.list_card_avail_workers_last_name);
             tvRating = (TextView) v.findViewById(R.id.list_card_avail_workers_rating);
             img = (ImageView) v.findViewById(R.id.list_card_avail_workers_image);
+            hireButton = (Button) v.findViewById(R.id.list_card_avail_workers_hire_button);
         }
+
 
     }
 }

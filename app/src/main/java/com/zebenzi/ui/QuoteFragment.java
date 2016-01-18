@@ -103,24 +103,27 @@ public class QuoteFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
         // specify an adapter (see also next example)
-        availableWorkersAdapter = new QuoteAdapter(arrayOfAvailableWorkers);
+        availableWorkersAdapter = new QuoteAdapter(arrayOfAvailableWorkers, QuoteFragment.this);
         recList.setAdapter(availableWorkersAdapter);
-        recList.addOnItemTouchListener(
-                new RecyclerItemClickListener(MainActivity.getAppContext(), new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        User user = availableWorkersAdapter.getWorkerFromPosition(position);
-                        System.out.println("Trying to hire: " + user.getFirstName() + " ID=" + user.getId());
+//        recList.addOnItemTouchListener(
+//                new RecyclerItemClickListener(MainActivity.getAppContext(), new RecyclerItemClickListener.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(View view, int position) {
+//                        Toast.makeText(view.getContext(), "RecyclerItem PRESSED = ", Toast.LENGTH_SHORT).show();
 
-                        if (Customer.getInstance().getToken() != null) {
-                            hireWorker(Customer.getInstance().getLastQuote().getQuoteId(), user.getId());
-                        } else {
-                            Toast.makeText(MainActivity.getAppContext(), "You need to be logged in to hire a worker", Toast.LENGTH_LONG).show();
-                            System.out.println("Cannot hire worker if not logged in.");
-                        }
-                    }
-                })
-        );
+
+//                        User user = availableWorkersAdapter.getWorkerFromPosition(position);
+//                        System.out.println("Trying to hire: " + user.getFirstName() + " ID=" + user.getId());
+//
+//                        if (Customer.getInstance().getToken() != null) {
+//                            hireWorker(Customer.getInstance().getLastQuote().getQuoteId(), user.getId());
+//                        } else {
+//                            Toast.makeText(MainActivity.getAppContext(), "You need to be logged in to hire a worker", Toast.LENGTH_LONG).show();
+//                            System.out.println("Cannot hire worker if not logged in.");
+//                        }
+//                    }
+//                })
+//        );
 
         refreshScreen();
 
