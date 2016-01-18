@@ -20,6 +20,7 @@ public class User {
     private Service[] services;
     private boolean isPhoneNumberVerified;
     private String imageUrl;
+    private float averageRating;
 
     public String getUrl() {
         return url;
@@ -132,4 +133,13 @@ public class User {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public float getAverageRating() {
+        return averageRating;
+    }
+
+    public void setAverageRating(float averageRating) {
+        this.averageRating = averageRating;
+    }
+
 }

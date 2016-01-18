@@ -48,7 +48,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.WorkerViewHo
             // Populate the data into the template view using the data object
             workerViewHolder.tvFirstName.setText(worker.getFirstName());
             workerViewHolder.tvLastName.setText(worker.getLastName());
-            workerViewHolder.tvRating.setText(worker.getId());
+            workerViewHolder.tvRating.setText(Float.toString(worker.getAverageRating()));
             Picasso.with(MainActivity.getAppContext()).load(worker.getImageUrl()).into(workerViewHolder.img);
 
             // onClick Listener for view
