@@ -18,12 +18,17 @@ import java.util.Iterator;
 /**
  * Created by Vaugan.Nayagar on 2016/01/15.
  */
-public class JobHistoryAdapter extends RecyclerView.Adapter<JobHistoryAdapter.JobViewHolder> {
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.JobViewHolder> {
 
     private ArrayList<Job> arrayOfJobs;
 
-    public JobHistoryAdapter(ArrayList<Job> jobList) {
+    public HistoryAdapter(ArrayList<Job> jobList) {
         this.arrayOfJobs = jobList;
+    }
+
+
+    public Job getJobFromPosition(int position) {
+        return arrayOfJobs.get(position);
     }
 
     @Override

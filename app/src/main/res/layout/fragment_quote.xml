@@ -63,12 +63,17 @@
         </LinearLayout>
 
 
-        <ListView
+        <!--<ListView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/search_results_available_workers_list"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:background="@drawable/panel_border_transparent"/>-->
+        <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/search_results_available_workers_list"
-            android:layout_gravity="bottom"
-            android:background="@drawable/panel_border_transparent"/>
+            android:layout_gravity="bottom" />
 
         <!-- Search progress -->
         <ProgressBar android:id="@+id/search_progress" style="?android:attr/progressBarStyleLarge"

@@ -1,0 +1,89 @@
+package com.zebenzi.ui;
+
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+import com.zebenzi.json.model.user.User;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Vaugan.Nayagar on 2016/01/15.
+ */
+public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.WorkerViewHolder> {
+
+    private ArrayList<User> arrayOfWorkers;
+
+    public QuoteAdapter(ArrayList<User> workerList) {
+        this.arrayOfWorkers = workerList;
+    }
+
+
+    public User getWorkerFromPosition(int position) {
+        return arrayOfWorkers.get(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return arrayOfWorkers.size();
+    }
+
+    @Override
+    public void onBindViewHolder(WorkerViewHolder workerViewHolder, int i) {
+        User worker = arrayOfWorkers.get(i);
+
+        //TODO: Should we handle errors in the results? Eg. Null data. Or should the server worry about his?
+        try {
+            // Populate the data into the template view using the data object
+            workerViewHolder.tvFirstName.setText(worker.getFirstName());
+            workerViewHolder.tvLastName.setText(worker.getLastName());
+            workerViewHolder.tvRating.setText(worker.getId());
+            Picasso.with(MainActivity.getAppContext()).load(worker.getImageUrl()).into(workerViewHolder.img);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public WorkerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View itemView = LayoutInflater.
+                from(viewGroup.getContext()).
+                inflate(R.layout.list_card_available_workers, viewGroup, false);
+
+        return new WorkerViewHolder(itemView);
+    }
+    public void clear() {
+        arrayOfWorkers.clear();
+    }
+
+    public void addAll(ArrayList<User> workerList) {
+        arrayOfWorkers.addAll(workerList);
+    }
+
+    public static class WorkerViewHolder extends RecyclerView.ViewHolder {
+        protected TextView tvFirstName;
+        protected TextView tvLastName;
+        protected TextView tvRating;
+        protected ImageView img;
+
+        private User mWorker;
+
+        public WorkerViewHolder(View v) {
+            super(v);
+
+            // Lookup view for data population
+            tvFirstName = (TextView) v.findViewById(R.id.list_card_avail_workers_first_name);
+            tvLastName = (TextView) v.findViewById(R.id.list_card_avail_workers_last_name);
+            tvRating = (TextView) v.findViewById(R.id.list_card_avail_workers_rating);
+            img = (ImageView) v.findViewById(R.id.list_card_avail_workers_image);
+        }
+
+    }
+}

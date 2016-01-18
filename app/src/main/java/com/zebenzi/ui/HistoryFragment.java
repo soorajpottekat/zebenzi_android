@@ -10,24 +10,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 import com.zebenzi.json.model.job.Job;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
-import com.zebenzi.utils.TimeFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Fragment for customer to view history of zebenzi jobs.
@@ -42,7 +36,7 @@ public class HistoryFragment extends Fragment {
 
     // UI references.
     private View mProgressView;
-    private JobHistoryAdapter jobHistoryResultsAdapter = null;
+    private HistoryAdapter jobHistoryResultsAdapter = null;
     private ListView listView;
     private FragmentListener fragmentListener;
 
@@ -57,6 +51,7 @@ public class HistoryFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
         mProgressView = rootView.findViewById(R.id.history_progress);
+
         // Attach the adapter to a ListView
 //        listView = (ListView) rootView.findViewById(R.id.history_list);
 //        listView.setAdapter(jobHistoryResultsAdapter);
@@ -78,8 +73,19 @@ public class HistoryFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
         // specify an adapter (see also next example)
-        jobHistoryResultsAdapter = new JobHistoryAdapter(arrayOfJobs);
+        jobHistoryResultsAdapter = new HistoryAdapter(arrayOfJobs);
         recList.setAdapter(jobHistoryResultsAdapter);
+        recList.addOnItemTouchListener(
+                new RecyclerItemClickListener(MainActivity.getAppContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Job job = jobHistoryResultsAdapter.getJobFromPosition(position);
+                        System.out.println("Job ID =" + job.getJobId() + " Job Quote=" + job.getQuote() + " Worker=" + job.getWorker().getFirstName());
+                        Toast.makeText(MainActivity.getAppContext(), "Job Id = " + job.getJobId(), Toast.LENGTH_LONG).show();
+                        fragmentListener.changeFragment(FragmentsLookup.JOB_DETAILS, Integer.toString(job.getJobId()));
+                    }
+                })
+        );
 
         if (Customer.getInstance().getToken() != null) {
             getJobHistory();

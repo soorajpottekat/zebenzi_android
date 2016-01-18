@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,7 +58,7 @@ public class QuoteFragment extends Fragment {
 
     // UI references.
     private View mProgressView;
-    private AvailableWorkersAdapter availableWorkersAdapter = null;
+    private QuoteAdapter availableWorkersAdapter = null;
     private ListView listView;
     private TextView mQuoteService;
     private TextView mQuoteUnits;
@@ -91,9 +93,35 @@ public class QuoteFragment extends Fragment {
 
         // Set up the available workers list view
         ArrayList<User> arrayOfAvailableWorkers = new ArrayList<User>();
-        availableWorkersAdapter = new AvailableWorkersAdapter(MainActivity.getAppContext(), arrayOfAvailableWorkers);
-        listView = (ListView) rootView.findViewById(R.id.search_results_available_workers_list);
-        listView.setAdapter(availableWorkersAdapter);
+//        availableWorkersAdapter = new AvailableWorkersAdapter(MainActivity.getAppContext(), arrayOfAvailableWorkers);
+//        listView = (ListView) rootView.findViewById(R.id.search_results_available_workers_list);
+//        listView.setAdapter(availableWorkersAdapter);
+
+        RecyclerView recList = (RecyclerView) rootView.findViewById(R.id.search_results_available_workers_list);
+        recList.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(MainActivity.getAppContext());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recList.setLayoutManager(llm);
+        // specify an adapter (see also next example)
+        availableWorkersAdapter = new QuoteAdapter(arrayOfAvailableWorkers);
+        recList.setAdapter(availableWorkersAdapter);
+        recList.addOnItemTouchListener(
+                new RecyclerItemClickListener(MainActivity.getAppContext(), new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        User user = availableWorkersAdapter.getWorkerFromPosition(position);
+                        System.out.println("Trying to hire: " + user.getFirstName() + " ID=" + user.getId());
+
+                        if (Customer.getInstance().getToken() != null) {
+                            hireWorker(Customer.getInstance().getLastQuote().getQuoteId(), user.getId());
+                        } else {
+                            Toast.makeText(MainActivity.getAppContext(), "You need to be logged in to hire a worker", Toast.LENGTH_LONG).show();
+                            System.out.println("Cannot hire worker if not logged in.");
+                        }
+                    }
+                })
+        );
+
         refreshScreen();
 
         //If there is a valid job request stored, update the ui
@@ -165,12 +193,14 @@ public class QuoteFragment extends Fragment {
     }
 
     private void refreshScreen() {
-        if (availableWorkersAdapter.isEmpty()) {
-            listView.setVisibility(View.GONE);
-        } else {
-            listView.setVisibility(View.VISIBLE);
-            availableWorkersAdapter.notifyDataSetChanged();
-        }
+//        if (availableWorkersAdapter.isEmpty()) {
+//            listView.setVisibility(View.GONE);
+//        } else {
+//            listView.setVisibility(View.VISIBLE);
+//            availableWorkersAdapter.notifyDataSetChanged();
+//        }
+
+        availableWorkersAdapter.notifyDataSetChanged();
 
         if (quote != null) {
             mQuoteService.setText(quote.getService().getServiceName());
@@ -270,12 +300,12 @@ public class QuoteFragment extends Fragment {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_search_results, parent, false);
             }
             // Lookup view for data population
-            TextView tvFirstName = (TextView) convertView.findViewById(R.id.list_row_search_results_worker_first_name);
-            TextView tvLastName = (TextView) convertView.findViewById(R.id.list_row_search_results_worker_last_name);
-            TextView tvContact = (TextView) convertView.findViewById(R.id.list_row_search_results_worker_mobile);
-            TextView tvAddress = (TextView) convertView.findViewById(R.id.list_row_search_results_worker_address);
-            TextView tvID = (TextView) convertView.findViewById(R.id.list_row_search_results_worker_id);
-            ImageView img = (ImageView) convertView.findViewById(R.id.list_row_search_results_worker_image);
+            TextView tvFirstName = (TextView) convertView.findViewById(R.id.list_card_avail_workers_first_name);
+            TextView tvLastName = (TextView) convertView.findViewById(R.id.list_card_avail_workers_last_name);
+            TextView tvContact = (TextView) convertView.findViewById(R.id.list_card_avail_workers_rating);
+            TextView tvAddress = (TextView) convertView.findViewById(R.id.list_card_avail_workers_address);
+            TextView tvID = (TextView) convertView.findViewById(R.id.list_card_avail_workers_id);
+            ImageView img = (ImageView) convertView.findViewById(R.id.list_card_avail_workers_image);
 
             try {
                 // Populate the data into the template view using the data object
@@ -290,7 +320,7 @@ public class QuoteFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            Button hireButton = (Button) convertView.findViewById(R.id.list_row_search_results_hire_button);
+            Button hireButton = (Button) convertView.findViewById(R.id.list_card_avail_workers_hire_button);
             hireButton.setTag(position);
             hireButton.setOnClickListener(new OnClickListener() {
                 public void onClick(View arg0) {
@@ -340,7 +370,7 @@ public class QuoteFragment extends Fragment {
      */
     public void showProgress(final boolean show) {
         mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-        listView.setVisibility(show ? View.GONE : View.VISIBLE);
+//        listView.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
     //Handle bad worker data coming from server

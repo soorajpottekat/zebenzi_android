@@ -10,7 +10,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/list_row_search_results_worker_image"
+        android:id="@+id/list_card_avail_workers_image"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:src="@drawable/ic_account"
@@ -26,11 +26,11 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="FirstName"
-        android:id="@+id/list_row_search_results_worker_first_name"
+        android:id="@+id/list_card_avail_workers_first_name"
         android:textColor="@color/zebenzi_dark_grey"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/list_row_search_results_worker_image"
-        android:layout_toEndOf="@+id/list_row_search_results_worker_image"
+        android:layout_toRightOf="@+id/list_card_avail_workers_image"
+        android:layout_toEndOf="@+id/list_card_avail_workers_image"
         android:layout_marginLeft="10dp"/>
 
     <TextView
@@ -38,11 +38,11 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="LastName"
-        android:id="@+id/list_row_search_results_worker_last_name"
+        android:id="@+id/list_card_avail_workers_last_name"
         android:textColor="@color/zebenzi_dark_grey"
-        android:layout_alignTop="@+id/list_row_search_results_worker_first_name"
-        android:layout_toRightOf="@+id/list_row_search_results_worker_first_name"
-        android:layout_toEndOf="@+id/list_row_search_results_worker_first_name"
+        android:layout_alignTop="@+id/list_card_avail_workers_first_name"
+        android:layout_toRightOf="@+id/list_card_avail_workers_first_name"
+        android:layout_toEndOf="@+id/list_card_avail_workers_first_name"
         android:layout_marginLeft="10dp"/>
 
     <TextView
@@ -50,15 +50,15 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="0846676467"
-        android:id="@+id/list_row_search_results_worker_mobile"
+        android:id="@+id/list_card_avail_workers_rating"
         android:textColor="@color/material_grey_700"
-        android:layout_below="@+id/list_row_search_results_worker_first_name"
-        android:layout_toRightOf="@+id/list_row_search_results_worker_image"
-        android:layout_toEndOf="@+id/list_row_search_results_worker_image"
+        android:layout_below="@+id/list_card_avail_workers_first_name"
+        android:layout_toRightOf="@+id/list_card_avail_workers_image"
+        android:layout_toEndOf="@+id/list_card_avail_workers_image"
         android:layout_marginLeft="10dp"/>
 
     <Button
-        android:id="@+id/list_row_search_results_hire_button"
+        android:id="@+id/list_card_avail_workers_hire_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hire_me"
@@ -74,11 +74,11 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Worker Address"
-        android:id="@+id/list_row_search_results_worker_address"
+        android:id="@+id/list_card_avail_workers_address"
         android:textColor="@color/material_grey_700"
-        android:layout_below="@+id/list_row_search_results_worker_image"
-        android:layout_alignLeft="@+id/list_row_search_results_worker_mobile"
-        android:layout_alignStart="@+id/list_row_search_results_worker_mobile"
+        android:layout_below="@+id/list_card_avail_workers_image"
+        android:layout_alignLeft="@+id/list_card_avail_workers_rating"
+        android:layout_alignStart="@+id/list_card_avail_workers_rating"
         android:visibility="gone"/>
 
     <TextView
@@ -86,9 +86,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Worker ID"
-        android:id="@+id/list_row_search_results_worker_id"
+        android:id="@+id/list_card_avail_workers_id"
         android:textColor="@color/material_grey_700"
-        android:layout_below="@+id/list_row_search_results_hire_button"
+        android:layout_below="@+id/list_card_avail_workers_hire_button"
         android:layout_toRightOf="@+id/account_image"
         android:layout_toEndOf="@+id/account_image"
         android:visibility="gone"/>
