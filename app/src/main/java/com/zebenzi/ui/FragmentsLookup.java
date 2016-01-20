@@ -11,7 +11,8 @@ public enum FragmentsLookup {
     NEW_JOB("New Job", 4),
     REGISTER("Register", 5),
     QUOTE("Quote", 6),
-    JOB_DETAILS("Job Details", 7);
+    JOB_DETAILS("Job Details", 7),
+    WORKER_PROFILE("Worker Profile", 8);
 
 
     private final String name;

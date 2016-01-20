@@ -1,0 +1,139 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/zebenzi_splash"
+    tools:context="com.zebenzi.ui.Search"
+    android:clickable="false">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <!--<ListView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/search_results_available_workers_list"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:background="@drawable/panel_border_transparent"/>-->
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/available_workers_card_view"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="4dp">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/worker_profile_image"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@drawable/ic_account"
+                    app:civ_border_color="@color/zebenzi_light_grey"
+                    app:civ_border_width="2dp"
+                    android:layout_gravity="center_horizontal"/>
+
+                <TableLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingBottom="10dp">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_medium"
+                            android:text="3.5"
+                            android:id="@+id/worker_profile_rating"
+                            android:background="@drawable/panel_background_primary_dark"
+                            android:textColor="@color/zebenzi_white"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal">
+
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/zebenzi_light_grey"
+                        android:id="@+id/worker_profile_services"
+                        android:paddingLeft="20dp"
+                        android:text="Painting, Tiling"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                            />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/zebenzi_light_grey"
+                        android:id="@+id/worker_profile_first_name"
+                        android:paddingLeft="20dp"
+                        android:text="Firstname"
+                        android:layout_centerVertical="true"
+                        android:layout_alignRight="@+id/worker_profile_services"
+                        android:layout_alignEnd="@+id/worker_profile_services"
+                        android:layout_gravity="right"/>
+
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textColor="@color/zebenzi_light_grey"
+                        android:id="@+id/worker_profile_last_name"
+                        android:paddingLeft="20dp"
+                        android:text="Lastname"
+                        android:layout_alignTop="@+id/worker_profile_first_name"
+                        android:layout_alignLeft="@+id/search_results_quote_units"
+                        android:layout_alignStart="@+id/search_results_quote_units"
+                        android:layout_gravity="left"/>
+                    </TableRow>
+
+                </TableLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/worker_profile_comments_list"
+            android:layout_gravity="bottom" />
+
+
+    </LinearLayout>
+    <!-- Search progress -->
+
+    <ProgressBar android:id="@+id/search_progress" style="?android:attr/progressBarStyleLarge"
+                 android:layout_width="match_parent" android:layout_height="wrap_content"
+                 android:layout_marginBottom="8dp" android:visibility="gone"
+                 android:layout_weight="0" />
+
+</RelativeLayout>

@@ -49,7 +49,7 @@ import static com.zebenzi.ui.FragmentsLookup.HISTORY;
 public class QuoteFragment extends Fragment {
     private static final String QUOTE_FRAGMENT_KEY = FragmentsLookup.QUOTE.getName();
 
-    private FragmentListener fragmentListener;
+    public FragmentListener fragmentListener;
     /**
      * Keep track of the spawned tasks to ensure we can cancel it if requested.
      */

@@ -1,6 +1,5 @@
 package com.zebenzi.ui;
 
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +66,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.WorkerViewHo
             workerViewHolder.img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    fragment.fragmentListener.changeFragment(FragmentsLookup.WORKER_PROFILE, worker);
                     Toast.makeText(v.getContext(), "Worker IMG Pressed. Worker = " + worker.getFirstName(), Toast.LENGTH_SHORT).show();
                 }
             });

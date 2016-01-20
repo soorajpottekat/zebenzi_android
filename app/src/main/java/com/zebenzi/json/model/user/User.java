@@ -2,10 +2,12 @@ package com.zebenzi.json.model.user;
 
 import com.zebenzi.json.model.service.Service;
 
+import java.io.Serializable;
+
 /**
  * Created by Vaugan.Nayagar on 2015/11/11.
  */
-public class User {
+public class User  implements Serializable {
     private String url;
     private String id;
     private String userName;

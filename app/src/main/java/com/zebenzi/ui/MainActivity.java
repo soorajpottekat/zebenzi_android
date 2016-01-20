@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.zebenzi.job.JobRequest;
 import com.zebenzi.json.model.job.Job;
+import com.zebenzi.json.model.user.User;
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.ui.drawer.NavigationDrawerHeader;
@@ -308,6 +309,18 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                     transaction.commit();
                 } else {
                     Toast.makeText(this, "There is no valid job to display!", Toast.LENGTH_LONG).show();
+                }
+                break;
+            case WORKER_PROFILE:
+                if (data != null) {
+                    User worker = (User) data;
+                    WorkerProfileFragment workerProfileFragment = WorkerProfileFragment.newInstance(worker);
+
+                    transaction.replace(R.id.fragment_container, workerProfileFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                } else {
+                    Toast.makeText(this, "There is no valid worker to display!", Toast.LENGTH_LONG).show();
                 }
                 break;
             default:
