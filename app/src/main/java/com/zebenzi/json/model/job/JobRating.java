@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public class JobRating implements Serializable {
     int ratingId;
-    int rating;
+    float rating;
     String comment;
 
     public int getRatingId() {
@@ -21,7 +21,7 @@ public class JobRating implements Serializable {
         this.ratingId = ratingId;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 

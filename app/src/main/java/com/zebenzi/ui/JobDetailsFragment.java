@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.zebenzi.job.JobRequest;
+import com.zebenzi.job.JobStatusCodes;
 import com.zebenzi.json.model.job.Job;
 import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.network.HttpContentTypes;
@@ -29,12 +30,13 @@ import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.TimeFormat;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import static com.zebenzi.ui.FragmentsLookup.QUOTE;
+import static com.zebenzi.job.JobStatusCodes.*;
 
 
 /**
@@ -170,7 +172,8 @@ public class JobDetailsFragment extends Fragment {
 
     /**
      * Submit rating and comment after job is completed.
-     *  @param jobId   ID of the job to be rated.
+     *
+     * @param jobId   ID of the job to be rated.
      * @param rating  customer rating for the job.
      * @param comment customer comment for the job.
      */
@@ -246,32 +249,50 @@ public class JobDetailsFragment extends Fragment {
             //TODO: Fix the completed date and job rating when available from server.
 //            mCompleteDate.setText(mJob.getQuote().getWorkDate());
 
-//            mJobRating.setText("");
-
             mStatus.setText(mJob.getStatus().getStatusReason());
 
-            //Depending on the state of the job, we show a different part of the UI
-            if (mJob.getStatus().getStatusReason().equalsIgnoreCase("Completed")) {
-                //Once the job is completed and rated, don't show any buttons or rating prompt.
-                //TODO: Show a "You rated this job...."
-                //TODO: This state must be completed+rated. eg. Completed_Rated
-                mRatingLayout.setVisibility(View.GONE);
-                mButtonsLayout.setVisibility(View.GONE);
-            } else if (mJob.getStatus().getStatusReason().equalsIgnoreCase("Accepted")) {
-                //Disable rating bar since job is in progress. Enable cancel button.
-                //TODO: This state must be completed+unrated. eg. Completed_Unrated
-                mRatingLayout.setVisibility(View.VISIBLE);
-                mButtonsLayout.setVisibility(View.GONE);
-            } else {
-                //Disable rating bar since job is in progress. Enable cancel button.
-                mRatingLayout.setVisibility(View.GONE);
-                mButtonsLayout.setVisibility(View.VISIBLE);
+            JobStatusCodes jsc = findByCode(mJob.getStatus().getStatusCode());
+
+            switch (jsc) {
+                //Completed/Cancelled job. No further action to be taken.
+//                case WORKER_COMPLETED:
+                case WORKER_NO_REPLY:
+                case WORKER_DECLINED:
+                case CUSTOMER_CANCELLED:
+                case DELETED:
+                case WORKERS_NOT_AVAILABLE:
+                    mRatingLayout.setVisibility(View.GONE);
+                    mButtonsLayout.setVisibility(View.GONE);
+                    break;
+
+                //Completed but unrated. Customer should still be able to rate the job.
+                case WORKER_COMPLETED:
+                case WORKER_COMPLETED_UNRATED:
+                    //TODO: This is a temporary workaround till server bug is fixed. Currently returns same code for Completed and Completed_Unrated.
+                    if (mJob.getStatus().getStatusReason().equalsIgnoreCase("Completed_Unrated")) {
+                        mRatingLayout.setVisibility(View.VISIBLE);
+                        mButtonsLayout.setVisibility(View.GONE);
+                    } else {
+                        mRatingLayout.setVisibility(View.GONE);
+                        mButtonsLayout.setVisibility(View.GONE);
+
+                    }
+                    break;
+
+                //In progress job. Can go into various other states from here.
+                case PENDING_ACCEPTANCE:
+                case WORKER_ACCEPTED:
+                case OTHER_WORKERS_WAITING_ACCEPTANCE:
+                case ACCEPTED_SMS_SEND:
+                    mRatingLayout.setVisibility(View.GONE);
+                    mButtonsLayout.setVisibility(View.VISIBLE);
+                    break;
             }
 
             //Worker Details
             mWorkerFirstName.setText(mJob.getWorker().getFirstName());
             mWorkerLastName.setText(mJob.getWorker().getLastName());
-            mWorkerRating.setText("3.5");
+            mWorkerRating.setText(Float.toString(mJob.getWorker().getAverageRating()));
             Picasso.with(MainActivity.getAppContext()).load(mJob.getWorker().getImageUrl()).into(mWorkerImage);
 
         }
@@ -326,17 +347,6 @@ public class JobDetailsFragment extends Fragment {
                 //If rating successfully submitted, then refresh the screen
                 getJob(mJobId);
 
-//                Gson gson = new Gson();
-//                mJob = gson.fromJson(ratingResult, Job.class);
-//
-//                try {
-//                    System.out.println("mJob=" + mJob);
-//
-//                    refreshScreen();
-//                }
-//                catch (Exception e){
-//                    e.printStackTrace();
-//                }
             }
 
         }

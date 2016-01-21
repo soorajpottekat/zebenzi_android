@@ -56,8 +56,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.JobViewH
             if (job.getQuote().getService() != null) {
                 jobViewHolder.tvJobServiceName.setText(job.getQuote().getService().getServiceName());
             }
-            float rating = (float) 3.5;
-            jobViewHolder.rbJobRatingBar.setRating(rating);
+            if (job.getRating() != null){
+                jobViewHolder.rbJobRatingBar.setVisibility(View.VISIBLE);
+                float rating = job.getRating().getRating();
+                jobViewHolder.rbJobRatingBar.setRating(rating);
+            }
+            else{
+                jobViewHolder.rbJobRatingBar.setVisibility(View.INVISIBLE);
+            }
             Picasso.with(MainActivity.getAppContext()).load(job.getWorker().getImageUrl()).into(jobViewHolder.img);
         } catch (Exception e) {
             e.printStackTrace();

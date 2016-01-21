@@ -17,6 +17,7 @@ public class Job implements Serializable {
     boolean isDeleted;
     String createdDate;
     String updatedDate;
+    JobRating rating;
 
     public int getJobId() {
         return jobId;
@@ -80,6 +81,14 @@ public class Job implements Serializable {
 
     public void setUpdatedDate(String updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public JobRating getRating() {
+        return rating;
+    }
+
+    public void setRating(JobRating rating) {
+        this.rating = rating;
     }
 
     public boolean isJobInProgress()

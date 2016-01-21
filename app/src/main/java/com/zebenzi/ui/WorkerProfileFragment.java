@@ -59,6 +59,7 @@ public class WorkerProfileFragment extends Fragment {
     private WorkerProfileAdapter workerJobRatingsAdapter = null;
     private TextView mFirstName;
     private TextView mLastName;
+    private TextView mRating;
     private ImageView mImage;
     private JobRating[] jobRatings;
 
@@ -80,6 +81,7 @@ public class WorkerProfileFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_worker_profile, container, false);
         mFirstName = (TextView) rootView.findViewById(R.id.worker_profile_last_name);
         mLastName = (TextView) rootView.findViewById(R.id.worker_profile_first_name);
+        mLastName = (TextView) rootView.findViewById(R.id.worker_profile_rating);
         mImage = (ImageView) rootView.findViewById(R.id.worker_profile_image);
         mProgressView = rootView.findViewById(R.id.search_progress);
 
@@ -164,6 +166,8 @@ public class WorkerProfileFragment extends Fragment {
         if (mWorker != null) {
             mFirstName.setText(mWorker.getFirstName());
             mLastName.setText(mWorker.getLastName());
+            mLastName.setText(mWorker.getLastName());
+            mLastName.setText(Float.toString(mWorker.getAverageRating()));
             Picasso.with(MainActivity.getAppContext()).load(mWorker.getImageUrl()).into(mImage);
 
         }
