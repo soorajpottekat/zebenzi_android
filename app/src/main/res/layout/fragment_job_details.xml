@@ -1,277 +1,293 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/zebenzi_splash"
-    tools:context="com.zebenzi.ui.Search"
-    android:clickable="false"
-    >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/zebenzi_splash">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    tools:context="com.zebenzi.ui.Search">
 
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/panel_background_light_grey"
-        android:layout_margin="10dp"
-        android:id="@+id/linearLayout"
-        android:translationZ="10dp"
-        android:elevation="5dp">
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/panel_background_light_grey"
+            android:elevation="5dp"
+            android:orientation="vertical"
+            android:translationZ="10dp">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:orientation="horizontal" android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-            >
+            <android.support.v7.widget.CardView
+                android:id="@+id/available_workers_card_view"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                card_view:cardCornerRadius="4dp">
+
+            </android.support.v7.widget.CardView>
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:translationZ="5dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="4.22"
-                    android:paddingLeft="20dp">
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                              android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="horizontal"
+                    >
 
                     <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_large"
-                            android:text="Job Number"
-                            android:id="@+id/job_details_job_number"
-                            android:textColor="@color/zebenzi_black"
-                            android:textStyle="bold"/>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_large"
-                            android:textColor="@color/zebenzi_black"
-                            android:id="@+id/job_details_service"
-                            android:paddingLeft="0dp"
-                            android:text="Painting"
-                            android:textStyle="bold"
-                            android:layout_marginLeft="10dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:layout_weight="4.22"
+                            android:orientation="vertical"
+                            android:paddingLeft="20dp"
+                            android:translationZ="5dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/job_details_job_number"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Job Number"
+                                    android:textColor="@color/zebenzi_black"
+                                    android:textSize="@dimen/text_size_large"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+                                    android:id="@+id/job_details_service"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:paddingLeft="0dp"
+                                    android:text="Painting"
+                                    android:textColor="@color/zebenzi_black"
+                                    android:textSize="@dimen/text_size_large"
+                                    android:textStyle="bold"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/job_details_worker_first_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Firstname"
+                                    android:textColor="@color/zebenzi_light_grey"
+                                    android:textSize="@dimen/text_size_medium"/>
+
+                                <TextView
+                                    android:id="@+id/job_details_worker_last_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="Lastname"
+                                    android:textColor="@color/zebenzi_light_grey"
+                                    android:textSize="@dimen/text_size_medium"/>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/job_details_units"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="0dp"
+                                android:text="100 Square Meters"
+                                android:textColor="@color/zebenzi_light_grey"
+                                android:textSize="@dimen/text_size_medium"/>
+
+                            <TextView
+                                android:id="@+id/job_details_date"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="0dp"
+                                android:text="Sat, 19 Dec 2015"
+                                android:textColor="@color/zebenzi_light_grey"
+                                android:textSize="@dimen/text_size_medium"/>
+
+                            <TextView
+                                android:id="@+id/job_details_job_status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal|left"
+                                android:layout_marginLeft="0dp"
+                                android:background="@drawable/panel_background_primary_dark"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:text="Job Status"
+                                android:textColor="@color/zebenzi_white"
+                                android:textSize="@dimen/text_size_medium"/>
+
+                        </LinearLayout>
+
                     </LinearLayout>
+
 
                     <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/job_details_worker_image"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/ic_account"
+                            app:civ_border_color="@color/zebenzi_light_grey"
+                            app:civ_border_width="2dp"/>
 
                         <TextView
+                            android:id="@+id/job_details_worker_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_medium"
-                            android:text="Firstname"
-                            android:id="@+id/job_details_worker_first_name"
-                            android:textColor="@color/zebenzi_light_grey" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_size_medium"
-                            android:text="Lastname"
-                            android:id="@+id/job_details_worker_last_name"
-                            android:textColor="@color/zebenzi_light_grey"
-                            android:layout_marginLeft="10dp"/>
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/panel_background_primary_dark"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
+                            android:text="3.5"
+                            android:textAlignment="center"
+                            android:textColor="@color/zebenzi_white"
+                            android:textSize="@dimen/text_size_medium"/>
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_medium"
-                        android:textColor="@color/zebenzi_light_grey"
-                        android:id="@+id/job_details_units"
-                        android:paddingLeft="0dp"
-                        android:text="100 Square Meters"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_medium"
-                        android:textColor="@color/zebenzi_light_grey"
-                        android:id="@+id/job_details_date"
-                        android:paddingLeft="0dp"
-                        android:text="Sat, 19 Dec 2015"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="@dimen/text_size_medium"
-                        android:text="Job Status"
-                        android:id="@+id/job_details_job_status"
-                        android:textColor="@color/zebenzi_white"
-                        android:layout_marginLeft="0dp"
-                        android:paddingLeft="10dp"
-                        android:layout_gravity="center_horizontal|left"
-                        android:background="@drawable/panel_background_primary_dark"
-                        android:paddingRight="10dp"/>
 
                 </LinearLayout>
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/job_details_worker_image"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:src="@drawable/ic_account"
-                    app:civ_border_width="2dp"
-                    app:civ_border_color="@color/zebenzi_light_grey"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"/>
-
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/job_details_price"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="3.5"
-                    android:id="@+id/job_details_worker_rating"
-                    android:textAlignment="center"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/text_size_medium"
-                    android:textColor="@color/zebenzi_white"
-                    android:background="@drawable/panel_background_primary_dark"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:layout_marginTop="5dp"/>
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/panel_border_transparent"
+                    android:gravity="center_horizontal"
+                    android:paddingTop="10dp"
+                    android:phoneNumber="true"
+                    android:singleLine="true"
+                    android:text="R1000.00"
+                    android:textColor="@color/zebenzi_dark_grey"
+                    android:textIsSelectable="false"
+                    android:textSize="50sp"/>
+
+                <LinearLayout
+                    android:id="@+id/job_details_rating_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/panel_border_opaque"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rate this job"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/zebenzi_light_grey"/>
+
+                    <RatingBar
+                        android:id="@+id/job_details_rating_bar"
+                        style="@style/zebenziRatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:isIndicator="false"
+                        android:nestedScrollingEnabled="false"
+                        android:numStars="5"/>
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Leave a comment"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/zebenzi_light_grey"/>
+
+                    <EditText
+                        android:id="@+id/job_details_comment"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <Button
+                        android:id="@+id/job_details_submit_rating"
+                        style="@style/materialButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/linearLayout"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="Submit"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/job_details_buttons_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <Button
+                        android:id="@+id/job_details_cancel_job"
+                        style="@style/materialButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_below="@+id/linearLayout"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="Cancel Job"/>
+
+                </LinearLayout>
             </LinearLayout>
 
-
         </LinearLayout>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="50sp"
-            android:textColor="@color/zebenzi_dark_grey"
-            android:id="@+id/job_details_price"
-            android:phoneNumber="true"
-            android:text="R1000.00"
-            android:layout_marginBottom="20dp"
-            android:paddingTop="10dp"
-            android:singleLine="true"
-            android:textIsSelectable="false"
-            android:gravity="center_horizontal"
-            android:background="@drawable/panel_border_transparent"/>
-
-        <LinearLayout
-            android:id="@+id/job_details_rating_layout"
-            android:orientation="vertical"
+        <ProgressBar
+            android:id="@+id/job_details_progress"
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/panel_border_opaque"
-            android:padding="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            >
+            android:layout_marginBottom="8dp"
+            android:layout_weight="0"
+            android:visibility="gone"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Rate this job"
-                android:id="@+id/textView"
-                android:textColor="@color/zebenzi_light_grey"/>
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:isIndicator="false"
-                style="@style/zebenziRatingBar"
-                android:id="@+id/job_details_rating_bar"
-                android:nestedScrollingEnabled="false"
-                android:numStars="5"
-                android:layout_marginTop="10dp"
-                android:focusable="true"
-                android:clickable="true"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Leave a comment"
-                android:id="@+id/textView2"
-                android:textColor="@color/zebenzi_light_grey"/>
-
-            <EditText
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/job_details_comment"
-                />
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/materialButton"
-                android:text="Submit"
-                android:id="@+id/job_details_submit_rating"
-                android:layout_below="@+id/linearLayout"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/job_details_buttons_layout"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/materialButton"
-                android:text="Cancel Job"
-                android:id="@+id/job_details_cancel_job"
-                android:layout_below="@+id/linearLayout"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/materialButton"
-                android:text="Complete Job"
-                android:id="@+id/job_details_complete_job"
-                android:layout_alignBottom="@+id/job_details_cancel_job"
-                android:layout_toRightOf="@+id/job_details_cancel_job"
-                android:layout_toEndOf="@+id/job_details_cancel_job"
-                android:layout_marginLeft="20dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <ProgressBar android:id="@+id/job_details_progress" style="?android:attr/progressBarStyleLarge"
-                 android:layout_width="match_parent" android:layout_height="wrap_content"
-                 android:layout_marginBottom="8dp" android:visibility="gone"
-                 android:layout_weight="0" />
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
