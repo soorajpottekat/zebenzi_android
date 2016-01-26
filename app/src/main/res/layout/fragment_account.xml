@@ -117,7 +117,8 @@
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:text="My History"
                     android:background="@color/zebenzi_accent_color"
-                    android:layout_gravity="bottom"/>
+                    android:layout_gravity="bottom"
+                    android:visibility="invisible"/>
             <Button android:id="@+id/accounts_change_password_button" style="@style/materialButton"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginTop="16dp" android:text="Change Password"

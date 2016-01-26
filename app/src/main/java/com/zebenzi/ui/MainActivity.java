@@ -2,8 +2,11 @@ package com.zebenzi.ui;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.squareup.picasso.Picasso;
 import com.zebenzi.job.JobRequest;
 import com.zebenzi.json.model.job.Job;
@@ -34,6 +40,8 @@ import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.ui.drawer.NavigationDrawerHeader;
 import com.zebenzi.ui.drawer.NavigationDrawerItem;
 import com.zebenzi.users.Customer;
+import com.zebenzi.utils.gcm.QuickstartPreferences;
+import com.zebenzi.utils.gcm.RegistrationIntentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +53,9 @@ import static com.zebenzi.ui.FragmentsLookup.*;
  * A login screen that offers login via email/password.
  */
 public class MainActivity extends AppCompatActivity implements FragmentListener {
-
+    private static final String TAG = "MainActivity";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
     public static Context appContext;
     private FragmentManager fm = getSupportFragmentManager();
     private DrawerLayout mDrawerLayout;
@@ -88,6 +98,29 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
         setContentView(R.layout.activity_main);
 
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+//                mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+                    System.out.println(getString(R.string.gcm_send_message));
+//                    mInformationTextView.setText(getString(R.string.gcm_send_message));
+                } else {
+                    System.out.println(getString(R.string.token_error_message));
+//                    mInformationTextView.setText(getString(R.string.token_error_message));
+                }
+            }
+        };
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -454,6 +487,26 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
     }
 
 
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
 }
 
 
