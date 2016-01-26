@@ -79,9 +79,9 @@ public class WorkerProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_worker_profile, container, false);
-        mFirstName = (TextView) rootView.findViewById(R.id.worker_profile_last_name);
-        mLastName = (TextView) rootView.findViewById(R.id.worker_profile_first_name);
-        mLastName = (TextView) rootView.findViewById(R.id.worker_profile_rating);
+        mFirstName = (TextView) rootView.findViewById(R.id.worker_profile_first_name);
+        mLastName = (TextView) rootView.findViewById(R.id.worker_profile_last_name);
+        mRating = (TextView) rootView.findViewById(R.id.worker_profile_rating);
         mImage = (ImageView) rootView.findViewById(R.id.worker_profile_image);
         mProgressView = rootView.findViewById(R.id.search_progress);
 
@@ -102,7 +102,9 @@ public class WorkerProfileFragment extends Fragment {
 
         if (mWorker != null) {
             mFirstName.setText(mWorker.getFirstName());
-            mFirstName.setText(mWorker.getLastName());
+            mLastName.setText(mWorker.getLastName());
+            mRating.setText(Float.toString(mWorker.getAverageRating()));
+            Picasso.with(MainActivity.getAppContext()).load(mWorker.getImageUrl()).into(mImage);
 
             getJobRatings(mWorker.getId());
         } else {
@@ -166,8 +168,7 @@ public class WorkerProfileFragment extends Fragment {
         if (mWorker != null) {
             mFirstName.setText(mWorker.getFirstName());
             mLastName.setText(mWorker.getLastName());
-            mLastName.setText(mWorker.getLastName());
-            mLastName.setText(Float.toString(mWorker.getAverageRating()));
+            mRating.setText(Float.toString(mWorker.getAverageRating()));
             Picasso.with(MainActivity.getAppContext()).load(mWorker.getImageUrl()).into(mImage);
 
         }
@@ -197,7 +198,7 @@ public class WorkerProfileFragment extends Fragment {
                         workerJobRatingsAdapter.addAll(ratingList);
                         refreshScreen();
                     } else {
-                        mFirstName.setText("Sorry, currently there are no available workers for this service. Please try again later.");
+                        //If no ratings available, only show profile
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
