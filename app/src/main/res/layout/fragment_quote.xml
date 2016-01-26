@@ -41,7 +41,7 @@
                     android:id="@+id/search_results_quote_price"
                     android:layout_gravity="center_horizontal"
                     android:phoneNumber="true"
-                    android:text="R5000"/>
+                    />
 
                 <TableLayout
                     android:layout_width="wrap_content"
@@ -60,7 +60,6 @@
                         android:textColor="@color/zebenzi_light_grey"
                         android:id="@+id/search_results_quote_service"
                         android:paddingLeft="20dp"
-                        android:text="Painting"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="right"/>
@@ -72,7 +71,6 @@
                         android:textColor="@color/zebenzi_light_grey"
                         android:id="@+id/search_results_quote_units"
                         android:paddingLeft="20dp"
-                        android:text="Square Meters"
                         android:layout_alignBaseline="@+id/search_results_quote_time"
                         android:layout_alignBottom="@+id/search_results_quote_time"
                         android:layout_toLeftOf="@+id/search_results_quote_time"
@@ -91,7 +89,6 @@
                         android:textColor="@color/zebenzi_light_grey"
                         android:id="@+id/search_results_quote_time"
                         android:paddingLeft="20dp"
-                        android:text="08:00"
                         android:layout_centerVertical="true"
                         android:layout_alignRight="@+id/search_results_quote_service"
                         android:layout_alignEnd="@+id/search_results_quote_service"
@@ -104,7 +101,6 @@
                         android:textColor="@color/zebenzi_light_grey"
                         android:id="@+id/search_results_quote_date"
                         android:paddingLeft="20dp"
-                        android:text="Tue, 12 December 2016"
                         android:layout_alignTop="@+id/search_results_quote_time"
                         android:layout_alignLeft="@+id/search_results_quote_units"
                         android:layout_alignStart="@+id/search_results_quote_units"
