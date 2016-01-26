@@ -129,14 +129,6 @@ public class JobDetailsFragment extends Fragment {
             }
         });
 
-        //Button to complete job
-        Button buttonCompleteJob = (Button) rootView.findViewById(R.id.job_details_complete_job);
-        buttonCompleteJob.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                Toast.makeText(MainActivity.getAppContext(), "This button not implemented yet", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         //Button to submit rating
         Button buttonSubmitRating = (Button) rootView.findViewById(R.id.job_details_submit_rating);
         buttonSubmitRating.setOnClickListener(new View.OnClickListener() {
