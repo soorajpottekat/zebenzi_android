@@ -107,13 +107,13 @@ public class MyGcmListenerService extends GcmListenerService {
     private void sendZebenziNotification(String message) {
 
         int jobId = parseMessage(message);
-        NotificationCompat.Builder mBuilder =   new NotificationCompat.Builder(MainActivity.getAppContext())
+        NotificationCompat.Builder mBuilder =   new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher_zebenzi) // notification icon
                 .setContentTitle("Zebenzi Job#" + jobId + " update") // title for notification
                 .setContentText("The status of Job#" + jobId + " is:") // message for notification
                 .setAutoCancel(true); // clear notification after click
 // Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(MainActivity.getAppContext(), MainActivity.class);
+        Intent resultIntent = new Intent(this, MainActivity.class);
         resultIntent.putExtra("fragment_to_launch", FragmentsLookup.JOB_DETAILS.getName());
         resultIntent.putExtra("fragment_data", Integer.toString(jobId));
 
@@ -122,7 +122,7 @@ public class MyGcmListenerService extends GcmListenerService {
 // started Activity.
 // This ensures that navigating backward from the Activity leads out of
 // your application to the Home screen.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(MainActivity.getAppContext());
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 // Adds the back stack for the Intent (but not the Intent itself)
         stackBuilder.addParentStack(MainActivity.class);
 // Adds the Intent that starts the Activity to the top of the stack
@@ -134,7 +134,7 @@ public class MyGcmListenerService extends GcmListenerService {
                 );
         mBuilder.setContentIntent(resultPendingIntent);
         NotificationManager mNotificationManager =
-                (NotificationManager) MainActivity.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 // mId allows you to update the notification later on.
         mNotificationManager.notify(0, mBuilder.build());
     }
