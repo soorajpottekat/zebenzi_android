@@ -118,6 +118,9 @@ public class RegistrationIntentService extends IntentService {
             return;
         }
 
+        Log.i(TAG, "User access token: " + userAccessToken);
+
+
         //Build url
         String url = this.getString(R.string.api_url_send_device_token_to_server);
 
