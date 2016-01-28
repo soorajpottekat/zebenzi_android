@@ -48,21 +48,11 @@ public class RegistrationIntentService extends IntentService {
             // Initially this call goes out to the network to retrieve the token, subsequent calls
             // are local.
             // [START get_token]
-
-            String token = sharedPreferences
-                    .getString(QuickstartPreferences.TOKEN, null);
-
-            //TODO Temp hack till we are sending tokens to app server. Keep token same to test boot notifications.
-            if (token == null) {
-
-                InstanceID instanceID = InstanceID.getInstance(this);
-                token = instanceID.getToken("590687478541",
-                        GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-            }
-
+            InstanceID instanceID = InstanceID.getInstance(this);
+            String token = instanceID.getToken("590687478541",
+                    GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             // [END get_token]
             Log.i(TAG, "GCM Registration Token: " + token);
-            System.out.println("GCM Registration Token: " + token);
 
             // TODO: Implement this method to send any registration to your app's servers.
             sendRegistrationToServer(token);
@@ -74,7 +64,6 @@ public class RegistrationIntentService extends IntentService {
             // sent to your server. If the boolean is false, send the token to your server,
             // otherwise your server should have already received the token.
             sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
-            sharedPreferences.edit().putString(QuickstartPreferences.TOKEN, token).apply();
             // [END register_for_gcm]
         } catch (Exception e) {
             Log.d(TAG, "Failed to complete token refresh", e);
