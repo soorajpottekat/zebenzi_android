@@ -23,4 +23,9 @@
     <string name="api_rest_get">GET</string>
     <string name="api_rest_utf8">UTF-8</string>
     <string name="api_rest_access_token">access_token</string>
+
+    //GCM related
+    <string name="api_gcm_api_key">AIzaSyCJqmvMX0e6AN0Y07XKcj32QEujGGSD0Mk</string>
+    <string name="api_gcm_sender_id">590687478541</string>
+
 </resources>
