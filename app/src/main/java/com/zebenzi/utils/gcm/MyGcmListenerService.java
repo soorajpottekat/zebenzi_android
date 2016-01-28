@@ -46,7 +46,7 @@ public class MyGcmListenerService extends GcmListenerService {
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("jobId");
+        String message = data.getString( this.getString(R.string.api_json_field_job_id));
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
 
@@ -106,7 +106,8 @@ public class MyGcmListenerService extends GcmListenerService {
      */
     private void sendZebenziNotification(String message) {
 
-        int jobId = parseMessage(message);
+//        int jobId = parseMessage(message);
+        int jobId = Integer.parseInt(message);
         NotificationCompat.Builder mBuilder =   new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher_zebenzi) // notification icon
                 .setContentTitle("Zebenzi Job#" + jobId + " update") // title for notification
