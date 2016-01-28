@@ -19,6 +19,7 @@ package com.zebenzi.utils.gcm;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -26,14 +27,25 @@ import android.util.Log;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
-import com.zebenzi.ui.MainActivity;
+import com.zebenzi.network.HttpContentTypes;
+import com.zebenzi.network.HttpPostTask;
+import com.zebenzi.network.IAsyncTaskListener;
+import com.zebenzi.ui.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
+    private static final int ANDROID_DEVICE = 1;
+
+    private AsyncTask<Object, String, String> mSendDeviceTokenTask = null;
+
 
     public RegistrationIntentService() {
         super(TAG);
@@ -77,18 +89,6 @@ public class RegistrationIntentService extends IntentService {
     }
 
     /**
-     * Persist registration to third-party servers.
-     *
-     * Modify this method to associate the user's GCM registration token with any server-side account
-     * maintained by your application.
-     *
-     * @param token The new token.
-     */
-    private void sendRegistrationToServer(String token) {
-        // Add custom implementation, as needed.
-    }
-
-    /**
      * Subscribe to any GCM topics of interest, as defined by the TOPICS constant.
      *
      * @param token GCM token
@@ -103,4 +103,57 @@ public class RegistrationIntentService extends IntentService {
     }
     // [END subscribe_topics]
 
+    /**
+     * Send device registration token to Zebenzi server.
+     *
+     * @param token The new token.
+     */
+    private void sendRegistrationToServer(String token) {
+
+        SharedPreferences settings = null;
+        settings = this.getSharedPreferences("ZebenziUser", 0);
+        String userAccessToken = settings.getString(this.getString(R.string.api_rest_access_token), null);
+
+        if ((mSendDeviceTokenTask != null) || (userAccessToken == null)) {
+            return;
+        }
+
+        //Build url
+        String url = this.getString(R.string.api_url_send_device_token_to_server);
+
+        //Build header
+        HashMap<String, String> header = new HashMap<>();
+        header.put("Content-Type", "application/json");
+        header.put("Authorization", "bearer " + userAccessToken);
+
+        //Build body
+        JSONObject body = new JSONObject();
+        try {
+            body.put(this.getString(R.string.api_json_field_device_type), ANDROID_DEVICE);
+            body.put(this.getString(R.string.api_json_field_device_key), token);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mSendDeviceTokenTask = new HttpPostTask(this, new SendDeviceTokenTaskCompleteListener()).execute(url, header, body, HttpContentTypes.RAW);
+    }
+
+    public class SendDeviceTokenTaskCompleteListener implements IAsyncTaskListener<String> {
+        @Override
+        public void onAsyncTaskComplete(String sendTokenResult, boolean networkError) {
+            mSendDeviceTokenTask = null;
+
+            if (networkError) {
+                System.out.println("Network Error sending device token to zebenzi server.");
+            } else {
+                System.out.println("Send Device Token Response = " + sendTokenResult);
+            }
+
+        }
+
+        @Override
+        public void onAsyncTaskCancelled() {
+            mSendDeviceTokenTask = null;
+        }
+    }
 }

@@ -12,6 +12,7 @@
     <string name="api_url_job_by_id">http://www.zebenzi.com/api/job/byId?id=</string>
     <string name="api_url_submit_job_rating">http://www.zebenzi.com/api/rating</string>
     <string name="api_url_job_ratings_by_worker_id">http://www.zebenzi.com/api/rating/byWorkerid?workerid=</string>
+    <string name="api_url_send_device_token_to_server">http://www.zebenzi.com/api/accounts/user/RegisterDevice</string>
 
 
     <string name="api_json_field_username">username</string>

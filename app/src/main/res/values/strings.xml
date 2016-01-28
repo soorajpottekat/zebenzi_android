@@ -20,6 +20,8 @@
     <string name="api_json_field_job_id">JobId</string>
     <string name="api_json_field_job_comment">Comment</string>
     <string name="api_json_field_job_rating">Rating</string>
+    <string name="api_json_field_device_type">deviceType</string>
+    <string name="api_json_field_device_key">deviceKey</string>
 
     <string name="api_json_field_worker_id">workerId</string>
     <string name="history">My Jobs</string>
