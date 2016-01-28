@@ -56,7 +56,7 @@
                         <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="@dimen/text_size_small"
                         android:textColor="@color/zebenzi_light_grey"
                         android:id="@+id/search_results_quote_service"
                         android:paddingLeft="20dp"
@@ -67,7 +67,7 @@
                         <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="@dimen/text_size_small"
                         android:textColor="@color/zebenzi_light_grey"
                         android:id="@+id/search_results_quote_units"
                         android:paddingLeft="20dp"
@@ -85,7 +85,7 @@
                         <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="@dimen/text_size_small"
                         android:textColor="@color/zebenzi_light_grey"
                         android:id="@+id/search_results_quote_time"
                         android:paddingLeft="20dp"
@@ -97,7 +97,7 @@
                         <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="@dimen/text_size_small"
                         android:textColor="@color/zebenzi_light_grey"
                         android:id="@+id/search_results_quote_date"
                         android:paddingLeft="20dp"
