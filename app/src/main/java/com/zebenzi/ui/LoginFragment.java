@@ -2,11 +2,13 @@ package com.zebenzi.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zebenzi.json.model.user.User;
@@ -26,6 +30,8 @@ import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
+import com.zebenzi.utils.gcm.RegistrationIntentService;
+
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +45,9 @@ import static com.zebenzi.ui.FragmentsLookup.NEW_JOB;
  * A login screen that offers login via mobile number and password.
  */
 public class LoginFragment extends Fragment {
+
+    private static final String TAG = "LoginFragment";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     // Keep track of the async tasks to ensure we can cancel it if requested.
     private AsyncTask<Object, String, String>  mLoginTask = null;
@@ -284,11 +293,15 @@ public class LoginFragment extends Fragment {
                         Gson gson = new GsonBuilder().setPrettyPrinting().create();
                         User user = gson.fromJson(result, User.class);
 
-                        Customer.getInstance().setCustomerDetails(user, oAuthToken);
 
                         if (user != null) {
                             mLoginTokenView.setText(user.getUserName());
                             fragmentListener.changeFragment(NEW_JOB, null);
+                            Customer.getInstance().setCustomerDetails(user, oAuthToken);
+
+                            // Start IntentService to register this application with GCM.
+                            Intent intent = new Intent(MainActivity.getAppContext(), RegistrationIntentService.class);
+                            MainActivity.getAppContext().startService(intent);
                         } else {
                             System.out.println("Error occurred with login: " + result);
                             mMobileNumberView.setError(getString(R.string.error_incorrect_mobile_or_password));
@@ -311,6 +324,7 @@ public class LoginFragment extends Fragment {
             showProgress(false);
         }
     }
+
 
 }
 
