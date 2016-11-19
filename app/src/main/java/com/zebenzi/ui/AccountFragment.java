@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.zebenzi.users.Customer;
-import com.zebenzi.utils.gcm.QuickstartPreferences;
+import com.zebenzi.utils.fcm.QuickstartPreferences;
 
 import static com.zebenzi.ui.FragmentsLookup.HISTORY;
 
@@ -99,8 +99,7 @@ public class AccountFragment extends Fragment {
             Activity activity = (Activity) context;
             fragmentListener = (FragmentListener) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement FragmentListener");
+            throw new ClassCastException(context.toString() + " must implement FragmentListener");
         }
     }
 

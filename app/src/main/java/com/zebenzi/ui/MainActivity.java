@@ -3,22 +3,21 @@ package com.zebenzi.ui;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,24 +28,25 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.squareup.picasso.Picasso;
 import com.zebenzi.job.JobRequest;
-import com.zebenzi.json.model.job.Job;
 import com.zebenzi.json.model.user.User;
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.ui.drawer.NavigationDrawerHeader;
 import com.zebenzi.ui.drawer.NavigationDrawerItem;
 import com.zebenzi.users.Customer;
-import com.zebenzi.utils.gcm.QuickstartPreferences;
-import com.zebenzi.utils.gcm.RegistrationIntentService;
+import com.zebenzi.utils.fcm.QuickstartPreferences;
+import com.zebenzi.utils.fcm.RegistrationIntentService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zebenzi.ui.FragmentsLookup.*;
+import static com.zebenzi.ui.FragmentsLookup.ACCOUNT;
+import static com.zebenzi.ui.FragmentsLookup.HISTORY;
+import static com.zebenzi.ui.FragmentsLookup.LOGIN;
+import static com.zebenzi.ui.FragmentsLookup.NEW_JOB;
+import static com.zebenzi.ui.FragmentsLookup.REGISTER;
 
 
 /**
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
     private ImageView mToolbarProfileImage;
     private Menu mMenuOptions;
     private int mId = 2;
+
 
     /**
      * Keep track of the search task to ensure we can cancel it if requested.
@@ -104,8 +105,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 //                mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(context);
-                boolean sentToken = sharedPreferences
-                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
                 if (sentToken) {
                     System.out.println(getString(R.string.gcm_send_message));
 //                    mInformationTextView.setText(getString(R.string.gcm_send_message));
@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 if (data != null) {
 //                    Job j = (Job) data;
 //                    JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(j.getJobId());
-                    int jobId = Integer.valueOf((String)data);
+                    int jobId = Integer.valueOf((String) data);
                     JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(jobId);
 
                     transaction.replace(R.id.fragment_container, jobDetailsFragment);
@@ -407,8 +407,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
         try {
             Picasso.with(MainActivity.getAppContext()).load(Customer.getInstance().getCustomerImageUrl()).into(mToolbarProfileImage);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             Picasso.with(MainActivity.getAppContext()).load(R.drawable.ic_account).into(mToolbarProfileImage);
         }
     }
@@ -440,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
 
         int jobId = parseSMS("test");
 
-        NotificationCompat.Builder mBuilder =   new NotificationCompat.Builder(MainActivity.getAppContext())
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(MainActivity.getAppContext())
                 .setSmallIcon(R.drawable.ic_launcher_zebenzi) // notification icon
                 .setContentTitle("Zebenzi Job#" + jobId + " update") // title for notification
                 .setContentText("The status of Job#" + jobId + " is:") // message for notification
@@ -478,7 +477,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         String s = "[zbzc1005]";
         if (s.indexOf("[zbzc") != -1) {
             //Valid zebenzi customer SMS
-            String newString = s.substring(s.indexOf("[zbzc")+header.length(), s.indexOf("]"));
+            String newString = s.substring(s.indexOf("[zbzc") + header.length(), s.indexOf("]"));
             System.out.println("New String = " + newString);
 
             return Integer.parseInt(newString);
@@ -493,18 +492,18 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
      * the Google Play Store or enable it in the device's system settings.
      */
     private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
+//        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+//        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+//        if (resultCode != ConnectionResult.SUCCESS) {
+//            if (apiAvailability.isUserResolvableError(resultCode)) {
+//                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+//                        .show();
+//            } else {
+//                Log.i(TAG, "This device is not supported.");
+//                finish();
+//            }
+//            return false;
+//        }
         return true;
     }
 }

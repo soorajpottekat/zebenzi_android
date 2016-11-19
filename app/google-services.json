@@ -1,45 +1,42 @@
 {
   "project_info": {
-    "project_id": "zebenzi-52f23",
-    "project_number": "590687478541",
-    "name": "zebenzi"
+    "project_number": "620172347948",
+    "firebase_url": "https://zebenzi2-448aa.firebaseio.com",
+    "project_id": "zebenzi2-448aa",
+    "storage_bucket": "zebenzi2-448aa.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:590687478541:android:7a22c85856b5acf2",
-        "client_id": "android:com.zebenzi",
-        "client_type": 1,
+        "mobilesdk_app_id": "1:620172347948:android:6aa954cf839fede1",
         "android_client_info": {
-          "package_name": "com.zebenzi"
+          "package_name": "com.zebenzi.zebenzi"
         }
       },
-      "oauth_client": [],
-      "api_key": [],
+      "oauth_client": [
+        {
+          "client_id": "620172347948-l3f09k7399hkm9b5iia59a5qvl6nvgjd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXbzeFSEBvOKy2ZnWFpTDlfTraG1wnMsM"
+        }
+      ],
       "services": {
         "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-72267755-1"
-          }
-        },
-        "cloud_messaging_service": {
-          "status": 2,
-          "apns_config": []
+          "status": 1
         },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
         },
-        "google_signin_service": {
-          "status": 1
-        },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }

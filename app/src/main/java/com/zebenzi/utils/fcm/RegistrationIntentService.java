@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.zebenzi.utils.gcm;
+package com.zebenzi.utils.fcm;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -24,9 +24,8 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.google.android.gms.gcm.GcmPubSub;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
@@ -42,7 +41,7 @@ public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
     private static final String[] TOPICS = {"global"};
-    private static final int ANDROID_DEVICE = 1;
+    public static final int ANDROID_DEVICE = 1;
 
     private AsyncTask<Object, String, String> mSendDeviceTokenTask = null;
 
@@ -56,21 +55,15 @@ public class RegistrationIntentService extends IntentService {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         try {
-            // [START register_for_gcm]
-            // Initially this call goes out to the network to retrieve the token, subsequent calls
-            // are local.
-            // [START get_token]
-            InstanceID instanceID = InstanceID.getInstance(this);
-            String token = instanceID.getToken(this.getString(R.string.api_gcm_sender_id),
-                    GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-            // [END get_token]
-            Log.i(TAG, "GCM Registration Token: " + token);
 
-            // TODO: Implement this method to send any registration to your app's servers.
+            // Get token
+            String token = FirebaseInstanceId.getInstance().getToken();
+
+            // send token to server
             sendRegistrationToServer(token);
 
             // Subscribe to topic channels
-            subscribeTopics(token);
+            subscribeTopics();
 
             // You should store a boolean that indicates whether the generated token has been
             // sent to your server. If the boolean is false, send the token to your server,
@@ -92,16 +85,16 @@ public class RegistrationIntentService extends IntentService {
     }
 
     /**
+     * Asynchronous
      * Subscribe to any GCM topics of interest, as defined by the TOPICS constant.
      *
-     * @param token GCM token
      * @throws IOException if unable to reach the GCM PubSub service
      */
     // [START subscribe_topics]
-    private void subscribeTopics(String token) throws IOException {
-        GcmPubSub pubSub = GcmPubSub.getInstance(this);
+    private void subscribeTopics() throws IOException {
+        FirebaseMessaging fm = FirebaseMessaging.getInstance();
         for (String topic : TOPICS) {
-            pubSub.subscribe(token, "/topics/" + topic, null);
+            fm.subscribeToTopic( "/topics/" + topic);
         }
     }
     // [END subscribe_topics]

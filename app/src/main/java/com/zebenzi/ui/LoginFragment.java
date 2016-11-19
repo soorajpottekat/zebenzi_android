@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +19,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.zebenzi.json.model.user.User;
@@ -30,7 +27,7 @@ import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.users.Customer;
-import com.zebenzi.utils.gcm.RegistrationIntentService;
+import com.zebenzi.utils.fcm.RegistrationIntentService;
 
 import org.json.JSONObject;
 import java.util.HashMap;
