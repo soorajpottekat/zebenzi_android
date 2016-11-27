@@ -182,6 +182,7 @@ public class NewJobFragment extends Fragment {
                     for (int j=0;j<units.length;j++) {
                         unitsSpinnerArray.add(Integer.toString(units[j].getDefaultValue()));
                     }
+                    break;
                 }
             }
         }

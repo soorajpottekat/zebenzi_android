@@ -47,6 +47,8 @@ import static com.zebenzi.ui.FragmentsLookup.HISTORY;
 import static com.zebenzi.ui.FragmentsLookup.LOGIN;
 import static com.zebenzi.ui.FragmentsLookup.NEW_JOB;
 import static com.zebenzi.ui.FragmentsLookup.REGISTER;
+import static com.zebenzi.ui.FragmentsLookup.WORKER_HISTORY;
+import static com.zebenzi.ui.FragmentsLookup.WORKER_HOME;
 
 
 /**
@@ -176,12 +178,15 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
         setSupportActionBar(toolbar);
 
+        //TODO: Find a better way to do this and remove the hardcoding.
         List<ListItem> drawerItems = new ArrayList<ListItem>();
         drawerItems.add(new NavigationDrawerHeader(R.drawable.profile,
                 Customer.getInstance().getCustomerFirstName(), Customer.getInstance().getCustomerEmail()));
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_register, getString(R.string.nav_drawer_item_new_job)));
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_account, getString(R.string.nav_drawer_item_account)));
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.nav_drawer_item_history)));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.nav_drawer_item_worker_history)));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.nav_drawer_item_worker_home)));
 //        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_search, getString(R.string.search)));
 //        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_sign_in, getString(R.string.login)));
 //        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_register, getString(R.string.register)));
@@ -356,6 +361,18 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                     Toast.makeText(this, "There is no valid worker to display!", Toast.LENGTH_LONG).show();
                 }
                 break;
+            case WORKER_HISTORY:
+                HistoryFragmentWorker historyFragmentWorker = new HistoryFragmentWorker();
+                transaction.replace(R.id.fragment_container, historyFragmentWorker);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            case WORKER_HOME:
+                HomeFragmentWorker homeFragmentWorker= new HomeFragmentWorker();
+                transaction.replace(R.id.fragment_container, homeFragmentWorker);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
             default:
                 System.out.println("Fragment not found. Id = " + fragment);
                 break;
@@ -375,7 +392,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
      */
     private void selectNavDrawerItem(int position) {
         FragmentsLookup id = NEW_JOB;
-
+        //TODO: Find a better way to do this and remove the hardcoding.
         switch (position) {
             case 0:
                 //Title bar
@@ -388,6 +405,12 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 break;
             case 3:
                 id = HISTORY;
+                break;
+            case 4:
+                id = WORKER_HISTORY;
+                break;
+            case 5:
+                id = WORKER_HOME;
                 break;
         }
         changeFragment(id, null);

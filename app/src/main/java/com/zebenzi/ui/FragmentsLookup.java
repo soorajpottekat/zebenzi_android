@@ -12,7 +12,9 @@ public enum FragmentsLookup {
     REGISTER("Register", 5),
     QUOTE("Quote", 6),
     JOB_DETAILS("Job Details", 7),
-    WORKER_PROFILE("Worker Profile", 8);
+    WORKER_PROFILE("Worker Profile", 8),
+    WORKER_HISTORY("Worker History", 9),
+    WORKER_HOME("Worker Home", 10);
 
 
     private final String name;

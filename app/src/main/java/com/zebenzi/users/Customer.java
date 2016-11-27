@@ -98,7 +98,7 @@ public class Customer {
     }
 
     public String getCustomerAddress() {
-        if (currentUser != null) {
+        if (currentUser.getUserAddress() != null) {
             return currentUser.getUserAddress().toString();
         }
         return "";

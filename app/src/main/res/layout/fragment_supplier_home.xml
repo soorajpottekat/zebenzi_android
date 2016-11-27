@@ -1,0 +1,51 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/zebenzi_splash">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    tools:context="com.zebenzi.ui.Search">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:layout_centerHorizontal="false">
+
+            <Button
+                android:id="@+id/supplier_job_requests"
+                style="@style/materialButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Job Requests"
+                android:translationZ="10dp"
+                android:layout_marginLeft="115dp"
+                android:layout_marginStart="115dp"
+                android:layout_gravity="center_vertical" />
+
+            <Button
+                android:id="@+id/supplier_jobs_in_progress"
+                style="@style/materialButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Jobs in progress"
+                android:translationZ="10dp"
+                android:layout_marginLeft="115dp"
+                android:layout_marginStart="115dp" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</ScrollView>

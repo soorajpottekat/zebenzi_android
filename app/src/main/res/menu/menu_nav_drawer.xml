@@ -9,4 +9,6 @@
         <!--android:title="@string/search"/>-->
     <item android:id="@+id/nav_drawer_history"
         android:title="@string/history" />
+    <item android:id="@+id/nav_drawer_supplier_jobs"
+        android:title="@string/supplier_jobs" />
 </menu>
