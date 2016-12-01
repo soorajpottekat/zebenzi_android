@@ -1,4 +1,4 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.supplier;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +17,11 @@ import com.google.gson.Gson;
 import com.zebenzi.json.model.job.Job;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
+import com.zebenzi.ui.FragmentListener;
+import com.zebenzi.ui.FragmentsLookup;
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
+import com.zebenzi.ui.RecyclerItemClickListener;
 import com.zebenzi.users.Customer;
 
 import java.util.ArrayList;
@@ -24,11 +29,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * Fragment for customer to view history of zebenzi jobs.
+ * Fragment for worker to view history of zebenzi jobs.
  *
  * */
-public class HistoryFragment extends Fragment {
-
+public class SupplierHistoryFragment extends Fragment {
+//TODO: Use single screen for display of History, In Progress, Job Requests by passing parameter, then
+    // using parameter to GET the data from server and update screen title. No need to create multiple classes.
+    // Cards for each job will update buttons depending on same parameter.
     /**
      * Keep track of the history task to ensure we can cancel it if requested.
      */
@@ -36,7 +43,7 @@ public class HistoryFragment extends Fragment {
 
     // UI references.
     private View mProgressView;
-    private HistoryAdapter jobHistoryResultsAdapter = null;
+    private SupplierHistoryAdapter jobHistoryResultsAdapter = null;
     private ListView listView;
     private FragmentListener fragmentListener;
 
@@ -49,8 +56,8 @@ public class HistoryFragment extends Fragment {
         // Create the adapter to convert the array to views
 //        jobHistoryResultsAdapter = new JobHistoryAdapter(MainActivity.getAppContext(), arrayOfJobs);
 
-        View rootView = inflater.inflate(R.layout.fragment_history, container, false);
-        mProgressView = rootView.findViewById(R.id.history_progress);
+        View rootView = inflater.inflate(R.layout.fragment_history_worker, container, false);
+        mProgressView = rootView.findViewById(R.id.history_worker_progress);
 
         // Attach the adapter to a ListView
 //        listView = (ListView) rootView.findViewById(R.id.history_list);
@@ -67,13 +74,13 @@ public class HistoryFragment extends Fragment {
 //            }
 //        });
 
-        RecyclerView recList = (RecyclerView) rootView.findViewById(R.id.history_list);
+        RecyclerView recList = (RecyclerView) rootView.findViewById(R.id.history_worker_list);
         recList.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(MainActivity.getAppContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
         // specify an adapter (see also next example)
-        jobHistoryResultsAdapter = new HistoryAdapter(arrayOfJobs);
+        jobHistoryResultsAdapter = new SupplierHistoryAdapter(arrayOfJobs);
         recList.setAdapter(jobHistoryResultsAdapter);
         recList.addOnItemTouchListener(
                 new RecyclerItemClickListener(MainActivity.getAppContext(), new RecyclerItemClickListener.OnItemClickListener() {

@@ -1,4 +1,4 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.customer;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.zebenzi.json.model.job.Job;
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 import com.zebenzi.utils.TimeFormat;
 
 import java.util.ArrayList;
@@ -18,11 +20,11 @@ import java.util.Iterator;
 /**
  * Created by Vaugan.Nayagar on 2016/01/15.
  */
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.JobViewHolder> {
+public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistoryAdapter.JobViewHolder> {
 
     private ArrayList<Job> arrayOfJobs;
 
-    public HistoryAdapter(ArrayList<Job> jobList) {
+    public CustomerHistoryAdapter(ArrayList<Job> jobList) {
         this.arrayOfJobs = jobList;
     }
 

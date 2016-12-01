@@ -1,4 +1,4 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.customer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,6 +28,9 @@ import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
+import com.zebenzi.ui.FragmentListener;
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +46,7 @@ import static com.zebenzi.ui.FragmentsLookup.LOGIN;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterFragment extends Fragment {
+public class CustomerRegisterFragment extends Fragment {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.

@@ -1,4 +1,4 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.customer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.zebenzi.ui.FragmentListener;
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.fcm.QuickstartPreferences;
 
@@ -24,7 +27,7 @@ import static com.zebenzi.ui.FragmentsLookup.HISTORY;
 /**
  * An Account screen that user's details.
  */
-public class AccountFragment extends Fragment {
+public class CustomerAccountFragment extends Fragment {
 
     private FragmentListener fragmentListener;
 

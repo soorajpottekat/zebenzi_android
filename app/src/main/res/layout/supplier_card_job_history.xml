@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/_new_job_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:baselineAligned="true">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_medium"
+                    android:text="Job Service Name"
+                    android:id="@+id/supplier_card_job_history_service_name"
+                    android:textColor="@color/zebenzi_primary_color_dark"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_small"
+                android:text="Completed"
+                android:id="@+id/supplier_card_job_history_job_status"
+                android:textColor="@color/zebenzi_white"
+                android:textStyle="bold"
+                android:background="@color/zebenzi_primary_color_dark"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="Sat, 5 Dec 2015"
+                    android:id="@+id/supplier_card_job_history_job_date"
+                    android:textColor="@color/material_grey_700" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="08:00"
+                    android:id="@+id/supplier_card_job_history_job_time"
+                    android:textColor="@color/material_grey_700"
+                    android:paddingLeft="10dp"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="R5000"
+                    android:id="@+id/supplier_card_job_history_price"
+                    android:textColor="@color/material_grey_700"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Job #:"
+                    android:id="@+id/textView3"
+                    android:layout_marginLeft="20dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="1000000"
+                    android:id="@+id/supplier_card_job_history_job_number"
+                    android:textColor="@color/material_grey_700"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:transitionGroup="true"
+            android:paddingLeft="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/supplier_card_worker_image"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:src="@drawable/ic_account"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="@color/zebenzi_light_grey"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal|right"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="Firstname"
+                    android:id="@+id/supplier_card_job_history_worker_first_name"
+                    android:textColor="@color/material_grey_700"
+                    android:layout_gravity="right"
+                    android:layout_below="@+id/list_card_worker_image"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:text="Quote Customer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/materialButton"
+                android:id="@+id/supplier_card_job_history_quote_customer"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="Decline Request"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/materialButton"
+                android:id="@+id/supplier_card_job_history_decline_request"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:text="Send Quote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/materialButton"
+                android:id="@+id/supplier_card_job_history_send_quote"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/materialButton"
+                android:id="@+id/supplier_card_job_history_cancel_send_quote"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:text="Start Job"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/materialButton"
+                android:id="@+id/supplier_card_job_history_start_job"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/materialButton"
+                android:id="@+id/supplier_card_job_history_cancel_start_job"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:text="Finish Job"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/materialButton"
+                android:id="@+id/supplier_card_job_history_finish_job"
+                android:layout_weight="1" />
+
+            <Button
+                android:text="Cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/materialButton"
+                android:id="@+id/supplier_card_job_history_cancel_finish_job"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

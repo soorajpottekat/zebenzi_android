@@ -1,4 +1,4 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.customer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,21 +12,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-import com.zebenzi.job.JobRequest;
 import com.zebenzi.job.JobStatusCodes;
 import com.zebenzi.json.model.job.Job;
-import com.zebenzi.json.model.quote.Quote;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
+import com.zebenzi.ui.FragmentListener;
+import com.zebenzi.ui.FragmentsLookup;
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.TimeFormat;
 
@@ -42,7 +43,7 @@ import static com.zebenzi.job.JobStatusCodes.*;
 /**
  * Fragment to display a single job details with options for completing or cancelling etc.
  */
-public class JobDetailsFragment extends Fragment {
+public class CustomerJobDetailsFragment extends Fragment {
 
     private FragmentListener fragmentListener;
     private static final String JOB_DETAILS_FRAGMENT_KEY = FragmentsLookup.JOB_DETAILS.getName();
@@ -83,8 +84,8 @@ public class JobDetailsFragment extends Fragment {
 
     //This allows us to pass objects into the fragment
     //http://stackoverflow.com/questions/9931993/passing-an-object-from-an-activity-to-a-fragment
-    public static JobDetailsFragment newInstance(int jobId) {
-        JobDetailsFragment fragment = new JobDetailsFragment();
+    public static CustomerJobDetailsFragment newInstance(int jobId) {
+        CustomerJobDetailsFragment fragment = new CustomerJobDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(JOB_DETAILS_FRAGMENT_KEY, jobId);
         fragment.setArguments(bundle);

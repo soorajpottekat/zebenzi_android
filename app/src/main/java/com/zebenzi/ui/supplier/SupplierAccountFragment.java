@@ -1,4 +1,4 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.supplier;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,41 +9,34 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-import com.zebenzi.json.model.job.Job;
 import com.zebenzi.json.model.job.JobRating;
 import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpGetTask;
-import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
+import com.zebenzi.ui.FragmentListener;
+import com.zebenzi.ui.FragmentsLookup;
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 import com.zebenzi.users.Customer;
-import com.zebenzi.utils.TimeFormat;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import static com.zebenzi.ui.FragmentsLookup.HISTORY;
-
 
 /**
  * Fragment for customer to see worker history and reviews.
  */
-public class WorkerProfileFragment extends Fragment {
+public class SupplierAccountFragment extends Fragment {
     private static final String WORKER_PROFILE_FRAGMENT_KEY = FragmentsLookup.WORKER_PROFILE.getName();
 
     private FragmentListener fragmentListener;
@@ -56,7 +49,7 @@ public class WorkerProfileFragment extends Fragment {
 
     // UI references.
     private View mProgressView;
-    private WorkerProfileAdapter workerJobRatingsAdapter = null;
+    private SupplierAccountAdapter workerJobRatingsAdapter = null;
     private TextView mFirstName;
     private TextView mLastName;
     private TextView mRating;
@@ -65,8 +58,8 @@ public class WorkerProfileFragment extends Fragment {
 
     //This allows us to pass objects into the fragment
     //http://stackoverflow.com/questions/9931993/passing-an-object-from-an-activity-to-a-fragment
-    public static WorkerProfileFragment newInstance(User worker) {
-        WorkerProfileFragment fragment = new WorkerProfileFragment();
+    public static SupplierAccountFragment newInstance(User worker) {
+        SupplierAccountFragment fragment = new SupplierAccountFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(WORKER_PROFILE_FRAGMENT_KEY, worker);
         fragment.setArguments(bundle);
@@ -94,7 +87,7 @@ public class WorkerProfileFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
         // specify an adapter (see also next example)
-        workerJobRatingsAdapter = new WorkerProfileAdapter(arrayOfJobRatings, WorkerProfileFragment.this);
+        workerJobRatingsAdapter = new SupplierAccountAdapter(arrayOfJobRatings, SupplierAccountFragment.this);
         recList.setAdapter(workerJobRatingsAdapter);
         refreshScreen();
 

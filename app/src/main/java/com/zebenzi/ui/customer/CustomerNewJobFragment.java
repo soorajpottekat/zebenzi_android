@@ -1,4 +1,4 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.customer;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -26,6 +26,9 @@ import com.zebenzi.json.model.service.ServiceDefaults;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
 import com.zebenzi.job.JobRequest;
+import com.zebenzi.ui.FragmentListener;
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.DatePickerFragment;
 import com.zebenzi.utils.TimePickerFragment;
@@ -48,7 +51,7 @@ import static com.zebenzi.ui.FragmentsLookup.QUOTE;
  * serviceSpinner and serviceSpinner values must be obtained from the zebenzi server first.
  *
  * */
-public class NewJobFragment extends Fragment {
+public class CustomerNewJobFragment extends Fragment {
 
     private FragmentListener fragmentListener;
     private View mProgressView;

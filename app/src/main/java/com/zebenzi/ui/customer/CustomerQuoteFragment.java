@@ -1,4 +1,4 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.customer;
 
 import android.app.Activity;
 import android.support.v4.app.Fragment;
@@ -27,6 +27,10 @@ import com.zebenzi.json.model.user.User;
 import com.zebenzi.network.HttpContentTypes;
 import com.zebenzi.network.HttpPostTask;
 import com.zebenzi.network.IAsyncTaskListener;
+import com.zebenzi.ui.FragmentListener;
+import com.zebenzi.ui.FragmentsLookup;
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.TimeFormat;
 
@@ -46,7 +50,7 @@ import static com.zebenzi.ui.FragmentsLookup.HISTORY;
  * Customer can view details of the workers and hire via button click.
  *
  * */
-public class QuoteFragment extends Fragment {
+public class CustomerQuoteFragment extends Fragment {
     private static final String QUOTE_FRAGMENT_KEY = FragmentsLookup.QUOTE.getName();
 
     public FragmentListener fragmentListener;
@@ -58,7 +62,7 @@ public class QuoteFragment extends Fragment {
 
     // UI references.
     private View mProgressView;
-    private QuoteAdapter availableWorkersAdapter = null;
+    private CustomerQuoteAdapter availableWorkersAdapter = null;
     private ListView listView;
     private TextView mQuoteService;
     private TextView mQuoteUnits;
@@ -69,8 +73,8 @@ public class QuoteFragment extends Fragment {
 
     //This allows us to pass objects into the fragment
     //http://stackoverflow.com/questions/9931993/passing-an-object-from-an-activity-to-a-fragment
-    public static QuoteFragment newInstance(JobRequest request) {
-        QuoteFragment fragment = new QuoteFragment();
+    public static CustomerQuoteFragment newInstance(JobRequest request) {
+        CustomerQuoteFragment fragment = new CustomerQuoteFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(QUOTE_FRAGMENT_KEY, request);
         fragment.setArguments(bundle);
@@ -103,7 +107,7 @@ public class QuoteFragment extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recList.setLayoutManager(llm);
         // specify an adapter (see also next example)
-        availableWorkersAdapter = new QuoteAdapter(arrayOfAvailableWorkers, QuoteFragment.this);
+        availableWorkersAdapter = new CustomerQuoteAdapter(arrayOfAvailableWorkers, CustomerQuoteFragment.this);
         recList.setAdapter(availableWorkersAdapter);
 //        recList.addOnItemTouchListener(
 //                new RecyclerItemClickListener(MainActivity.getAppContext(), new RecyclerItemClickListener.OnItemClickListener() {

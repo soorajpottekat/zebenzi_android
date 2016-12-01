@@ -1,31 +1,26 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.supplier;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
 import com.zebenzi.json.model.job.JobRating;
-import com.zebenzi.json.model.user.User;
-import com.zebenzi.users.Customer;
+import com.zebenzi.ui.R;
 
 import java.util.ArrayList;
 
 /**
  * Created by Vaugan.Nayagar on 2016/01/15.
  */
-public class WorkerProfileAdapter extends RecyclerView.Adapter<WorkerProfileAdapter.WorkerViewHolder> {
+public class SupplierAccountAdapter extends RecyclerView.Adapter<SupplierAccountAdapter.WorkerViewHolder> {
 
     private ArrayList<JobRating> arrayOfJobReviews;
-    private WorkerProfileFragment fragment;
+    private SupplierAccountFragment fragment;
 
-    public WorkerProfileAdapter(ArrayList<JobRating> jobRatingList, WorkerProfileFragment fragment) {
+    public SupplierAccountAdapter(ArrayList<JobRating> jobRatingList, SupplierAccountFragment fragment) {
         this.arrayOfJobReviews = jobRatingList;
         this.fragment = fragment;
     }

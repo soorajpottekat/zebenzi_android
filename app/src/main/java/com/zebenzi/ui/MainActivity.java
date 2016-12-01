@@ -18,7 +18,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,10 +30,19 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import com.zebenzi.job.JobRequest;
 import com.zebenzi.json.model.user.User;
+import com.zebenzi.ui.customer.CustomerAccountFragment;
+import com.zebenzi.ui.customer.CustomerHistoryFragment;
+import com.zebenzi.ui.customer.CustomerJobDetailsFragment;
+import com.zebenzi.ui.customer.CustomerNewJobFragment;
+import com.zebenzi.ui.customer.CustomerQuoteFragment;
+import com.zebenzi.ui.customer.CustomerRegisterFragment;
 import com.zebenzi.ui.drawer.ListItem;
 import com.zebenzi.ui.drawer.NavigationDrawerAdapter;
 import com.zebenzi.ui.drawer.NavigationDrawerHeader;
 import com.zebenzi.ui.drawer.NavigationDrawerItem;
+import com.zebenzi.ui.supplier.SupplierHistoryFragment;
+import com.zebenzi.ui.supplier.SupplierHomeFragment;
+import com.zebenzi.ui.supplier.SupplierAccountFragment;
 import com.zebenzi.users.Customer;
 import com.zebenzi.utils.fcm.QuickstartPreferences;
 import com.zebenzi.utils.fcm.RegistrationIntentService;
@@ -294,8 +302,8 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         // and add the transaction to the back stack so the user can navigate back
         switch (fragment) {
             case NEW_JOB:
-                NewJobFragment newJobFragment = new NewJobFragment();
-                transaction.replace(R.id.fragment_container, newJobFragment);
+                CustomerNewJobFragment customerNewJobFragment = new CustomerNewJobFragment();
+                transaction.replace(R.id.fragment_container, customerNewJobFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
@@ -303,8 +311,8 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 //We get the job request from the user's input, then on the Quote fragment, get and display the quote from the server.
                 if (data != null) {
                     JobRequest r = (JobRequest) data;
-                    QuoteFragment quoteFragment = QuoteFragment.newInstance(r);
-                    transaction.replace(R.id.fragment_container, quoteFragment);
+                    CustomerQuoteFragment customerQuoteFragment = CustomerQuoteFragment.newInstance(r);
+                    transaction.replace(R.id.fragment_container, customerQuoteFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
                 } else {
@@ -312,19 +320,19 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 }
                 break;
             case HISTORY:
-                HistoryFragment historyFragment = new HistoryFragment();
-                transaction.replace(R.id.fragment_container, historyFragment);
+                CustomerHistoryFragment customerHistoryFragment = new CustomerHistoryFragment();
+                transaction.replace(R.id.fragment_container, customerHistoryFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             case ACCOUNT:
-                AccountFragment accountFragment = new AccountFragment();
-                transaction.replace(R.id.fragment_container, accountFragment);
+                CustomerAccountFragment customerAccountFragment = new CustomerAccountFragment();
+                transaction.replace(R.id.fragment_container, customerAccountFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             case REGISTER:
-                RegisterFragment registerFragment = new RegisterFragment();
+                CustomerRegisterFragment registerFragment = new CustomerRegisterFragment();
                 transaction.replace(R.id.fragment_container, registerFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
@@ -338,11 +346,11 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
             case JOB_DETAILS:
                 if (data != null) {
 //                    Job j = (Job) data;
-//                    JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(j.getJobId());
+//                    CustomerJobDetailsFragment customerJobDetailsFragment = CustomerJobDetailsFragment.newInstance(j.getJobId());
                     int jobId = Integer.valueOf((String) data);
-                    JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(jobId);
+                    CustomerJobDetailsFragment customerJobDetailsFragment = CustomerJobDetailsFragment.newInstance(jobId);
 
-                    transaction.replace(R.id.fragment_container, jobDetailsFragment);
+                    transaction.replace(R.id.fragment_container, customerJobDetailsFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
                 } else {
@@ -352,9 +360,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
             case WORKER_PROFILE:
                 if (data != null) {
                     User worker = (User) data;
-                    WorkerProfileFragment workerProfileFragment = WorkerProfileFragment.newInstance(worker);
+                    SupplierAccountFragment supplierAccountFragment = SupplierAccountFragment.newInstance(worker);
 
-                    transaction.replace(R.id.fragment_container, workerProfileFragment);
+                    transaction.replace(R.id.fragment_container, supplierAccountFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
                 } else {
@@ -362,14 +370,14 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
                 }
                 break;
             case WORKER_HISTORY:
-                HistoryFragmentWorker historyFragmentWorker = new HistoryFragmentWorker();
-                transaction.replace(R.id.fragment_container, historyFragmentWorker);
+                SupplierHistoryFragment supplierHistoryFragment = new SupplierHistoryFragment();
+                transaction.replace(R.id.fragment_container, supplierHistoryFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;
             case WORKER_HOME:
-                HomeFragmentWorker homeFragmentWorker= new HomeFragmentWorker();
-                transaction.replace(R.id.fragment_container, homeFragmentWorker);
+                SupplierHomeFragment supplierHomeFragment = new SupplierHomeFragment();
+                transaction.replace(R.id.fragment_container, supplierHomeFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
                 break;

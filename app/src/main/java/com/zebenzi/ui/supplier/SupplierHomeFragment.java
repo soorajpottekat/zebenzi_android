@@ -1,4 +1,4 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.supplier;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -26,6 +26,9 @@ import com.zebenzi.json.model.service.Service;
 import com.zebenzi.json.model.service.ServiceDefaults;
 import com.zebenzi.network.HttpGetTask;
 import com.zebenzi.network.IAsyncTaskListener;
+import com.zebenzi.ui.FragmentListener;
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 import com.zebenzi.utils.DatePickerFragment;
 import com.zebenzi.utils.TimePickerFragment;
 import com.zebenzi.utils.ZebenziException;
@@ -39,6 +42,7 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import static com.zebenzi.ui.FragmentsLookup.QUOTE;
+import static com.zebenzi.ui.FragmentsLookup.WORKER_HISTORY;
 
 //TODO: Display network error if user is not connected to network and allow refreshing of page when reconnected.
 
@@ -47,7 +51,7 @@ import static com.zebenzi.ui.FragmentsLookup.QUOTE;
  * serviceSpinner and serviceSpinner values must be obtained from the zebenzi server first.
  *
  * */
-public class HomeFragmentWorker extends Fragment {
+public class SupplierHomeFragment extends Fragment {
 
     private FragmentListener fragmentListener;
 
@@ -67,8 +71,8 @@ public class HomeFragmentWorker extends Fragment {
 
                 try {
                     //Change to supplier job requests screen
-//                    fragmentListener.changeFragment();
-                    Toast.makeText(MainActivity.getAppContext(), "Change to supplier job requests screen", Toast.LENGTH_SHORT).show();
+                    fragmentListener.changeFragment(WORKER_HISTORY, null);
+//                    Toast.makeText(MainActivity.getAppContext(), "Change to supplier job requests screen", Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception e){
                     Toast.makeText(MainActivity.getAppContext(), "An error occurred with supplier job requests screen.", Toast.LENGTH_SHORT).show();
@@ -86,8 +90,8 @@ public class HomeFragmentWorker extends Fragment {
 
                 try {
                     //Change to supplier job requests screen
-//                    fragmentListener.changeFragment();
-                    Toast.makeText(MainActivity.getAppContext(), "Change to supplier jobs in progress screen", Toast.LENGTH_SHORT).show();
+                    fragmentListener.changeFragment(WORKER_HISTORY, null);
+//                    Toast.makeText(MainActivity.getAppContext(), "Change to supplier jobs in progress screen", Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception e){
                     Toast.makeText(MainActivity.getAppContext(), "An error occurred with jobs in progress screen.", Toast.LENGTH_SHORT).show();

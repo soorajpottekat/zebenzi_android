@@ -1,4 +1,4 @@
-package com.zebenzi.ui;
+package com.zebenzi.ui.customer;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.zebenzi.json.model.user.User;
+import com.zebenzi.ui.FragmentsLookup;
+import com.zebenzi.ui.MainActivity;
+import com.zebenzi.ui.R;
 import com.zebenzi.users.Customer;
 
 import java.util.ArrayList;
@@ -18,12 +21,12 @@ import java.util.ArrayList;
 /**
  * Created by Vaugan.Nayagar on 2016/01/15.
  */
-public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.WorkerViewHolder> {
+public class CustomerQuoteAdapter extends RecyclerView.Adapter<CustomerQuoteAdapter.WorkerViewHolder> {
 
     private ArrayList<User> arrayOfWorkers;
-    private QuoteFragment fragment;
+    private CustomerQuoteFragment fragment;
 
-    public QuoteAdapter(ArrayList<User> workerList, QuoteFragment fragment) {
+    public CustomerQuoteAdapter(ArrayList<User> workerList, CustomerQuoteFragment fragment) {
         this.arrayOfWorkers = workerList;
         this.fragment = fragment;
     }
