@@ -96,7 +96,7 @@ public class CustomerJobDetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle b) {
 
-        View rootView = inflater.inflate(R.layout.fragment_job_details, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_customer_job_details, container, false);
 
         //Job Details
         mServiceName = (TextView) rootView.findViewById(R.id.job_details_service);

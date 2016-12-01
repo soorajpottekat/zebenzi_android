@@ -76,7 +76,7 @@ public class CustomerHistoryAdapter extends RecyclerView.Adapter<CustomerHistory
     public JobViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.list_card_job_history, viewGroup, false);
+                inflate(R.layout.card_customer_job_history, viewGroup, false);
 
         return new JobViewHolder(itemView);
     }

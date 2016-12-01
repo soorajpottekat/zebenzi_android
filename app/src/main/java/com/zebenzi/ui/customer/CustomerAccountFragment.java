@@ -34,7 +34,7 @@ public class CustomerAccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final View rootView = inflater.inflate(R.layout.fragment_account, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_customer_account, container, false);
 
         TextView tvFirstName = (TextView) rootView.findViewById(R.id.account_first_name);
         TextView tvLastName = (TextView) rootView.findViewById(R.id.account_last_name);

@@ -87,7 +87,7 @@ public class CustomerQuoteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_quote, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_customer_quote, container, false);
         mQuoteService = (TextView) rootView.findViewById(R.id.search_results_quote_service);
         mQuoteUnits = (TextView) rootView.findViewById(R.id.search_results_quote_units);
         mQuotePrice = (TextView) rootView.findViewById(R.id.search_results_quote_price);
@@ -304,7 +304,7 @@ public class CustomerQuoteFragment extends Fragment {
             User user = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_search_results, parent, false);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_customer_search_results, parent, false);
             }
             // Lookup view for data population
             TextView tvFirstName = (TextView) convertView.findViewById(R.id.list_card_avail_workers_first_name);

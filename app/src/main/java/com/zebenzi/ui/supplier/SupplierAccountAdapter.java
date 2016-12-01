@@ -54,7 +54,7 @@ public class SupplierAccountAdapter extends RecyclerView.Adapter<SupplierAccount
     public WorkerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.list_card_job_comments, viewGroup, false);
+                inflate(R.layout.card_customer_job_comments, viewGroup, false);
 
         return new WorkerViewHolder(itemView);
     }

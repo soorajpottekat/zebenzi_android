@@ -76,7 +76,7 @@ public class SupplierHistoryAdapter extends RecyclerView.Adapter<SupplierHistory
     public SupplierJobViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.supplier_card_job_history, viewGroup, false);
+                inflate(R.layout.card_supplier_job_history, viewGroup, false);
 
         return new SupplierJobViewHolder(itemView);
     }

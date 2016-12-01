@@ -56,7 +56,7 @@ public class SupplierHistoryFragment extends Fragment {
         // Create the adapter to convert the array to views
 //        jobHistoryResultsAdapter = new JobHistoryAdapter(MainActivity.getAppContext(), arrayOfJobs);
 
-        View rootView = inflater.inflate(R.layout.fragment_history_worker, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_supplier_history, container, false);
         mProgressView = rootView.findViewById(R.id.history_worker_progress);
 
         // Attach the adapter to a ListView
@@ -203,7 +203,7 @@ public class SupplierHistoryFragment extends Fragment {
 //            Job job = getItem(position);
 //            // Check if an existing view is being reused, otherwise inflate the view
 //            if (convertView == null) {
-//                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row_job_history, parent, false);
+//                convertView = LayoutInflater.from(getContext()).inflate(R.layout.row_customer_job_history, parent, false);
 //            }
 //            // Lookup view for data population
 //            TextView tvJobPrice = (TextView) convertView.findViewById(R.id.list_row_job_history_price);

@@ -25,7 +25,7 @@ public class NavigationDrawerItem extends ListItem {
     public View getView(LayoutInflater inflater, View convertView) {
         View view;
         if (convertView == null) {
-            view = (View) inflater.inflate(R.layout.list_row_navigation_drawer, null);
+            view = (View) inflater.inflate(R.layout.row_navigation_drawer, null);
             // Do some initialization
         } else {
             view = convertView;

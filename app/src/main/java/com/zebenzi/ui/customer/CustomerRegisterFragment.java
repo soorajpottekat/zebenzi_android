@@ -76,7 +76,7 @@ public class CustomerRegisterFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-        View rootView = inflater.inflate(R.layout.fragment_register, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_customer_register, container, false);
 
         mMobileNumberView = (EditText) rootView.findViewById(R.id.register_mobile);
         mFirstnameView = (EditText) rootView.findViewById(R.id.register_firstname);

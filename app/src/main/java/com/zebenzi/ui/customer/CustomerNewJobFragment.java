@@ -29,7 +29,6 @@ import com.zebenzi.job.JobRequest;
 import com.zebenzi.ui.FragmentListener;
 import com.zebenzi.ui.MainActivity;
 import com.zebenzi.ui.R;
-import com.zebenzi.users.Customer;
 import com.zebenzi.utils.DatePickerFragment;
 import com.zebenzi.utils.TimePickerFragment;
 import com.zebenzi.utils.ZebenziException;
@@ -87,7 +86,7 @@ public class CustomerNewJobFragment extends Fragment {
         mHour = 8;
         mMin = 0;
 
-        View rootView = inflater.inflate(R.layout.fragment_new_job, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_customer_new_job, container, false);
 
         mProgressView = rootView.findViewById(R.id.new_job_progress);
 

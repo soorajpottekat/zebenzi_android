@@ -84,7 +84,7 @@ public class CustomerQuoteAdapter extends RecyclerView.Adapter<CustomerQuoteAdap
     public WorkerViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.list_card_available_workers, viewGroup, false);
+                inflate(R.layout.card_customer_available_suppliers, viewGroup, false);
 
         return new WorkerViewHolder(itemView);
     }
