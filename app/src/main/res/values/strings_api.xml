@@ -4,14 +4,14 @@
     <string name="api_url_user_details">http://zebenzi.azurewebsites.net/api/accounts/user/current</string>
     <string name="api_url_login">http://zebenzi.azurewebsites.net/oauth/token</string>
     <string name="api_url_registration">http://zebenzi.azurewebsites.net/api/accounts/create</string>
-    <string name="api_url_hire_worker">http://zebenzi.azurewebsites.net/api/job</string>
+    <string name="api_url_hire_supplier">http://zebenzi.azurewebsites.net/api/job</string>
     <string name="api_url_job_history">http://zebenzi.azurewebsites.net/api/job/hired</string>
     <string name="api_url_all_services">http://zebenzi.azurewebsites.net/api/service</string>
     <string name="api_url_all_users">http://zebenzi.azurewebsites.net/api/accounts/users</string>
     <string name="api_url_quote">http://zebenzi.azurewebsites.net/api/quote</string>
     <string name="api_url_job_by_id">http://zebenzi.azurewebsites.net/api/job/byId?id=</string>
     <string name="api_url_submit_job_rating">http://zebenzi.azurewebsites.net/api/rating</string>
-    <string name="api_url_job_ratings_by_worker_id">http://zebenzi.azurewebsites.net/api/rating/byWorkerid?workerid=</string>
+    <string name="api_url_job_ratings_by_supplier_id">http://zebenzi.azurewebsites.net/api/rating/byWorkerid?workerid=</string>
     <string name="api_url_send_device_token_to_server">http://zebenzi.azurewebsites.net/api/accounts/user/RegisterDevice</string>
 
 

@@ -23,7 +23,7 @@
     <string name="api_json_field_device_type">deviceType</string>
     <string name="api_json_field_device_key">deviceKey</string>
 
-    <string name="api_json_field_worker_id">workerId</string>
+    <string name="api_json_field_supplier_id">supplierId</string>
     <string name="history">My Jobs</string>
     <string name="supplier_jobs">Supplier Jobs</string>
     <string name="drawer_open">Open Drawer</string>
@@ -50,8 +50,8 @@
     <string name="nav_drawer_item_new_job">New Job</string>
     <string name="nav_drawer_item_account">My Account</string>
     <string name="nav_drawer_item_history">My History</string>
-    <string name="nav_drawer_item_worker_history">Worker History</string>
-    <string name="nav_drawer_item_worker_home">Worker Home</string>
+    <string name="nav_drawer_item_supplier_history">Supplier History</string>
+    <string name="nav_drawer_item_supplier_home">Supplier Home</string>
     <string name="notify1">Notify 1</string>
     <string name="notify2">Notify 2</string>
     <string name="notify3">Notify 3</string>

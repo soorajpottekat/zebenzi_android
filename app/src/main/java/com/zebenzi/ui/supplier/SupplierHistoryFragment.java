@@ -96,12 +96,26 @@ public class SupplierHistoryFragment extends Fragment {
 
         if (Customer.getInstance().getToken() != null) {
             getJobHistory();
+//            getTestJobHistory();
         } else {
             Toast.makeText(MainActivity.getAppContext(), "You need to be logged in to get your history", Toast.LENGTH_LONG).show();
             System.out.println("Cannot get history if not logged in.");
         }
 
         return rootView;
+    }
+
+    private void getTestJobHistory() {
+        jobHistoryResultsAdapter.clear();
+        Gson gson = new Gson();
+        String s = getString(R.string.worker_history);
+        Job[] jobHistory = gson.fromJson(getString(R.string.worker_history), Job[].class);
+
+        //Remove bad entries. ie. user, worker or quote is null. This happened
+        // during development, and we need to avoid displaying incorrect data.
+        ArrayList<Job> jobList = new ArrayList<>(Arrays.asList(jobHistory));
+        jobHistoryResultsAdapter.addAll(jobList);
+        refreshScreen();
     }
 
     @Override
@@ -258,5 +272,7 @@ public class SupplierHistoryFragment extends Fragment {
     }
 
 
+private void dummyHistory(){
 
+}
 }

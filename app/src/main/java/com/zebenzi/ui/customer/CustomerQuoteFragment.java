@@ -351,7 +351,7 @@ public class CustomerQuoteFragment extends Fragment {
 
     public void hireWorker(int quoteId, String workerId) {
         //Build url
-        String url = MainActivity.getAppContext().getString(R.string.api_url_hire_worker);
+        String url = MainActivity.getAppContext().getString(R.string.api_url_hire_supplier);
 
         //Build header
         HashMap<String, String> header = new HashMap<>();
@@ -362,7 +362,7 @@ public class CustomerQuoteFragment extends Fragment {
         JSONObject body = new JSONObject();
         try {
             body.put(MainActivity.getAppContext().getString(R.string.api_json_field_quote_id), quoteId);
-            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_worker_id), workerId);
+            body.put(MainActivity.getAppContext().getString(R.string.api_json_field_supplier_id), workerId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

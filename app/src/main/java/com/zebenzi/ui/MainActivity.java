@@ -193,8 +193,8 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_register, getString(R.string.nav_drawer_item_new_job)));
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_account, getString(R.string.nav_drawer_item_account)));
         drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.nav_drawer_item_history)));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.nav_drawer_item_worker_history)));
-        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.nav_drawer_item_worker_home)));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.nav_drawer_item_supplier_history)));
+        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_history, getString(R.string.nav_drawer_item_supplier_home)));
 //        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_search, getString(R.string.search)));
 //        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_sign_in, getString(R.string.login)));
 //        drawerItems.add(new NavigationDrawerItem(R.drawable.ic_register, getString(R.string.register)));

@@ -134,7 +134,7 @@ public class SupplierAccountFragment extends Fragment {
         showProgress(true);
 
         //Build url
-        String url = MainActivity.getAppContext().getString(R.string.api_url_job_ratings_by_worker_id) + workerId;
+        String url = MainActivity.getAppContext().getString(R.string.api_url_job_ratings_by_supplier_id) + workerId;
 
         //Build header
         HashMap<String, String> header = new HashMap<>();
