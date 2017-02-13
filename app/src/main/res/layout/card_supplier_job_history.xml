@@ -162,85 +162,19 @@
             android:layout_height="match_parent">
 
             <Button
-                android:text="Quote Customer"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/materialButton"
-                android:id="@+id/supplier_card_job_history_quote_customer"
+                android:id="@+id/supplier_card_job_history_firstButton"
                 android:layout_weight="1" />
 
             <Button
-                android:text="Decline Request"
+                android:text=""
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/materialButton"
-                android:id="@+id/supplier_card_job_history_decline_request"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:text="Send Quote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/materialButton"
-                android:id="@+id/supplier_card_job_history_send_quote"
-                android:layout_weight="1" />
-
-            <Button
-                android:text="Cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/materialButton"
-                android:id="@+id/supplier_card_job_history_cancel_send_quote"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:text="Start Job"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/materialButton"
-                android:id="@+id/supplier_card_job_history_start_job"
-                android:layout_weight="1" />
-
-            <Button
-                android:text="Cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/materialButton"
-                android:id="@+id/supplier_card_job_history_cancel_start_job"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <Button
-                android:text="Finish Job"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/materialButton"
-                android:id="@+id/supplier_card_job_history_finish_job"
-                android:layout_weight="1" />
-
-            <Button
-                android:text="Cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/materialButton"
-                android:id="@+id/supplier_card_job_history_cancel_finish_job"
+                android:id="@+id/supplier_card_job_history_secondButton"
                 android:layout_weight="1" />
         </LinearLayout>
     </LinearLayout>
