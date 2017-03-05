@@ -1,5 +1,6 @@
 package com.zebenzi.ui.supplier;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import com.squareup.picasso.Picasso;
 import com.zebenzi.json.model.job.Job;
 import com.zebenzi.ui.MainActivity;
 import com.zebenzi.ui.R;
+import com.zebenzi.ui.supplier.Listeners.ListenerProvider;
+import com.zebenzi.utils.ButtonText;
 import com.zebenzi.utils.JobConstants;
 import com.zebenzi.utils.TimeFormat;
 
@@ -27,12 +30,9 @@ import java.util.Iterator;
 public class SupplierHistoryAdapter extends RecyclerView.Adapter<SupplierHistoryAdapter.SupplierJobViewHolder> {
 
     private ArrayList<Job> arrayOfJobs;
-    private static final String QUOTE_CUST = "Quote Customer";
-    private static final String ACCEPT_QUOTE = "Accept Quote";
-    private static final String DECLINE_REQ = "Decline Request";
-    private static final String START_JOB = "Start Job";
-    private static final String CANCEL = "Cancel";
-
+    private ListenerProvider provider = ListenerProvider.getInstance();
+    private static final int FIRST_INDEX = 0;
+    private static final int SECOND_INDEX = 1;
 
     public SupplierHistoryAdapter(ArrayList<Job> jobList) {
         this.arrayOfJobs = jobList;
@@ -77,80 +77,93 @@ public class SupplierHistoryAdapter extends RecyclerView.Adapter<SupplierHistory
                     supplierJobViewHolder.rbJobRatingBar.setVisibility(View.INVISIBLE);
                 }
             }
-            System.out.println("job.getStatus().getStatusId()" + job.getStatus().getStatusId());
-            switch (JobConstants.getEnum(job.getStatus().getStatusId())) {
+            System.out.println("job.getStatus().getStatusId()" + job.getStatus().getStatusCode());
+            ButtonText[] buttons = new ButtonText[2];
+            switch (JobConstants.getEnum(job.getStatus().getStatusCode())) {
                 case NEW_JOB:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case AWAITING_EST_RES_CUST:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case EST_DECLINED_CUST:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case EST_ACCEPT_SUP:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.START_JOB;
+                    buttons[SECOND_INDEX] = ButtonText.DECLINE;
                     break;
                 case AWAITING_QUO_RES_CUST:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case QUO_ACCEPT_CUS:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.START_JOB;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case QUO_DECLINED_CUST:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case JOB_IN_PROGRESS:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case JOB_FIN_AWAITING_RAT:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case JOB_FIN:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case JOB_CAN_CUST_EST:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case JOB_CAN_CUST_QUO:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case JOB_CAN_CUST_JOB_IN_PROG:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case JOB_CAN_SUP_EST:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case JOB_CAN_SUP_QUO:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 case JOB_CAN_SUP_JOB_IN_PROGRESS:
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
                 default:
                     // adding this since the job is are starting from 1000
-                    supplierJobViewHolder.firstButton.setText(QUOTE_CUST);
-                    supplierJobViewHolder.secondButton.setText(CANCEL);
+                    buttons[FIRST_INDEX] = ButtonText.QUOTE_CUSTOMER;
+                    buttons[SECOND_INDEX] = ButtonText.CANCEL;
                     break;
             }
 
-            Picasso.with(MainActivity.getAppContext()).load(job.getWorker().getImageUrl()).into(supplierJobViewHolder.img);
+            Context appContext = MainActivity.getAppContext();
+            if(buttons[FIRST_INDEX] != null)
+            {
+                supplierJobViewHolder.firstButton.setText(appContext.getString(buttons[FIRST_INDEX].getID()));
+                supplierJobViewHolder.firstButton.setOnTouchListener(provider.getListener(buttons[FIRST_INDEX].getID()));
+            }
+            if(buttons[SECOND_INDEX] != null)
+            {
+                supplierJobViewHolder.secondButton.setText(appContext.getString(buttons[SECOND_INDEX].getID()));
+                supplierJobViewHolder.secondButton.setOnTouchListener(provider.getListener(buttons[SECOND_INDEX].getID()));
+            }
+
+            Picasso.with(appContext).load(job.getWorker().getImageUrl()).into(supplierJobViewHolder.img);
         } catch (Exception e) {
             e.printStackTrace();
         }
